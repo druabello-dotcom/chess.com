@@ -1,0 +1,23 @@
+.game {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+
+}
+#chessboard {
+	display: grid;
+	grid-template-columns: repeat(8, 5em);
+	grid-template-rows: repeat(8, 5em);
+}
+
+.white {
+	background-color: antiquewhite;
+	width: 5em;
+	height: 5em;
+}
+.black {
+	background-color: lightsalmon;
+	width: 5em;
+	height: 5em;
+}
