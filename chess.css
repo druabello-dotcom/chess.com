@@ -10,6 +10,7 @@ body {
 	margin-top: 10vh;
 
 }
+
 #chessboard {
 	--square-size: 4em;
 	display: grid;
@@ -18,12 +19,23 @@ body {
 }
 
 .white {
+	--square-transition: 250ms;
 	background-color: antiquewhite;
 	width: var(--square-size);
 	height: var(--square-size);
+	transition: var(--square-transition);
 }
+
 .black {
 	background-color: lightsalmon;
 	width: var(--square-size);
 	height: var(--square-size);
+	transition: var(--square-transition);
+}
+
+.square:hover {
+	filter: brightness(0.7);
+	border: solid rgb(182, 181, 181);
+	border-width: 0.16em;
+	border-radius: 0.11em;
 }
