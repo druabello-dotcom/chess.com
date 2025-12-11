@@ -15,3 +15,9 @@ for (let row = 0; row < 8; row++) {
 	  chessboard.appendChild(square);
 	}
 }
+
+const grid = [];
+
+for (let i = 0; i < 64; i++) {
+	grid.push(chessboard.children[i]);
+}
