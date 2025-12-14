@@ -18,19 +18,19 @@ body {
 	grid-template-rows: repeat(8, var(--square-size));
 }
 
-.white {
+.square {
 	--square-transition: 250ms;
-	background-color: antiquewhite;
 	width: var(--square-size);
 	height: var(--square-size);
 	transition: var(--square-transition);
 }
 
+.white {
+	background-color: antiquewhite;
+}
+
 .black {
 	background-color: lightsalmon;
-	width: var(--square-size);
-	height: var(--square-size);
-	transition: var(--square-transition);
 }
 
 .square:hover {
