@@ -64,32 +64,46 @@ dragElement(pawn);
 
 
 //function to make the middle of the squares be the "default" position for the pieces
-	//firstly, i need to record the center of each square so that the pieces may "read" what square they will go to, ideally, relative to the chessboard
+	//firstly, record the center of each square so that the pieces may "read" what square they will go to, ideally, relative to the chessboard
 const chessboardDimentions = chessboard.getBoundingClientRect();
 console.log("Height of chessboard:  " + chessboardDimentions.height);
 console.log("Width of chessboard:  " + chessboardDimentions.width);
 
-	//test to find the coordinates to the center of a random square - square
-	// array centerPositionSquare skal inneholde elementer med 2 verdier. Eksempel [{1, 2}, {3, 4}]
-	// koden kjøres så lenge 
-
-	// jeg må lage et objekt for centerPositionSqaure, fordi jeg kan ikke lagre 2 elementer i samme posisjon i arrayen (x og y aksen)
-	
-
-let centerPositionSqaure = []; //array-en vil ende opp med å ha 64 elementer (0-63) med objekter inni seg med 2 egenskaper: x og y koordinaten 
+	//centerPositionSquare stores the coordinates for the center of each square with their corresponding x- and y-aksis coordinate, relative to the chessboard
+let centerPositionSqaure = []; 
 let squareXValue = (chessboardDimentions.width) / 16;
 let squareYValue = (chessboardDimentions.height) / 16;
 for (let row = 1; row < 9; row++) {
 	for (let column = 1; column < 9; column++) {
-		centerPositionSqaure.push({x_coordinate: squareXValue * ((column * 2) - 1), y_coordinate:squareYValue * ((row * 2) - 1)});
+		centerPositionSqaure.push({x_coordinate: squareXValue * ((column * 2) - 1), y_coordinate: squareYValue * ((row * 2) - 1)});
 	}
 }
+console.log(centerPositionSqaure);
 
+
+	// make piece spawn in the right way
+const pawnDimention = pawn.getBoundingClientRect();
+console.log("Height of pawn:  " + pawnDimention.height);
+console.log("Width of pawn:  " + pawnDimention.width);
+
+function centerOfPiece (piece) {
+	let centerPieceCoordinates = {};
+	let pieceDimention = piece.getBoundingClientRect();
+	let centerWidth = (pieceDimention.width) / 2;
+	let centerHeight = (pieceDimention.height) / 2;
+	centerPieceCoordinates.x_coordinate = centerWidth;
+	centerPieceCoordinates.y_coordinate = centerHeight;
+	return centerPieceCoordinates;
+}
+
+pawn.style.top = centerPositionSqaure[0].y_coordinate + "px";
+pawn.style.left = centerPositionSqaure[0].x_coordinate + "px";
 
 /*	
 Plan for how to build snapping function
 	record center coordinate for each square
 	this coordinate acts as a provider for the pieces to snap to when mouse i released
+		make the pieces spawn inside the chess board
 
 	activate drag function
 	when realsed, snap to nearest valid square

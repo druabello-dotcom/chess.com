@@ -13,6 +13,7 @@ body {
 
 #chessboard {
 	--square-size: 4em;
+	position: relative;
 	display: grid;
 	grid-template-columns: repeat(8, var(--square-size));
 	grid-template-rows: repeat(8, var(--square-size));
@@ -42,9 +43,7 @@ body {
 
 #pawn {
 	position: absolute;
-	z-index: 9;
-	top: 0;
-	left: 0;
+	z-index: 10;
 	background-color: #f1f1f1;
 	text-align: center;
 	border: 1px solid #d3d3d3;
