@@ -8,7 +8,6 @@ body {
 	align-items: center;
 	height: 100vh;
 	margin-top: 10vh;
-
 }
 
 #chessboard {
@@ -35,16 +34,16 @@ body {
 }
 
 .square:hover {
-	filter: brightness(0.7);
-	border: solid rgb(182, 181, 181);
+	filter: brightness(0.4);
 	border-width: 0.16em;
 	border-radius: 0.11em;
 }
 
-#pawn {
+.pawn {
 	position: absolute;
 	z-index: 10;
 	background-color: #f1f1f1;
+	justify-content: center;
 	text-align: center;
 	border: 1px solid #d3d3d3;
 }
