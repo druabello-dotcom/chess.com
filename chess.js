@@ -31,11 +31,12 @@ const pieceValue = {
 	queen: 9
 }
 
-// grid with elements
-const grid = [];
-for (let i = 0; i < 64; i++) {
-	grid.push(chessboard.children[i]);
+let pieceIndexPosition = {
+	pawn: [9]
 }
+
+// grid with elements
+const grid = Array.from(document.querySelectorAll('.square'));
 
 const stateGrid = [];
 for (let i = 0; i < 64; i++) {
@@ -47,8 +48,6 @@ console.log(stateGrid);
 function pointToGridIdx(x, y) {
 	return y * 8 + x;
 }
-
-pawnSquarePosition = [9];
 
 //make element draggable function
 const pawn = document.getElementsByClassName('pawn')[0];
@@ -123,7 +122,6 @@ pawn.style.top = (centerPositionSqaure[9].y_coordinate - centerOfPawn.x_coordina
 pawn.style.left = (centerPositionSqaure[9].x_coordinate - Math.ceil(centerOfPawn.y_coordinate)) + "px";
 // square needs to know if there is a piece inside of it
 console.log(document.getElementById(9));
-document.getElementById(9).classList.add(pawnValue);
 
 /*
 function for making piece to another square —> algorithm
@@ -164,7 +162,6 @@ function onPieceClick(event) {
 	x_squareCoordinate = null;
 	y_squareCoordinate = null;
 	isClicked = false;
-
 }
 
 function pieceSelected(piece) {
@@ -327,12 +324,3 @@ MAKE CENTER OF EACH SQUARE DEFAULT COORDINATES
 	when user releases mouse, calculate it's position
 		the calculation of the mouse's position will act as the "input" for where to put the piece
 */
-
-
-// make array with objects that assigns values to the pieces
-const knight = 2;
-const bishop = 3;
-const rook = 5;
-const queen = 9;
-
-
