@@ -31,9 +31,13 @@ const pieceValue = {
 	queen: 9
 }
 
-let pieceIndexPosition = {
+const pawnGridPosition = [
+	{ type: "black", square: 9 }
+];
+
+/* let pieceIndexPosition = {
 	pawn: [9]
-}
+} */
 
 // grid with elements
 const grid = Array.from(document.querySelectorAll('.square'));
@@ -51,39 +55,6 @@ function pointToGridIdx(x, y) {
 
 //make element draggable function
 const pawn = document.getElementsByClassName('pawn')[0];
-
-/* function dragElement(elmnt) {
-	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-	//Activates when element is clicked
-	elmnt.onmousedown = dragMouseDown;
-
-	function dragMouseDown(e) {
-		e = e || window.event;
-		e.preventDefault();
-		pos3 = e.clientX;
-		pos4 = e.clientY;
-		document.onmouseup = closeDragElement;
-		document.onmousemove = elementDrag;
-	}
-
-	function elementDrag(e) {
-		e = e || window.event;
-		e.preventDefault();
-		pos1 = pos3 - e.clientX;
-		pos2 = pos4 - e.clientY;
-		pos3 = e.clientX;
-		pos4 = e.clientY;
-		elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-		elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-	}
-
-	function closeDragElement() {
-		document.onmouseup = null;
-		document.onmousemove = null;
-	}
-}
-dragElement(pawn); */
 
 //function to make the middle of the squares be the "default" position for the pieces
 	//firstly, record the center of each square so that the pieces may "read" what square they will go to, ideally, relative to the chessboard
@@ -134,6 +105,19 @@ select square —> add event listeners to every square of the chessboard
 	grid[i].addEventListener('click', onPieceClick);
 } */
 
+
+
+
+
+
+/* 
+NOTATER: addEventListeners to square elements, instead of piece elements
+- click on a square
+- check if the corresponing stateGrid has the value === null
+- if not: activate movePiece function
+	
+*/
+
 pawn.addEventListener('click', onPieceClick);
 
 let isClicked = false;
@@ -168,6 +152,14 @@ function pieceSelected(piece) {
 	isClicked = true;
 	selectedPiece = piece.target;
 
+	/* register what piece Type
+		- make object 
+	*/
+
+
+	// register piece Value -> get information from object
+	// register square the pawn is in
+
 	x_positionPiece = selectedPiece.style.left;
 	y_positionPiece = selectedPiece.style.top;
 	console.log(x_positionPiece);
@@ -194,18 +186,12 @@ function moveToDestination(destination) {
 	}
 }
 
-/* function movePiece (piece) {
-	// flytte brikken til destination square
-	let positionPiece = event.getBoundingClientRect();
-	x_positionPiece = event.left;
-	y_positionPiece = event.top;
-	
-	isClicked = false;
+/* NOTATER:		Oppdatere stateGrid
+- få programmet til å forstå hvilken pawn som blir klikket. (om det er de første, andre, tredje osv pawn-en)
 
-} */
+*/
 
-
-/* NOTATER
+/* NOTATER: bevege brikkene
 - kanskje jeg blir nødt til å lage en funksjon som har 3 FUNKSJONER INNI SEG
 	- Brikken blir klikket
 	- Registrere destinaiton square
