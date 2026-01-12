@@ -40,6 +40,7 @@ body {
 }
 
 .pawn {
+	pointer-events: none;
 	position: absolute;
 	z-index: 10;
 	background-color: #f1f1f1;

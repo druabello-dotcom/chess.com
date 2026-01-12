@@ -21,19 +21,73 @@ for (let row = 0; row < 8; row++) {
 	}
 }
 
+const pieceSquarePositionArray = {
+	black: {
+		pawn: [9, null, null, null, null, null, null, null],
+	},
+	white: {
+		pawn: [null, null, null, null, null, null, null, null] }
+}
 
-const pawnValue = 1;
-const pieceValue = {
+const pieceNumberIdentifier = {
+	black: {
+		 pawn: -1,
+		 knight: -2,
+		 bishop: -3, 
+		 rook: -4, 
+		 queen: -5,
+		 king: -6
+		},
+	white: {
+		pawn: 1,
+		knight: 2, 
+		bishop: 3, 
+		rook: 4,
+		queen: 5,
+		king: 6
+	} 
+}
+
+const mapPieces = {
+	1: "pawn",
+	2: "knight",
+	3: "bishop",
+	4: "rook",
+	5: "queen",
+	6: "king"
+  };
+
+/* const whiteNumberIdentifierPiece = {
+	Pawn: 1,
+	Knight: 2,
+	Bishop: 3,
+	Rook: 4,
+	Queen: 5,
+	King: 6,
+}
+const blackNumberIdentifierPiece = {
+	Pawn: -1,
+	Knight: -2,
+	Bishop: -3,
+	Rook: -4,
+	Queen: -5,
+	King: -6,
+} */
+
+/* const pawnValue = 0; */
+
+/* const pieceIdentifier = {
 	pawn: 1,
 	knight: 3,
 	bishop: 3,
 	rook: 5,
 	queen: 9
-}
+} */
 
-const pawnGridPosition = [
+
+/* const pawnGridPosition = [
 	{ type: "black", square: 9 }
-];
+]; */
 
 /* let pieceIndexPosition = {
 	pawn: [9]
@@ -46,7 +100,10 @@ const stateGrid = [];
 for (let i = 0; i < 64; i++) {
 	stateGrid.push(null);
 }
-stateGrid[9] = pawnValue;
+
+stateGrid[9] = pieceNumberIdentifier.black.pawn;
+
+/* stateGrid[9] = pieceSquarePositionArray.whitePawnSquarePosition[0]; */
 console.log(stateGrid);
 
 function pointToGridIdx(x, y) {
@@ -54,7 +111,11 @@ function pointToGridIdx(x, y) {
 }
 
 //make element draggable function
-const pawn = document.getElementsByClassName('pawn')[0];
+const pieceElements = {
+	pawn: Array.from(document.querySelectorAll('.pawn')) 
+};
+/* const pawnElement = Array.from(document.querySelectorAll('.pawn')); */
+/* const pawnElement = document.getElementsByClassName('pawn')[0]; */
 
 //function to make the middle of the squares be the "default" position for the pieces
 	//firstly, record the center of each square so that the pieces may "read" what square they will go to, ideally, relative to the chessboard
@@ -74,10 +135,12 @@ for (let row = 1; row < 9; row++) {
 console.log(centerPositionSqaure)
 
 	// make piece spawn in the right way
-const pawnDimention = pawn.getBoundingClientRect();
+const pawnDimention = pieceElements.pawn[0].getBoundingClientRect();
 console.log("Height of pawn:  " + pawnDimention.height);
 console.log("Width of pawn:  " + pawnDimention.width);
 
+
+// make for-loop later for every piece with the same type
 function centerOfPiece(piece) {
 	let centerPieceCoordinates = {};
 	let pieceDimention = piece.getBoundingClientRect();
@@ -88,9 +151,9 @@ function centerOfPiece(piece) {
 	return centerPieceCoordinates;
 }
 
-const centerOfPawn = centerOfPiece(pawn);
-pawn.style.top = (centerPositionSqaure[9].y_coordinate - centerOfPawn.x_coordinate) + "px";
-pawn.style.left = (centerPositionSqaure[9].x_coordinate - Math.ceil(centerOfPawn.y_coordinate)) + "px";
+const centerOfPawn = centerOfPiece(pieceElements.pawn[0]);
+pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - centerOfPawn.x_coordinate) + "px";
+pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - Math.ceil(centerOfPawn.y_coordinate)) + "px";
 // square needs to know if there is a piece inside of it
 console.log(document.getElementById(9));
 
@@ -115,63 +178,128 @@ NOTATER: addEventListeners to square elements, instead of piece elements
 - click on a square
 - check if the corresponing stateGrid has the value === null
 - if not: activate movePiece function
-	
+
+eksempel: 
+- is stateGrid in position/square = 1. Then it's a pawn —> but how does the function that it is a pawn. —> use .findIndex();
 */
 
-pawn.addEventListener('click', onPieceClick);
+/* pawn.addEventListener('click', onPieceClick); */
 
+/* [(Math.abs(valueInSquare) - 1)] */
+
+for (let i = 0; i < 64; i++) {
+	grid[i].addEventListener('click', onSquareClick);
+};
+	
 let isClicked = false;
 
-function onPieceClick(event) {
-	event.stopPropagation();
-	let selectedPiece = null;
+function onSquareClick(event) {
+	// the square that got clicked
+	let selectedSquare = event.target;
+	let selectedSquareId = event.target.id;
+
+	let destinationSquare = null;
+
+	// information about the piece inside the square
+	let selectedPiece = null; 
+	let selectedPieceIndex = null;
+	let pieceColor = null;
+	let pieceType = null;
+	let pieceIndex = null;
+	let pieceKey = null;
+
+	let valueInSquare = null;
+
+	// change position of the piece
 	let x_positionPiece = null;
 	let y_positionPiece = null;
-	
 	let x_squareCoordinate = null;
 	let y_squareCoordinate = null;
 
 	if (!isClicked) {
-		pieceSelected(event);
-	}
-	for (let i = 0; i < 64; i++) {
-		grid[i].addEventListener('click', moveToDestination);
+		/* pieceSelected(event); */
+		// check if the corresponign statGrid position has value === null
+		if (stateGrid[selectedSquareId] == null) {
+			return;
+		} else {
+			isClicked = true;
+			selectedSquare.style.filter = "brightness(0.4)";
+			valueInSquare = stateGrid[selectedSquareId];
+			pieceType = mapPieces[Math.abs(valueInSquare)];
+			if (valueInSquare < 0) { // if value inside of square is negative
+				selectedPieceIndex = pieceSquarePositionArray.black[pieceType].findIndex(i => i === selectedSquareId);
+
+			} else if(0 < valueInSquare) {
+				selectedPieceIndex = pieceSquarePositionArray.white[pieceType].findIndex(i => i === selectedSquareId);
+			}
+			selectedPiece = pieceElements.pieceType[selectedPieceIndex];
+			// find out what piece is inside of the square
+			/* 
+			NOTATER: know what piece is inside of the square 
+			WHY need information of the piece being selected:
+			- update stateGrid
+
+			- check what color it is —> if value of stateGrid[i] is negative –> black
+			- determine what specific piece it is via Math.abs(x)
+			-
+
+
+			*/
+
+
+
+			// make moving available for the piece element
+			for (let i = 0; i < 64; i++ ){
+				grid[i].removeEventListener('click', onSquareClick);
+				grid[i].addEventListener('click', moveToDestination)
+			}
+		}
 	}
 
-	// reset after
+	// reset after piece has been moved
+	for (let i = 0; i < 64; i++) {
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].addEventListener('click', onSquareClick);
+	}
+	selectedSquare = null;
+	selectedSquareId = null;
+	destinationSquare = null;
+
 	selectedPiece = null;
+	pieceColor = null;
+	pieceType = null;
+	pieceIndex = null;
+
 	x_positionPiece = null;
 	y_positionPiece = null;
-	
 	x_squareCoordinate = null;
 	y_squareCoordinate = null;
 	isClicked = false;
 }
 
-function pieceSelected(piece) {
+/* function pieceSelected(piece) {
 	isClicked = true;
 	selectedPiece = piece.target;
-
-	/* register what piece Type
+	register what piece Type
 		- make object 
-	*/
+	
 
 
-	// register piece Value -> get information from object
-	// register square the pawn is in
+	register piece Value -> get information from object
+	register square the pawn is in
 
 	x_positionPiece = selectedPiece.style.left;
 	y_positionPiece = selectedPiece.style.top;
 	console.log(x_positionPiece);
 	console.log(y_positionPiece);
 	selectedPiece.style.filter = "brightness(0.5)";
-}
+} */
 
 function moveToDestination(destination) {
 	// register destination square
-	let selectedSquare = destination.target;
-	y_squareCoordinate = parseInt(centerPositionSqaure[selectedSquare.id].y_coordinate);
-	x_squareCoordinate = parseInt(centerPositionSqaure[selectedSquare.id].x_coordinate);
+	destinationSquare = destination.target;
+	y_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].y_coordinate);
+	x_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].x_coordinate);
 
 	// update stateGrid
 
@@ -179,19 +307,20 @@ function moveToDestination(destination) {
 	selectedPiece.style.filter = "brightness(1)";
 	selectedPiece.style.left = (x_squareCoordinate - (chessboardDimentions.width / 22)) + "px"; // DO NOT NEED TO SUBRACT
 	selectedPiece.style.top = (y_squareCoordinate - (chessboardDimentions.width / 20)) + "px";
-	console.log("Piece moved to square:  " + selectedSquare.id);
+	console.log("Piece moved to square:  " + destinationSquare.id);
 
 	for (let i = 0; i < 64; i++) {
 		grid[i].removeEventListener('click', moveToDestination);
 	}
 }
 
+
 /* NOTATER:		Oppdatere stateGrid
 - få programmet til å forstå hvilken pawn som blir klikket. (om det er de første, andre, tredje osv pawn-en)
-
 */
 
-/* NOTATER: bevege brikkene
+/* GAMMEL
+NOTATER: bevege brikkene
 - kanskje jeg blir nødt til å lage en funksjon som har 3 FUNKSJONER INNI SEG
 	- Brikken blir klikket
 	- Registrere destinaiton square
@@ -200,10 +329,11 @@ function moveToDestination(destination) {
 - jeg sliter med å lage funksjonen så at det blir mer generell
 
 - gjøre at stateGrid blir oppdatert
+*/
 
-—————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+// —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-/* function selectPiece(event) { // destination = next square
+/* function selectPiece(event) { 
 	let selectedSquare = event.target;
 	console.log(selectedSquare.id);
 	let stateOfSquare = stateGrid[selectedSquare.id];
@@ -283,30 +413,26 @@ function moveToDestination(destination) {
 
 
 
+/* 			determine what piece is inside of the square
 
+			
+			NOTATER: know what specific piece is in the square 
+			- get pieceColor
+			- 
+			
+				check if piece is white or black
+			if (stateGrid[selectedSquareId] < 0) {
+				pieceColor = "black";
+			} else {
+				pieceColor = "white";
+			}
+				check what type of piece is inside the selected square
+			pieceType = getKeyByValue(pieceColor+"NumberIdentifierPiece", selectedSquareId); Output: "pawn"
 
+			pieceKey = pieceColor + pieceType + "SquarePosition";
 
+				check which of the "pawns" the function has clicked on —> using pieceIndex;
+			pieceIndex = pieceSquarePositionArray[pieceKey].findIndex(i => i === selectedSquareId);
 
-
-
-// function to make pieces snap to middle of square
-	// record mouse movement when clicked. When released, calculate current position. Snap to middle of the square.
-	// remomve the number in the class of the square, and register the current square the piece is in
-
-	// record the new position of the piece
-
-/*	
-Plan for how to build snapping function
-	record center coordinate for each square
-	this coordinate acts as a provider for the pieces to snap to when mouse i released
-		make the pieces spawn inside the chess board
-
-	activate drag function
-	when realsed, snap to nearest valid square
-
-MAKE CENTER OF EACH SQUARE DEFAULT COORDINATES
-	compute bounding box
-	calculate the center
-	when user releases mouse, calculate it's position
-		the calculation of the mouse's position will act as the "input" for where to put the piece
-*/
+				selected piece is now assigned as a variable
+			selectedPiece = pieceSquarePositionArray[pieceKey][pieceIndex]; */
