@@ -218,3 +218,21 @@ function moveToDestination(destination) {
 	y_squareCoordinate = null;
 	isClicked = false;
 }
+
+let pawnHasNotMoved = [true, true, true, true, true, true, true, true]
+
+const availablePieceMovementsObject = {
+	pawn: function() {
+		if (valueInSquare < 0) { // if pawn is black
+			grid[Number(selectedSquareId) + 8].addEventListener('click', moveToDestination);
+			grid[Number(selectedSquareId) + 16].addEventListener('click', moveToDestination);
+		} else if(0 < valueInSquare) { // if pawn is white
+			grid[Number(selectedSquareId) - 8].addEventListener('click', moveToDestination);
+			grid[Number(selectedSquareId) - 16].addEventListener('click', moveToDestination);	
+		}
+	}
+}
+
+function createAvailableMoves() {
+	availablePieceMovementsObject[pieceType];
+}
