@@ -168,8 +168,9 @@ function onSquareClick(event) {
 			// add event listener. Calls the function moveToDestination: select the square the piece will move to
 			for (let i = 0; i < 64; i++) {
 				grid[i].removeEventListener('click', onSquareClick);
-				grid[i].addEventListener('click', moveToDestination);
 			}
+			// add eventListeners for available square for the specific pieceType
+			availablePieceMovesObject[pieceType]();
 		}
 	}
 }
@@ -224,9 +225,9 @@ const pawnHasNotMoved = {
 	white: [true, true, true, true, true, true, true, true]
 }
 
-const availablePieceMovementsObject = {
+const availablePieceMovesObject = {
 	pawn: function() {
-		if (valueInSquare < 0) { // if pawn is black
+		if (valueInSquare < 0 || Number(selectedSquareId) + 8 < 64) { // if pawn is black
 			grid[Number(selectedSquareId) + 8].addEventListener('click', moveToDestination);
 			if (pawnHasNotMoved.black[selectedPieceIndex] === true) {
 				grid[Number(selectedSquareId) + 16].addEventListener('click', moveToDestination);
@@ -242,6 +243,10 @@ const availablePieceMovementsObject = {
 	}
 }
 
-function createAvailableMoves() {
+/* const removeAvailablePieceMovesObject = {
+
+} */
+
+/* function createAvailableMoves() {
 	availablePieceMovementsObject[pieceType];
-}
+} */
