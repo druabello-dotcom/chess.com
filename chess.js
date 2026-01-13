@@ -219,16 +219,25 @@ function moveToDestination(destination) {
 	isClicked = false;
 }
 
-let pawnHasNotMoved = [true, true, true, true, true, true, true, true]
+const pawnHasNotMoved = {
+	black: [true, true, true, true, true, true, true, true],
+	white: [true, true, true, true, true, true, true, true]
+}
 
 const availablePieceMovementsObject = {
 	pawn: function() {
 		if (valueInSquare < 0) { // if pawn is black
 			grid[Number(selectedSquareId) + 8].addEventListener('click', moveToDestination);
-			grid[Number(selectedSquareId) + 16].addEventListener('click', moveToDestination);
+			if (pawnHasNotMoved.black[selectedPieceIndex] === true) {
+				grid[Number(selectedSquareId) + 16].addEventListener('click', moveToDestination);
+				pawnHasNotMoved.black[selectedPieceIndex] = false;
+			}
 		} else if(0 < valueInSquare) { // if pawn is white
 			grid[Number(selectedSquareId) - 8].addEventListener('click', moveToDestination);
-			grid[Number(selectedSquareId) - 16].addEventListener('click', moveToDestination);	
+			if (pawnHasNotMoved.white[selectedPieceIndex] === true) {
+				grid[Number(selectedSquareId) - 16].addEventListener('click', moveToDestination);
+				pawnHasNotMoved.white[selectedPieceIndex] = false;
+			}	
 		}
 	}
 }
