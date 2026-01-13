@@ -202,8 +202,8 @@ function moveToDestination(destination) {
 	console.log("White " + pieceType + ":  " + pieceSquarePositionArray.white[pieceType])
 				
 	// reset after piece has been moved
+	resetAvailableMovesObject[pieceType]();
 	for (let i = 0; i < 64; i++) {
-		grid[i].removeEventListener('click', moveToDestination);
 		grid[i].addEventListener('click', onSquareClick);
 	}
 	selectedSquare = null;
@@ -229,11 +229,13 @@ const availablePieceMovesObject = {
 	pawn: function() {
 		if (valueInSquare < 0 || Number(selectedSquareId) + 8 < 64) { // if pawn is black
 			grid[Number(selectedSquareId) + 8].addEventListener('click', moveToDestination);
+			grid[Number(selectedSquareId) + 8].style.boxShadow = "inset 0px 0px 0px 0.25em #80EF80";
 			if (pawnHasNotMoved.black[selectedPieceIndex] === true) {
 				grid[Number(selectedSquareId) + 16].addEventListener('click', moveToDestination);
-				pawnHasNotMoved.black[selectedPieceIndex] = false;
+				grid[Number(selectedSquareId) + 16].style.boxShadow = "inset 0px 0px 0px 0.25em #80EF80";
+				pawnHasNotMoved.black[selectedPieceIndex] = false; // make it false another place in the function, not here
 			}
-		} else if(0 < valueInSquare) { // if pawn is white
+		} else if(0 < valueInSquare || -1 < Number(selectedSquareId) - 8) { // if pawn is white
 			grid[Number(selectedSquareId) - 8].addEventListener('click', moveToDestination);
 			if (pawnHasNotMoved.white[selectedPieceIndex] === true) {
 				grid[Number(selectedSquareId) - 16].addEventListener('click', moveToDestination);
@@ -243,10 +245,14 @@ const availablePieceMovesObject = {
 	}
 }
 
-/* const removeAvailablePieceMovesObject = {
+const resetAvailableMovesObject = {
+	pawn: function() {
+		if (valueInSquare < 0 || Number(selectedSquareId) + 8 < 64) {
+			grid[Number(selectedSquareId) + 8].style.boxShadow = "";
+			grid[Number(selectedSquareId) + 16].style.boxShadow = "";
 
-} */
-
-/* function createAvailableMoves() {
-	availablePieceMovementsObject[pieceType];
-} */
+			grid[Number(selectedSquareId) + 8].removeEventListener('click', moveToDestination);
+			grid[Number(selectedSquareId) + 16].removeEventListener('click', moveToDestination);
+		}
+	}
+}
