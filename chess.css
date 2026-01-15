@@ -39,7 +39,7 @@ body {
 	border-radius: 0.11em;
 }
 
-.pawn {
+.piece {
 	pointer-events: none;
 	position: absolute;
 	z-index: 10;
