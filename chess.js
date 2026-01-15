@@ -131,6 +131,13 @@ for (let row = 1; row < 9; row++) {
 		centerPositionSqaure.push({x_coordinate: squareXValue * ((column * 2) - 1), y_coordinate: squareYValue * ((row * 2) - 1)});
 	}
 }
+/* let squareXValue = (chessboardDimentions.width) / 8;
+let squareYValue = (chessboardDimentions) / 8;
+for (let row = 1; row < 9; row++) {
+	for (let column = 1; column < 9; column++) {
+		centerPositionSqaure.push({x_coordinate: squareXValue * column, y_coordinate: squareYValue * row});
+	}
+} */
 console.log(centerPositionSqaure)
 
 	// make piece spawn in the right way
@@ -148,8 +155,8 @@ let centerHeight = null; */
 function centerOfPiece(piece) {
 	let centerPieceCoordinates = {};
 	let pieceDimention = piece.getBoundingClientRect();
-	let centerWidth = (pieceDimention.width) / 1.775;
-	let centerHeight = (pieceDimention.height) / 2.3;
+	let centerWidth = (pieceDimention.width) / 2;
+	let centerHeight = (pieceDimention.height) / 2;
 	centerPieceCoordinates.x_coordinate = centerWidth;
 	centerPieceCoordinates.y_coordinate = centerHeight;
 	return centerPieceCoordinates;
@@ -158,9 +165,11 @@ function centerOfPiece(piece) {
 
 // align pieces in center —> I should use centerOfPiece = centerOfPiece(også alle elementer med "pieces" som class)
 const centerOfPawn = centerOfPiece(pieceElements.pawn[0]);
-pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - centerOfPawn.x_coordinate) + "px";
+pieceElements.pawn[0].style.top = ((chessboardDimentions.height / 8)) + "px";
+pieceElements.pawn[0].style.left = ((chessboardDimentions.width / 8)) + "px";
+/* pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - centerOfPawn.x_coordinate) + "px";
 pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - Math.ceil(centerOfPawn.y_coordinate)) + "px";
-
+ */
 const centerOfBishop = centerOfPiece(pieceElements.bishop[0]);
 pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - centerOfBishop.x_coordinate) + "px";
 pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - Math.ceil(centerOfBishop.y_coordinate)) + "px";
@@ -236,8 +245,8 @@ function moveToDestination(destination) {
 
 	// move piece to destination square
 	selectedSquare.style.filter = "brightness(1)";
-	selectedPiece.style.left = (x_squareCoordinate - (chessboardDimentions.width / 22)) + "px"; // FIND better way, than to subtract
-	selectedPiece.style.top = (y_squareCoordinate - (chessboardDimentions.height / 20)) + "px"; 
+	selectedPiece.style.left = (x_squareCoordinate - (chessboardDimentions.width / 16)) + "px"; // FIND better way, than to subtract
+	selectedPiece.style.top = (y_squareCoordinate - (chessboardDimentions.height / 18)) + "px"; 
 
 	// update stateGrid
 	stateGrid[selectedSquareId] = null;
