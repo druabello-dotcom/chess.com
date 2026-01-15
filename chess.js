@@ -20,12 +20,51 @@ for (let row = 0; row < 8; row++) {
 	}
 }
 
+// reset chessboard
+let pawnElements = null;
+function resetChessboard() {
+	let pieceElements = null; 
+	let centerOfPawn = null;
+	// pawn reset
+	for (let i = 8; i < 16; i++) {
+		pieceSquarePositionArray.black.pawn[i];
+		stateGrid[i] = pieceNumberIdentifier.black.pawn;
+	}
+	for (let i = 48; i < 56; i++) {
+		pieceSquarePositionArray.white.pawn[i];
+		stateGrid[i] = pieceNumberIdentifier.white.pawn;
+	}
+	for (let i = 0; i < 8; i++) {
+		pawnHasNotMoved.black[i] = true;
+		pawnHasNotMoved.white[i] = true;
+	}
+	// create pawn elements — black
+	for (let i = 8; i < 16; i++) {
+		pawnElements = document.createElement('span');
+		pawnElements.classList.add('piece');
+		pawnElements.classList.add('pawn');
+	}
+	pieceElements = {
+		pawn: Array.from(document.querySelectorAll('.pawn')) 
+	};
+	// getBoundingClientRect —> top, left, bottom, right - widht, height of element
+	for (let i = 0, j = 8; i < 8; i++, j++) {
+		centerOfPawn = centerOfPiece(pieceElements.pawn[i]);
+		pieceElements.pawn[i].style.top = (centerPositionSqaure[j].y_coordinate - centerOfPawn.x_coordinate) + "px";
+		pieceElements.pawn[i].style.left = (centerPositionSqaure[j].x_coordinate - Math.ceil(centerOfPawn.y_coordinate)) + "px";
+	}
+}
+
 const pieceSquarePositionArray = {
 	black: {
 		pawn: [9, null, null, null, null, null, null, null],
+		bishop: [2, null]
 	},
 	white: {
-		pawn: [null, null, null, null, null, null, null, null] }
+		pawn: [null, null, null, null, null, null, null, null],
+		bishop: [null, null]
+	}
+
 }
 const pieceNumberIdentifier = {
 	black: {
@@ -62,6 +101,7 @@ for (let i = 0; i < 64; i++) {
 	stateGrid.push(null);
 }
 
+stateGrid[2] = pieceNumberIdentifier.black.bishop;
 stateGrid[9] = pieceNumberIdentifier.black.pawn;
 console.log(stateGrid);
 
@@ -71,7 +111,8 @@ function pointToGridIdx(x, y) {
 
 //make element draggable function
 const pieceElements = {
-	pawn: Array.from(document.querySelectorAll('.pawn')) 
+	pawn: Array.from(document.querySelectorAll('.pawn')),
+	bishop: Array.from(document.querySelectorAll('.bishop'))
 };
 console.log(pieceElements);
 
@@ -99,6 +140,11 @@ console.log("Width of pawn:  " + pawnDimention.width);
 
 
 // make for-loop later for every piece with the same type
+/* let centerPieceCoordinates = null;
+let pieceDimention = null;
+let centerWidth = null;
+let centerHeight = null; */
+
 function centerOfPiece(piece) {
 	let centerPieceCoordinates = {};
 	let pieceDimention = piece.getBoundingClientRect();
@@ -109,9 +155,16 @@ function centerOfPiece(piece) {
 	return centerPieceCoordinates;
 }
 
+
+// align pieces in center —> I should use centerOfPiece = centerOfPiece(også alle elementer med "pieces" som class)
 const centerOfPawn = centerOfPiece(pieceElements.pawn[0]);
 pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - centerOfPawn.x_coordinate) + "px";
 pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - Math.ceil(centerOfPawn.y_coordinate)) + "px";
+
+const centerOfBishop = centerOfPiece(pieceElements.bishop[0]);
+pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - centerOfBishop.x_coordinate) + "px";
+pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - Math.ceil(centerOfBishop.y_coordinate)) + "px";
+
 // square needs to know if there is a piece inside of it
 console.log(document.getElementById(9));
 
@@ -140,38 +193,38 @@ let isClicked = false;
 
 function onSquareClick(event) {
 	selectedSquare = event.target;
-	selectedSquareId = event.target.id;
-	if (!isClicked) {
-		// check if the corresponding statGrid position has value === null
-		if (stateGrid[selectedSquareId] === null) {
-			return;
-		} else {
-			// make moving available for the piece element
-			isClicked = true;
-			selectedSquare.style.filter = "brightness(0.4)";
-			valueInSquare = stateGrid[selectedSquareId];
-			pieceType = mapPieces[Math.abs(valueInSquare)];
-			if (valueInSquare < 0) { // if value inside of square is negative
-				selectedPieceArray = pieceSquarePositionArray.black[pieceType];
-				console.log(selectedPieceArray);
-				selectedPieceIndex = selectedPieceArray.indexOf(Number(selectedSquareId));
-				console.log(selectedPieceIndex);
-			} else if(0 < valueInSquare) { // if value inside is positive
-				selectedPieceArray = pieceSquarePositionArray.white[pieceType];
-				console.log(selectedPieceArray);
-				selectedPieceIndex = selectedPieceArray.indexOf(Number(selectedSquareId));
-			}
-			// the selected piece is now found inside program
-			selectedPiece = pieceElements[pieceType][selectedPieceIndex];
-			console.log(selectedPiece);
+	selectedSquareId = Number(event.target.id);
+	if (isClicked) return;
 
-			// add event listener. Calls the function moveToDestination: select the square the piece will move to
-			for (let i = 0; i < 64; i++) {
-				grid[i].removeEventListener('click', onSquareClick);
-				grid[i].addEventListener('click', moveToDestination);
-			}
-		}
+	// check if the corresponding statGrid position has value === null
+	if (stateGrid[selectedSquareId] === null) {
+		return;
 	}
+	// make moving available for the piece element
+	isClicked = true;
+	selectedSquare.style.filter = "brightness(0.4)";
+	valueInSquare = stateGrid[selectedSquareId];
+	pieceType = mapPieces[Math.abs(valueInSquare)];
+	if (valueInSquare < 0) { // if value inside of square is negative
+		selectedPieceArray = pieceSquarePositionArray.black[pieceType];
+		console.log(selectedPieceArray);
+		selectedPieceIndex = selectedPieceArray.indexOf(selectedSquareId);
+		console.log(selectedPieceIndex);
+	} else if(0 < valueInSquare) { // if value inside is positive
+		selectedPieceArray = pieceSquarePositionArray.white[pieceType];
+		console.log(selectedPieceArray);
+		selectedPieceIndex = selectedPieceArray.indexOf(selectedSquareId);
+	}
+	// the selected piece is now found inside program
+	selectedPiece = pieceElements[pieceType][selectedPieceIndex];
+	console.log(selectedPiece);
+
+	// add event listener. Calls the function moveToDestination: select the square the piece will move to
+	for (let i = 0; i < 64; i++) {
+		grid[i].removeEventListener('click', onSquareClick);
+	}
+	// add eventListeners for available square for the specific pieceType
+	availablePieceMovesObject[pieceType]();
 }
 
 function moveToDestination(destination) {
@@ -202,8 +255,9 @@ function moveToDestination(destination) {
 				
 	// reset after piece has been moved
 	for (let i = 0; i < 64; i++) {
-		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].removeEventListener('click', moveToDestination)
 		grid[i].addEventListener('click', onSquareClick);
+		grid[i].style.boxShadow = "";
 	}
 	selectedSquare = null;
 	selectedSquareId = null;
@@ -217,4 +271,49 @@ function moveToDestination(destination) {
 	x_squareCoordinate = null;
 	y_squareCoordinate = null;
 	isClicked = false;
+}
+
+const pawnHasNotMoved = {
+	black: [true, true, true, true, true, true, true, true],
+	white: [true, true, true, true, true, true, true, true]
+}
+
+const highlightDestinationSquares = "inset 0px 0px 0px 0.25em #80EF80";
+const availablePieceMovesObject = {
+	pawn: function() {
+		if (valueInSquare < 0 || (selectedSquareId + 8) < 64) { // if pawn is black
+			grid[selectedSquareId + 8].addEventListener('click', moveToDestination);
+			grid[selectedSquareId + 8].style.boxShadow = highlightDestinationSquares;
+			if (pawnHasNotMoved.black[selectedPieceIndex] === true) {
+				grid[selectedSquareId + 16].addEventListener('click', moveToDestination);
+				grid[selectedSquareId + 16].style.boxShadow = highlightDestinationSquares;
+				pawnHasNotMoved.black[selectedPieceIndex] = false; // make it false another place in the function, not here
+			}
+		} else if(0 < valueInSquare || -1 < (selectedSquareId - 8)) { // if pawn is white
+			grid[selectedSquareId - 8].addEventListener('click', moveToDestination);
+			if (pawnHasNotMoved.white[selectedPieceIndex] === true) {
+				grid[selectedSquareId - 16].addEventListener('click', moveToDestination);
+				pawnHasNotMoved.white[selectedPieceIndex] = false;
+			}	
+		}
+	},
+	bishop: function() {
+		// kode for hvordan den skal bevege seg
+		for (let i = (selectedSquareId + 9); (selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 7); (i % 8) < (selectedSquareId % 8) && i < 64; i+=7) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 < i; i-=9) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 7); (selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+	}
 }
