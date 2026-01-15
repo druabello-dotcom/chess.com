@@ -166,7 +166,7 @@ function centerOfPiece(piece) {
 // align pieces in center —> I should use centerOfPiece = centerOfPiece(også alle elementer med "pieces" som class)
 const centerOfPawn = centerOfPiece(pieceElements.pawn[0]);
 pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - (chessboardDimentions.width / 16)) + "px";
-pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - (chessboardDimentions.width / 18)) + "px";
+pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - (chessboardDimentions.width / 17)) + "px";
 /* pieceElements.pawn[0].style.top = ((chessboardDimentions.height / 8)) + "px";
 pieceElements.pawn[0].style.left = ((chessboardDimentions.width / 8)) + "px"; */
 /* pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - centerOfPawn.x_coordinate) + "px";
@@ -174,7 +174,7 @@ pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - Math.
  */
 const centerOfBishop = centerOfPiece(pieceElements.bishop[0]);
 pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - (chessboardDimentions.width / 16)) + "px";
-pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - (chessboardDimentions.width / 18)) + "px";
+pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - (chessboardDimentions.width / 17)) + "px";
 /* pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - centerOfBishop.x_coordinate) + "px";
 pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - Math.ceil(centerOfBishop.y_coordinate)) + "px";
  */
@@ -250,7 +250,7 @@ function moveToDestination(destination) {
 	// move piece to destination square
 	selectedSquare.style.filter = "brightness(1)";
 	selectedPiece.style.left = (x_squareCoordinate - (chessboardDimentions.width / 16)) + "px"; // FIND better way, than to subtract
-	selectedPiece.style.top = (y_squareCoordinate - (chessboardDimentions.height / 18)) + "px"; 
+	selectedPiece.style.top = (y_squareCoordinate - (chessboardDimentions.height / 17)) + "px"; 
 
 	// update stateGrid
 	stateGrid[selectedSquareId] = null;
