@@ -20,6 +20,26 @@ for (let row = 0; row < 8; row++) {
 	}
 }
 
+// get chessboard dimentions
+//function to make the middle of the squares be the "default" position for the pieces
+	//firstly, record the center of each square so that the pieces may "read" what square they will go to, ideally, relative to the chessboard
+const chessboardDimentions = chessboard.getBoundingClientRect();
+console.log("Height of chessboard:  " + chessboardDimentions.height);
+console.log("Width of chessboard:  " + chessboardDimentions.width);
+
+//centerPositionSquare stores the coordinates for the center of each square with their corresponding x- and y-aksis coordinate, relative to the chessboard
+let centerPositionSqaure = []; 
+let squareXValue = (chessboardDimentions.width) / 16;
+let squareYValue = (chessboardDimentions.height) / 16;
+for (let row = 1; row < 9; row++) {
+	for (let column = 1; column < 9; column++) {
+		centerPositionSqaure.push({x_coordinate: squareXValue * ((column * 2) - 1), y_coordinate: squareYValue * ((row * 2) - 1)});
+	}
+}
+
+const subtractBoardDimentionWidth = (chessboardDimentions.width / 16);
+const subtractBoardDimentionHeight = (chessboardDimentions.height / 17);
+
 // reset chessboard
 const pieceIcons = {
 	pawn: "pieces-basic-png/black-pawn.png"
@@ -57,12 +77,20 @@ function resetChessboard() {
 	pieceElements = {
 		pawn: Array.from(document.querySelectorAll('.pawn')) 
 	};
-	// getBoundingClientRect —> top, left, bottom, right - widht, height of element
+	// center of pawn
+	centerOfPawn = centerOfPiece(pieceElements.pawn[0]);
+	// place pawns in corresponding square in chessboard
 	for (let i = 0, j = 8; i < 8; i++, j++) {
+		pieceElements.pawn[i].style.left = (centerPositionSqaure[j].x_coordinate - subtractBoardDimentionWidth) + "px";
+		pieceElements.pawn[i].style.top = (centerPositionSqaure[j].y_coordinate)
+	}
+
+	// getBoundingClientRect —> top, left, bottom, right - widht, height of element
+/* 	for (let i = 0, j = 8; i < 8; i++, j++) {
 		centerOfPawn = centerOfPiece(pieceElements.pawn[i]);
 		pieceElements.pawn[i].style.top = (centerPositionSqaure[j].y_coordinate - centerOfPawn.x_coordinate) + "px";
 		pieceElements.pawn[i].style.left = (centerPositionSqaure[j].x_coordinate - Math.ceil(centerOfPawn.y_coordinate)) + "px";
-	}
+	} */
 }
 
 const pieceSquarePositionArray = {
@@ -119,28 +147,13 @@ function pointToGridIdx(x, y) {
 	return y * 8 + x;
 }
 
-//make element draggable function
+
 const pieceElements = {
 	pawn: Array.from(document.querySelectorAll('.pawn')),
 	bishop: Array.from(document.querySelectorAll('.bishop'))
 };
 console.log(pieceElements);
 
-//function to make the middle of the squares be the "default" position for the pieces
-	//firstly, record the center of each square so that the pieces may "read" what square they will go to, ideally, relative to the chessboard
-const chessboardDimentions = chessboard.getBoundingClientRect();
-console.log("Height of chessboard:  " + chessboardDimentions.height);
-console.log("Width of chessboard:  " + chessboardDimentions.width);
-
-	//centerPositionSquare stores the coordinates for the center of each square with their corresponding x- and y-aksis coordinate, relative to the chessboard
-let centerPositionSqaure = []; 
-let squareXValue = (chessboardDimentions.width) / 16;
-let squareYValue = (chessboardDimentions.height) / 16;
-for (let row = 1; row < 9; row++) {
-	for (let column = 1; column < 9; column++) {
-		centerPositionSqaure.push({x_coordinate: squareXValue * ((column * 2) - 1), y_coordinate: squareYValue * ((row * 2) - 1)});
-	}
-}
 /* let squareXValue = (chessboardDimentions.width) / 8;
 let squareYValue = (chessboardDimentions) / 8;
 for (let row = 1; row < 9; row++) {
@@ -175,16 +188,16 @@ function centerOfPiece(piece) {
 
 // align pieces in center —> I should use centerOfPiece = centerOfPiece(også alle elementer med "pieces" som class)
 const centerOfPawn = centerOfPiece(pieceElements.pawn[0]);
-pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - (chessboardDimentions.width / 16)) + "px";
-pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - (chessboardDimentions.width / 17)) + "px";
+pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - subtractBoardDimentionWidth) + "px";
+pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - subtractBoardDimentionHeight) + "px";
 /* pieceElements.pawn[0].style.top = ((chessboardDimentions.height / 8)) + "px";
 pieceElements.pawn[0].style.left = ((chessboardDimentions.width / 8)) + "px"; */
 /* pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - centerOfPawn.x_coordinate) + "px";
 pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - Math.ceil(centerOfPawn.y_coordinate)) + "px";
  */
 const centerOfBishop = centerOfPiece(pieceElements.bishop[0]);
-pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - (chessboardDimentions.width / 16)) + "px";
-pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - (chessboardDimentions.width / 17)) + "px";
+pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - subtractBoardDimentionWidth) + "px";
+pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - subtractBoardDimentionHeight) + "px";
 /* pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - centerOfBishop.x_coordinate) + "px";
 pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - Math.ceil(centerOfBishop.y_coordinate)) + "px";
  */
@@ -259,8 +272,8 @@ function moveToDestination(destination) {
 
 	// move piece to destination square
 	selectedSquare.style.filter = "brightness(1)";
-	selectedPiece.style.left = (x_squareCoordinate - (chessboardDimentions.width / 16)) + "px"; // FIND better way, than to subtract
-	selectedPiece.style.top = (y_squareCoordinate - (chessboardDimentions.height / 17)) + "px"; 
+	selectedPiece.style.left = (x_squareCoordinate - subtractBoardDimentionWidth) + "px"; // FIND better way, than to subtract
+	selectedPiece.style.top = (y_squareCoordinate - subtractBoardDimentionHeight) + "px"; 
 
 	// update stateGrid
 	stateGrid[selectedSquareId] = null;
