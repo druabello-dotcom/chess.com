@@ -105,7 +105,7 @@ function resetChessboard() {
 		chessboard.appendChild(pawnElements);
 	}
 
-	// create black bishop element
+	// create c8 white bishop element
 	let c8BishopElement = document.createElement('span');
 	c8BishopElement.classList.add('piece', 'black', 'bishop');
 	let c8BishopElementIcon = document.createElement('img');
@@ -121,6 +121,15 @@ function resetChessboard() {
 	f8BishopElementIcon.src = pieceIcons.black.bishop;
 	f8BishopElement.appendChild(f8BishopElementIcon);
 	chessboard.appendChild(f8BishopElement);
+
+	// create c1 white bishop
+	let c1BishopElement = document.createElement('span');
+	c1BishopElement.classList.add('piece', 'white', 'bishop');
+	let c1BishopElementIcon = document.createElement('img');
+	c1BishopElementIcon.src = pieceIcons.white.bishop;
+	c1BishopElementIcon.alt = pieceIconAlt.white.bishop;
+	c1BishopElement.appendChild(c1BishopElementIcon);
+	chessboard.appendChild(c1BishopElement);
 
 	pieceElements = {
 		black: {
