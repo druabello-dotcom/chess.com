@@ -58,11 +58,13 @@ function resetChessboard() {
 const pieceSquarePositionArray = {
 	black: {
 		pawn: [9, null, null, null, null, null, null, null],
-		bishop: [2, null]
+		bishop: [2, null],
+		rook : [0, null]
 	},
 	white: {
 		pawn: [null, null, null, null, null, null, null, null],
-		bishop: [null, null]
+		bishop: [null, null],
+		rook: [null, null]
 	}
 
 }
@@ -103,6 +105,8 @@ for (let i = 0; i < 64; i++) {
 
 stateGrid[2] = pieceNumberIdentifier.black.bishop;
 stateGrid[9] = pieceNumberIdentifier.black.pawn;
+stateGrid[0] = pieceNumberIdentifier.black.rook;
+
 console.log(stateGrid);
 
 function pointToGridIdx(x, y) {
@@ -112,7 +116,8 @@ function pointToGridIdx(x, y) {
 //make element draggable function
 const pieceElements = {
 	pawn: Array.from(document.querySelectorAll('.pawn')),
-	bishop: Array.from(document.querySelectorAll('.bishop'))
+	bishop: Array.from(document.querySelectorAll('.bishop')),
+	rook: Array.from(document.querySelectorAll(".rook"))
 };
 console.log(pieceElements);
 
@@ -172,9 +177,15 @@ pieceElements.pawn[0].style.left = ((chessboardDimentions.width / 8)) + "px"; */
 /* pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - centerOfPawn.x_coordinate) + "px";
 pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - Math.ceil(centerOfPawn.y_coordinate)) + "px";
  */
+
 const centerOfBishop = centerOfPiece(pieceElements.bishop[0]);
 pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - (chessboardDimentions.width / 16)) + "px";
 pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - (chessboardDimentions.width / 17)) + "px";
+
+const centerOfRook = centerOfPiece(pieceElements.rook[0]);
+pieceElements.rook[0].style.left = (centerPositionSqaure[0].x_coordinate - (chessboardDimentions.width / 16)) + "px";
+pieceElements.rook[0].style.top = (centerPositionSqaure[0].y_coordinate - (chessboardDimentions.width) / 17) + "px";
+
 /* pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - centerOfBishop.x_coordinate) + "px";
 pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - Math.ceil(centerOfBishop.y_coordinate)) + "px";
  */
@@ -320,12 +331,32 @@ const availablePieceMovesObject = {
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
-		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 < i; i-=9) {
+		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
 		for (let i = (selectedSquareId - 7); (selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
 			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+	},
+
+	rook: function() {
+		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i <= 63; i++) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		
+		for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 8 ); i <= 63; i+=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 8 ); 0 <= i ; i-=8) {
+			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
 	}
