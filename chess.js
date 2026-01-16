@@ -410,6 +410,14 @@ const availablePieceMovesObject = {
 			}
 		}; LU();
 
+		function RDD (){
+			let i= selectedSquareId + 17;
+			if ((selectedSquareId % 8) < (i%8) ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; RDD();
+
 		
 	},
 
