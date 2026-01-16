@@ -222,7 +222,7 @@ function moveToDestination(destination) {
 }
 
 	grid.push(chessboard.children[i]);
-}
+
 
 //få hvilket grid den er på
 //bevegelse blir da grid+8 fordi hver bevegelse legger til 8 for å komme på nye grid verdi
