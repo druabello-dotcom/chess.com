@@ -21,11 +21,16 @@ for (let row = 0; row < 8; row++) {
 }
 
 // reset chessboard
+const pieceIcons = {
+	pawn: "pieces-basic-png/black-pawn.png"
+}
+
 let pawnElements = null;
 function resetChessboard() {
 	let pieceElements = null; 
 	let centerOfPawn = null;
 	// pawn reset
+	// reset pieceSquarePositionArray for pawns
 	for (let i = 8; i < 16; i++) {
 		pieceSquarePositionArray.black.pawn[i];
 		stateGrid[i] = pieceNumberIdentifier.black.pawn;
@@ -39,10 +44,15 @@ function resetChessboard() {
 		pawnHasNotMoved.white[i] = true;
 	}
 	// create pawn elements — black
-	for (let i = 8; i < 16; i++) {
+	for (let i = 0; i < 8; i++) {
 		pawnElements = document.createElement('span');
 		pawnElements.classList.add('piece');
 		pawnElements.classList.add('pawn');
+		let pawnIcon = document.createElement('img');
+		pawnIcon.src = pieceIcons.pawn;
+		pawnIcon.alt = "blackPawn";
+		pawnElements.appendChild(pawnIcon);
+		chessboard.appendChild(pawnElements);
 	}
 	pieceElements = {
 		pawn: Array.from(document.querySelectorAll('.pawn')) 
@@ -320,7 +330,7 @@ const availablePieceMovesObject = {
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
-		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 < i; i-=9) {
+		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}

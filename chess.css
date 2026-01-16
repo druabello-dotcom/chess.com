@@ -50,9 +50,3 @@ body {
 	width: var(--square-size);
 	height: var(--square-size);
 }
-
-.pawn {
-	background-color: transparent;
-	text-align: none;
-	border: none;
-}
