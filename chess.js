@@ -42,8 +42,13 @@ const subtractBoardDimentionHeight = (chessboardDimentions.height / 17);
 
 // reset chessboard
 const pieceIcons = {
-	pawn: "pieces-basic-png/black-pawn.png"
-}
+	black: {
+		pawn: "pieces-basic-png/black-pawn.png"
+	},
+	white: {
+		pawn: "pieces-basic-png/white-pawn.png"
+	}
+};
 
 let pawnElements = null;
 function resetChessboard() {
@@ -54,12 +59,20 @@ function resetChessboard() {
 	// create pawn elements — black, MUST DO WHITE ALSO
 	for (let i = 0; i < 8; i++) {
 		pawnElements = document.createElement('span');
-		pawnElements.classList.add('piece');
-		pawnElements.classList.add('.black');
-		pawnElements.classList.add('pawn');
+		pawnElements.classList.add('piece', 'black', 'pawn');
 		let pawnIcon = document.createElement('img');
-		pawnIcon.src = pieceIcons.pawn;
+		pawnIcon.src = pieceIcons.black.pawn;
 		pawnIcon.alt = "blackPawn";
+		pawnElements.appendChild(pawnIcon);
+		chessboard.appendChild(pawnElements);
+	}
+	// create pawn elements — white
+	for (let i = 0; i < 8; i++) {
+		pawnElements = document.createElement('span');
+		pawnElements.classList.add('piece', 'white', 'pawn');
+		let pawnIcon = document.createElement('img');
+		pawnIcon.src = pieceIcons.white.pawn;
+		pawnIcon.alt = "whitePawn";
 		pawnElements.appendChild(pawnIcon);
 		chessboard.appendChild(pawnElements);
 	}
@@ -71,7 +84,6 @@ function resetChessboard() {
 			pawn: Array.from(document.querySelectorAll('.white.pawn'))
 		}
 	};
-	// center of pawn
 	centerOfPawn = centerOfPiece(pieceElements.pawn[0]);
 	// place pawns in corresponding square in chessboard — white & black
 	for (let i = 0, j = 8, k = 48; i < 8; i++, j++, k++) {
