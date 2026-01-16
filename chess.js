@@ -59,12 +59,14 @@ const pieceSquarePositionArray = {
 	black: {
 		pawn: [9, null, null, null, null, null, null, null],
 		bishop: [2, null],
-		rook : [0, null]
+		rook : [0, null],
+		queen : [3]
 	},
 	white: {
 		pawn: [null, null, null, null, null, null, null, null],
 		bishop: [null, null],
-		rook: [null, null]
+		rook: [null, null],
+		queen: [null]
 	}
 
 }
@@ -106,6 +108,7 @@ for (let i = 0; i < 64; i++) {
 stateGrid[2] = pieceNumberIdentifier.black.bishop;
 stateGrid[9] = pieceNumberIdentifier.black.pawn;
 stateGrid[0] = pieceNumberIdentifier.black.rook;
+stateGrid[3] = pieceNumberIdentifier.black.queen
 
 console.log(stateGrid);
 
@@ -117,7 +120,8 @@ function pointToGridIdx(x, y) {
 const pieceElements = {
 	pawn: Array.from(document.querySelectorAll('.pawn')),
 	bishop: Array.from(document.querySelectorAll('.bishop')),
-	rook: Array.from(document.querySelectorAll(".rook"))
+	rook: Array.from(document.querySelectorAll(".rook")),
+	queen: Array.from (document.querySelectorAll(".queen"))
 };
 console.log(pieceElements);
 
@@ -185,6 +189,10 @@ pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - (che
 const centerOfRook = centerOfPiece(pieceElements.rook[0]);
 pieceElements.rook[0].style.left = (centerPositionSqaure[0].x_coordinate - (chessboardDimentions.width / 16)) + "px";
 pieceElements.rook[0].style.top = (centerPositionSqaure[0].y_coordinate - (chessboardDimentions.width) / 17) + "px";
+
+const centerOfqueen = centerOfPiece(pieceElements.queen[0]);
+pieceElements.queen[0].style.left = (centerPositionSqaure[3].x_coordinate - (chessboardDimentions.width / 16)) + "px";
+pieceElements.queen[0].style.top = (centerPositionSqaure[3].y_coordinate - (chessboardDimentions.width) / 17) + "px";
 
 /* pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - centerOfBishop.x_coordinate) + "px";
 pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - Math.ceil(centerOfBishop.y_coordinate)) + "px";
@@ -359,5 +367,42 @@ const availablePieceMovesObject = {
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
+	},
+
+	queen: function (){
+		for (let i = (selectedSquareId + 9); (selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 7); (i % 8) < (selectedSquareId % 8) && i < 64; i+=7) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 7); (selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i <= 63; i++) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		
+		for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 8 ); i <= 63; i+=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 8 ); 0 <= i ; i-=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+
 	}
 }
