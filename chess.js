@@ -393,6 +393,16 @@ const availablePieceMovesObject = {
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
 		}; LU();
+
+		function LD (){
+			let i= selectedSquareId + 6;
+			if ((selectedSquareId % 8) > (i%8) ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; LD();
+
+		
 	},
 
 	queen: function (){
