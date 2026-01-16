@@ -104,6 +104,16 @@ function resetChessboard() {
 		pawnElements.appendChild(pawnIcon);
 		chessboard.appendChild(pawnElements);
 	}
+
+	// create black bishop element
+	let c8BishopElement = document.createElement('span');
+	c8BishopElement.classList.add('piece', 'black', 'bishop');
+	let c8BishopElementIcon = document.createElement('img');
+	c8BishopElementIcon.src = pieceIcons.black.bishop;
+	c8BishopElementIcon.alt = pieceIconAlt.black.bishop;
+	c8BishopElement.appendChild(c8BishopElementIcon);
+	chessboard.appendChild(c8BishopElement);
+
 	pieceElements = {
 		black: {
 			pawn: Array.from(document.querySelectorAll('.black.pawn')),
