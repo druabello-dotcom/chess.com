@@ -106,6 +106,7 @@ for (let i = 0; i < 64; i++) {
 stateGrid[2] = pieceNumberIdentifier.black.bishop;
 stateGrid[9] = pieceNumberIdentifier.black.pawn;
 stateGrid[0] = pieceNumberIdentifier.black.rook;
+
 console.log(stateGrid);
 
 function pointToGridIdx(x, y) {
@@ -350,6 +351,13 @@ const availablePieceMovesObject = {
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
-		
+		for (let i = (selectedSquareId + 8 ); i <= 63; i+=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 8 ); 0 <= i ; i-=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
 	}
 }
