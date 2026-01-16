@@ -60,12 +60,14 @@ const pieceSquarePositionArray = {
 		pawn: [9, null, null, null, null, null, null, null],
 		bishop: [2, null],
 		rook : [0, null],
+		knight: [1, null],
 		queen : [3]
 	},
 	white: {
 		pawn: [null, null, null, null, null, null, null, null],
 		bishop: [null, null],
 		rook: [null, null],
+		knight: [null, null],
 		queen: [null]
 	}
 
@@ -108,6 +110,7 @@ for (let i = 0; i < 64; i++) {
 stateGrid[2] = pieceNumberIdentifier.black.bishop;
 stateGrid[9] = pieceNumberIdentifier.black.pawn;
 stateGrid[0] = pieceNumberIdentifier.black.rook;
+stateGrid[1] = pieceNumberIdentifier.black.knight;
 stateGrid[3] = pieceNumberIdentifier.black.queen
 
 console.log(stateGrid);
@@ -121,6 +124,7 @@ const pieceElements = {
 	pawn: Array.from(document.querySelectorAll('.pawn')),
 	bishop: Array.from(document.querySelectorAll('.bishop')),
 	rook: Array.from(document.querySelectorAll(".rook")),
+	knight: Array.from (document.querySelectorAll(".knight")),
 	queen: Array.from (document.querySelectorAll(".queen"))
 };
 console.log(pieceElements);
@@ -189,6 +193,10 @@ pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - (che
 const centerOfRook = centerOfPiece(pieceElements.rook[0]);
 pieceElements.rook[0].style.left = (centerPositionSqaure[0].x_coordinate - (chessboardDimentions.width / 16)) + "px";
 pieceElements.rook[0].style.top = (centerPositionSqaure[0].y_coordinate - (chessboardDimentions.width) / 17) + "px";
+
+const centerOfKnight = centerOfPiece(pieceElements.knight[0]);
+pieceElements.knight[0].style.left = (centerPositionSqaure[1].x_coordinate - (chessboardDimentions.width / 16)) + "px";
+pieceElements.knight[0].style.top = (centerPositionSqaure[1].y_coordinate - (chessboardDimentions.width) / 17) + "px";
 
 const centerOfqueen = centerOfPiece(pieceElements.queen[0]);
 pieceElements.queen[0].style.left = (centerPositionSqaure[3].x_coordinate - (chessboardDimentions.width / 16)) + "px";
@@ -367,6 +375,16 @@ const availablePieceMovesObject = {
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
+	},
+
+	knight: function(){
+		function RD (){
+			let i= selectedSquareId + 10;
+			if ((selectedSquareId % 8) < (i%8) ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; RD();
 	},
 
 	queen: function (){
