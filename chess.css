@@ -30,15 +30,29 @@ body {
 }
 
 .black {
-	
-	background-color: lightsalmon;
-	width: var(--square-size);
-	height: var(--square-size);
-	transition: var(--square-transition);
+	background-color: #95533b;
 }
 
 .square:hover {
 	filter: brightness(0.4);
 	border-width: 0.16em;
 	border-radius: 0.11em;
+}
+
+.piece {
+	pointer-events: none;
+	position: absolute;
+	z-index: 10;
+	justify-content: center;
+	text-align: center;
+}
+.piece img {
+	width: var(--square-size);
+	height: var(--square-size);
+}
+
+.pawn {
+	background-color: transparent;
+	text-align: none;
+	border: none;
 }
