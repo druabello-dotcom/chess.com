@@ -51,7 +51,7 @@ function resetChessboard() {
 	let centerOfPawn = null;
 	// pawn reset
 	// reset pieceSquarePositionArray for pawns
-	// create pawn elements — black
+	// create pawn elements — black, MUST DO WHITE ALSO
 	for (let i = 0; i < 8; i++) {
 		pawnElements = document.createElement('span');
 		pawnElements.classList.add('piece');
@@ -79,27 +79,15 @@ function resetChessboard() {
 		pieceElements.black.pawn[i].style.top = (centerPositionSqaure[j].y_coordinate - subtractBoardDimentionHeight) + "px";
 		pieceElements.white.pawn[i].style.left = (centerPositionSqaure[k].x_coordinate - subtractBoardDimentionWidth) + "px";
 		pieceElements.white.pawn[i].style.top = (centerPositionSqaure[k].y_coordinate - subtractBoardDimentionHeight) + "px";
-	}
-	// reset "background" information about pawns
-	for (let i = 8; i < 16; i++) {
-		pieceSquarePositionArray.black.pawn[i];
-		stateGrid[i] = pieceNumberIdentifier.black.pawn;
-	}
-	for (let i = 48; i < 56; i++) {
-		pieceSquarePositionArray.white.pawn[i];
-		stateGrid[i] = pieceNumberIdentifier.white.pawn;
-	}
-	for (let i = 0; i < 8; i++) {
+
+		// reset "background" information about pawns
 		pawnHasNotMoved.black[i] = true;
 		pawnHasNotMoved.white[i] = true;
+		pieceSquarePositionArray.black.pawn[i] = j;
+		pieceSquarePositionArray.white.pawn[i] = k;
+		stateGrid[j] = pieceNumberIdentifier.black.pawn;
+		stateGrid[k] = pieceNumberIdentifier.white.pawn;
 	}
-
-	// getBoundingClientRect —> top, left, bottom, right - widht, height of element
-/* 	for (let i = 0, j = 8; i < 8; i++, j++) {
-		centerOfPawn = centerOfPiece(pieceElements.pawn[i]);
-		pieceElements.pawn[i].style.top = (centerPositionSqaure[j].y_coordinate - centerOfPawn.x_coordinate) + "px";
-		pieceElements.pawn[i].style.left = (centerPositionSqaure[j].x_coordinate - Math.ceil(centerOfPawn.y_coordinate)) + "px";
-	} */
 }
 
 const pieceSquarePositionArray = {
