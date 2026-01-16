@@ -140,23 +140,16 @@ function resetChessboard() {
 	f1BishopElement.appendChild(f1BishopElementIcon);
 	chessboard.appendChild(f1BishopElement);
 
-	// create b8 black knight element
-	let b8KnightElement = document.createElement('span');
-	b8KnightElement.classList.add('piece', 'black', 'knight');
-	let b8KnightElementIcon = document.createElement('img');
-	b8KnightElementIcon.src = pieceIcons.black.knight;
-	b8KnightElementIcon.alt = pieceIconAlt.black.knight;
-	b8KnightElement.appendChild(b8KnightElementIcon);
-	chessboard.appendChild(b8KnightElement);
-
-	// create g8 black knight element
-	let g8KnightElement = document.createElement('span');
-	g8KnightElement.classList.add('piece', 'black', 'knight');
-	let g8KnightElementIcon = document.createElement('span');
-	g8KnightElementIcon.src = pieceIcons.black.knight;
-	g8KnightElementIcon.alt = piece.pieceIconAlt.black.knight;
-	b8KnightElement.appendChild(g8KnightElementIcon);
-	chessboard.appendChild(g8KnightElement);
+	// create black knights elements
+	for (let i = 0; i < 2; i++) {
+		let blackKnightElement = document.createElement('span');
+		blackKnightElement.classList.add('piece', 'black', 'knight');
+		let blackKnightElementIcon = document.createElement('img');
+		blackKnightElementIcon.src = pieceIcons.black.knight;
+		blackKnightElementIcon.alt = pieceIconAlt.black.knight;
+		blackKnightElement.appendChild(blackKnightElementIcon);
+		chessboard.appendChild(blackKnightElement);
+	}
 
 	pieceElements = {
 		black: {
