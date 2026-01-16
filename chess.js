@@ -380,7 +380,7 @@ const availablePieceMovesObject = {
 	knight: function(){
 		function RD (){
 			let i= selectedSquareId + 10;
-			if ((selectedSquareId % 8) < (i%8) ){
+			if ((selectedSquareId % 8) < (i%8) && i<63 ){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
@@ -388,7 +388,7 @@ const availablePieceMovesObject = {
 
 		function RU (){
 			let i= selectedSquareId - 10;
-			if ((selectedSquareId % 8) > (i%8) ){
+			if ((selectedSquareId % 8) > (i%8)  && i >=0){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
@@ -396,7 +396,7 @@ const availablePieceMovesObject = {
 
 		function LD (){
 			let i= selectedSquareId + 6;
-			if ((selectedSquareId % 8) > (i%8) ){
+			if ((selectedSquareId % 8) > (i%8) && i<63){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
@@ -404,7 +404,7 @@ const availablePieceMovesObject = {
 
 		function LU (){
 			let i= selectedSquareId - 6;
-			if ((selectedSquareId % 8) < (i%8) ){
+			if ((selectedSquareId % 8) < (i%8)  && i >=0 ){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
@@ -412,7 +412,7 @@ const availablePieceMovesObject = {
 
 		function RDD (){
 			let i= selectedSquareId + 17;
-			if ((selectedSquareId % 8) < (i%8) ){
+			if ((selectedSquareId % 8) < (i%8) && i<63 ){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
@@ -420,14 +420,28 @@ const availablePieceMovesObject = {
 
 		function LDD (){
 			let i= selectedSquareId + 15;
-			if ((selectedSquareId % 8) > (i%8) && i>63 ){
+			if ((selectedSquareId % 8) > (i%8) && i<63){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
 		}; LDD();
 
+		function LUU (){
+			let i= selectedSquareId - 17;
+			if ((selectedSquareId % 8) > (i%8  && i >=0) ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; LUU();
 
-		
+		function RUU (){
+			let i= selectedSquareId - 15;
+			if ((selectedSquareId % 8) < (i%8) && i >=0 ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; RUU();
+
 	},
 
 	queen: function (){
