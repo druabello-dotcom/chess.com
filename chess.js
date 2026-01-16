@@ -51,6 +51,36 @@ function resetChessboard() {
 	let centerOfPawn = null;
 	// pawn reset
 	// reset pieceSquarePositionArray for pawns
+	// create pawn elements — black
+	for (let i = 0; i < 8; i++) {
+		pawnElements = document.createElement('span');
+		pawnElements.classList.add('piece');
+		pawnElements.classList.add('.black');
+		pawnElements.classList.add('pawn');
+		let pawnIcon = document.createElement('img');
+		pawnIcon.src = pieceIcons.pawn;
+		pawnIcon.alt = "blackPawn";
+		pawnElements.appendChild(pawnIcon);
+		chessboard.appendChild(pawnElements);
+	}
+	pieceElements = {
+		black: {
+			pawn: Array.from(document.querySelectorAll('.black.pawn')),
+		},
+		white: {
+			pawn: Array.from(document.querySelectorAll('.white.pawn'))
+		}
+	};
+	// center of pawn
+	centerOfPawn = centerOfPiece(pieceElements.pawn[0]);
+	// place pawns in corresponding square in chessboard — white & black
+	for (let i = 0, j = 8, k = 48; i < 8; i++, j++, k++) {
+		pieceElements.black.pawn[i].style.left = (centerPositionSqaure[j].x_coordinate - subtractBoardDimentionWidth) + "px";
+		pieceElements.black.pawn[i].style.top = (centerPositionSqaure[j].y_coordinate - subtractBoardDimentionHeight) + "px";
+		pieceElements.white.pawn[i].style.left = (centerPositionSqaure[k].x_coordinate - subtractBoardDimentionWidth) + "px";
+		pieceElements.white.pawn[i].style.top = (centerPositionSqaure[k].y_coordinate - subtractBoardDimentionHeight) + "px";
+	}
+	// reset "background" information about pawns
 	for (let i = 8; i < 16; i++) {
 		pieceSquarePositionArray.black.pawn[i];
 		stateGrid[i] = pieceNumberIdentifier.black.pawn;
@@ -62,27 +92,6 @@ function resetChessboard() {
 	for (let i = 0; i < 8; i++) {
 		pawnHasNotMoved.black[i] = true;
 		pawnHasNotMoved.white[i] = true;
-	}
-	// create pawn elements — black
-	for (let i = 0; i < 8; i++) {
-		pawnElements = document.createElement('span');
-		pawnElements.classList.add('piece');
-		pawnElements.classList.add('pawn');
-		let pawnIcon = document.createElement('img');
-		pawnIcon.src = pieceIcons.pawn;
-		pawnIcon.alt = "blackPawn";
-		pawnElements.appendChild(pawnIcon);
-		chessboard.appendChild(pawnElements);
-	}
-	pieceElements = {
-		pawn: Array.from(document.querySelectorAll('.pawn')) 
-	};
-	// center of pawn
-	centerOfPawn = centerOfPiece(pieceElements.pawn[0]);
-	// place pawns in corresponding square in chessboard
-	for (let i = 0, j = 8; i < 8; i++, j++) {
-		pieceElements.pawn[i].style.left = (centerPositionSqaure[j].x_coordinate - subtractBoardDimentionWidth) + "px";
-		pieceElements.pawn[i].style.top = (centerPositionSqaure[j].y_coordinate)
 	}
 
 	// getBoundingClientRect —> top, left, bottom, right - widht, height of element
