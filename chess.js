@@ -386,13 +386,13 @@ const availablePieceMovesObject = {
 			}
 		}; RD();
 
-		function LU (){
+		function RU (){
 			let i= selectedSquareId - 10;
 			if ((selectedSquareId % 8) > (i%8) ){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
-		}; LU();
+		}; RU();
 
 		function LD (){
 			let i= selectedSquareId + 6;
@@ -401,6 +401,14 @@ const availablePieceMovesObject = {
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
 		}; LD();
+
+		function LU (){
+			let i= selectedSquareId - 6;
+			if ((selectedSquareId % 8) < (i%8) ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; LU();
 
 		
 	},
