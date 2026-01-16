@@ -8,34 +8,43 @@ body {
 	align-items: center;
 	height: 100vh;
 	margin-top: 10vh;
-
 }
 
 #chessboard {
 	--square-size: 4em;
+	position: relative;
 	display: grid;
 	grid-template-columns: repeat(8, var(--square-size));
 	grid-template-rows: repeat(8, var(--square-size));
 }
 
-.white {
+.square {
 	--square-transition: 250ms;
-	background-color: antiquewhite;
 	width: var(--square-size);
 	height: var(--square-size);
 	transition: var(--square-transition);
+}
+
+.white {
+	background-color: antiquewhite;
 }
 
 .black {
 	background-color: lightsalmon;
-	width: var(--square-size);
-	height: var(--square-size);
-	transition: var(--square-transition);
 }
 
 .square:hover {
-	filter: brightness(0.7);
-	border: solid rgb(182, 181, 181);
+	filter: brightness(0.4);
 	border-width: 0.16em;
 	border-radius: 0.11em;
+}
+
+.pawn {
+	pointer-events: none;
+	position: absolute;
+	z-index: 10;
+	background-color: #f1f1f1;
+	justify-content: center;
+	text-align: center;
+	border: 1px solid #d3d3d3;
 }
