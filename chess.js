@@ -78,78 +78,112 @@ const pieceIconAlt = {
 	}
 }
 
+let classNamePieceArray = null;
 let pawnElements = null;
 function resetChessboard() {
 	let pieceElements = null; 
 	let centerOfPawn = null;
-	// pawn reset
-	// reset pieceSquarePositionArray for pawns
-	// create pawn elements — black, MUST DO WHITE ALSO
+
+	// remove all pieces with class name "piece"
+
+	// create pawn elements
 	for (let i = 0; i < 8; i++) {
-		pawnElements = document.createElement('span');
-		pawnElements.classList.add('piece', 'black', 'pawn');
-		let pawnIcon = document.createElement('img');
-		pawnIcon.src = pieceIcons.black.pawn;
-		pawnIcon.alt = pieceIconAlt.black.pawn;
-		pawnElements.appendChild(pawnIcon);
-		chessboard.appendChild(pawnElements);
-	}
-	// create pawn elements — white
-	for (let i = 0; i < 8; i++) {
-		pawnElements = document.createElement('span');
-		pawnElements.classList.add('piece', 'white', 'pawn');
-		let pawnIcon = document.createElement('img');
-		pawnIcon.src = pieceIcons.white.pawn;
-		pawnIcon.alt = pieceIconAlt.white.pawn;
-		pawnElements.appendChild(pawnIcon);
-		chessboard.appendChild(pawnElements);
+		let blackPawnElements = document.createElement('span');
+		let blackPawnIcon = document.createElement('img');
+		blackPawnElements.classList.add('piece', 'black', 'pawn');
+		blackPawnIcon.src = pieceIcons.black.pawn;
+		blackPawnIcon.alt = pieceIconAlt.black.pawn;
+		blackPawnElements.appendChild(blackPawnIcon);
+
+		let whitePawnElement = document.createElement('span');
+		let whitePawnIcon = document.createElement('img');
+		whitePawnElement.classList.add('piece', 'white', 'pawn');
+		whitePawnIcon.src = pieceIcons.white.pawn;
+		whitePawnIcon.alt = pieceIconAlt.white.pawn;
+		whitePawnElement.appendChild(whitePawnIcon);
 	}
 
-	// create c8 white bishop element
-	let c8BishopElement = document.createElement('span');
-	c8BishopElement.classList.add('piece', 'black', 'bishop');
-	let c8BishopElementIcon = document.createElement('img');
-	c8BishopElementIcon.src = pieceIcons.black.bishop;
-	c8BishopElementIcon.alt = pieceIconAlt.black.bishop;
-	c8BishopElement.appendChild(c8BishopElementIcon);
-	chessboard.appendChild(c8BishopElement);
+	// create bishop elements
+	for (let i = 0; i < 2; i++) {
+		let blackBishopElement = document.createElement('span');
+		let blackBishopElementIcon = document.createElement('img');
+		blackBishopElement.classList.add('piece', 'black', 'bishop');
+		blackBishopElementIcon.src = pieceIcons.black.bishop;
+		blackBishopElementIcon.alt = pieceIconAlt.black.bishop;
+		blackBishopElement.appendChild(blackBishopElementIcon);
 
-	// create f8 black bishop element
-	let f8BishopElement = document.createElement('span');
-	f8BishopElement.classList.add('piece', 'black', 'bishop');
-	let f8BishopElementIcon = document.createElement('img');
-	f8BishopElementIcon.src = pieceIcons.black.bishop;
-	f8BishopElement.appendChild(f8BishopElementIcon);
-	chessboard.appendChild(f8BishopElement);
+		let whiteBishopElement = document.createElement('span');
+		let whiteBishopElementIcon = document.createElement('img');
+		whiteBishopElement.classList.add('piece', 'white', 'bishop');
+		whiteBishopElementIcon.src = pieceIcons.white.bishop;
+		whiteBishopElementIcon.alt = pieceIconAlt.white.bishop;
+		whiteBishopElement.appendChild(whiteBishopElementIcon);
+	}
 
-	// create c1 white bishop element
-	let c1BishopElement = document.createElement('span');
-	c1BishopElement.classList.add('piece', 'white', 'bishop');
-	let c1BishopElementIcon = document.createElement('img');
-	c1BishopElementIcon.src = pieceIcons.white.bishop;
-	c1BishopElementIcon.alt = pieceIconAlt.white.bishop;
-	c1BishopElement.appendChild(c1BishopElementIcon);
-	chessboard.appendChild(c1BishopElement);
-
-	// create f1 white bishop element
-	let f1BishopElement = document.createElement('span');
-	f1BishopElement.classList.add('piece', 'white', 'bishop');
-	let f1BishopElementIcon = document.createElement('img');
-	f1BishopElementIcon.src = pieceIcons.white.bishop;
-	f1BishopElementIcon.alt = pieceIconAlt.white.bishop;
-	f1BishopElement.appendChild(f1BishopElementIcon);
-	chessboard.appendChild(f1BishopElement);
-
-	// create black knights elements
+	// create knights elements
 	for (let i = 0; i < 2; i++) {
 		let blackKnightElement = document.createElement('span');
-		blackKnightElement.classList.add('piece', 'black', 'knight');
 		let blackKnightElementIcon = document.createElement('img');
+		blackKnightElement.classList.add('piece', 'black', 'knight');
 		blackKnightElementIcon.src = pieceIcons.black.knight;
 		blackKnightElementIcon.alt = pieceIconAlt.black.knight;
 		blackKnightElement.appendChild(blackKnightElementIcon);
-		chessboard.appendChild(blackKnightElement);
+
+		let whiteKnightElement = document.createElement('span');
+		let whiteKnightElementIcon = document.createElement('img');
+		whiteKnightElement.classList.add('piece', 'white', 'knight');
+		whiteKnightElementIcon.src = pieceIcons.white.knight;
+		whiteKnightElementIcon.alt = pieceIconAlt.white.knight;
+		whiteKnightElement.appendChild(whiteKnightElementIcon);
+		
 	}
+
+	// create rook elements
+	for (let i = 0; i < 2; i++) {
+		let blackRookElements = document.createElement('span');
+		let blackRookElementsIcon = document.createElement('img');
+		blackRookElements.classList.add('piece', 'black', 'rook');
+		blackRookElementsIcon.src = pieceIcons.black.rook;
+		blackRookElementsIcon.alt = pieceIconAlt.black.rook;
+		blackRookElements.appendChild(blackRookElementsIcon);
+
+		let whiteRookElements = document.createElement('span');
+		let whiteRookElementsIcon = document.createElement('img');
+		whiteRookElements.classList.add('piece', 'white', 'rook');
+		whiteRookElementsIcon.src = pieceIcons.white.rook;
+		whiteRookElementsIcon.alt = pieceIconAlt.white.rook;
+		whiteRookElements.appendChild(whiteRookElementsIcon);
+	}
+	
+	//create queen elements
+	let blackQueenElement = document.createElement('span');
+	let blackQueenElementIcon = document.createElement('img');
+	blackQueenElement.classList.add('piece', 'black', 'queen');
+	blackQueenElementIcon.src = pieceIcons.black.queen;
+	blackQueenElementIcon.alt = pieceIconAlt.black.queen;
+	blackQueenElement.appendChild(blackQueenElementIcon);
+
+	let whiteQueenElement = document.createElement('span');
+	let whiteQueenElementIcon = document.createElement('img');
+	whiteQueenElement.classList.add('piece', 'white', 'queen');
+	whiteQueenElementIcon.src = pieceIcons.white.queen;
+	whiteQueenElementIcon.alt = pieceIconAlt.white.queen;
+	whiteQueenElement.appendChild(whiteQueenElementIcon);
+
+	//create king elements
+	let blackKingElement = document.createElement('span');
+	let blackKingElementIcon = document.createElement('img');
+	blackKingElement.classList.add('piece', 'black', 'king');
+	blackKingElementIcon.src = pieceIcons.black.king;
+	blackKingElementIcon.alt = pieceIconAlt.black.king;
+	blackKingElement.appendChild(blackKingElementIcon);
+
+	let whiteKingElement = document.createElement('span');
+	let whiteKingElementIcon = document.createElement('img');
+	whiteKingElement.classList.add('piece', 'white', 'king');
+	whiteKingElementIcon.src = pieceIcons.white.king;
+	whiteKingElementIcon.alt = pieceIconAlt.white.king;
+	whiteKingElement.appendChild(whiteKingElementIcon);
 
 	pieceElements = {
 		black: {
@@ -175,6 +209,8 @@ function resetChessboard() {
 		stateGrid[j] = pieceNumberIdentifier.black.pawn;
 		stateGrid[k] = pieceNumberIdentifier.white.pawn;
 	}
+
+	// reset pieceSquarePositionArray for pawns
 }
 
 const pieceSquarePositionArray = {
