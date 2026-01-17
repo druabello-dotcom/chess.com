@@ -39,7 +39,7 @@ for (let row = 1; row < 9; row++) {
 const subtractBoardDimentionWidth = (chessboardDimentions.width / 16);
 const subtractBoardDimentionHeight = (chessboardDimentions.height / 17);
 
-import * as CreatePieceElements from '/createPieceElements.js';
+import * as CreatePieceElements from './createPieceElements.js';
 
 // reset chessboard
 let classNamePieceArray = null;
@@ -52,18 +52,17 @@ function resetChessboard() {
 		classNamePieceArray[i].remove();
 	}
 
-	// create pieces
-	CreatePieceElements.createPieceElements();
-
-	// append every element with class name 'piece' as a child of chessboard
-	classNamePieceArray = Array.from(document.querySelectorAll('.piece'));
-	for (let i = 0; i < classNamePieceArray.length; i++) {
-		chessboard.appendChild(classNamePieceArray[i]);
+	// create the piece elements. Append them as childs of the chessboard
+	const visualPieceElements = CreatePieceElements.createPieceElements();
+	for (let i = 0; i < visualPieceElements.length; i++) {
+		chessboard.appendChild(visualPieceElements[i]);
 	}
+	classNamePieceArray = document.querySelectorAll('.piece');
 
 	pieceElements = {
 		black: {
 			pawn: Array.from(document.querySelectorAll('.black.pawn')),
+			knight: Array.from(document.querySelectorAll('black'))
 		},
 		white: {
 			pawn: Array.from(document.querySelectorAll('.white.pawn'))
