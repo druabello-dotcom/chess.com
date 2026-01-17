@@ -85,6 +85,9 @@ function resetChessboard() {
 	let centerOfPawn = null;
 
 	// remove all pieces with class name "piece"
+	for (let i = 0; i < classNamePieceArray.length; i++) {
+		classNamePieceArray[i].remove();
+	}
 
 	// create pawn elements
 	for (let i = 0; i < 8; i++) {
