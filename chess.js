@@ -185,6 +185,12 @@ function resetChessboard() {
 	whiteKingElementIcon.alt = pieceIconAlt.white.king;
 	whiteKingElement.appendChild(whiteKingElementIcon);
 
+	// append every element with class name 'piece' as a child of chessboard
+	classNamePieceArray = Array.from(document.querySelectorAll('.piece'));
+	for (let i = 0; i < classNamePieceArray.length; i++) {
+		chessboard.appendChild(classNamePieceArray[i]);
+	}
+
 	pieceElements = {
 		black: {
 			pawn: Array.from(document.querySelectorAll('.black.pawn')),
