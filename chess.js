@@ -18,15 +18,37 @@ for (let row = 0; row < 8; row++) {
 		posIndx++;
 	}
 }
+const stateGrid = [];
+for (let i = 0; i < 64; i++) {
+	stateGrid.push(null);
+}
+
+const pieceSquarePositionArray = {
+	black: {
+		pawn:   Array(8).fill(null),
+		knight: Array(2).fill(null),
+		bishop: Array(2).fill(null),
+		rook:   Array(2).fill(null),
+		queen:  Array(1).fill(null),
+		king:   Array(1).fill(null)
+	},
+	white: {
+		pawn:   Array(8).fill(null),
+		knight: Array(2).fill(null),
+		bishop: Array(2).fill(null),
+		rook:   Array(2).fill(null),
+		queen:  Array(1).fill(null),
+		king:   Array(1).fill(null)
+	}
+};
+
 
 // get chessboard dimentions
-//function to make the middle of the squares be the "default" position for the pieces
-	//firstly, record the center of each square so that the pieces may "read" what square they will go to, ideally, relative to the chessboard
 const chessboardDimentions = chessboard.getBoundingClientRect();
 console.log("Height of chessboard:  " + chessboardDimentions.height);
 console.log("Width of chessboard:  " + chessboardDimentions.width);
 
-//centerPositionSquare stores the coordinates for the center of each square with their corresponding x- and y-aksis coordinate, relative to the chessboard
+//store coordinates for center of each square (x & y component)
 let centerPositionSqaure = []; 
 let squareXValue = (chessboardDimentions.width) / 16;
 let squareYValue = (chessboardDimentions.height) / 16;
@@ -40,15 +62,31 @@ const subtractBoardDimentionWidth = (chessboardDimentions.width / 16);
 const subtractBoardDimentionHeight = (chessboardDimentions.height / 17);
 
 // reset chessboard
+const resetChessboardButton = document.getElementById('resetChessboardButton');
+resetChessboardButton.addEventListener('click', resetChessboard);
 import * as CreatePieceElements from './createPieceElements.js';
 let classNamePieceArray = null;
 const pieceElementsObject = {
-	black: {},
-	white: {}
+	black: {
+		pawn: null,
+		knight: null,
+		bishop: null,
+		rook: null,
+		queen: null,
+		king: null
+	},
+	white: {
+		pawn: null,
+		knight: null,
+		bishop: null,
+		rook: null,
+		queen: null,
+		king: null
+	}
 }
+classNamePieceArray = document.querySelectorAll('.piece');
 function resetChessboard() {
-	let pieceElements = null; 
-	let centerOfPawn = null;
+	stateGrid.fill(null);
 	// remove all pieces with class name "piece"
 	for (let i = 0; i < classNamePieceArray.length; i++) {
 		classNamePieceArray[i].remove();
@@ -62,7 +100,7 @@ function resetChessboard() {
 	classNamePieceArray = document.querySelectorAll('.piece');
 
 	// make loop for making pieceElements Object
-	for (let c = 0; c < 2; c++) {
+/* 	for (let c = 0; c < 2; c++) {
 		let colorArray = ['black', 'white'];
 		let color = colorArray[c];
 
@@ -70,6 +108,12 @@ function resetChessboard() {
 			let type = CreatePieceElements.pieceTypeArray[t];
 			pieceElementsObject[color][type] = Array.from(document.querySelectorAll(`.${color}.${type}`));
 		}
+	} */
+
+	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
+		let type = CreatePieceElements.pieceTypeArray[t];
+		pieceElementsObject.black[type] = Array.from(document.querySelectorAll(`.black.${type}`));
+		pieceElementsObject.white[type] = Array.from(document.querySelectorAll(`.white.${type}`));
 	}
 	console.log(pieceElementsObject);
 
@@ -100,17 +144,14 @@ function resetChessboard() {
 		}
 	}
 	// reset pieces visually (and in background)
+	pawnHasNotMoved.black = Array(8).fill(true);
+	pawnHasNotMoved.white = Array(8).fill(true);
 	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
 		let type = CreatePieceElements.pieceTypeArray[t];
-		for (let counts = 0; counts < CreatePieceElements.pieceCounts[type]; counts++) {
+		for (let counts = 0, blackStartingSquare = pieceStartingSquare.black[type], whiteStartingSquare = pieceStartingSquare.white[type]; counts < CreatePieceElements.pieceCounts[type]; counts++) {
+			console.log("Piece type:  " + type + "     Count:  " + counts);
 
 			// reset background information
-			if (type === "pawn") {
-				pawnHasNotMoved.black[counts] = true;
-				pawnHasNotMoved.white[counts] = true;
-			}
-			let blackStartingSquare = pieceStartingSquare.black[type];
-			let whiteStartingSquare = pieceStartingSquare.white[type];
 			pieceSquarePositionArray.black[type][counts] = blackStartingSquare;
 			pieceSquarePositionArray.white[type][counts] = whiteStartingSquare;
 
@@ -123,12 +164,16 @@ function resetChessboard() {
 			pieceElementsObject.white[type][counts].style.left = (centerPositionSqaure[whiteStartingSquare].x_coordinate - subtractBoardDimentionWidth) + "px"; 
 			pieceElementsObject.white[type][counts].style.top = (centerPositionSqaure[whiteStartingSquare].y_coordinate - subtractBoardDimentionWidth) + "px";
 
+			pieceElementsObject.black[type][counts].style.backgroundColor = "transparent";
+			pieceElementsObject.white[type][counts].style.backgroundColor = "transparent";
+
 			blackStartingSquare += pieceSquareIncrementation[type];
 			whiteStartingSquare += pieceSquareIncrementation[type];
 		}
 	}
+	console.log(stateGrid);
 }
-
+/* 
 const pieceSquarePositionArray = {
 	black: {
 		pawn: [9, null, null, null, null, null, null, null],
@@ -139,7 +184,7 @@ const pieceSquarePositionArray = {
 		bishop: [null, null]
 	}
 
-}
+} */
 const pieceNumberIdentifier = {
 	black: {
 		 pawn: -1,
@@ -170,10 +215,6 @@ const mapPieces = {
 // grid-array with all square elements
 const grid = Array.from(document.querySelectorAll('.square'));
 
-const stateGrid = [];
-for (let i = 0; i < 64; i++) {
-	stateGrid.push(null);
-}
 
 stateGrid[2] = pieceNumberIdentifier.black.bishop;
 stateGrid[9] = pieceNumberIdentifier.black.pawn;
@@ -184,11 +225,11 @@ function pointToGridIdx(x, y) {
 }
 
 
-const pieceElements = {
+/* const pieceElements = {
 	pawn: Array.from(document.querySelectorAll('.pawn')),
 	bishop: Array.from(document.querySelectorAll('.bishop'))
 };
-console.log(pieceElements);
+console.log(pieceElements); */
 
 /* let squareXValue = (chessboardDimentions.width) / 8;
 let squareYValue = (chessboardDimentions) / 8;
@@ -200,9 +241,9 @@ for (let row = 1; row < 9; row++) {
 console.log(centerPositionSqaure)
 
 	// make piece spawn in the right way
-const pawnDimention = pieceElements.pawn[0].getBoundingClientRect();
+/* const pawnDimention = pieceElements.pawn[0].getBoundingClientRect();
 console.log("Height of pawn:  " + pawnDimention.height);
-console.log("Width of pawn:  " + pawnDimention.width);
+console.log("Width of pawn:  " + pawnDimention.width); */
 
 
 // make for-loop later for every piece with the same type
@@ -223,22 +264,14 @@ function centerOfPiece(piece) {
 
 
 // align pieces in center —> I should use centerOfPiece = centerOfPiece(også alle elementer med "pieces" som class)
-const centerOfPawn = centerOfPiece(pieceElements.pawn[0]);
-pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - subtractBoardDimentionWidth) + "px";
+/* const centerOfPawn = centerOfPiece(pieceElements.pawn[0]); */
+/* pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - subtractBoardDimentionWidth) + "px";
 pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - subtractBoardDimentionHeight) + "px";
-/* pieceElements.pawn[0].style.top = ((chessboardDimentions.height / 8)) + "px";
-pieceElements.pawn[0].style.left = ((chessboardDimentions.width / 8)) + "px"; */
-/* pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - centerOfPawn.x_coordinate) + "px";
-pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - Math.ceil(centerOfPawn.y_coordinate)) + "px";
- */
+
 const centerOfBishop = centerOfPiece(pieceElements.bishop[0]);
 pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - subtractBoardDimentionWidth) + "px";
 pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - subtractBoardDimentionHeight) + "px";
-/* pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - centerOfBishop.x_coordinate) + "px";
-pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - Math.ceil(centerOfBishop.y_coordinate)) + "px";
- */
-// square needs to know if there is a piece inside of it
-console.log(document.getElementById(9));
+console.log(document.getElementById(9)); */
 
 
 // adding event listeners to all square elements in the chessboard. If square get clicked, go to the function onSquareClick
