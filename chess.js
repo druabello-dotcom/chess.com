@@ -71,24 +71,62 @@ function resetChessboard() {
 			pieceElementsObject[color][type] = Array.from(document.querySelectorAll(`.${color}.${type}`));
 		}
 	}
-	centerOfPawn = centerOfPiece(pieceElements.pawn[0]);
-	// place pawns in corresponding square in chessboard — white & black
-	for (let i = 0, j = 8, k = 48; i < 8; i++, j++, k++) {
-		pieceElements.black.pawn[i].style.left = (centerPositionSqaure[j].x_coordinate - subtractBoardDimentionWidth) + "px";
-		pieceElements.black.pawn[i].style.top = (centerPositionSqaure[j].y_coordinate - subtractBoardDimentionHeight) + "px";
-		pieceElements.white.pawn[i].style.left = (centerPositionSqaure[k].x_coordinate - subtractBoardDimentionWidth) + "px";
-		pieceElements.white.pawn[i].style.top = (centerPositionSqaure[k].y_coordinate - subtractBoardDimentionHeight) + "px";
+	console.log(pieceElementsObject);
 
-		// reset "background" information about pawns
-		pawnHasNotMoved.black[i] = true;
-		pawnHasNotMoved.white[i] = true;
-		pieceSquarePositionArray.black.pawn[i] = j;
-		pieceSquarePositionArray.white.pawn[i] = k;
-		stateGrid[j] = pieceNumberIdentifier.black.pawn;
-		stateGrid[k] = pieceNumberIdentifier.white.pawn;
+	let pieceSquareIncrementation = {
+		pawn: 1,
+		knight: 5,
+		bishop: 3,
+		rook: 7,
+		queen: 0,
+		king: 0
 	}
+	let pieceStartingSquare = {
+		black: {
+			pawn: 8,
+			knight: 1,
+			bishop: 2,
+			rook: 0,
+			queen: 3,
+			king: 4,
+		},
+		white: {
+			pawn: 48,
+			knight: 57,
+			bishop: 58,
+			rook: 56,
+			queen: 59,
+			king: 60
+		}
+	}
+	// reset pieces visually (and in background)
+	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
+		let type = CreatePieceElements.pieceTypeArray[t];
+		for (let counts = 0; counts < CreatePieceElements.pieceCounts[type]; counts++) {
 
-	// reset pieceSquarePositionArray for pawns
+			// reset background information
+			if (type === "pawn") {
+				pawnHasNotMoved.black[counts] = true;
+				pawnHasNotMoved.white[counts] = true;
+			}
+			let blackStartingSquare = pieceStartingSquare.black[type];
+			let whiteStartingSquare = pieceStartingSquare.white[type];
+			pieceSquarePositionArray.black[type][counts] = blackStartingSquare;
+			pieceSquarePositionArray.white[type][counts] = whiteStartingSquare;
+
+			stateGrid[blackStartingSquare] = pieceNumberIdentifier.black[type];
+			stateGrid[whiteStartingSquare] = pieceNumberIdentifier.white[type];
+
+			// reset visual information
+			pieceElementsObject.black[type][counts].style.left = (centerPositionSqaure[blackStartingSquare].x_coordinate - subtractBoardDimentionWidth) + "px";
+			pieceElementsObject.black[type][counts].style.top = (centerPositionSqaure[blackStartingSquare].y_coordinate - subtractBoardDimentionWidth) + "px";
+			pieceElementsObject.white[type][counts].style.left = (centerPositionSqaure[whiteStartingSquare].x_coordinate - subtractBoardDimentionWidth) + "px"; 
+			pieceElementsObject.white[type][counts].style.top = (centerPositionSqaure[whiteStartingSquare].y_coordinate - subtractBoardDimentionWidth) + "px";
+
+			blackStartingSquare += pieceSquareIncrementation[type];
+			whiteStartingSquare += pieceSquareIncrementation[type];
+		}
+	}
 }
 
 const pieceSquarePositionArray = {

@@ -36,7 +36,7 @@ export const pieceIconAlt = {
 }
 
 export const pieceTypeArray = ["pawn", "knight", "bishop", "rook", "queen", "king"];
-const pieceCounts = {
+export const pieceCounts = {
 	pawn: 8,
 	knight: 2,
 	bishop: 2,
