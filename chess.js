@@ -39,11 +39,13 @@ for (let row = 1; row < 9; row++) {
 const subtractBoardDimentionWidth = (chessboardDimentions.width / 16);
 const subtractBoardDimentionHeight = (chessboardDimentions.height / 17);
 
-import * as CreatePieceElements from './createPieceElements.js';
-
 // reset chessboard
+import * as CreatePieceElements from './createPieceElements.js';
 let classNamePieceArray = null;
-let pawnElements = null;
+const pieceElementsObject = {
+	black: {},
+	white: {}
+}
 function resetChessboard() {
 	let pieceElements = null; 
 	let centerOfPawn = null;
@@ -59,15 +61,16 @@ function resetChessboard() {
 	}
 	classNamePieceArray = document.querySelectorAll('.piece');
 
-	pieceElements = {
-		black: {
-			pawn: Array.from(document.querySelectorAll('.black.pawn')),
-			knight: Array.from(document.querySelectorAll('black'))
-		},
-		white: {
-			pawn: Array.from(document.querySelectorAll('.white.pawn'))
+	// make loop for making pieceElements Object
+	for (let c = 0; c < 2; c++) {
+		let colorArray = ['black', 'white'];
+		let color = colorArray[c];
+
+		for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
+			let type = CreatePieceElements.pieceTypeArray[t];
+			pieceElementsObject[color][type] = Array.from(document.querySelectorAll(`.${color}.${type}`));
 		}
-	};
+	}
 	centerOfPawn = centerOfPiece(pieceElements.pawn[0]);
 	// place pawns in corresponding square in chessboard — white & black
 	for (let i = 0, j = 8, k = 48; i < 8; i++, j++, k++) {
