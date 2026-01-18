@@ -131,6 +131,9 @@ function resetChessboard() {
 		chessboard.appendChild(visualPieceElements[i]);
 	}
 	classNamePieceArray = document.querySelectorAll('.piece');
+	for (let i = 0; i < classNamePieceArray.length; i++) {
+		classNamePieceArray[i].style.transition = "0.15s";
+	}
 
 	// fill pieceElementObject with array to corresponding color and piece
 	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
