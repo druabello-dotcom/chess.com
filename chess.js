@@ -41,7 +41,10 @@ const pieceSquarePositionArray = {
 		king:   Array(1).fill(null)
 	}
 };
-
+const pawnHasNotMoved = {
+	black: [true, true, true, true, true, true, true, true],
+	white: [true, true, true, true, true, true, true, true]
+}
 
 // get chessboard dimentions
 const chessboardDimentions = chessboard.getBoundingClientRect();
@@ -99,17 +102,7 @@ function resetChessboard() {
 	}
 	classNamePieceArray = document.querySelectorAll('.piece');
 
-	// make loop for making pieceElements Object
-/* 	for (let c = 0; c < 2; c++) {
-		let colorArray = ['black', 'white'];
-		let color = colorArray[c];
-
-		for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
-			let type = CreatePieceElements.pieceTypeArray[t];
-			pieceElementsObject[color][type] = Array.from(document.querySelectorAll(`.${color}.${type}`));
-		}
-	} */
-
+	// fill pieceElementObject with array to corresponding color and piece
 	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
 		let type = CreatePieceElements.pieceTypeArray[t];
 		pieceElementsObject.black[type] = Array.from(document.querySelectorAll(`.black.${type}`));
@@ -291,6 +284,7 @@ let isClicked = false;
 	let selectedPieceIndex = null;
 	let pieceType = null;
 	let valueInSquare = null;
+	let pieceColor = null;
 
 	// change position of the piece, via destination square
 	let x_squareCoordinate = null;
@@ -301,34 +295,32 @@ function onSquareClick(event) {
 	selectedSquareId = Number(event.target.id);
 	if (isClicked) return;
 
-	// check if the corresponding statGrid position has value === null
+	// check if selected square has a piece or not
 	if (stateGrid[selectedSquareId] === null) {
 		return;
 	}
-	// make moving available for the piece element
 	isClicked = true;
 	selectedSquare.style.filter = "brightness(0.4)";
+
 	valueInSquare = stateGrid[selectedSquareId];
+	if (valueInSquare < 0) pieceColor = 'black';
+	else if (0 < valueInSquare) pieceColor = 'white';
+	console.log("Color of piece:  " + pieceColor);
+
+	// get information about piece
 	pieceType = mapPieces[Math.abs(valueInSquare)];
-	if (valueInSquare < 0) { // if value inside of square is negative
-		selectedPieceArray = pieceSquarePositionArray.black[pieceType];
-		console.log(selectedPieceArray);
-		selectedPieceIndex = selectedPieceArray.indexOf(selectedSquareId);
-		console.log(selectedPieceIndex);
-	} else if(0 < valueInSquare) { // if value inside is positive
-		selectedPieceArray = pieceSquarePositionArray.white[pieceType];
-		console.log(selectedPieceArray);
-		selectedPieceIndex = selectedPieceArray.indexOf(selectedSquareId);
-	}
+	selectedPieceArray = pieceSquarePositionArray[pieceColor][pieceType];
+	console.log(selectedPieceArray);
+	selectedPieceIndex = selectedPieceArray.indexOf(selectedSquareId);
+
 	// the selected piece is now found inside program
-	selectedPiece = pieceElements[pieceType][selectedPieceIndex];
+	selectedPiece = pieceElementsObject[pieceColor][pieceType][selectedPieceIndex];
 	console.log(selectedPiece);
 
-	// add event listener. Calls the function moveToDestination: select the square the piece will move to
+	// add eventListeners for available square for corresponding piece
 	for (let i = 0; i < 64; i++) {
 		grid[i].removeEventListener('click', onSquareClick);
 	}
-	// add eventListeners for available square for the specific pieceType
 	availablePieceMovesObject[pieceType]();
 }
 
@@ -350,13 +342,12 @@ function moveToDestination(destination) {
 	console.log(stateGrid);
 
 	// update pieceSquarePositionArray
-	if (valueInSquare < 0) {
-		pieceSquarePositionArray.black[pieceType][selectedPieceIndex] = Number(destinationSquare.id);
-	} else if(0 < valueInSquare) {
-		pieceSquarePositionArray.white[pieceType][selectedPieceIndex] = Number(destinationSquare.id);
-	}
+	pieceSquarePositionArray[pieceColor][pieceType][selectedPieceIndex] = Number(destinationSquare.id);
+
 	console.log("Black " + pieceType + ":  " +  pieceSquarePositionArray.black[pieceType]);
-	console.log("White " + pieceType + ":  " + pieceSquarePositionArray.white[pieceType])
+	console.log("White " + pieceType + ":  " + pieceSquarePositionArray.white[pieceType]);
+
+	if (pieceType === 'pawn') pawnHasNotMoved[pieceColor][selectedPieceIndex] = false;
 				
 	// reset after piece has been moved
 	for (let i = 0; i < 64; i++) {
@@ -378,27 +369,22 @@ function moveToDestination(destination) {
 	isClicked = false;
 }
 
-const pawnHasNotMoved = {
-	black: [true, true, true, true, true, true, true, true],
-	white: [true, true, true, true, true, true, true, true]
-}
-
 const highlightDestinationSquares = "inset 0px 0px 0px 0.25em #80EF80";
 const availablePieceMovesObject = {
 	pawn: function() {
-		if (valueInSquare < 0 || (selectedSquareId + 8) < 64) { // if pawn is black
+		if (pieceColor == 'black' && (selectedSquareId + 8) < 64) { // if pawn is black
 			grid[selectedSquareId + 8].addEventListener('click', moveToDestination);
 			grid[selectedSquareId + 8].style.boxShadow = highlightDestinationSquares;
 			if (pawnHasNotMoved.black[selectedPieceIndex] === true) {
 				grid[selectedSquareId + 16].addEventListener('click', moveToDestination);
 				grid[selectedSquareId + 16].style.boxShadow = highlightDestinationSquares;
-				pawnHasNotMoved.black[selectedPieceIndex] = false; // make it false another place in the function, not here
 			}
-		} else if(0 < valueInSquare || -1 < (selectedSquareId - 8)) { // if pawn is white
+		} else if(pieceColor == 'white' && 0 <= (selectedSquareId - 8)) { // if pawn is white
 			grid[selectedSquareId - 8].addEventListener('click', moveToDestination);
+			grid[selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
 			if (pawnHasNotMoved.white[selectedPieceIndex] === true) {
 				grid[selectedSquareId - 16].addEventListener('click', moveToDestination);
-				pawnHasNotMoved.white[selectedPieceIndex] = false;
+				grid[selectedSquareId - 16].style.boxShadow = highlightDestinationSquares
 			}	
 		}
 	},
