@@ -22,6 +22,35 @@ const stateGrid = [];
 for (let i = 0; i < 64; i++) {
 	stateGrid.push(null);
 }
+// grid-array with all square elements
+const grid = Array.from(document.querySelectorAll('.square'));
+
+const pieceNumberIdentifier = {
+	black: {
+		 pawn: -1,
+		 knight: -2,
+		 bishop: -3, 
+		 rook: -4, 
+		 queen: -5,
+		 king: -6
+		},
+	white: {
+		pawn: 1,
+		knight: 2, 
+		bishop: 3, 
+		rook: 4,
+		queen: 5,
+		king: 6
+	} 
+}
+const mapPieces = {
+	1: "pawn",
+	2: "knight",
+	3: "bishop",
+	4: "rook",
+	5: "queen",
+	6: "king"
+  };
 
 const pieceSquarePositionArray = {
 	black: {
@@ -87,6 +116,7 @@ const pieceElementsObject = {
 		king: null
 	}
 }
+
 classNamePieceArray = document.querySelectorAll('.piece');
 function resetChessboard() {
 	stateGrid.fill(null);
@@ -166,106 +196,13 @@ function resetChessboard() {
 	}
 	console.log(stateGrid);
 }
-/* 
-const pieceSquarePositionArray = {
-	black: {
-		pawn: [9, null, null, null, null, null, null, null],
-		bishop: [2, null]
-	},
-	white: {
-		pawn: [null, null, null, null, null, null, null, null],
-		bishop: [null, null]
-	}
-
-} */
-const pieceNumberIdentifier = {
-	black: {
-		 pawn: -1,
-		 knight: -2,
-		 bishop: -3, 
-		 rook: -4, 
-		 queen: -5,
-		 king: -6
-		},
-	white: {
-		pawn: 1,
-		knight: 2, 
-		bishop: 3, 
-		rook: 4,
-		queen: 5,
-		king: 6
-	} 
-}
-const mapPieces = {
-	1: "pawn",
-	2: "knight",
-	3: "bishop",
-	4: "rook",
-	5: "queen",
-	6: "king"
-  };
-
-// grid-array with all square elements
-const grid = Array.from(document.querySelectorAll('.square'));
-
-
-stateGrid[2] = pieceNumberIdentifier.black.bishop;
-stateGrid[9] = pieceNumberIdentifier.black.pawn;
-console.log(stateGrid);
+resetChessboard();
 
 function pointToGridIdx(x, y) {
 	return y * 8 + x;
 }
 
-
-/* const pieceElements = {
-	pawn: Array.from(document.querySelectorAll('.pawn')),
-	bishop: Array.from(document.querySelectorAll('.bishop'))
-};
-console.log(pieceElements); */
-
-/* let squareXValue = (chessboardDimentions.width) / 8;
-let squareYValue = (chessboardDimentions) / 8;
-for (let row = 1; row < 9; row++) {
-	for (let column = 1; column < 9; column++) {
-		centerPositionSqaure.push({x_coordinate: squareXValue * column, y_coordinate: squareYValue * row});
-	}
-} */
 console.log(centerPositionSqaure)
-
-	// make piece spawn in the right way
-/* const pawnDimention = pieceElements.pawn[0].getBoundingClientRect();
-console.log("Height of pawn:  " + pawnDimention.height);
-console.log("Width of pawn:  " + pawnDimention.width); */
-
-
-// make for-loop later for every piece with the same type
-/* let centerPieceCoordinates = null;
-let pieceDimention = null;
-let centerWidth = null;
-let centerHeight = null; */
-
-function centerOfPiece(piece) {
-	let centerPieceCoordinates = {};
-	let pieceDimention = piece.getBoundingClientRect();
-	let centerWidth = (pieceDimention.width) / 2;
-	let centerHeight = (pieceDimention.height) / 2;
-	centerPieceCoordinates.x_coordinate = centerWidth;
-	centerPieceCoordinates.y_coordinate = centerHeight;
-	return centerPieceCoordinates;
-}
-
-
-// align pieces in center —> I should use centerOfPiece = centerOfPiece(også alle elementer med "pieces" som class)
-/* const centerOfPawn = centerOfPiece(pieceElements.pawn[0]); */
-/* pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - subtractBoardDimentionWidth) + "px";
-pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - subtractBoardDimentionHeight) + "px";
-
-const centerOfBishop = centerOfPiece(pieceElements.bishop[0]);
-pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - subtractBoardDimentionWidth) + "px";
-pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - subtractBoardDimentionHeight) + "px";
-console.log(document.getElementById(9)); */
-
 
 // adding event listeners to all square elements in the chessboard. If square get clicked, go to the function onSquareClick
 for (let i = 0; i < 64; i++) {
@@ -347,6 +284,7 @@ function moveToDestination(destination) {
 	console.log("Black " + pieceType + ":  " +  pieceSquarePositionArray.black[pieceType]);
 	console.log("White " + pieceType + ":  " + pieceSquarePositionArray.white[pieceType]);
 
+	// pawn's double step rule: (Article 3.7.b), a pawn may move two squares forward on its very first move
 	if (pieceType === 'pawn') pawnHasNotMoved[pieceColor][selectedPieceIndex] = false;
 				
 	// reset after piece has been moved
@@ -372,14 +310,14 @@ function moveToDestination(destination) {
 const highlightDestinationSquares = "inset 0px 0px 0px 0.25em #80EF80";
 const availablePieceMovesObject = {
 	pawn: function() {
-		if (pieceColor == 'black' && (selectedSquareId + 8) < 64) { // if pawn is black
+		if (pieceColor == 'black' && (selectedSquareId + 8) < 64) {
 			grid[selectedSquareId + 8].addEventListener('click', moveToDestination);
 			grid[selectedSquareId + 8].style.boxShadow = highlightDestinationSquares;
 			if (pawnHasNotMoved.black[selectedPieceIndex] === true) {
 				grid[selectedSquareId + 16].addEventListener('click', moveToDestination);
 				grid[selectedSquareId + 16].style.boxShadow = highlightDestinationSquares;
 			}
-		} else if(pieceColor == 'white' && 0 <= (selectedSquareId - 8)) { // if pawn is white
+		} else if(pieceColor == 'white' && 0 <= (selectedSquareId - 8)) {
 			grid[selectedSquareId - 8].addEventListener('click', moveToDestination);
 			grid[selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
 			if (pawnHasNotMoved.white[selectedPieceIndex] === true) {
@@ -389,7 +327,6 @@ const availablePieceMovesObject = {
 		}
 	},
 	bishop: function() {
-		// kode for hvordan den skal bevege seg
 		for (let i = (selectedSquareId + 9); (selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
