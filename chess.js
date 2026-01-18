@@ -58,11 +58,17 @@ function resetChessboard() {
 const pieceSquarePositionArray = {
 	black: {
 		pawn: [9, null, null, null, null, null, null, null],
-		bishop: [2, null]
+		bishop: [2, null],
+		rook : [0, null],
+		knight: [1, null],
+		queen : [3]
 	},
 	white: {
 		pawn: [null, null, null, null, null, null, null, null],
-		bishop: [null, null]
+		bishop: [null, null],
+		rook: [null, null],
+		knight: [null, null],
+		queen: [null]
 	}
 
 }
@@ -103,6 +109,10 @@ for (let i = 0; i < 64; i++) {
 
 stateGrid[2] = pieceNumberIdentifier.black.bishop;
 stateGrid[9] = pieceNumberIdentifier.black.pawn;
+stateGrid[0] = pieceNumberIdentifier.black.rook;
+stateGrid[1] = pieceNumberIdentifier.black.knight;
+stateGrid[3] = pieceNumberIdentifier.black.queen
+
 console.log(stateGrid);
 
 function pointToGridIdx(x, y) {
@@ -112,7 +122,10 @@ function pointToGridIdx(x, y) {
 //make element draggable function
 const pieceElements = {
 	pawn: Array.from(document.querySelectorAll('.pawn')),
-	bishop: Array.from(document.querySelectorAll('.bishop'))
+	bishop: Array.from(document.querySelectorAll('.bishop')),
+	rook: Array.from(document.querySelectorAll(".rook")),
+	knight: Array.from (document.querySelectorAll(".knight")),
+	queen: Array.from (document.querySelectorAll(".queen"))
 };
 console.log(pieceElements);
 
@@ -172,9 +185,23 @@ pieceElements.pawn[0].style.left = ((chessboardDimentions.width / 8)) + "px"; */
 /* pieceElements.pawn[0].style.top = (centerPositionSqaure[9].y_coordinate - centerOfPawn.x_coordinate) + "px";
 pieceElements.pawn[0].style.left = (centerPositionSqaure[9].x_coordinate - Math.ceil(centerOfPawn.y_coordinate)) + "px";
  */
+
 const centerOfBishop = centerOfPiece(pieceElements.bishop[0]);
 pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - (chessboardDimentions.width / 16)) + "px";
 pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - (chessboardDimentions.width / 17)) + "px";
+
+const centerOfRook = centerOfPiece(pieceElements.rook[0]);
+pieceElements.rook[0].style.left = (centerPositionSqaure[0].x_coordinate - (chessboardDimentions.width / 16)) + "px";
+pieceElements.rook[0].style.top = (centerPositionSqaure[0].y_coordinate - (chessboardDimentions.width) / 17) + "px";
+
+const centerOfKnight = centerOfPiece(pieceElements.knight[0]);
+pieceElements.knight[0].style.left = (centerPositionSqaure[1].x_coordinate - (chessboardDimentions.width / 16)) + "px";
+pieceElements.knight[0].style.top = (centerPositionSqaure[1].y_coordinate - (chessboardDimentions.width) / 17) + "px";
+
+const centerOfqueen = centerOfPiece(pieceElements.queen[0]);
+pieceElements.queen[0].style.left = (centerPositionSqaure[3].x_coordinate - (chessboardDimentions.width / 16)) + "px";
+pieceElements.queen[0].style.top = (centerPositionSqaure[3].y_coordinate - (chessboardDimentions.width) / 17) + "px";
+
 /* pieceElements.bishop[0].style.top = (centerPositionSqaure[2].y_coordinate - centerOfBishop.x_coordinate) + "px";
 pieceElements.bishop[0].style.left = (centerPositionSqaure[2].x_coordinate - Math.ceil(centerOfBishop.y_coordinate)) + "px";
  */
@@ -320,7 +347,7 @@ const availablePieceMovesObject = {
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
-		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 < i; i-=9) {
+		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
@@ -328,5 +355,129 @@ const availablePieceMovesObject = {
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
+	},
+
+	rook: function() {
+		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i <= 63; i++) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		
+		for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 8 ); i <= 63; i+=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 8 ); 0 <= i ; i-=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+	},
+
+	knight: function(){
+		function RD (){
+			let i= selectedSquareId + 10;
+			if ((selectedSquareId % 8) < (i%8) && i<63 ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; RD();
+
+		function RU (){
+			let i= selectedSquareId - 10;
+			if ((selectedSquareId % 8) > (i%8)  && i >=0){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; RU();
+
+		function LD (){
+			let i= selectedSquareId + 6;
+			if ((selectedSquareId % 8) > (i%8) && i<63){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; LD();
+
+		function LU (){
+			let i= selectedSquareId - 6;
+			if ((selectedSquareId % 8) < (i%8)  && i >=0 ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; LU();
+
+		function RDD (){
+			let i= selectedSquareId + 17;
+			if ((selectedSquareId % 8) < (i%8) && i<63 ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; RDD();
+
+		function LDD (){
+			let i= selectedSquareId + 15;
+			if ((selectedSquareId % 8) > (i%8) && i<63){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; LDD();
+
+		function LUU (){
+			let i= selectedSquareId - 17;
+			if ((selectedSquareId % 8) > (i%8  && i >=0) ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; LUU();
+
+		function RUU (){
+			let i= selectedSquareId - 15;
+			if ((selectedSquareId % 8) < (i%8) && i >=0 ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; RUU();
+
+	},
+
+	queen: function (){
+		for (let i = (selectedSquareId + 9); (selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 7); (i % 8) < (selectedSquareId % 8) && i < 64; i+=7) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 7); (selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i <= 63; i++) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		
+		for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 8 ); i <= 63; i+=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 8 ); 0 <= i ; i-=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+
 	}
 }
