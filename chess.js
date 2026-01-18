@@ -45,7 +45,7 @@ function resetChessboard() {
 		pawnElements.classList.add('pawn');
 	}
 	pieceElements = {
-		pawn: Array.from(document.querySelectorAll('.pawn')) 
+		pawn: Array.from(document.querySelectorAll('.pawn'))
 	};
 	// getBoundingClientRect —> top, left, bottom, right - widht, height of element
 	for (let i = 0, j = 8; i < 8; i++, j++) {
