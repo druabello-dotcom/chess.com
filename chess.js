@@ -346,5 +346,129 @@ const availablePieceMovesObject = {
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
+	},
+
+	rook: function() {
+		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i <= 63; i++) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		
+		for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 8 ); i <= 63; i+=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 8 ); 0 <= i ; i-=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+	},
+
+	knight: function(){
+		function RD (){
+			let i= selectedSquareId + 10;
+			if ((selectedSquareId % 8) < (i%8) && i<63 ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; RD();
+
+		function RU (){
+			let i= selectedSquareId - 10;
+			if ((selectedSquareId % 8) > (i%8)  && i >=0){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; RU();
+
+		function LD (){
+			let i= selectedSquareId + 6;
+			if ((selectedSquareId % 8) > (i%8) && i<63){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; LD();
+
+		function LU (){
+			let i= selectedSquareId - 6;
+			if ((selectedSquareId % 8) < (i%8)  && i >=0 ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; LU();
+
+		function RDD (){
+			let i= selectedSquareId + 17;
+			if ((selectedSquareId % 8) < (i%8) && i<63 ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; RDD();
+
+		function LDD (){
+			let i= selectedSquareId + 15;
+			if ((selectedSquareId % 8) > (i%8) && i<63){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; LDD();
+
+		function LUU (){
+			let i= selectedSquareId - 17;
+			if ((selectedSquareId % 8) > (i%8  && i >=0) ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; LUU();
+
+		function RUU (){
+			let i= selectedSquareId - 15;
+			if ((selectedSquareId % 8) < (i%8) && i >=0 ){
+				grid[i].addEventListener("click", moveToDestination);
+				grid[i].style.boxShadow = highlightDestinationSquares;
+			}
+		}; RUU();
+
+	},
+
+	queen: function (){
+		for (let i = (selectedSquareId + 9); (selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 7); (i % 8) < (selectedSquareId % 8) && i < 64; i+=7) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 7); (selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i <= 63; i++) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		
+		for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId + 8 ); i <= 63; i+=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+		for (let i = (selectedSquareId - 8 ); 0 <= i ; i-=8) {
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+		}
+
 	}
 }
