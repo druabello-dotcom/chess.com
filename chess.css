@@ -3,6 +3,7 @@ body {
 }
 
 .game {
+	--button-padding: 0.75em;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -51,8 +52,67 @@ body {
 	height: var(--square-size);
 }
 
-.pawn {
-	background-color: transparent;
-	text-align: none;
+button {
+	outline: none;
+	background: none;
+	padding: 0;
 	border: none;
+	position: relative;
+}
+
+#resetChessboardButton {
+	margin-right: 2em;
+}
+
+.topLayer {
+	width: 100%;
+	height: 100%;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	padding-right: var(--button-padding);
+	padding-left: var(--button-padding);
+
+	background-color: rgb(255, 255, 238);
+	font-family: monospace;
+	font-size: 1em;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	border-radius: 7mm;
+	outline: 2px solid rgb(36, 38, 34);
+
+	transition: 0.2s;
+}
+
+.bottomLayer {
+	width: 100%;
+	height: 100%;
+	padding-right: var(--button-padding);
+	padding-left: var(--button-padding);
+	padding-top: 1em;
+	padding-bottom: 2.15em;
+
+	background-color: rgb(229, 229, 199);
+	font-family: monospace;
+	font-size: 1em;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	position: relative;
+	top: -2.7em;
+	z-index: -1;
+
+	border-radius: 7mm;
+	outline: 2px solid rgb(36, 38, 34);
+
+	box-shadow: 0px 0.15em 0px 0.2em rgb(171, 171, 171);
+
+}
+
+button:active .topLayer {
+	transform: translateY(0.45em);
 }

@@ -10,28 +10,13 @@
 	
 
 <div class="game">
-	<div id="chessboard" class="chessboard">
-		<span class="piece bishop">
-			<img src="pieces-basic-png/black-bishop.png" alt="bishop">
-		</span>
-		<span class="piece pawn">
-			<img src="pieces-basic-png/black-pawn.png" alt="pawn">
-			</span>
-			
-		<span class="piece rook">
-			<img src="pieces-basic-png/black-rook.png" alt="rook">
-		</span>
-		<span class="piece queen">
-			<img src="pieces-basic-png/black-queen.png" alt="queen">
-		</span>
-		</span>
-		<span class="piece knight">
-			<img src="pieces-basic-png/black-knight.png" alt="knight">
-		</span>
-	</div>
-	</div>
+	<button type="button" id="resetChessboardButton">
+		<div class="topLayer">Reset Chessboard</div>
+		<div class="bottomLayer"></div>
+	</button>
+	<div id="chessboard" class="chessboard"></div>
 </div>
 
-<script src="chess.js"></script>
+<script type="module" src="chess.js"></script>
 </body>
 </html>
