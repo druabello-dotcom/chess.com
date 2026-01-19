@@ -345,9 +345,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -362,9 +360,7 @@ const availablePieceMovesObject = {
 			 if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -379,9 +375,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -396,9 +390,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -416,9 +408,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -434,9 +424,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -451,9 +439,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -468,9 +454,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -490,9 +474,7 @@ const availablePieceMovesObject = {
 				if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -568,9 +550,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -585,9 +565,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -602,9 +580,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -619,9 +595,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -636,9 +610,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 
@@ -655,9 +627,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -671,9 +641,7 @@ const availablePieceMovesObject = {
 			grid[i].style.boxShadow = highlightDestinationSquares;
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
@@ -688,9 +656,7 @@ const availablePieceMovesObject = {
 			if (stateGrid[i]>0 || stateGrid[i]<0 ){
 
 				if(stateGrid[i]>0){
-						function capturePiece(){
-
-						}
+	
 					}
 				else if(stateGrid[i] < 0){
 					grid[i].removeEventListener('click', moveToDestination);
