@@ -18,6 +18,14 @@ for (let row = 0; row < 8; row++) {
 		posIndx++;
 	}
 }
+
+const turnCounter = 0;
+const turnDecider = null;
+function alternatingTurn() {
+	if (turnCounter % 2 === 0) turnDecider = 'white';
+	else turnDecider = 'black';
+}
+
 const stateGrid = [];
 for (let i = 0; i < 64; i++) {
 	stateGrid.push(null);
