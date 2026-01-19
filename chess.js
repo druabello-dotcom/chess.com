@@ -19,12 +19,13 @@ for (let row = 0; row < 8; row++) {
 	}
 }
 
-const turnCounter = 0;
-const turnDecider = null;
+let turnCounter = 0;
+let turnDecider = null;
 function alternatingTurn() {
 	if (turnCounter % 2 === 0) turnDecider = 'white';
 	else turnDecider = 'black';
 }
+alternatingTurn();
 
 const stateGrid = [];
 for (let i = 0; i < 64; i++) {
@@ -127,6 +128,8 @@ const pieceElementsObject = {
 
 classNamePieceArray = document.querySelectorAll('.piece');
 function resetChessboard() {
+	turnCounter = 0;
+	turnDecider = 'white';
 	stateGrid.fill(null);
 	// remove all pieces with class name "piece"
 	for (let i = 0; i < classNamePieceArray.length; i++) {
@@ -247,13 +250,14 @@ function onSquareClick(event) {
 	if (stateGrid[selectedSquareId] === null) {
 		return;
 	}
-	isClicked = true;
-	selectedSquare.style.filter = "brightness(0.4)";
-
 	valueInSquare = stateGrid[selectedSquareId];
 	if (valueInSquare < 0) pieceColor = 'black';
 	else if (0 < valueInSquare) pieceColor = 'white';
 	console.log("Color of piece:  " + pieceColor);
+	if (pieceColor != turnDecider) return; // same player can't move twice in a row
+
+	isClicked = true;
+	selectedSquare.style.filter = "brightness(0.4)";
 
 	// get information about piece
 	pieceType = mapPieces[Math.abs(valueInSquare)];
@@ -297,7 +301,11 @@ function moveToDestination(destination) {
 
 	// pawn's double step rule: (Article 3.7.b), a pawn may move two squares forward on its very first move
 	if (pieceType === 'pawn') pawnHasNotMoved[pieceColor][selectedPieceIndex] = false;
-				
+	
+	// the other player's turn
+	turnCounter++;
+	alternatingTurn();
+
 	// reset after piece has been moved
 	for (let i = 0; i < 64; i++) {
 		grid[i].removeEventListener('click', moveToDestination)
