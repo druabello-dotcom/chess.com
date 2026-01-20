@@ -221,6 +221,15 @@ function resetChessboard() {
 	console.log(stateGrid);
 }
 resetChessboard();
+// customize chessboard color palatte
+const select = document.querySelector('.select');
+const options = document.querySelector('.options');
+const caret = document.querySelector('.caret');
+select.addEventListener('click', () => {
+	options.classList.toggle('options-open');
+	caret.classList.toggle('caret-rotate');
+	select.classList.toggle('select-clicked');
+});
 
 function pointToGridIdx(x, y) {
 	return y * 8 + x;

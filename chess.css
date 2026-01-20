@@ -1,5 +1,86 @@
-body {
-	overflow-y: hidden;
+
+.dropdown {
+	font-family: monospace;
+	width: 15em;
+	height: 100%;
+	position: relative;
+	margin: 2em;
+
+	display: flex;
+	flex-direction: column;
+	border-radius: 2.5mm;
+}
+.dropdown h2 {
+	color: var(--white-square);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.dropdown * {
+	box-sizing: border-box;;
+}
+.select {
+	background-color: var(--white-square);
+	display: flex;
+	margin-right: .5em;
+	margin-left: .5em;
+
+	justify-content: space-between;
+	align-items: center;
+	border: 2px solid;
+	border-radius: 2.5mm;
+	padding: 1em;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+.select:hover {
+	background: #445552;
+}
+.caret {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 6px solid black;
+	transition: 0.3s;
+}
+.caret-rotate {
+	transform: rotate(180deg);
+}
+.select-clicked {
+	border: 2px solid black;
+	box-shadow: 0 0 0.8em black;
+}
+.options {
+	top: 100%;
+	list-style: none;
+	position: absolute;
+	transition: 0.2s;
+	z-index: 1;
+	display: none;
+}
+.options-open {
+	display: flex;
+}
+.options li:hover {
+background-color: #335c81;
+transition: 0.3s;
+width: 100%;
+}
+.options::before {
+	opacity: 0;
+}
+
+.dropdown ul {
+	flex-direction: column;
+	align-items: flex-start;
+	padding-left: 0.5em;
+	color: black;
+	border-radius: 2.5mm;
+	border: 2px solid black;
+	background-color: var(--white-square);
+	margin-left: .5em;
+	width: calc(100% - 1em);
 }
 
 /* Color palattes */
@@ -30,8 +111,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100vh;
-	margin-top: 10vh;
+	height: 75vh;
 }
 
 #chessboard {
