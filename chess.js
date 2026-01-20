@@ -33,6 +33,16 @@ for (let i = 0; i < 64; i++) {
 }
 // grid-array with all square elements
 const grid = Array.from(document.querySelectorAll('.square'));
+grid[0].style.borderTopLeftRadius = "1.5mm"
+grid[7].style.borderTopRightRadius = "1.5mm"
+grid[56].style.borderBottomLeftRadius = "1.5mm";
+grid[63].style.borderBottomRightRadius = "1.5mm";
+for (let i = 0, j = 56, k = 0, l = 7; i < 8; i++,j++, k+=8, l+=8) {
+	grid[i].style.borderTop = "2px solid black"
+	grid[j].style.borderBottom = "2px solid black";
+	grid[k].style.borderLeft = "2px solid black";
+	grid[l].style.borderRight = "2px solid black";
+}
 
 const pieceNumberIdentifier = {
 	black: {
