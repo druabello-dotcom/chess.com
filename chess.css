@@ -31,10 +31,27 @@
 	border-radius: 2.5mm;
 	padding: 1em;
 	cursor: pointer;
-	transition: background 0.3s;
+	transition: 0.3s;
 }
 .select:hover {
-	background: #445552;
+	/*background: #335c81;*/
+	filter: brightness(0.7);
+}
+.options span {
+	width: calc(100% - 0.45em);
+	padding: 0.7em;
+	transition: 0.2s;
+	border-radius: 2mm;
+}
+.options span:first-child {
+	margin-top: 0.5em;
+}
+.options span:last-child {
+	margin-bottom: 0.5em;
+}
+.options span:hover {
+	background-color: #274060;
+	color: white;
 }
 .caret {
 	width: 0;
@@ -49,7 +66,7 @@
 }
 .select-clicked {
 	border: 2px solid black;
-	box-shadow: 0 0 0.8em black;
+	box-shadow: 0 0 0.3em black;
 }
 .options {
 	top: 100%;
@@ -61,14 +78,12 @@
 }
 .options-open {
 	display: flex;
+	box-shadow: 0 0 0.15em black;
 }
 .options li:hover {
 background-color: #335c81;
 transition: 0.3s;
 width: 100%;
-}
-.options::before {
-	opacity: 0;
 }
 
 .dropdown ul {
@@ -84,23 +99,21 @@ width: 100%;
 }
 
 /* Color palattes */
-.freshwaterColorPalatte {
+.freshwater {
 	--black-square: #7e998a;
 	--white-square: antiquewhite; }
-.gothamColorPalatte {
+.gotham {
 	--black-square: #445552;
 	--white-square: antiquewhite; }
-.yaleBlueColorPalatte {
+.yaleBlue {
 	--black-square: #274060;
 	--white-square: antiquewhite; }
-.bileColorPalatte {
+.bile {
 	--black-square: #335c81;
 	--white-square: antiquewhite; }
-
-.defaultColorPalatte {
+.default {
 	--black-square: #95533b;
 	--white-square: antiquewhite; }
-
 :root {
 	--black-square: #95533b;
 	--white-square: antiquewhite; 

@@ -33,6 +33,8 @@ for (let i = 0; i < 64; i++) {
 }
 // grid-array with all square elements
 const grid = Array.from(document.querySelectorAll('.square'));
+
+// chessboard styling
 grid[0].style.borderTopLeftRadius = "1.5mm"
 grid[7].style.borderTopRightRadius = "1.5mm"
 grid[56].style.borderBottomLeftRadius = "1.5mm";
@@ -221,7 +223,8 @@ function resetChessboard() {
 	console.log(stateGrid);
 }
 resetChessboard();
-// customize chessboard color palatte
+
+// toggle dropdown menu
 const select = document.querySelector('.select');
 const options = document.querySelector('.options');
 const caret = document.querySelector('.caret');
@@ -230,6 +233,19 @@ select.addEventListener('click', () => {
 	caret.classList.toggle('caret-rotate');
 	select.classList.toggle('select-clicked');
 });
+// choose colorway
+let colorwayArray = [];
+const colorwayElements = [...document.querySelectorAll('.options span')];
+for (let i = 1; i <= colorwayElements.length; i++) colorwayArray.push(i);
+for (let i = 0;  i < colorwayArray.length; i++) {
+	colorwayElements[i].addEventListener('click', (event) => {
+		let selectedColorway = event.target.id;
+		let blackSquareColor = grid[1].style.backgroundColor;
+		chessboard.className ='';
+		chessboard.classList.add(selectedColorway);
+	})
+}
+
 
 function pointToGridIdx(x, y) {
 	return y * 8 + x;
