@@ -235,14 +235,12 @@ select.addEventListener('click', () => {
 });
 // choose colorway
 let colorwayArray = [];
-const colorwayElements = [...document.querySelectorAll('.options span')];
+const colorwayElements = Array.from(document.querySelectorAll('.options span'));
 for (let i = 1; i <= colorwayElements.length; i++) colorwayArray.push(i);
 for (let i = 0;  i < colorwayArray.length; i++) {
 	colorwayElements[i].addEventListener('click', (event) => {
 		let selectedColorway = event.target.id;
-		let blackSquareColor = grid[1].style.backgroundColor;
-		chessboard.className ='';
-		chessboard.classList.add(selectedColorway);
+		chessboard.className = selectedColorway;
 	})
 }
 
