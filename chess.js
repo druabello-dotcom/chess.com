@@ -142,7 +142,7 @@ classNamePieceArray = document.querySelectorAll('.piece');
 function resetChessboard() {
 	turnCounter = 0;
 	turnDecider = 'white';
-	stateGrid.fill(null);
+	stateGrid.fill(0);
 	// remove all pieces with class name "piece"
 	for (let i = 0; i < classNamePieceArray.length; i++) {
 		classNamePieceArray[i].remove();
@@ -284,7 +284,7 @@ function onSquareClick(event) {
 	if (isClicked) return;
 
 	// check if selected square has a piece or not
-	if (stateGrid[selectedSquareId] === null) {
+	if (stateGrid[selectedSquareId] === 0) {
 		return;
 	}
 	valueInSquare = stateGrid[selectedSquareId];
@@ -327,7 +327,7 @@ function moveToDestination(destination) {
 	selectedPiece.style.top = (y_squareCoordinate - subtractBoardDimentionHeight) + "px"; 
 
 	// update stateGrid
-	stateGrid[selectedSquareId] = null;
+	stateGrid[selectedSquareId] = 0;
 	stateGrid[destinationSquare.id] = valueInSquare;
 	console.log(stateGrid);
 
