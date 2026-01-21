@@ -408,91 +408,85 @@ const availablePieceMovesObject = {
 	},
 	rook: function() {
 		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i <= 63; i++) {
+			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
 		
 		for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
+			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
 		for (let i = (selectedSquareId + 8 ); i <= 63; i+=8) {
+			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
 		for (let i = (selectedSquareId - 8 ); 0 <= i ; i-=8) {
+			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
 	},
-
 	knight: function(){
 		function RD (){
-			let i= selectedSquareId + 10;
-			if ((selectedSquareId % 8) < (i%8) && i<63 ){
+			let i = selectedSquareId + 10;
+			if ((selectedSquareId % 8) < (i % 8) && i < 64 && checkIfPieceOnSquare(i) === true){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
 		}; RD();
-
 		function RU (){
-			let i= selectedSquareId - 10;
-			if ((selectedSquareId % 8) > (i%8)  && i >=0){
+			let i = selectedSquareId - 10;
+			if ((selectedSquareId % 8) > (i % 8) && i >= 0 && checkIfPieceOnSquare(i) == true){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
 		}; RU();
-
 		function LD (){
-			let i= selectedSquareId + 6;
-			if ((selectedSquareId % 8) > (i%8) && i<63){
+			let i = selectedSquareId + 6;
+			if ((selectedSquareId % 8) > (i % 8) && i < 64 && checkIfPieceOnSquare(i) === true){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
 		}; LD();
-
 		function LU (){
-			let i= selectedSquareId - 6;
-			if ((selectedSquareId % 8) < (i%8)  && i >=0 ){
+			let i = selectedSquareId - 6;
+			if ((selectedSquareId % 8) < (i % 8)  && i >= 0 && checkIfPieceOnSquare(i) == true){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
 		}; LU();
-
 		function RDD (){
-			let i= selectedSquareId + 17;
-			if ((selectedSquareId % 8) < (i%8) && i<63 ){
+			let i = selectedSquareId + 17;
+			if ((selectedSquareId % 8) < (i % 8) && i < 64 && checkIfPieceOnSquare(i) == true){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
 		}; RDD();
-
 		function LDD (){
-			let i= selectedSquareId + 15;
-			if ((selectedSquareId % 8) > (i%8) && i<63){
+			let i = selectedSquareId + 15;
+			if ((selectedSquareId % 8) > (i % 8) && i < 64 && checkIfPieceOnSquare(i) === true){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
 		}; LDD();
-
 		function LUU (){
-			let i= selectedSquareId - 17;
-			if ((selectedSquareId % 8) > (i%8  && i >=0) ){
+			let i = selectedSquareId - 17;
+			if ((selectedSquareId % 8) > (i % 8)  && i >= 0 && checkIfPieceOnSquare(i) === true){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
 		}; LUU();
-
 		function RUU (){
-			let i= selectedSquareId - 15;
-			if ((selectedSquareId % 8) < (i%8) && i >=0 ){
+			let i = selectedSquareId - 15;
+			if ((selectedSquareId % 8) < (i % 8) && i >= 0 && checkIfPieceOnSquare(i) === true){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
 			}
 		}; RUU();
-
 	},
-
 	queen: function (){
 		for (let i = (selectedSquareId + 9); (selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
 			grid[i].addEventListener('click', moveToDestination);
