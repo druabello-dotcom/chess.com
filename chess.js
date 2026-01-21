@@ -557,5 +557,16 @@ const availablePieceMovesObject = {
 			grid[selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
 		}
 	}
+}
 
+function checkIfPieceOnSquare(i) {
+	let otherPieceColor = 0;
+	let otherPieceValue = stateGrid[i];
+	if (otherPieceValue < 0) otherPieceColor = 'black';
+	else if (0 < otherPieceValue) otherPieceColor = 'white';
+	console.log(otherPieceValue);
+	console.log(otherPieceColor);
+	console.log("du kan ikke bevege deg her")
+	if (pieceColor === otherPieceColor) return false;
+	else return true;
 }
