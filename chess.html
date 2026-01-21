@@ -8,13 +8,27 @@
 </head>
 <body>
 	
+<div class="dropdown">
+	<h2>Color palattes</h2>
+	<div class="select">
+		<span class="selected">Default</span>
+		<div class="caret"></div>
+	</div>
+	<ul class="options">
+		<span id="default">Default</span>
+		<span id="freshwater">Freshwater</span>
+		<span id="gotham">Gotham</span>
+		<span id="yaleBlue">Yale Blue</span>
+		<span id="bile">"Bile"</span>
+	</ul>
+</div>
 
 <div class="game">
 	<button type="button" id="resetChessboardButton">
 		<div class="topLayer">Reset Chessboard</div>
 		<div class="bottomLayer"></div>
 	</button>
-	<div id="chessboard" class="chessboard"></div>
+	<div id="chessboard" class="default" ></div>
 </div>
 
 <script type="module" src="chess.js"></script>

@@ -34,6 +34,18 @@ for (let i = 0; i < 64; i++) {
 // grid-array with all square elements
 const grid = Array.from(document.querySelectorAll('.square'));
 
+// chessboard styling
+grid[0].style.borderTopLeftRadius = "1.5mm"
+grid[7].style.borderTopRightRadius = "1.5mm"
+grid[56].style.borderBottomLeftRadius = "1.5mm";
+grid[63].style.borderBottomRightRadius = "1.5mm";
+for (let i = 0, j = 56, k = 0, l = 7; i < 8; i++,j++, k+=8, l+=8) {
+	grid[i].style.borderTop = "2px solid black"
+	grid[j].style.borderBottom = "2px solid black";
+	grid[k].style.borderLeft = "2px solid black";
+	grid[l].style.borderRight = "2px solid black";
+}
+
 const pieceNumberIdentifier = {
 	black: {
 		 pawn: -1,
@@ -211,6 +223,31 @@ function resetChessboard() {
 	console.log(stateGrid);
 }
 resetChessboard();
+
+// toggle dropdown menu
+const select = document.querySelector('.select');
+const options = document.querySelector('.options');
+const caret = document.querySelector('.caret');
+select.addEventListener('click', () => {
+	options.classList.toggle('options-open');
+	caret.classList.toggle('caret-rotate');
+	select.classList.toggle('select-clicked');
+});
+// choose colorway
+let colorwayArray = [];
+const colorwayElements = Array.from(document.querySelectorAll('.options span'));
+let colorIndicator = document.querySelector('.selected');
+for (let i = 1; i <= colorwayElements.length; i++) colorwayArray.push(i);
+for (let i = 0;  i < colorwayArray.length; i++) {
+	colorwayElements[i].addEventListener('click', (event) => {
+		let selectedColorway = event.target.id;
+		let selectedColorwayText = event.target.innerText;
+		chessboard.className = selectedColorway;
+		colorIndicator.innerText = selectedColorwayText;
+
+	})
+}
+
 
 function pointToGridIdx(x, y) {
 	return y * 8 + x;
