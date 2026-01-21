@@ -407,7 +407,7 @@ const availablePieceMovesObject = {
 		}
 	},
 	rook: function() {
-		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i <= 63; i++) {
+		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < (i % 8) && i < 64; i++) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
@@ -418,12 +418,12 @@ const availablePieceMovesObject = {
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
-		for (let i = (selectedSquareId + 8 ); i <= 63; i+=8) {
+		for (let i = (selectedSquareId + 8); i < 64; i+=8) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
-		for (let i = (selectedSquareId - 8 ); 0 <= i ; i-=8) {
+		for (let i = (selectedSquareId - 8); 0 <= i ; i-=8) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
@@ -489,71 +489,90 @@ const availablePieceMovesObject = {
 	},
 	queen: function (){
 		for (let i = (selectedSquareId + 9); (selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
+			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
 		for (let i = (selectedSquareId + 7); (i % 8) < (selectedSquareId % 8) && i < 64; i+=7) {
+			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
 		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
+			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
 		for (let i = (selectedSquareId - 7); (selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
+			if (checkIfPieceOnSquare(i) === false) break;
+			checkIfPieceOnSquare(i);
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
-		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i <= 63; i++) {
+		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i < 64; i++) {
+			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
 		
 		for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
+			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
-		for (let i = (selectedSquareId + 8 ); i <= 63; i+=8) {
+		for (let i = (selectedSquareId + 8); i < 64; i+=8) {
+			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
-		for (let i = (selectedSquareId - 8 ); 0 <= i ; i-=8) {
+		for (let i = (selectedSquareId - 8); 0 <= i ; i-=8) {
+			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		}
 	},
 	king: function() {
-		if (0 < (selectedSquareId - 9) && (selectedSquareId - 9) % 8 < selectedSquareId % 8) {
+		if (0 <= (selectedSquareId - 9) && (selectedSquareId - 9) % 8 < selectedSquareId % 8 && checkIfPieceOnSquare(selectedSquareId - 9) === true) {
 			grid[selectedSquareId - 9].addEventListener('click', moveToDestination);
 			grid[selectedSquareId - 9].style.boxShadow = highlightDestinationSquares;
 		}
-		if (0 < (selectedSquareId - 1) && (selectedSquareId - 1) % 8 < selectedSquareId % 8) {
+		if (0 <= (selectedSquareId - 1) && (selectedSquareId - 1) % 8 < selectedSquareId % 8 && checkIfPieceOnSquare(selectedSquareId - 1) === true) {
 			grid[selectedSquareId - 1].addEventListener('click', moveToDestination);
 			grid[selectedSquareId - 1].style.boxShadow = highlightDestinationSquares;
 		}
-		if ((selectedSquareId + 7) < 64 && (selectedSquareId + 7) % 8 < selectedSquareId % 8) {
+		if ((selectedSquareId + 7) < 64 && (selectedSquareId + 7) % 8 < selectedSquareId % 8 && checkIfPieceOnSquare(selectedSquareId + 7) === true) {
 			grid[selectedSquareId + 7].addEventListener('click', moveToDestination);
 			grid[selectedSquareId + 7].style.boxShadow = highlightDestinationSquares;
 		}
 		if ((selectedSquareId + 8) < 64) {
-			grid[selectedSquareId + 8].addEventListener('click', moveToDestination);
-			grid[selectedSquareId + 8].style.boxShadow = highlightDestinationSquares;
+			if (checkIfPieceOnSquare(selectedSquareId + 8) === true) {
+				grid[selectedSquareId + 8].addEventListener('click', moveToDestination);
+				grid[selectedSquareId + 8].style.boxShadow = highlightDestinationSquares;
+			}
 		}
 		if ((selectedSquareId + 9) < 64 && selectedSquareId % 8 < (selectedSquareId + 9) % 8) {
-			grid[selectedSquareId + 9].addEventListener('click', moveToDestination);
-			grid[selectedSquareId + 9].style.boxShadow = highlightDestinationSquares;
+			if (checkIfPieceOnSquare(selectedSquareId + 9) === true) {
+				grid[selectedSquareId + 9].addEventListener('click', moveToDestination);
+				grid[selectedSquareId + 9].style.boxShadow = highlightDestinationSquares;
+			} // if false, capturePiece()
 		}
 		if ((selectedSquareId + 1) < 64 && selectedSquareId % 8 < (selectedSquareId + 1) % 8) {
-			grid[selectedSquareId + 1].addEventListener('click', moveToDestination);
-			grid[selectedSquareId + 1].style.boxShadow = highlightDestinationSquares;
+			if (checkIfPieceOnSquare(selectedSquareId + 1) === true) {
+				grid[selectedSquareId + 1].addEventListener('click', moveToDestination);
+				grid[selectedSquareId + 1].style.boxShadow = highlightDestinationSquares;
+			}
 		}
-		if (0 < (selectedSquareId - 7) && selectedSquareId % 8 < (selectedSquareId - 7) % 8) {
-			grid[selectedSquareId - 7].addEventListener('click', moveToDestination);
-			grid[selectedSquareId - 7].style.boxShadow = highlightDestinationSquares;
+		if (0 <= (selectedSquareId - 7) && selectedSquareId % 8 < (selectedSquareId - 7) % 8) {
+			if (checkIfPieceOnSquare(selectedSquareId - 7) === true) {
+				grid[selectedSquareId - 7].addEventListener('click', moveToDestination);
+				grid[selectedSquareId - 7].style.boxShadow = highlightDestinationSquares;
+			}
 		}
-		if (0 < selectedSquareId - 8) {
-			grid[selectedSquareId - 8].addEventListener('click', moveToDestination); 
-			grid[selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
+		if (0 <= selectedSquareId - 8) {
+			if (checkIfPieceOnSquare(selectedSquareId - 8) === true) {
+				grid[selectedSquareId - 8].addEventListener('click', moveToDestination); 
+				grid[selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
+			}
 		}
 	}
 }
