@@ -236,13 +236,14 @@ select.addEventListener('click', () => {
 // choose colorway
 let colorwayArray = [];
 const colorwayElements = Array.from(document.querySelectorAll('.options span'));
-let selectIndicator = document.querySelector('.selected');
+let colorIndicator = document.querySelector('.selected');
 for (let i = 1; i <= colorwayElements.length; i++) colorwayArray.push(i);
 for (let i = 0;  i < colorwayArray.length; i++) {
 	colorwayElements[i].addEventListener('click', (event) => {
 		let selectedColorway = event.target.id;
+		let selectedColorwayText = event.target.innerText;
 		chessboard.className = selectedColorway;
-		selectIndicator.innerText = selectedColorway;
+		colorIndicator.innerText = selectedColorwayText;
 
 	})
 }
