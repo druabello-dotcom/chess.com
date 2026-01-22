@@ -151,6 +151,8 @@ classNamePieceArray = document.querySelectorAll('.piece');
 function resetChessboard() {
 	turnCounter = 0;
 	turnDecider = 'white';
+	turnDeciderText.innerText = "White to move";
+	turnDeciderColorIndicator.className = "turn-white";
 	stateGrid.fill(0);
 	// remove all pieces with class name "piece"
 	for (let i = 0; i < classNamePieceArray.length; i++) {
