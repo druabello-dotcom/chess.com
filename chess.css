@@ -250,7 +250,14 @@ button:active .topLayer {
 #turnDeciderColorIndicator {
 	margin-right: 1em;
 	padding: .8em;
-	background-color: #fff;
-	border: 2px solid black;
 	border-radius: 1.5mm;
+}
+.turn-white {
+	background-color: white;
+	border: 2px solid black;
+}
+.turn-black {
+	background-color: black;
+	border: 2px solid white;
+	outline: 2px solid black;
 }

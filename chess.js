@@ -21,9 +21,18 @@ for (let row = 0; row < 8; row++) {
 
 let turnCounter = 0;
 let turnDecider = null;
+let turnDeciderText = document.getElementById('turnDecider');
+let turnDeciderColorIndicator = document.getElementById('turnDeciderColorIndicator');
 function alternatingTurn() {
-	if (turnCounter % 2 === 0) turnDecider = 'white';
-	else turnDecider = 'black';
+	if (turnCounter % 2 === 0) {
+		turnDecider = 'white'
+		turnDeciderText.innerText = "White to move";
+		turnDeciderColorIndicator.className = "turn-white";
+	} else {
+		turnDecider = 'black'
+		turnDeciderText.innerText = "Black to move";
+		turnDeciderColorIndicator.className = "turn-black";
+	};
 }
 alternatingTurn();
 
