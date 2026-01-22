@@ -119,6 +119,7 @@ width: 100%;
 }
 
 .game {
+	--square-size: 4em;
 	--button-padding: 0.75em;
 	display: flex;
 	flex-direction: column;
@@ -128,7 +129,6 @@ width: 100%;
 }
 
 #chessboard {
-	--square-size: 4em;
 	position: relative;
 	display: grid;
 	grid-template-columns: repeat(8, var(--square-size));
@@ -230,13 +230,17 @@ button {
 button:active .topLayer {
 	transform: translateY(0.45em);
 }
-
+.top-ui {
+	width: calc(8 * var(--square-size));
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 0.5em;
+}
 .turn-decider {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 2em;
 
 	font-family: monospace;
 	
