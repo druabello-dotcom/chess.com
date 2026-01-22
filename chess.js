@@ -20,6 +20,7 @@ for (let row = 0; row < 8; row++) {
 }
 
 let turnCounter = 0;
+let turnCounterElement = document.getElementById('turn-counter');
 let turnDecider = null;
 let turnDeciderText = document.getElementById('turnDecider');
 let turnDeciderColorIndicator = document.getElementById('turnDeciderColorIndicator');
@@ -150,6 +151,7 @@ const pieceElementsObject = {
 classNamePieceArray = document.querySelectorAll('.piece');
 function resetChessboard() {
 	turnCounter = 0;
+	turnCounterElement.innerText = "Turn counter:  " + turnCounter;
 	turnDecider = 'white';
 	turnDeciderText.innerText = "White to move";
 	turnDeciderColorIndicator.className = "turn-white";
@@ -353,6 +355,7 @@ function moveToDestination(destination) {
 	
 	// the other player's turn
 	turnCounter++;
+	turnCounterElement.innerText = "Turn counter:  " + turnCounter;
 	alternatingTurn();
 
 	// reset after piece has been moved

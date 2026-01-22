@@ -233,7 +233,8 @@ button:active .topLayer {
 .top-ui {
 	width: calc(8 * var(--square-size));
 	display: flex;
-	justify-content: flex-end;
+	flex-direction: row;
+	justify-content: space-between;
 	margin-bottom: 0.5em;
 }
 .turn-decider {
@@ -264,4 +265,15 @@ button:active .topLayer {
 	background-color: black;
 	border: 2px solid white;
 	outline: 2px solid black;
+}
+
+#turn-counter {
+	display: flex;
+	align-items: center;
+	font-family: monospace;
+	
+	border: 2px solid black;
+	border-radius: 2.5mm;
+	padding: 0.4em 0.4em;
+	padding-right: 0.8em;
 }
