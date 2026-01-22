@@ -1,11 +1,3 @@
-.game {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-
-
 .dropdown {
 	font-family: monospace;
 	width: 15em;
@@ -129,6 +121,7 @@ width: 100%;
 .game {
 	--button-padding: 0.75em;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	height: 75vh;
@@ -236,4 +229,28 @@ button {
 
 button:active .topLayer {
 	transform: translateY(0.45em);
+}
+
+.turn-decider {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 2em;
+
+	font-family: monospace;
+	
+	border: 2px solid black;
+	border-radius: 2.5mm;
+	padding: 0.4em 0.4em;
+}
+#turnDecider {
+	padding-right: 0.5em;
+}
+#turnDeciderColorIndicator {
+	margin-right: 1em;
+	padding: .8em;
+	background-color: #fff;
+	border: 2px solid black;
+	border-radius: 1.5mm;
 }
