@@ -49,7 +49,7 @@
 	margin-bottom: 0.5em;
 }
 .options span:hover {
-	background-color: #274060;
+	background-color: #95533b;
 	color: white;
 }
 .caret {
@@ -80,7 +80,7 @@
 	box-shadow: 0 0 0.15em black;
 }
 .options li:hover {
-background-color: #335c81;
+background-color: #95533b;
 transition: 0.3s;
 width: 100%;
 }
