@@ -294,7 +294,7 @@ let isClicked = false;
 function onSquareClick(event) {
 	selectedSquare = event.target;
 	selectedSquareId = Number(event.target.id);
-	if (isClicked) return;
+	if (isClicked === true) return;
 
 	// check if selected square has a piece or not
 	if (stateGrid[selectedSquareId] === 0) {
@@ -324,12 +324,40 @@ function onSquareClick(event) {
 	for (let i = 0; i < 64; i++) {
 		grid[i].removeEventListener('click', onSquareClick);
 	}
+	grid[selectedSquareId].addEventListener('click', moveToDestination)
 	availablePieceMovesObject[pieceType]();
+}
+
+function resetOnSquareClick() {
+	selectedSquare.style.filter = "brightness(1)";
+	isClicked = false;
+	selectedSquare = null;
+	selectedSquareId = null;
+	destinationSquare = null;
+
+	selectedPiece = null; 
+	selectedPieceArray = null;
+	selectedPieceIndex = null;
+	pieceType = null;
+	valueInSquare = null;
+	pieceColor = null;
+
+	x_squareCoordinate = null;
+	y_squareCoordinate = null;
+	for (let i = 0; i < 64; i++) {
+		grid[i].removeEventListener('click', moveToDestination)
+		grid[i].addEventListener('click', onSquareClick);
+		grid[i].style.boxShadow = "";
+	}
 }
 
 function moveToDestination(destination) {
 	// register destination square
 	destinationSquare = destination.target;
+	if (Number(destinationSquare.id) === selectedSquareId) {
+		resetOnSquareClick();
+		return;
+	};
 	x_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].x_coordinate);
 	y_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].y_coordinate);
 	console.log(x_squareCoordinate + ", " + y_squareCoordinate);
