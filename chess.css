@@ -151,7 +151,7 @@ width: 100%;
 }
 
 .square:hover {
-	filter: brightness(0.4);
+	filter: brightness(0.7);
 	border-width: 0.16em;
 	border-radius: 0.11em;
 }
