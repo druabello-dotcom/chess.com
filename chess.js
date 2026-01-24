@@ -268,7 +268,6 @@ for (let i = 0;  i < colorwayArray.length; i++) {
 	})
 }
 
-
 function pointToGridIdx(x, y) {
 	return y * 8 + x;
 }
@@ -285,7 +284,8 @@ let isClicked = false;
 	let selectedSquare = null;
 	let selectedSquareId = null;
 	let destinationSquare = null;
-
+	let clickOnPieceToReset = []; // determines what squares activates resetOnSquareClick()
+	
 	// information about the piece inside selected square
 	let selectedPiece = null; 
 	let selectedPieceArray = null;
@@ -328,14 +328,25 @@ function onSquareClick(event) {
 	console.log(selectedPiece);
 
 	// add eventListeners for available square for corresponding piece
+	// determine what squares shall activate resetOnSquareClick()
 	for (let i = 0; i < 64; i++) {
 		grid[i].removeEventListener('click', onSquareClick);
+		if (stateGrid[i] < 0 && pieceColor === 'black') { // 
+			grid[i].addEventListener('click', moveToDestination);
+			clickOnPieceToReset.push(i);
+		} else if (0 < stateGrid[i] && pieceColor === 'white') {
+			grid[i].addEventListener('click', moveToDestination);
+			clickOnPieceToReset.push(i);
+		} 
 	}
-	grid[selectedSquareId].addEventListener('click', moveToDestination)
 	availablePieceMovesObject[pieceType]();
 }
 
 function resetOnSquareClick() {
+	// reset array
+	while (0 < clickOnPieceToReset.length) {
+		clickOnPieceToReset.pop();
+	}
 	selectedSquare.style.filter = "brightness(1)";
 	isClicked = false;
 	selectedSquare = null;
@@ -361,10 +372,14 @@ function resetOnSquareClick() {
 function moveToDestination(destination) {
 	// register destination square
 	destinationSquare = destination.target;
-	if (Number(destinationSquare.id) === selectedSquareId) {
-		resetOnSquareClick();
-		return;
-	};
+
+	// if user clicks on a piece with same color, activate resetOnSquareClick()
+	for (let i = 0; i < clickOnPieceToReset.length; i++) {
+		if (Number(destinationSquare.id) === clickOnPieceToReset[i]) {
+			resetOnSquareClick();
+			return;
+		}
+	}
 	x_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].x_coordinate);
 	y_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].y_coordinate);
 	console.log(x_squareCoordinate + ", " + y_squareCoordinate);
@@ -381,7 +396,6 @@ function moveToDestination(destination) {
 
 	// update pieceSquarePositionArray
 	pieceSquarePositionArray[pieceColor][pieceType][selectedPieceIndex] = Number(destinationSquare.id);
-
 	console.log("Black " + pieceType + ":  " +  pieceSquarePositionArray.black[pieceType]);
 	console.log("White " + pieceType + ":  " + pieceSquarePositionArray.white[pieceType]);
 
