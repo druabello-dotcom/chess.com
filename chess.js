@@ -49,12 +49,19 @@ grid[0].style.borderTopLeftRadius = "1.5mm"
 grid[7].style.borderTopRightRadius = "1.5mm"
 grid[56].style.borderBottomLeftRadius = "1.5mm";
 grid[63].style.borderBottomRightRadius = "1.5mm";
-for (let i = 0, j = 56, k = 0, l = 7; i < 8; i++,j++, k+=8, l+=8) {
+/* for (let i = 0, j = 56, k = 0, l = 7; i < 8; i++,j++, k+=8, l+=8) {
+	grid[i].style.boxShadow = "0 -2px black";
+	grid[j].style.boxShadow = "0 2px black";
+	grid[k].style.boxShadow = "-2px 0 black";
+	grid[l].style.boxShadow = "2px 2px black";
+} */
+
+/* for (let i = 0, j = 56, k = 0, l = 7; i < 8; i++,j++, k+=8, l+=8) {
 	grid[i].style.borderTop = "2px solid black"
 	grid[j].style.borderBottom = "2px solid black";
 	grid[k].style.borderLeft = "2px solid black";
 	grid[l].style.borderRight = "2px solid black";
-}
+} */
 
 const pieceNumberIdentifier = {
 	black: {
@@ -261,7 +268,6 @@ for (let i = 0;  i < colorwayArray.length; i++) {
 	})
 }
 
-
 function pointToGridIdx(x, y) {
 	return y * 8 + x;
 }
@@ -278,7 +284,8 @@ let isClicked = false;
 	let selectedSquare = null;
 	let selectedSquareId = null;
 	let destinationSquare = null;
-
+	let clickOnPieceToReset = []; // determines what squares activates resetOnSquareClick()
+	
 	// information about the piece inside selected square
 	let selectedPiece = null; 
 	let selectedPieceArray = null;
@@ -294,7 +301,7 @@ let isClicked = false;
 function onSquareClick(event) {
 	selectedSquare = event.target;
 	selectedSquareId = Number(event.target.id);
-	if (isClicked) return;
+	if (isClicked === true) return;
 
 	// check if selected square has a piece or not
 	if (stateGrid[selectedSquareId] === 0) {
@@ -321,15 +328,58 @@ function onSquareClick(event) {
 	console.log(selectedPiece);
 
 	// add eventListeners for available square for corresponding piece
+	// determine what squares shall activate resetOnSquareClick()
 	for (let i = 0; i < 64; i++) {
 		grid[i].removeEventListener('click', onSquareClick);
+		if (stateGrid[i] < 0 && pieceColor === 'black') { // 
+			grid[i].addEventListener('click', moveToDestination);
+			clickOnPieceToReset.push(i);
+		} else if (0 < stateGrid[i] && pieceColor === 'white') {
+			grid[i].addEventListener('click', moveToDestination);
+			clickOnPieceToReset.push(i);
+		} 
 	}
 	availablePieceMovesObject[pieceType]();
+}
+
+function resetOnSquareClick() {
+	// reset array
+	while (0 < clickOnPieceToReset.length) {
+		clickOnPieceToReset.pop();
+	}
+	selectedSquare.style.filter = "brightness(1)";
+	isClicked = false;
+	selectedSquare = null;
+	selectedSquareId = null;
+	destinationSquare = null;
+
+	selectedPiece = null; 
+	selectedPieceArray = null;
+	selectedPieceIndex = null;
+	pieceType = null;
+	valueInSquare = null;
+	pieceColor = null;
+
+	x_squareCoordinate = null;
+	y_squareCoordinate = null;
+	for (let i = 0; i < 64; i++) {
+		grid[i].removeEventListener('click', moveToDestination)
+		grid[i].addEventListener('click', onSquareClick);
+		grid[i].style.boxShadow = "";
+	}
 }
 
 function moveToDestination(destination) {
 	// register destination square
 	destinationSquare = destination.target;
+
+	// if user clicks on a piece with same color, activate resetOnSquareClick()
+	for (let i = 0; i < clickOnPieceToReset.length; i++) {
+		if (Number(destinationSquare.id) === clickOnPieceToReset[i]) {
+			resetOnSquareClick();
+			return;
+		}
+	}
 	x_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].x_coordinate);
 	y_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].y_coordinate);
 	console.log(x_squareCoordinate + ", " + y_squareCoordinate);
@@ -346,7 +396,6 @@ function moveToDestination(destination) {
 
 	// update pieceSquarePositionArray
 	pieceSquarePositionArray[pieceColor][pieceType][selectedPieceIndex] = Number(destinationSquare.id);
-
 	console.log("Black " + pieceType + ":  " +  pieceSquarePositionArray.black[pieceType]);
 	console.log("White " + pieceType + ":  " + pieceSquarePositionArray.white[pieceType]);
 
