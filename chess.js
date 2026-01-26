@@ -442,6 +442,30 @@ function moveToDestination(destination) {
 	isClicked = false;
 }
 
+function resetOnSquareClickInfo() {
+	for (let i = 0; i < 64; i++) {
+		grid[i].removeEventListener('click', moveToDestination)
+		grid[i].addEventListener('click', onSquareClick);
+		grid[i].style.boxShadow = "";
+	}
+	selectedSquare.style.filter = "brightness(1)";
+	isClicked = false;
+
+	selectedSquare = null;
+	selectedSquareId = null;
+	destinationSquare = null;
+
+	selectedPiece = null; 
+	selectedPieceArray = null;
+	selectedPieceIndex = null;
+	pieceType = null;
+	valueInSquare = null;
+	pieceColor = null;
+
+	x_squareCoordinate = null;
+	y_squareCoordinate = null;
+}
+
 const highlightDestinationSquares = "inset 0 0 0 0.25em #80EF80";
 const availablePieceMovesObject = {
 	pawn: function() {
