@@ -655,6 +655,46 @@ const availablePieceMovesObject = {
 	}
 }
 
+function makeKingCastle() {
+	// move king visually
+	// move rook visually
+	// then update them in stateGrid & pieceSquarePositionArray
+	// then set
+	piecesHasNotMoved[pieceColor].king = false;
+	if (Number(destinationSquare.id) === selectedSquareId - 2) {// castle to left
+		piecesHasNotMoved[pieceColor].rook[0] = false;
+		// move king visually
+		x_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].x_coordinate);
+		y_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].y_coordinate);
+		selectedPiece.style.left = (x_squareCoordinate - subtractBoardDimentionWidth) + "px";
+		selectedPiece.style.top = (y_squareCoordinate - subtractBoardDimentionHeight) + "px";
+
+		// move rook visually
+		let selectedRook = pieceElementsObject[pieceColor].rook[0];
+		let x_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId - 1].x_coordinate);
+		let y_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId - 1].x_coordinate);
+		let selectedCastlingRook = pieceElementsObject[pieceColor].rook[0];
+		selectedCastlingRook.style.left = (x_squareCoordinateRook - subtractBoardDimentionWidth) + "px";
+		selectedCastlingRook.style.top = (y_squareCoordinateRook - subtractBoardDimentionHeight) + "px";
+
+		//update stateGrid for KING & ROOK
+		stateGrid[selectedSquareId] = 0;
+		stateGrid[destinationSquare.id] = pieceNumberIdentifier[pieceColor].king // king has moved and registered
+		stateGrid[selectedSquareId - 1] = pieceNumberIdentifier[pieceColor].rook; // rook has moved and registered
+
+		//update pieceSquarePositionArray
+		pieceSquarePositionArray[pieceColor].king[selectedPieceIndex] = Number(destinationSquare.id);
+		pieceSquarePositionArray[pieceColor].rook[0] = selectedSquareId - 1;
+		
+	} else if (Number(destinationSquare.id) === selectedSquareId + 2) { // castle to right
+		piecesHasNotMoved[pieceColor].rook[1] = false
+	}
+	selectedSquare.style.filter = "brightness(1)";
+	turnCounter++;
+	turnCounterElement.innerText = "Turner counter:  " + turnCounter;
+	alternatingTurn();
+}
+
 function checkIfPieceOnSquare(i) {
 	let otherPieceColor = 0;
 	let otherPieceValue = stateGrid[i];
