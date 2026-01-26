@@ -115,12 +115,12 @@ let piecesHasNotMoved = {
 	black: {
 		pawn: [true, true, true, true, true, true, true, true],
 		king: true,
-		rook: true
+		rook: [true, true]
 	},
 	white: {
 		pawn: [true, true, true, true, true, true, true, true], 
 		king: true,
-		rook: true
+		rook: [true, true]
 	}
 }
 const pawnHasNotMoved = {
