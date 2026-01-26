@@ -110,7 +110,7 @@ const pieceSquarePositionArray = {
 };
 ;
 
-let letKingCastle = false;
+let letKingCastle = true;
 let piecesHasNotMoved = {
 	black: {
 		pawn: [true, true, true, true, true, true, true, true],
@@ -362,36 +362,21 @@ function resetOnSquareClick() {
 	while (0 < clickOnPieceToReset.length) {
 		clickOnPieceToReset.pop();
 	}
-	selectedSquare.style.filter = "brightness(1)";
-	isClicked = false;
-	selectedSquare = null;
-	selectedSquareId = null;
-	destinationSquare = null;
-
-	selectedPiece = null; 
-	selectedPieceArray = null;
-	selectedPieceIndex = null;
-	pieceType = null;
-	valueInSquare = null;
-	pieceColor = null;
-
-	x_squareCoordinate = null;
-	y_squareCoordinate = null;
-	for (let i = 0; i < 64; i++) {
-		grid[i].removeEventListener('click', moveToDestination)
-		grid[i].addEventListener('click', onSquareClick);
-		grid[i].style.boxShadow = "";
-	}
 }
 
 function moveToDestination(destination) {
 	// register destination square
 	destinationSquare = destination.target;
+	if (pieceType === 'king' && letKingCastle === true && Number(destinationSquare.id) === (selectedSquareId - 2)) { // check if piece there are any pieces between rook and king
+		makeKingCastle();
+		return;
+	} 
 
 	// if user clicks on a piece with same color, activate resetOnSquareClick()
 	for (let i = 0; i < clickOnPieceToReset.length; i++) {
 		if (Number(destinationSquare.id) === clickOnPieceToReset[i]) {
 			resetOnSquareClick();
+			resetOnSquareClickInfo();
 			return;
 		}
 	}
@@ -423,23 +408,8 @@ function moveToDestination(destination) {
 	alternatingTurn();
 
 	// reset after piece has been moved
-	for (let i = 0; i < 64; i++) {
-		grid[i].removeEventListener('click', moveToDestination)
-		grid[i].addEventListener('click', onSquareClick);
-		grid[i].style.boxShadow = "";
-	}
-	selectedSquare = null;
-	selectedSquareId = null;
-	destinationSquare = null;
-
-	selectedPiece = null;
-	selectedPieceArray = null;
-	selectedPieceIndex = null;
-	pieceType = null;
-
-	x_squareCoordinate = null;
-	y_squareCoordinate = null;
-	isClicked = false;
+	resetOnSquareClick();
+	resetOnSquareClickInfo();
 }
 
 function resetOnSquareClickInfo() {
@@ -676,6 +646,18 @@ const availablePieceMovesObject = {
 				grid[selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
 			}
 		}
+
+		// castling
+		// castle to left
+		if (piecesHasNotMoved[pieceColor].king === true && piecesHasNotMoved[pieceColor].rook[0] === true) {
+			grid[selectedSquareId - 2].addEventListener('click', moveToDestination);
+			grid[selectedSquareId - 2].style.boxShadow = highlightDestinationSquares;
+		}
+		// castle to right
+		if (piecesHasNotMoved[pieceColor].king === true && piecesHasNotMoved[pieceColor].rook[1] === true) {
+			grid[selectedSquareId + 2].addEventListener('click', moveToDestination);
+			grid[selectedSquareId + 2].style.boxShadow = highlightDestinationSquares;
+		}
 	}
 }
 
@@ -696,7 +678,7 @@ function makeKingCastle() {
 		// move rook visually
 		let selectedRook = pieceElementsObject[pieceColor].rook[0];
 		let x_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId - 1].x_coordinate);
-		let y_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId - 1].x_coordinate);
+		let y_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId - 1].y_coordinate);
 		let selectedCastlingRook = pieceElementsObject[pieceColor].rook[0];
 		selectedCastlingRook.style.left = (x_squareCoordinateRook - subtractBoardDimentionWidth) + "px";
 		selectedCastlingRook.style.top = (y_squareCoordinateRook - subtractBoardDimentionHeight) + "px";
@@ -713,10 +695,12 @@ function makeKingCastle() {
 	} else if (Number(destinationSquare.id) === selectedSquareId + 2) { // castle to right
 		piecesHasNotMoved[pieceColor].rook[1] = false
 	}
-	selectedSquare.style.filter = "brightness(1)";
 	turnCounter++;
 	turnCounterElement.innerText = "Turner counter:  " + turnCounter;
 	alternatingTurn();
+
+	// reset onSquareClick information
+	resetOnSquareClickInfo();
 }
 
 function checkIfPieceOnSquare(i) {
