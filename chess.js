@@ -108,6 +108,21 @@ const pieceSquarePositionArray = {
 		king:   Array(1).fill(null)
 	}
 };
+;
+
+let letKingCastle = false;
+let piecesHasNotMoved = {
+	black: {
+		pawn: [true, true, true, true, true, true, true, true],
+		king: true,
+		rook: true
+	},
+	white: {
+		pawn: [true, true, true, true, true, true, true, true], 
+		king: true,
+		rook: true
+	}
+}
 const pawnHasNotMoved = {
 	black: [true, true, true, true, true, true, true, true],
 	white: [true, true, true, true, true, true, true, true]
