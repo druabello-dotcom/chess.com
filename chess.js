@@ -380,19 +380,8 @@ function moveToDestination(destination) {
 			return;
 		}
 	}
-	x_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].x_coordinate);
-	y_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].y_coordinate);
-	console.log(x_squareCoordinate + ", " + y_squareCoordinate);
-
-	// move piece to destination square
-	selectedSquare.style.filter = "brightness(1)";
-	selectedPiece.style.left = (x_squareCoordinate - subtractBoardDimentionWidth) + "px"; // FIND better way, than to subtract
-	selectedPiece.style.top = (y_squareCoordinate - subtractBoardDimentionHeight) + "px"; 
-
-	// update stateGrid
-	stateGrid[selectedSquareId] = 0;
-	stateGrid[destinationSquare.id] = valueInSquare;
-	console.log(stateGrid);
+	movePieceElementToDestination();
+	updateStateGrid();
 
 	// update pieceSquarePositionArray
 	pieceSquarePositionArray[pieceColor][pieceType][selectedPieceIndex] = Number(destinationSquare.id);
@@ -402,16 +391,34 @@ function moveToDestination(destination) {
 	// pawn's double step rule: (Article 3.7.b), a pawn may move two squares forward on its very first move
 	if (pieceType === 'pawn') pawnHasNotMoved[pieceColor][selectedPieceIndex] = false;
 	
-	// the other player's turn
-	turnCounter++;
-	turnCounterElement.innerText = "Turn counter:  " + turnCounter;
-	alternatingTurn();
+	registerTurn();
 
 	// reset after piece has been moved
 	resetOnSquareClick();
 	resetOnSquareClickInfo();
 }
+function movePieceElementToDestination() {
+	x_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].x_coordinate);
+	y_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].y_coordinate);
+	console.log(x_squareCoordinate + ", " + y_squareCoordinate);
 
+	// move piece to destination square
+	selectedSquare.style.filter = "brightness(1)";
+	selectedPiece.style.left = (x_squareCoordinate - subtractBoardDimentionWidth) + "px"; // FIND better way, than to subtract
+	selectedPiece.style.top = (y_squareCoordinate - subtractBoardDimentionHeight) + "px"; 
+
+}
+function updateStateGrid() {
+	stateGrid[selectedSquareId] = 0;
+	stateGrid[destinationSquare.id] = valueInSquare;
+	console.log(stateGrid);
+}
+function registerTurn() {
+	// the other player's turn
+	turnCounter++;
+	turnCounterElement.innerText = "Turn counter:  " + turnCounter;
+	alternatingTurn();
+}
 function resetOnSquareClickInfo() {
 	for (let i = 0; i < 64; i++) {
 		grid[i].removeEventListener('click', moveToDestination)
