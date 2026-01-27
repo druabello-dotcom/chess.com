@@ -726,18 +726,18 @@ function makeKingCastle(rookIndex, rookMove, rookGridPlacement) {
 	turnCounterElement.innerText = "Turner counter:  " + turnCounter;
 	alternatingTurn();
 
+	// castling is no longer possible again
+	letKingCastleLeft = false;
+	letKingCastleRight = false;
+	piecesHasNotMoved[pieceColor].rook[rookIndex] = false;
+	piecesHasNotMoved[pieceColor].king = false;
+	
 	// reset onSquareClick information
 	resetOnSquareClickInfo();
 	rookMoveTo = null;
 	x_squareCoordinateRook = null;
 	y_squareCoordinateRook = null;
 	selectedCastlingRook = null;
-
-	// castling is no longer possible again
-	letKingCastleLeft = false;
-	letKingCastleRight = false;
-	piecesHasNotMoved[pieceColor].rook[rookIndex] = false;
-	piecesHasNotMoved[pieceColor].king = false;
 }
 
 function checkIfPieceOnSquare(i) {
