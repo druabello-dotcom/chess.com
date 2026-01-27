@@ -110,7 +110,12 @@ const pieceSquarePositionArray = {
 };
 ;
 
-let letKingCastle = true;
+let noPieceBetweenKingRook = {
+	left: Array(3).fill(false),
+	right: Array(2).fill(false)
+}
+let letKingCastleLeft = false;
+let letKingCastleRight = false;
 let piecesHasNotMoved = {
 	black: {
 		pawn: [true, true, true, true, true, true, true, true],
@@ -369,19 +374,16 @@ function moveToDestination(destination) {
 	destinationSquare = destination.target;
 
 	// if user wants to castle, here it is activated
-	if (pieceType === 'king' && letKingCastle === true && Number(destinationSquare.id) === (selectedSquareId - 2) || Number(destinationSquare.id) === (selectedSquareId + 2)) { // check if piece there are any pieces between rook and king
-		if (pieceColor === 'white') {
-			if (Number(destinationSquare.id) === selectedSquareId - 2) {
-				makeKingCastle(0, -1, 56);
-			} else if (Number(destinationSquare.id) === selectedSquareId + 2) {
-				makeKingCastle(1, 1, 63);
-			}
-		} else if (pieceColor === 'black') {
-			if (Number(destinationSquare.id) === selectedSquareId - 2) makeKingCastle(0, -1, 0)
-			else if (Number(destinationSquare.id) === selectedSquareId + 2) makeKingCastle(1, 1, 7);
+	if (pieceType === 'king') {
+		if (Number(destinationSquare.id) === selectedSquareId - 2 && letKingCastleLeft === true) { // castle to left
+			if (pieceColor === 'white') makeKingCastle(0, -1, 56);
+			else if (pieceColor === 'black') makeKingCastle(0, -1, 0);
+		} else if (Number(destinationSquare.id) === selectedSquareId + 2 && letKingCastleRight === true) { // castle right
+			if (pieceColor === 'white') makeKingCastle(1, 1, 63);
+			else if (pieceColor === 'black') makeKingCastle(1, 1, 7);
 		}
 		return;
-	} 
+	}
 
 	// if user clicks on a piece with same color, activate resetOnSquareClick()
 	for (let i = 0; i < clickOnPieceToReset.length; i++) {
@@ -665,13 +667,35 @@ const availablePieceMovesObject = {
 		}
 
 		// castling
-		// castle to left
 		if (piecesHasNotMoved[pieceColor].king === true && piecesHasNotMoved[pieceColor].rook[0] === true) {
-			grid[selectedSquareId - 2].addEventListener('click', moveToDestination);
-			grid[selectedSquareId - 2].style.boxShadow = highlightDestinationSquares;
+			// check if there are any pieces in between rook and king before adding the event listeners
+			for (let i = 0, j = selectedSquareId - 3; i < 3; i++, j++) {
+				if (stateGrid[j] != 0) noPieceBetweenKingRook.left[i] = false;
+				else noPieceBetweenKingRook.left[i] = true;
+			}
+			for (let i = 0; i < noPieceBetweenKingRook.left.length; i++) {
+				if (noPieceBetweenKingRook.left[i] != true) break;
+				else letKingCastleLeft = true;
+			}
+			if (letKingCastleLeft === true) {
+				grid[selectedSquareId - 2].addEventListener('click', moveToDestination);
+				grid[selectedSquareId - 2].style.boxShadow = highlightDestinationSquares;
+			}
 		}
-		// castle to right
+
+		//castle to right
 		if (piecesHasNotMoved[pieceColor].king === true && piecesHasNotMoved[pieceColor].rook[1] === true) {
+			// check if there are any pieces in between rook and king before adding the event listeners
+			for (let i = 0, j = selectedSquareId + 1; i < 2; i++, j++) {
+				if (stateGrid[j] != 0) noPieceBetweenKingRook.right[i] = false;
+				else noPieceBetweenKingRook.right[i] = true;
+			}
+			for (let i = 0; i < noPieceBetweenKingRook.right.length; i++) {
+				if (noPieceBetweenKingRook.right[i] != true) letKingCastleRight = false;
+				else letKingCastleRight = true;
+			}
+		}
+		if (letKingCastleRight === true) {
 			grid[selectedSquareId + 2].addEventListener('click', moveToDestination);
 			grid[selectedSquareId + 2].style.boxShadow = highlightDestinationSquares;
 		}
@@ -693,10 +717,10 @@ function makeKingCastle(rookIndex, rookMove, rookGridPlacement) {
 	selectedCastlingRook.style.left = (x_squareCoordinateRook - subtractBoardDimentionWidth) + "px";
 	selectedCastlingRook.style.top = (y_squareCoordinateRook - subtractBoardDimentionHeight) + "px";
 
-	updateStateGrid();
 	stateGrid[rookMoveTo] = pieceNumberIdentifier[pieceColor].rook;
 	stateGrid[rookGridPlacement] = 0;
 	pieceSquarePositionArray[pieceColor].rook[rookIndex] = rookMoveTo;
+	updateStateGrid();
 	
 	turnCounter++;
 	turnCounterElement.innerText = "Turner counter:  " + turnCounter;
