@@ -367,7 +367,9 @@ function resetOnSquareClick() {
 function moveToDestination(destination) {
 	// register destination square
 	destinationSquare = destination.target;
-	if (pieceType === 'king' && letKingCastle === true && Number(destinationSquare.id) === (selectedSquareId - 2)) { // check if piece there are any pieces between rook and king
+
+	// if user wants to castle, here it is activated
+	if (pieceType === 'king' && letKingCastle === true && Number(destinationSquare.id) === (selectedSquareId - 2) || Number(destinationSquare.id) === (selectedSquareId + 2)) { // check if piece there are any pieces between rook and king
 		makeKingCastle();
 		return;
 	} 
@@ -403,7 +405,6 @@ function movePieceElementToDestination() {
 	console.log(x_squareCoordinate + ", " + y_squareCoordinate);
 
 	// move piece to destination square
-	selectedSquare.style.filter = "brightness(1)";
 	selectedPiece.style.left = (x_squareCoordinate - subtractBoardDimentionWidth) + "px"; // FIND better way, than to subtract
 	selectedPiece.style.top = (y_squareCoordinate - subtractBoardDimentionHeight) + "px"; 
 
@@ -673,34 +674,46 @@ function makeKingCastle() {
 	// move rook visually
 	// then update them in stateGrid & pieceSquarePositionArray
 	// then set
+	let x_squareCoordinateRook = null;
+	let y_squareCoordinateRook = null;
+	let selectedCastlingRook = null;
 	piecesHasNotMoved[pieceColor].king = false;
 	if (Number(destinationSquare.id) === selectedSquareId - 2) {// castle to left
 		piecesHasNotMoved[pieceColor].rook[0] = false;
-		// move king visually
-		x_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].x_coordinate);
-		y_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].y_coordinate);
-		selectedPiece.style.left = (x_squareCoordinate - subtractBoardDimentionWidth) + "px";
-		selectedPiece.style.top = (y_squareCoordinate - subtractBoardDimentionHeight) + "px";
-
-		// move rook visually
-		let selectedRook = pieceElementsObject[pieceColor].rook[0];
-		let x_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId - 1].x_coordinate);
-		let y_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId - 1].y_coordinate);
-		let selectedCastlingRook = pieceElementsObject[pieceColor].rook[0];
+		// move KING and ROOK visually
+		movePieceElementToDestination();
+		x_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId - 1].x_coordinate);
+		y_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId - 1].y_coordinate);
+		selectedCastlingRook = pieceElementsObject[pieceColor].rook[0];
 		selectedCastlingRook.style.left = (x_squareCoordinateRook - subtractBoardDimentionWidth) + "px";
 		selectedCastlingRook.style.top = (y_squareCoordinateRook - subtractBoardDimentionHeight) + "px";
 
 		//update stateGrid for KING & ROOK
-		stateGrid[selectedSquareId] = 0;
-		stateGrid[destinationSquare.id] = pieceNumberIdentifier[pieceColor].king // king has moved and registered
+		updateStateGrid(); // king has moved and registered
 		stateGrid[selectedSquareId - 1] = pieceNumberIdentifier[pieceColor].rook; // rook has moved and registered
 
 		//update pieceSquarePositionArray
 		pieceSquarePositionArray[pieceColor].king[selectedPieceIndex] = Number(destinationSquare.id);
+
+		stateGrid[56] = 0; // there are no pieces inside of the rook that was choosen;
 		pieceSquarePositionArray[pieceColor].rook[0] = selectedSquareId - 1;
 		
 	} else if (Number(destinationSquare.id) === selectedSquareId + 2) { // castle to right
-		piecesHasNotMoved[pieceColor].rook[1] = false
+		piecesHasNotMoved[pieceColor].rook[1] = false;
+		movePieceElementToDestination();
+
+		// move ROOK visually
+		x_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId + 1].x_coordinate);
+		y_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId + 1].y_coordinate);
+		selectedCastlingRook = pieceElementsObject[pieceColor].rook[1];
+		selectedCastlingRook.style.left = (x_squareCoordinateRook - subtractBoardDimentionWidth) + "px";
+		selectedCastlingRook.style.top = (y_squareCoordinateRook - subtractBoardDimentionHeight) + "px";
+
+		updateStateGrid();
+		stateGrid[selectedSquareId + 1] = pieceNumberIdentifier[pieceColor].rook;
+
+		stateGrid[63] = 0;
+		pieceSquarePositionArray[pieceColor].rook[1] = selectedSquareId + 1;
 	}
 	turnCounter++;
 	turnCounterElement.innerText = "Turner counter:  " + turnCounter;
