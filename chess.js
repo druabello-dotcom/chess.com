@@ -181,6 +181,8 @@ function resetChessboard() {
 	stateGrid.fill(0);
 
 	// reset castling information
+	noPieceBetweenKingRook.left.fill(false);
+	noPieceBetweenKingRook.right.fill(false);
 	letKingCastleLeft = false;
 	letKingCastleRight = false;
 	piecesHasNotMoved = {
@@ -192,7 +194,7 @@ function resetChessboard() {
 		white: {
 			pawn: Array(8).fill(true),
 			rook: Array(2).fill(true),
-			knight: true
+			king: true
 		}
 	}
 
@@ -680,7 +682,7 @@ const availablePieceMovesObject = {
 		// castling
 		if (piecesHasNotMoved[pieceColor].king === true && piecesHasNotMoved[pieceColor].rook[0] === true) {
 			// check if there are any pieces in between rook and king before adding the event listeners
-			for (let i = 0, j = selectedSquareId - 3; i < 3; i++, j++) {
+			for (let i = 0, j = selectedSquareId - 3; i < noPieceBetweenKingRook.left.length; i++, j++) {
 				if (stateGrid[j] != 0) noPieceBetweenKingRook.left[i] = false;
 				else noPieceBetweenKingRook.left[i] = true;
 			}
@@ -702,13 +704,13 @@ const availablePieceMovesObject = {
 				else noPieceBetweenKingRook.right[i] = true;
 			}
 			for (let i = 0; i < noPieceBetweenKingRook.right.length; i++) {
-				if (noPieceBetweenKingRook.right[i] != true) letKingCastleRight = false;
-				else letKingCastleRight = true;
+				if (noPieceBetweenKingRook.right[i] != true) break;
+				letKingCastleRight = true;
 			}
-		}
-		if (letKingCastleRight === true) {
-			grid[selectedSquareId + 2].addEventListener('click', moveToDestination);
-			grid[selectedSquareId + 2].style.boxShadow = highlightDestinationSquares;
+			if (letKingCastleRight === true) {
+				grid[selectedSquareId + 2].addEventListener('click', moveToDestination);
+				grid[selectedSquareId + 2].style.boxShadow = highlightDestinationSquares;
+			}
 		}
 	}
 }
@@ -732,10 +734,8 @@ function makeKingCastle(rookIndex, rookMove, rookGridPlacement) {
 	stateGrid[rookGridPlacement] = 0;
 	pieceSquarePositionArray[pieceColor].rook[rookIndex] = rookMoveTo;
 	updateStateGrid();
-	
-	turnCounter++;
-	turnCounterElement.innerText = "Turner counter:  " + turnCounter;
-	alternatingTurn();
+
+	registerTurn();
 
 	// castling is no longer possible again
 	letKingCastleLeft = false;
