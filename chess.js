@@ -669,58 +669,36 @@ const availablePieceMovesObject = {
 	}
 }
 
-function makeKingCastle() {
-	// move king visually
-	// move rook visually
-	// then update them in stateGrid & pieceSquarePositionArray
-	// then set
+function makeKingCastle(rookIndex, rookMove, rookGridPlacement) {
+	let rookMoveTo = selectedSquareId + (rookMove)
 	let x_squareCoordinateRook = null;
 	let y_squareCoordinateRook = null;
 	let selectedCastlingRook = null;
 	piecesHasNotMoved[pieceColor].king = false;
-	if (Number(destinationSquare.id) === selectedSquareId - 2) {// castle to left
-		piecesHasNotMoved[pieceColor].rook[0] = false;
-		// move KING and ROOK visually
-		movePieceElementToDestination();
-		x_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId - 1].x_coordinate);
-		y_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId - 1].y_coordinate);
-		selectedCastlingRook = pieceElementsObject[pieceColor].rook[0];
-		selectedCastlingRook.style.left = (x_squareCoordinateRook - subtractBoardDimentionWidth) + "px";
-		selectedCastlingRook.style.top = (y_squareCoordinateRook - subtractBoardDimentionHeight) + "px";
+	piecesHasNotMoved[pieceColor].rook[rookIndex] = false;
 
-		//update stateGrid for KING & ROOK
-		updateStateGrid(); // king has moved and registered
-		stateGrid[selectedSquareId - 1] = pieceNumberIdentifier[pieceColor].rook; // rook has moved and registered
+	movePieceElementToDestination();
+	x_squareCoordinateRook = parseInt(centerPositionSqaure[rookMoveTo].x_coordinate);
+	y_squareCoordinateRook = parseInt(centerPositionSqaure[rookMoveTo].y_coordinate);
+	selectedCastlingRook = pieceElementsObject[pieceColor].rook[rookIndex];
+	selectedCastlingRook.style.left = (x_squareCoordinateRook - subtractBoardDimentionWidth) + "px";
+	selectedCastlingRook.style.top = (y_squareCoordinateRook - subtractBoardDimentionHeight) + "px";
 
-		//update pieceSquarePositionArray
-		pieceSquarePositionArray[pieceColor].king[selectedPieceIndex] = Number(destinationSquare.id);
-
-		stateGrid[56] = 0; // there are no pieces inside of the rook that was choosen;
-		pieceSquarePositionArray[pieceColor].rook[0] = selectedSquareId - 1;
-		
-	} else if (Number(destinationSquare.id) === selectedSquareId + 2) { // castle to right
-		piecesHasNotMoved[pieceColor].rook[1] = false;
-		movePieceElementToDestination();
-
-		// move ROOK visually
-		x_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId + 1].x_coordinate);
-		y_squareCoordinateRook = parseInt(centerPositionSqaure[selectedSquareId + 1].y_coordinate);
-		selectedCastlingRook = pieceElementsObject[pieceColor].rook[1];
-		selectedCastlingRook.style.left = (x_squareCoordinateRook - subtractBoardDimentionWidth) + "px";
-		selectedCastlingRook.style.top = (y_squareCoordinateRook - subtractBoardDimentionHeight) + "px";
-
-		updateStateGrid();
-		stateGrid[selectedSquareId + 1] = pieceNumberIdentifier[pieceColor].rook;
-
-		stateGrid[63] = 0;
-		pieceSquarePositionArray[pieceColor].rook[1] = selectedSquareId + 1;
-	}
+	updateStateGrid();
+	stateGrid[rookMoveTo] = pieceNumberIdentifier[pieceColor].rook;
+	stateGrid[rookGridPlacement] = 0;
+	pieceSquarePositionArray[pieceColor].rook[rookIndex] = rookMoveTo;
+	
 	turnCounter++;
 	turnCounterElement.innerText = "Turner counter:  " + turnCounter;
 	alternatingTurn();
 
 	// reset onSquareClick information
 	resetOnSquareClickInfo();
+	rookMoveTo = null;
+	x_squareCoordinateRook = null;
+	y_squareCoordinateRook = null;
+	selectedCastlingRook = null;
 }
 
 function checkIfPieceOnSquare(i) {
