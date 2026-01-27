@@ -370,7 +370,16 @@ function moveToDestination(destination) {
 
 	// if user wants to castle, here it is activated
 	if (pieceType === 'king' && letKingCastle === true && Number(destinationSquare.id) === (selectedSquareId - 2) || Number(destinationSquare.id) === (selectedSquareId + 2)) { // check if piece there are any pieces between rook and king
-		makeKingCastle();
+		if (pieceColor === 'white') {
+			if (Number(destinationSquare.id) === selectedSquareId - 2) {
+				makeKingCastle(0, -1, 56);
+			} else if (Number(destinationSquare.id) === selectedSquareId + 2) {
+				makeKingCastle(1, 1, 63);
+			}
+		} else if (pieceColor === 'black') {
+			if (Number(destinationSquare.id) === selectedSquareId - 2) makeKingCastle(0, -1, 0)
+			else if (Number(destinationSquare.id) === selectedSquareId + 2) makeKingCastle(1, 1, 7);
+		}
 		return;
 	} 
 
