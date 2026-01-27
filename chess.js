@@ -261,7 +261,8 @@ for (let i = 0;  i < colorwayArray.length; i++) {
 	})
 }
 
-
+const highlightDestinationSquares = "inset 0 0 0 0.25em #80EF80";
+const highlightCaptureDestinationSquares = "inset 0px 0px 0px 0.25em #fc2c03";
 function pointToGridIdx(x, y) {
 	return y * 8 + x;
 }
@@ -329,7 +330,75 @@ function onSquareClick(event) {
 
 function moveToDestination(destination) {
 	// register destination square
+	// dest square = the destination square
+	// dest tar = clicked square
 	destinationSquare = destination.target;
+
+
+  function capturePieceFunction() {
+  if (stateGrid[destinationSquare.id] != 0) {
+	 
+
+	/*	notater:
+	hvis b < 0 -> otherPieceColor = "white"
+	otherPieceType = mapPiece[Math.abs(b)] —> piece type
+
+	få indeen
+
+	pieceElementsObject[otherPieceColor][otherPieceType][destination.target.id].remove();
+	*/ 
+    function checkColour(a, b) {
+      if (a > 0 && b > 0) return "same-W";
+      if (a < 0 && b < 0) return "same-B";
+
+      if (a < 0 && b > 0) { // black moving, white target
+        if (b === 1) return "white pawn";
+        if (b === 2) return "white knight";
+        if (b === 3) return "white bishop";
+        if (b === 4) return "white rook";
+        if (b === 5) return "white queen";
+        if (b === 6) return "white king";
+      }
+
+      if (a > 0 && b < 0) { // white moving, black target
+        if (b === -1) return "black pawn";
+        if (b === -2) return "black knight";
+        if (b === -3) return "black bishop";
+        if (b === -4) return "black rook";
+        if (b === -5) return "black queen";
+        if (b === -6) return "black king";
+      }
+
+      return null;
+    }
+
+    let capturedPiece = checkColour(valueInSquare, stateGrid[destinationSquare.id]);
+	console.log(capturedPiece)
+    if (!capturedPiece) return;
+
+    if (capturedPiece.startsWith("black") || capturedPiece.startsWith("white")) {
+
+      function removePieceFromDestinationSquare() {
+        let colourCapturePiece = capturedPiece.split(" ")[0]; // "black" or "white"
+
+        let index = stateGrid[destinationSquare.id]; // piece code like -1
+        let enemyPieceType = mapPieces[Math.abs(index)]; // "pawn"
+
+        let pieceIndexToRemove =
+          pieceSquarePositionArray[colourCapturePiece][enemyPieceType].indexOf(Number(destinationSquare.id));
+
+        pieceElementsObject[colourCapturePiece][enemyPieceType][pieceIndexToRemove].remove();
+      }
+
+      removePieceFromDestinationSquare();
+    }
+  }
+}
+
+
+	capturePieceFunction()
+
+
 	x_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].x_coordinate);
 	y_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].y_coordinate);
 	console.log(x_squareCoordinate + ", " + y_squareCoordinate);
@@ -378,23 +447,62 @@ function moveToDestination(destination) {
 	isClicked = false;
 }
 
-const highlightDestinationSquares = "inset 0 0 0 0.25em #80EF80";
 const availablePieceMovesObject = {
 	pawn: function() {
 		if (pieceColor == 'black' && (selectedSquareId + 8) < 64) {
 			grid[selectedSquareId + 8].addEventListener('click', moveToDestination);
 			grid[selectedSquareId + 8].style.boxShadow = highlightDestinationSquares;
+
+			for (let i = (selectedSquareId);  i < selectedSquareId+9; i+=9){
+			if ( (stateGrid[i+7]) > 0 || (stateGrid[i+9]) > 0) {
+				
+				if ((stateGrid[i+7]) > 0 ){
+				grid[selectedSquareId + 7].addEventListener('click', moveToDestination);
+				grid[selectedSquareId + 7].style.boxShadow = highlightCaptureDestinationSquares;
+				}
+
+				if ((stateGrid[i+9]) > 0 ){
+				grid[selectedSquareId + 9].style.boxShadow = highlightCaptureDestinationSquares;
+				grid[selectedSquareId + 9].addEventListener('click', moveToDestination);
+				}
+				
+				console.log(stateGrid[pieceSquarePositionArray.white.pawn[selectedPieceIndex]+9]+"!!!")
+				console.log(selectedPieceIndex + "!!!!!")
+				}
+			
+			}
 			if (pawnHasNotMoved.black[selectedPieceIndex] === true) {
 				grid[selectedSquareId + 16].addEventListener('click', moveToDestination);
 				grid[selectedSquareId + 16].style.boxShadow = highlightDestinationSquares;
 			}
-		} else if(pieceColor == 'white' && 0 <= (selectedSquareId - 8)) {
+		} else if(pieceColor == 'white' && 0 <= (selectedSquareId - 8) || pieceColor == 'white' && 0 <= (selectedSquareId - 7)|| pieceColor == 'white' && 0 <= (selectedSquareId - 9)) {
 			grid[selectedSquareId - 8].addEventListener('click', moveToDestination);
 			grid[selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
+			for (let i = (selectedSquareId);  i < selectedSquareId+9; i+=9){
+			if ( (stateGrid[i-7]) < 0 || (stateGrid[i-9]) < 0) {
+
+				if ((stateGrid[i-7]) < 0 ){
+				grid[selectedSquareId - 7].addEventListener('click', moveToDestination);
+				grid[selectedSquareId - 7].style.boxShadow = highlightCaptureDestinationSquares;
+				}
+
+				if ((stateGrid[i-9]) < 0 ){
+				grid[selectedSquareId - 9].style.boxShadow = highlightCaptureDestinationSquares;
+				grid[selectedSquareId - 9].addEventListener('click', moveToDestination);
+				}
+				
+				console.log(stateGrid[pieceSquarePositionArray.white.pawn[selectedPieceIndex]-9]+"!!!")
+				console.log(selectedPieceIndex + "!!!!!")
+				}
+			
+			}
+
 			if (pawnHasNotMoved.white[selectedPieceIndex] === true) {
 				grid[selectedSquareId - 16].addEventListener('click', moveToDestination);
 				grid[selectedSquareId - 16].style.boxShadow = highlightDestinationSquares
-			}	
+				
+			}
+			
 		}
 	},
 	bishop: function() {
@@ -402,22 +510,130 @@ const availablePieceMovesObject = {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
 		}
 		for (let i = (selectedSquareId + 7); (i % 8) < (selectedSquareId % 8) && i < 64; i+=7) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
 		}
 		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
 		}
 		for (let i = (selectedSquareId - 7); (selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			checkIfPieceOnSquare(i);
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
 		}
 	},
 	rook: function() {
@@ -425,30 +641,139 @@ const availablePieceMovesObject = {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
 		}
 		
 		for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
 		}
 		for (let i = (selectedSquareId + 8); i < 64; i+=8) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
 		}
 		for (let i = (selectedSquareId - 8); 0 <= i ; i-=8) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
-		}
-	},
+			function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
+				}
+			},
 	knight: function(){
 		function RD (){
 			let i = selectedSquareId + 10;
 			if ((selectedSquareId % 8) < (i % 8) && i < 64 && checkIfPieceOnSquare(i) === true){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
+				
 			}
 		}; RD();
 		function RU (){
@@ -470,6 +795,7 @@ const availablePieceMovesObject = {
 			if ((selectedSquareId % 8) < (i % 8)  && i >= 0 && checkIfPieceOnSquare(i) == true){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
+				
 			}
 		}; LU();
 		function RDD (){
@@ -498,6 +824,7 @@ const availablePieceMovesObject = {
 			if ((selectedSquareId % 8) < (i % 8) && i >= 0 && checkIfPieceOnSquare(i) === true){
 				grid[i].addEventListener("click", moveToDestination);
 				grid[i].style.boxShadow = highlightDestinationSquares;
+				
 			}
 		}; RUU();
 	},
@@ -506,49 +833,272 @@ const availablePieceMovesObject = {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+			 function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
+					
 		}
 		for (let i = (selectedSquareId + 7); (i % 8) < (selectedSquareId % 8) && i < 64; i+=7) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+		
+		function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
+			  
 		}
 		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+		function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
 		}
 		for (let i = (selectedSquareId - 7); (selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			checkIfPieceOnSquare(i);
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
 		}
-		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i < 64; i++) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			grid[i].addEventListener("click", moveToDestination);
-			grid[i].style.boxShadow = highlightDestinationSquares;
-		}
+	for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i < 64; i++) {
+	if (checkIfPieceOnSquare(i) === false) break;
+	grid[i].addEventListener("click", moveToDestination);
+	grid[i].style.boxShadow = highlightDestinationSquares;
+
+	function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
+}
+
 		
 		for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
 		}
 		for (let i = (selectedSquareId + 8); i < 64; i+=8) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+		function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
+
 		}
 		for (let i = (selectedSquareId - 8); 0 <= i ; i-=8) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
+		function valueInSquareChecker() {
+		if (valueInSquare < 0) { return "black" }
+		if (valueInSquare > 0) { return "white" }
+	}
+	let VIS = valueInSquareChecker()
+
+	function stateGridChecker() {
+		if (stateGrid[i] === 0) { return "empty" }  
+		if (stateGrid[i] < 0) { return "black" }
+		if (stateGrid[i] > 0) { return "white" }
+	}
+	let STC = stateGridChecker()
+	console.log(STC)
+	console.log(VIS)
+
+	if (STC === "empty") {             
+		continue
+	}
+	else if (VIS !== STC) {             
+		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+		break
+	}
+	else if (VIS === STC) {             
+		grid[i].removeEventListener('click', moveToDestination);
+		grid[i].style.boxShadow = "";
+		break
+	}
 		}
 	},
 	king: function() {
 		if (0 <= (selectedSquareId - 9) && (selectedSquareId - 9) % 8 < selectedSquareId % 8 && checkIfPieceOnSquare(selectedSquareId - 9) === true) {
 			grid[selectedSquareId - 9].addEventListener('click', moveToDestination);
 			grid[selectedSquareId - 9].style.boxShadow = highlightDestinationSquares;
+			
 		}
 		if (0 <= (selectedSquareId - 1) && (selectedSquareId - 1) % 8 < selectedSquareId % 8 && checkIfPieceOnSquare(selectedSquareId - 1) === true) {
 			grid[selectedSquareId - 1].addEventListener('click', moveToDestination);
@@ -575,6 +1125,7 @@ const availablePieceMovesObject = {
 				grid[selectedSquareId + 1].addEventListener('click', moveToDestination);
 				grid[selectedSquareId + 1].style.boxShadow = highlightDestinationSquares;
 			}
+			
 		}
 		if (0 <= (selectedSquareId - 7) && selectedSquareId % 8 < (selectedSquareId - 7) % 8) {
 			if (checkIfPieceOnSquare(selectedSquareId - 7) === true) {
@@ -602,3 +1153,4 @@ function checkIfPieceOnSquare(i) {
 	if (pieceColor === otherPieceColor) return false;
 	else return true;
 }
+	
