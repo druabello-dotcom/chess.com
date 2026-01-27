@@ -732,6 +732,12 @@ function makeKingCastle(rookIndex, rookMove, rookGridPlacement) {
 	x_squareCoordinateRook = null;
 	y_squareCoordinateRook = null;
 	selectedCastlingRook = null;
+
+	// castling is no longer possible again
+	letKingCastleLeft = false;
+	letKingCastleRight = false;
+	piecesHasNotMoved[pieceColor].rook[rookIndex] = false;
+	piecesHasNotMoved[pieceColor].king = false;
 }
 
 function checkIfPieceOnSquare(i) {
