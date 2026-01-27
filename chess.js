@@ -128,10 +128,6 @@ let piecesHasNotMoved = {
 		king: true
 	}
 }
-const pawnHasNotMoved = {
-	black: [true, true, true, true, true, true, true, true],
-	white: [true, true, true, true, true, true, true, true]
-}
 
 // get chessboard dimentions
 const chessboardDimentions = chessboard.getBoundingClientRect();
@@ -250,8 +246,6 @@ function resetChessboard() {
 		}
 	}
 	// reset pieces visually (and in background)
-	pawnHasNotMoved.black = Array(8).fill(true);
-	pawnHasNotMoved.white = Array(8).fill(true);
 	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
 		let type = CreatePieceElements.pieceTypeArray[t];
 		for (let counts = 0, blackStartingSquare = pieceStartingSquare.black[type], whiteStartingSquare = pieceStartingSquare.white[type]; counts < CreatePieceElements.pieceCounts[type]; counts++) {
@@ -419,7 +413,7 @@ function moveToDestination(destination) {
 	console.log("White " + pieceType + ":  " + pieceSquarePositionArray.white[pieceType]);
 
 	// pawn's double step rule: (Article 3.7.b), a pawn may move two squares forward on its very first move
-	if (pieceType === 'pawn') pawnHasNotMoved[pieceColor][selectedPieceIndex] = false;
+	if (pieceType === 'pawn') piecesHasNotMoved[pieceColor].pawn[selectedPieceIndex] = false;
 	
 	registerTurn();
 
@@ -478,14 +472,14 @@ const availablePieceMovesObject = {
 		if (pieceColor == 'black' && (selectedSquareId + 8) < 64) {
 			grid[selectedSquareId + 8].addEventListener('click', moveToDestination);
 			grid[selectedSquareId + 8].style.boxShadow = highlightDestinationSquares;
-			if (pawnHasNotMoved.black[selectedPieceIndex] === true) {
+			if (piecesHasNotMoved.black.pawn[selectedPieceIndex] === true) {
 				grid[selectedSquareId + 16].addEventListener('click', moveToDestination);
 				grid[selectedSquareId + 16].style.boxShadow = highlightDestinationSquares;
 			}
 		} else if(pieceColor == 'white' && 0 <= (selectedSquareId - 8)) {
 			grid[selectedSquareId - 8].addEventListener('click', moveToDestination);
 			grid[selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
-			if (pawnHasNotMoved.white[selectedPieceIndex] === true) {
+			if (piecesHasNotMoved.white.pawn[selectedPieceIndex] === true) {
 				grid[selectedSquareId - 16].addEventListener('click', moveToDestination);
 				grid[selectedSquareId - 16].style.boxShadow = highlightDestinationSquares
 			}	
