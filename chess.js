@@ -119,13 +119,13 @@ let letKingCastleRight = false;
 let piecesHasNotMoved = {
 	black: {
 		pawn: [true, true, true, true, true, true, true, true],
-		king: true,
-		rook: [true, true]
+		rook: [true, true],
+		king: true
 	},
 	white: {
 		pawn: [true, true, true, true, true, true, true, true], 
-		king: true,
-		rook: [true, true]
+		rook: [true, true],
+		king: true
 	}
 }
 const pawnHasNotMoved = {
@@ -183,6 +183,23 @@ function resetChessboard() {
 	turnDeciderText.innerText = "White to move";
 	turnDeciderColorIndicator.className = "turn-white";
 	stateGrid.fill(0);
+
+	// reset castling information
+	letKingCastleLeft = false;
+	letKingCastleRight = false;
+	piecesHasNotMoved = {
+		black: {
+			pawn: Array(8).fill(true),
+			rook: Array(2).fill(true),
+			king: true
+		},
+		white: {
+			pawn: Array(8).fill(true),
+			rook: Array(2).fill(true),
+			knight: true
+		}
+	}
+
 	// remove all pieces with class name "piece"
 	for (let i = 0; i < classNamePieceArray.length; i++) {
 		classNamePieceArray[i].remove();
