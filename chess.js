@@ -108,9 +108,25 @@ const pieceSquarePositionArray = {
 		king:   Array(1).fill(null)
 	}
 };
-const pawnHasNotMoved = {
-	black: [true, true, true, true, true, true, true, true],
-	white: [true, true, true, true, true, true, true, true]
+;
+
+let noPieceBetweenKingRook = {
+	left: Array(3).fill(false),
+	right: Array(2).fill(false)
+}
+let letKingCastleLeft = false;
+let letKingCastleRight = false;
+let piecesHasNotMoved = {
+	black: {
+		pawn: [true, true, true, true, true, true, true, true],
+		rook: [true, true],
+		king: true
+	},
+	white: {
+		pawn: [true, true, true, true, true, true, true, true], 
+		rook: [true, true],
+		king: true
+	}
 }
 
 // get chessboard dimentions
@@ -163,6 +179,25 @@ function resetChessboard() {
 	turnDeciderText.innerText = "White to move";
 	turnDeciderColorIndicator.className = "turn-white";
 	stateGrid.fill(0);
+
+	// reset castling information
+	noPieceBetweenKingRook.left.fill(false);
+	noPieceBetweenKingRook.right.fill(false);
+	letKingCastleLeft = false;
+	letKingCastleRight = false;
+	piecesHasNotMoved = {
+		black: {
+			pawn: Array(8).fill(true),
+			rook: Array(2).fill(true),
+			king: true
+		},
+		white: {
+			pawn: Array(8).fill(true),
+			rook: Array(2).fill(true),
+			king: true
+		}
+	}
+
 	// remove all pieces with class name "piece"
 	for (let i = 0; i < classNamePieceArray.length; i++) {
 		classNamePieceArray[i].remove();
@@ -213,8 +248,6 @@ function resetChessboard() {
 		}
 	}
 	// reset pieces visually (and in background)
-	pawnHasNotMoved.black = Array(8).fill(true);
-	pawnHasNotMoved.white = Array(8).fill(true);
 	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
 		let type = CreatePieceElements.pieceTypeArray[t];
 		for (let counts = 0, blackStartingSquare = pieceStartingSquare.black[type], whiteStartingSquare = pieceStartingSquare.white[type]; counts < CreatePieceElements.pieceCounts[type]; counts++) {
@@ -322,6 +355,7 @@ function onSquareClick(event) {
 	console.log(selectedPieceArray);
 	console.log("You must move:  " + pieceType)
 	selectedPieceIndex = selectedPieceArray.indexOf(selectedSquareId);
+	console.log(selectedPieceIndex);
 
 	// the selected piece is now found inside program
 	selectedPiece = pieceElementsObject[pieceColor][pieceType][selectedPieceIndex];
@@ -347,8 +381,80 @@ function resetOnSquareClick() {
 	while (0 < clickOnPieceToReset.length) {
 		clickOnPieceToReset.pop();
 	}
+}
+
+function moveToDestination(destination) {
+	// register destination square
+	destinationSquare = destination.target;
+
+	// if user wants to castle, here it is activated
+	if (pieceType === 'king' && (Number(destinationSquare.id) === selectedSquareId - 2 || Number(destinationSquare.id) === selectedSquareId + 2)) {
+		if (Number(destinationSquare.id) === selectedSquareId - 2 && letKingCastleLeft === true) { // castle to left
+			if (pieceColor === 'white') makeKingCastle(0, -1, 56);
+			else if (pieceColor === 'black') makeKingCastle(0, -1, 0);
+		} else if (Number(destinationSquare.id) === selectedSquareId + 2 && letKingCastleRight === true) { // castle right
+			if (pieceColor === 'white') makeKingCastle(1, 1, 63);
+			else if (pieceColor === 'black') makeKingCastle(1, 1, 7);
+		}
+		return;
+	}
+
+	// if user clicks on a piece with same color, activate resetOnSquareClick()
+	for (let i = 0; i < clickOnPieceToReset.length; i++) {
+		if (Number(destinationSquare.id) === clickOnPieceToReset[i]) {
+			resetOnSquareClick();
+			resetOnSquareClickInfo();
+			return;
+		}
+	}
+	movePieceElementToDestination();
+	updateStateGrid();
+
+	// update pieceSquarePositionArray
+	pieceSquarePositionArray[pieceColor][pieceType][selectedPieceIndex] = Number(destinationSquare.id);
+	console.log("Black " + pieceType + ":  " +  pieceSquarePositionArray.black[pieceType]);
+	console.log("White " + pieceType + ":  " + pieceSquarePositionArray.white[pieceType]);
+
+	// pawn's double step rule: (Article 3.7.b), a pawn may move two squares forward on its very first move
+	if (pieceType === 'pawn') piecesHasNotMoved[pieceColor].pawn[selectedPieceIndex] = false;
+	if (pieceType === 'king') piecesHasNotMoved[pieceColor].king = false; // king can't castle if they have moved
+	
+	registerTurn();
+
+	// reset after piece has been moved
+	resetOnSquareClick();
+	resetOnSquareClickInfo();
+}
+function movePieceElementToDestination() {
+	x_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].x_coordinate);
+	y_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].y_coordinate);
+	console.log(x_squareCoordinate + ", " + y_squareCoordinate);
+
+	// move piece to destination square
+	selectedPiece.style.left = (x_squareCoordinate - subtractBoardDimentionWidth) + "px"; // FIND better way, than to subtract
+	selectedPiece.style.top = (y_squareCoordinate - subtractBoardDimentionHeight) + "px"; 
+
+}
+function updateStateGrid() {
+	stateGrid[selectedSquareId] = 0;
+	stateGrid[destinationSquare.id] = valueInSquare;
+	console.log(stateGrid);
+}
+function registerTurn() {
+	// the other player's turn
+	turnCounter++;
+	turnCounterElement.innerText = "Turn counter:  " + turnCounter;
+	alternatingTurn();
+}
+function resetOnSquareClickInfo() {
+	for (let i = 0; i < 64; i++) {
+		grid[i].removeEventListener('click', moveToDestination)
+		grid[i].addEventListener('click', onSquareClick);
+		grid[i].style.boxShadow = "";
+	}
 	selectedSquare.style.filter = "brightness(1)";
 	isClicked = false;
+
 	selectedSquare = null;
 	selectedSquareId = null;
 	destinationSquare = null;
@@ -362,69 +468,6 @@ function resetOnSquareClick() {
 
 	x_squareCoordinate = null;
 	y_squareCoordinate = null;
-	for (let i = 0; i < 64; i++) {
-		grid[i].removeEventListener('click', moveToDestination)
-		grid[i].addEventListener('click', onSquareClick);
-		grid[i].style.boxShadow = "";
-	}
-}
-
-function moveToDestination(destination) {
-	// register destination square
-	destinationSquare = destination.target;
-
-	// if user clicks on a piece with same color, activate resetOnSquareClick()
-	for (let i = 0; i < clickOnPieceToReset.length; i++) {
-		if (Number(destinationSquare.id) === clickOnPieceToReset[i]) {
-			resetOnSquareClick();
-			return;
-		}
-	}
-	x_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].x_coordinate);
-	y_squareCoordinate = parseInt(centerPositionSqaure[destinationSquare.id].y_coordinate);
-	console.log(x_squareCoordinate + ", " + y_squareCoordinate);
-
-	// move piece to destination square
-	selectedSquare.style.filter = "brightness(1)";
-	selectedPiece.style.left = (x_squareCoordinate - subtractBoardDimentionWidth) + "px"; // FIND better way, than to subtract
-	selectedPiece.style.top = (y_squareCoordinate - subtractBoardDimentionHeight) + "px"; 
-
-	// update stateGrid
-	stateGrid[selectedSquareId] = 0;
-	stateGrid[destinationSquare.id] = valueInSquare;
-	console.log(stateGrid);
-
-	// update pieceSquarePositionArray
-	pieceSquarePositionArray[pieceColor][pieceType][selectedPieceIndex] = Number(destinationSquare.id);
-	console.log("Black " + pieceType + ":  " +  pieceSquarePositionArray.black[pieceType]);
-	console.log("White " + pieceType + ":  " + pieceSquarePositionArray.white[pieceType]);
-
-	// pawn's double step rule: (Article 3.7.b), a pawn may move two squares forward on its very first move
-	if (pieceType === 'pawn') pawnHasNotMoved[pieceColor][selectedPieceIndex] = false;
-	
-	// the other player's turn
-	turnCounter++;
-	turnCounterElement.innerText = "Turn counter:  " + turnCounter;
-	alternatingTurn();
-
-	// reset after piece has been moved
-	for (let i = 0; i < 64; i++) {
-		grid[i].removeEventListener('click', moveToDestination)
-		grid[i].addEventListener('click', onSquareClick);
-		grid[i].style.boxShadow = "";
-	}
-	selectedSquare = null;
-	selectedSquareId = null;
-	destinationSquare = null;
-
-	selectedPiece = null;
-	selectedPieceArray = null;
-	selectedPieceIndex = null;
-	pieceType = null;
-
-	x_squareCoordinate = null;
-	y_squareCoordinate = null;
-	isClicked = false;
 }
 
 const highlightDestinationSquares = "inset 0 0 0 0.25em #80EF80";
@@ -433,14 +476,14 @@ const availablePieceMovesObject = {
 		if (pieceColor == 'black' && (selectedSquareId + 8) < 64) {
 			grid[selectedSquareId + 8].addEventListener('click', moveToDestination);
 			grid[selectedSquareId + 8].style.boxShadow = highlightDestinationSquares;
-			if (pawnHasNotMoved.black[selectedPieceIndex] === true) {
+			if (piecesHasNotMoved.black.pawn[selectedPieceIndex] === true) {
 				grid[selectedSquareId + 16].addEventListener('click', moveToDestination);
 				grid[selectedSquareId + 16].style.boxShadow = highlightDestinationSquares;
 			}
 		} else if(pieceColor == 'white' && 0 <= (selectedSquareId - 8)) {
 			grid[selectedSquareId - 8].addEventListener('click', moveToDestination);
 			grid[selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
-			if (pawnHasNotMoved.white[selectedPieceIndex] === true) {
+			if (piecesHasNotMoved.white.pawn[selectedPieceIndex] === true) {
 				grid[selectedSquareId - 16].addEventListener('click', moveToDestination);
 				grid[selectedSquareId - 16].style.boxShadow = highlightDestinationSquares
 			}	
@@ -637,7 +680,78 @@ const availablePieceMovesObject = {
 				grid[selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
 			}
 		}
+
+		// castling
+		if (piecesHasNotMoved[pieceColor].king === true && piecesHasNotMoved[pieceColor].rook[0] === true) {
+			// check if there are any pieces in between rook and king before adding the event listeners
+			for (let i = 0, j = selectedSquareId - 3; i < noPieceBetweenKingRook.left.length; i++, j++) {
+				if (stateGrid[j] != 0) noPieceBetweenKingRook.left[i] = false;
+				else noPieceBetweenKingRook.left[i] = true;
+			}
+			for (let i = 0; i < noPieceBetweenKingRook.left.length; i++) {
+				if (noPieceBetweenKingRook.left[i] != true) break;
+				else letKingCastleLeft = true;
+			}
+			if (letKingCastleLeft === true) {
+				grid[selectedSquareId - 2].addEventListener('click', moveToDestination);
+				grid[selectedSquareId - 2].style.boxShadow = highlightDestinationSquares;
+			}
+		}
+
+		//castle to right
+		if (piecesHasNotMoved[pieceColor].king === true && piecesHasNotMoved[pieceColor].rook[1] === true) {
+			// check if there are any pieces in between rook and king before adding the event listeners
+			for (let i = 0, j = selectedSquareId + 1; i < 2; i++, j++) {
+				if (stateGrid[j] != 0) noPieceBetweenKingRook.right[i] = false;
+				else noPieceBetweenKingRook.right[i] = true;
+			}
+			for (let i = 0; i < noPieceBetweenKingRook.right.length; i++) {
+				if (noPieceBetweenKingRook.right[i] != true) break;
+				letKingCastleRight = true;
+			}
+			if (letKingCastleRight === true) {
+				grid[selectedSquareId + 2].addEventListener('click', moveToDestination);
+				grid[selectedSquareId + 2].style.boxShadow = highlightDestinationSquares;
+			}
+		}
 	}
+}
+
+function makeKingCastle(rookIndex, rookMove, rookGridPlacement) {
+	let rookMoveTo = selectedSquareId + (rookMove)
+	let x_squareCoordinateRook = null;
+	let y_squareCoordinateRook = null;
+	let selectedCastlingRook = null;
+	piecesHasNotMoved[pieceColor].king = false;
+	piecesHasNotMoved[pieceColor].rook[rookIndex] = false;
+
+	movePieceElementToDestination();
+	x_squareCoordinateRook = parseInt(centerPositionSqaure[rookMoveTo].x_coordinate);
+	y_squareCoordinateRook = parseInt(centerPositionSqaure[rookMoveTo].y_coordinate);
+	selectedCastlingRook = pieceElementsObject[pieceColor].rook[rookIndex];
+	selectedCastlingRook.style.left = (x_squareCoordinateRook - subtractBoardDimentionWidth) + "px";
+	selectedCastlingRook.style.top = (y_squareCoordinateRook - subtractBoardDimentionHeight) + "px";
+
+	stateGrid[rookMoveTo] = pieceNumberIdentifier[pieceColor].rook;
+	stateGrid[rookGridPlacement] = 0;
+	pieceSquarePositionArray[pieceColor].rook[rookIndex] = rookMoveTo;
+	pieceSquarePositionArray[pieceColor].king[selectedPieceIndex] = Number(destinationSquare.id);
+	updateStateGrid();
+
+	registerTurn();
+
+	// castling is no longer possible again
+	letKingCastleLeft = false;
+	letKingCastleRight = false;
+	piecesHasNotMoved[pieceColor].rook[rookIndex] = false;
+	piecesHasNotMoved[pieceColor].king = false;
+	
+	// reset onSquareClick information
+	resetOnSquareClickInfo();
+	rookMoveTo = null;
+	x_squareCoordinateRook = null;
+	y_squareCoordinateRook = null;
+	selectedCastlingRook = null;
 }
 
 function checkIfPieceOnSquare(i) {
