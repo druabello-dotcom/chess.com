@@ -765,3 +765,5 @@ function checkIfPieceOnSquare(i) {
 	if (pieceColor === otherPieceColor) return false;
 	else return true;
 }
+
+window.addEventListener('resize', resizeGame);
