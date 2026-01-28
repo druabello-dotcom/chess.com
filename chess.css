@@ -115,11 +115,11 @@ width: 100%;
 	--white-square: antiquewhite; }
 :root {
 	--black-square: #95533b;
-	--white-square: antiquewhite; 
+	--white-square: antiquewhite;
+	--square-size: 4em; 
 }
 
 .game {
-	--square-size: 4em;
 	--button-padding: 0.75em;
 	display: flex;
 	flex-direction: column;
@@ -276,4 +276,10 @@ button:active .topLayer {
 	border-radius: 2.5mm;
 	padding: 0.4em 0.4em;
 	padding-right: 0.8em;
+}
+
+@media (max-width: 600px) {
+	:root {
+		--square-size: 3em;
+	}
 }

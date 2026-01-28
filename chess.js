@@ -19,6 +19,25 @@ for (let row = 0; row < 8; row++) {
 	}
 }
 
+const stateGrid = [];
+for (let i = 0; i < 64; i++) {
+	stateGrid.push(null);
+}
+let centerPositionSqaure = [];
+let chessboardDimentions = chessboard.getBoundingClientRect();
+console.log("Height of chessboard:  " + chessboardDimentions.height);
+console.log("Width of chessboard:  " + chessboardDimentions.width);
+//store coordinates for center of each square (x & y component)
+let squareXValue = (chessboardDimentions.width) / 16;
+let squareYValue = (chessboardDimentions.height) / 16;
+for (let row = 1; row < 9; row++) {
+	for (let column = 1; column < 9; column++) {
+		centerPositionSqaure.push({x_coordinate: squareXValue * ((column * 2) - 1), y_coordinate: squareYValue * ((row * 2) - 1)});
+	}
+}
+let subtractBoardDimentionWidth = (chessboardDimentions.width / 16);
+let subtractBoardDimentionHeight = (chessboardDimentions.height / 17);
+
 let turnCounter = 0;
 let turnCounterElement = document.getElementById('turn-counter');
 let turnDecider = null;
@@ -37,10 +56,6 @@ function alternatingTurn() {
 }
 alternatingTurn();
 
-const stateGrid = [];
-for (let i = 0; i < 64; i++) {
-	stateGrid.push(null);
-}
 // grid-array with all square elements
 const grid = Array.from(document.querySelectorAll('.square'));
 
@@ -81,14 +96,6 @@ const pieceNumberIdentifier = {
 		king: 6
 	} 
 }
-const mapPieces = {
-	1: "pawn",
-	2: "knight",
-	3: "bishop",
-	4: "rook",
-	5: "queen",
-	6: "king"
-  };
 
 const pieceSquarePositionArray = {
 	black: {
@@ -108,7 +115,6 @@ const pieceSquarePositionArray = {
 		king:   Array(1).fill(null)
 	}
 };
-;
 
 let noPieceBetweenKingRook = {
 	left: Array(3).fill(false),
@@ -129,13 +135,12 @@ let piecesHasNotMoved = {
 	}
 }
 
-// get chessboard dimentions
-const chessboardDimentions = chessboard.getBoundingClientRect();
+/* // get chessboard dimentions
+let chessboardDimentions = chessboard.getBoundingClientRect();
 console.log("Height of chessboard:  " + chessboardDimentions.height);
 console.log("Width of chessboard:  " + chessboardDimentions.width);
 
-//store coordinates for center of each square (x & y component)
-let centerPositionSqaure = []; 
+//store coordinates for center of each square (x & y component
 let squareXValue = (chessboardDimentions.width) / 16;
 let squareYValue = (chessboardDimentions.height) / 16;
 for (let row = 1; row < 9; row++) {
@@ -145,7 +150,7 @@ for (let row = 1; row < 9; row++) {
 }
 
 const subtractBoardDimentionWidth = (chessboardDimentions.width / 16);
-const subtractBoardDimentionHeight = (chessboardDimentions.height / 17);
+const subtractBoardDimentionHeight = (chessboardDimentions.height / 17); */
 
 // reset chessboard
 const resetChessboardButton = document.getElementById('resetChessboardButton');
@@ -277,6 +282,74 @@ function resetChessboard() {
 }
 resetChessboard();
 
+const mapPieces = {
+	1: "pawn",
+	2: "knight",
+	3: "bishop",
+	4: "rook",
+	5: "queen",
+	6: "king"
+  };
+
+// the square that got clicked
+let selectedSquare = null;
+let selectedSquareId = null;
+let destinationSquare = null;
+let clickOnPieceToReset = []; // determines what squares activates resetOnSquareClick()
+
+// information about the piece inside selected square
+let selectedPiece = null; 
+let selectedPieceArray = null;
+let selectedPieceIndex = null;
+let pieceType = null;
+let valueInSquare = null;
+let pieceColor = null;
+
+// change position of the piece, via destination square
+let x_squareCoordinate = null;
+let y_squareCoordinate = null; 
+
+function resizeGame() {
+	// centerPositionSquare Update
+	updateElementsResize();
+}
+function updateElementsResize() {
+	chessboardDimentions = chessboard.getBoundingClientRect();
+	console.log("Height of chessboard:  " + chessboardDimentions.height);
+	console.log("Width of chessboard:  " + chessboardDimentions.width);
+	//store coordinates for center of each square (x & y component)
+	centerPositionSqaure = [];
+	let squareXValue = (chessboardDimentions.width) / 16;
+	let squareYValue = (chessboardDimentions.height) / 16;
+	for (let row = 1; row < 9; row++) {
+		for (let column = 1; column < 9; column++) {
+			centerPositionSqaure.push({x_coordinate: squareXValue * ((column * 2) - 1), y_coordinate: squareYValue * ((row * 2) - 1)});
+		}
+	}
+	subtractBoardDimentionWidth = (chessboardDimentions.width / 16);
+	subtractBoardDimentionHeight = (chessboardDimentions.height / 17);
+
+	//——————————————————————————————————————————————————————————————————————
+	// update pieces
+	for (let i = 0; i < stateGrid.length; i++) {
+		if (stateGrid[i] === 0) continue;
+		valueInSquare = stateGrid[i];
+		pieceType = mapPieces[Math.abs(valueInSquare)];
+		if (valueInSquare < 0) pieceColor = 'black';
+		else if (0 < valueInSquare) pieceColor = 'white';
+		selectedPieceIndex = pieceSquarePositionArray[pieceColor][pieceType].indexOf(i);
+		selectedPiece = pieceElementsObject[pieceColor][pieceType][selectedPieceIndex];
+		// move piece to corresponding square
+		selectedPiece.style.left = (parseInt(centerPositionSqaure[i].x_coordinate) - subtractBoardDimentionWidth)+ "px";
+		selectedPiece.style.top = (parseInt(centerPositionSqaure[i].y_coordinate) - subtractBoardDimentionHeight) + "px";
+	}
+
+}
+resizeGame();
+console.log("Width of window:  " + window.innerWidth)
+
+
+
 // toggle dropdown menu
 const select = document.querySelector('.select');
 const options = document.querySelector('.options');
@@ -313,23 +386,6 @@ for (let i = 0; i < 64; i++) {
 };
 	
 let isClicked = false;
-	// the square that got clicked
-	let selectedSquare = null;
-	let selectedSquareId = null;
-	let destinationSquare = null;
-	let clickOnPieceToReset = []; // determines what squares activates resetOnSquareClick()
-	
-	// information about the piece inside selected square
-	let selectedPiece = null; 
-	let selectedPieceArray = null;
-	let selectedPieceIndex = null;
-	let pieceType = null;
-	let valueInSquare = null;
-	let pieceColor = null;
-
-	// change position of the piece, via destination square
-	let x_squareCoordinate = null;
-	let y_squareCoordinate = null;
 
 function onSquareClick(event) {
 	selectedSquare = event.target;
