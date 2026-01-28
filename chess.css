@@ -95,6 +95,7 @@ width: 100%;
 	background-color: var(--white-square);
 	margin-left: .5em;
 	width: calc(100% - 1em);
+	z-index: 20;
 }
 
 /* Color palattes */
