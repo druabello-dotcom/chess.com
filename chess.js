@@ -355,6 +355,7 @@ function onSquareClick(event) {
 	console.log(selectedPieceArray);
 	console.log("You must move:  " + pieceType)
 	selectedPieceIndex = selectedPieceArray.indexOf(selectedSquareId);
+	console.log(selectedPieceIndex);
 
 	// the selected piece is now found inside program
 	selectedPiece = pieceElementsObject[pieceColor][pieceType][selectedPieceIndex];
@@ -387,7 +388,7 @@ function moveToDestination(destination) {
 	destinationSquare = destination.target;
 
 	// if user wants to castle, here it is activated
-	if (pieceType === 'king') {
+	if (pieceType === 'king' && (Number(destinationSquare.id) === selectedSquareId - 2 || Number(destinationSquare.id) === selectedSquareId + 2)) {
 		if (Number(destinationSquare.id) === selectedSquareId - 2 && letKingCastleLeft === true) { // castle to left
 			if (pieceColor === 'white') makeKingCastle(0, -1, 56);
 			else if (pieceColor === 'black') makeKingCastle(0, -1, 0);
@@ -733,6 +734,7 @@ function makeKingCastle(rookIndex, rookMove, rookGridPlacement) {
 	stateGrid[rookMoveTo] = pieceNumberIdentifier[pieceColor].rook;
 	stateGrid[rookGridPlacement] = 0;
 	pieceSquarePositionArray[pieceColor].rook[rookIndex] = rookMoveTo;
+	pieceSquarePositionArray[pieceColor].king[selectedPieceIndex] = Number(destinationSquare.id);
 	updateStateGrid();
 
 	registerTurn();
