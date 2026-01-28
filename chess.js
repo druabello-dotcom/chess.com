@@ -307,11 +307,14 @@ let pieceColor = null;
 
 // change position of the piece, via destination square
 let x_squareCoordinate = null;
-let y_squareCoordinate = null; 
+let y_squareCoordinate = null;
+let chessboardChildren = Array.from(chessboard.children);
 
 function resizeGame() {
 	// centerPositionSquare Update
+	for (let i = 0; i < chessboardChildren.length; i++) chessboardChildren[i].style.transition = "none";
 	updateElementsResize();
+	for (let i = 0; i < chessboardChildren.length; i++) chessboardChildren[i].style.transition = "0.15s";
 }
 function updateElementsResize() {
 	chessboardDimentions = chessboard.getBoundingClientRect();
@@ -330,7 +333,7 @@ function updateElementsResize() {
 	subtractBoardDimentionHeight = (chessboardDimentions.height / 17);
 
 	//——————————————————————————————————————————————————————————————————————
-	// update pieces
+	// update pieces — make this into a function
 	for (let i = 0; i < stateGrid.length; i++) {
 		if (stateGrid[i] === 0) continue;
 		valueInSquare = stateGrid[i];
@@ -343,7 +346,6 @@ function updateElementsResize() {
 		selectedPiece.style.left = (parseInt(centerPositionSqaure[i].x_coordinate) - subtractBoardDimentionWidth)+ "px";
 		selectedPiece.style.top = (parseInt(centerPositionSqaure[i].y_coordinate) - subtractBoardDimentionHeight) + "px";
 	}
-
 }
 resizeGame();
 console.log("Width of window:  " + window.innerWidth)
