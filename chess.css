@@ -298,7 +298,14 @@ button:active .topLayer {
 		padding: calc(0.75 * var(--top-bottom-padding));
 	}
 	.topLayer {
-		height: 75%;
+		height: 0%;
+		width: 225%;
+		justify-content: center;
+		align-items: center;
+		
+		padding-bottom: 0.875em;
+		padding-left: 17.5%;
+		padding-right: 0%;
 	}
 /* 	.topLayer {
 		width: var(--size-multiplier);

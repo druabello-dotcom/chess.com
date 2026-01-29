@@ -325,7 +325,7 @@ function updateElementsResize() {
 	}
 	if (window.innerWidth < 600) {
 		topLayerButton.innerText = "⟳";
-		topLayerButton.style.fontSize = "175%"
+		topLayerButton.style.fontSize = "200%"
 	}
 
 	chessboardDimentions = chessboard.getBoundingClientRect();
