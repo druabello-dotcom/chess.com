@@ -315,8 +315,10 @@ let chessboardChildren = Array.from(chessboard.children);
 function resizeGame() {
 	// centerPositionSquare Update
 	for (let i = 0; i < chessboardChildren.length; i++) chessboardChildren[i].style.transition = "none";
+	topLayerButton.style.transition = "none";
 	updateElementsResize();
 	for (let i = 0; i < chessboardChildren.length; i++) chessboardChildren[i].style.transition = "0.15s";
+	topLayerButton.style.transition = "0.2s";
 }
 function updateElementsResize() {
 	if (600 < window.innerWidth) {
