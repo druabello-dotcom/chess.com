@@ -19,6 +19,8 @@ for (let row = 0; row < 8; row++) {
 	}
 }
 
+const topLayerButton = document.getElementById('topLayer');
+
 const stateGrid = [];
 for (let i = 0; i < 64; i++) {
 	stateGrid.push(null);
@@ -317,6 +319,15 @@ function resizeGame() {
 	for (let i = 0; i < chessboardChildren.length; i++) chessboardChildren[i].style.transition = "0.15s";
 }
 function updateElementsResize() {
+	if (600 < window.innerWidth) {
+		topLayerButton.innerText = "Reset Chessboard";
+		topLayerButton.style.fontSize = "100%";
+	}
+	if (window.innerWidth < 600) {
+		topLayerButton.innerText = "⟳";
+		topLayerButton.style.fontSize = "175%"
+	}
+
 	chessboardDimentions = chessboard.getBoundingClientRect();
 	console.log("Height of chessboard:  " + chessboardDimentions.height);
 	console.log("Width of chessboard:  " + chessboardDimentions.width);

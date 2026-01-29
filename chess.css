@@ -117,7 +117,9 @@ width: 100%;
 :root {
 	--black-square: #95533b;
 	--white-square: antiquewhite;
-	--square-size: 4em; 
+	--square-size: 4em;
+	--font-size: 1em;
+
 }
 
 .game {
@@ -186,6 +188,7 @@ button {
 }
 
 .topLayer {
+	font-size: 1em;
 	width: 100%;
 	height: 100%;
 	padding-top: 0.75em;
@@ -195,7 +198,7 @@ button {
 
 	background-color: rgb(255, 255, 238);
 	font-family: monospace;
-	font-size: 1em;
+	font-size: var(--font-size);
 
 	display: flex;
 	align-items: center;
@@ -232,11 +235,13 @@ button:active .topLayer {
 	transform: translateY(0.45em);
 }
 .top-ui {
+	--top-bottom-padding: 0.4em 0.4em;
 	width: calc(8 * var(--square-size));
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	margin-bottom: 0.5em;
+	font-size: var(--font-size);
 }
 .turn-decider {
 	display: flex;
@@ -248,7 +253,7 @@ button:active .topLayer {
 	
 	border: 2px solid black;
 	border-radius: 2.5mm;
-	padding: 0.4em 0.4em;
+	padding: var(--top-bottom-padding);
 }
 #turnDecider {
 	padding-right: 0.5em;
@@ -275,12 +280,45 @@ button:active .topLayer {
 	
 	border: 2px solid black;
 	border-radius: 2.5mm;
-	padding: 0.4em 0.4em;
+	padding: var(--top-bottom-padding);
 	padding-right: 0.8em;
 }
 
 @media (max-width: 600px) {
 	:root {
+		--size-multiplier: 0.75;
+		--button-padding: calc(var(--size-multiplier) * 0.75em);
 		--square-size: 3em;
+		--font-size: calc(var(--size-multiplier) * 1em)
 	}
+	.game {
+		--button-padding: calc(var(--size-multiplier) * var(--button-padding))
+	}
+	.turn-decider {
+		padding: calc(0.75 * var(--top-bottom-padding));
+	}
+	.topLayer {
+		height: 75%;
+	}
+/* 	.topLayer {
+		width: var(--size-multiplier);
+		height: var(--size-multiplier);
+		padding-top: calc(var(--size-multiplier) * 0.75em);
+		padding-bottom: calc(var(--size-multiplier) * 0.75em);
+		padding-right: var(--button-padding);
+		padding-left: var(--button-padding);
+
+		font-size: calc(var(--size-multiplier) * 1em);
+	}
+	.bottomLayer {
+		width: var(--size-multiplier);
+		height: var(--size-multiplier);
+		padding-right: var(--button-padding);
+		padding-left: var(--button-padding);
+
+		padding-top: calc(var(--size-multiplier) * 0.75em);
+		padding-bottom: calc(var(--size-multiplier) * 2em);
+		top: calc(var(--size-multiplier) * -2.25em);
+		border-radius: calc(var(--size-multiplier) * 7mm);
+	} */
 }
