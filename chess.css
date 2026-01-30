@@ -100,21 +100,27 @@ width: 100%;
 
 /* Color palattes */
 .freshwater {
+	--black-square-font-color: white;
 	--black-square: #7e998a;
 	--white-square: antiquewhite; }
 .gotham {
+	--black-square-font-color: white;
 	--black-square: #445552;
 	--white-square: antiquewhite; }
 .yaleBlue {
+	--black-square-font-color: white;
 	--black-square: #274060;
 	--white-square: antiquewhite; }
 .bile {
+	--black-square-font-color: white;
 	--black-square: #335c81;
 	--white-square: antiquewhite; }
 .default {
+	--black-square-font-color: white;
 	--black-square: #95533b;
 	--white-square: antiquewhite; }
 :root {
+	--black-square-font-color: black;
 	--black-square: #95533b;
 	--white-square: antiquewhite;
 	--square-size: 4em;
@@ -190,6 +196,7 @@ button {
 }
 .topLayer {
 	font-size: 1em;
+	color: black;
 	width: 100%;
 	padding-top: 0.75em;
 	padding-bottom: 0.75em;
@@ -198,6 +205,7 @@ button {
 
 	background-color: antiquewhite;
 	/* background-color: rgb(255, 255, 238); */
+	/* background-color: var(--black-square); */
 	font-family: monospace;
 	font-size: var(--font-size);
 
@@ -205,8 +213,9 @@ button {
 	align-items: center;
 	justify-content: center;
 
-	border-radius: 7mm;
+	border-radius: 2.5mm;
 	outline: 2px solid rgb(36, 38, 34);
+	/* outline: 2px solid var(--black-square-font-color); */
 
 	transition: 0.2s;
 }
@@ -226,10 +235,10 @@ button {
 	position: relative;
 	z-index: -1;
 
-	border-radius: 7mm;
+	border-radius: 2.5mm;
 	outline: 2px solid rgb(36, 38, 34);
 
-	box-shadow: 0px 0.15em 0px 0.2em rgb(171, 171, 171);
+	box-shadow: 0px 0.15em 0px 0.125em rgb(171, 171, 171);
 }
 
 button:active .topLayer {
@@ -316,18 +325,22 @@ button:active .topLayer {
 		transform: translateY(-0.25rem);
 	}
 	.topLayer {
+		border-radius: 7mm;
 		height: 0%;
-		width: 200%;
+		width: 212.5%;
 		
 		/* padding-bottom: 0.875em; */
-		padding-bottom: 0.75em;
+		color: var(--black-square-font-color);
+		background-color: var(--black-square);
+		padding-bottom: 0.8em;
 		padding-left: 17.5%;
 		padding-right: 0%;
 	}
 	.bottomLayer {
 		/* z-index: 20; */
+		border-radius: 7mm;
 		height: 0%;
-		width: 200%;
+		width: 212.5%;
 		justify-content: center;
 		align-items: center;
 		transform: translateY(0.15em);

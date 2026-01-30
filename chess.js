@@ -324,10 +324,12 @@ function updateElementsResize() {
 	if (600 < window.innerWidth) {
 		topLayerButton.innerText = "Reset Chessboard";
 		topLayerButton.style.fontSize = "100%";
+		topLayerButton.style.color = "black";
 	}
 	if (window.innerWidth < 600) {
 		topLayerButton.innerText = "⟳";
 		topLayerButton.style.fontSize = "200%"
+		topLayerButton.style.color = "white";
 	}
 
 	chessboardDimentions = chessboard.getBoundingClientRect();
@@ -348,9 +350,9 @@ function updateElementsResize() {
 	//——————————————————————————————————————————————————————————————————————
 	// update pieces — make this into a function
 	for (let i = 0; i < stateGrid.length; i++) {
-		if (stateGrid[i] === 0) continue;
-		valueInSquare = stateGrid[i];
-		pieceType = mapPieces[Math.abs(valueInSquare)];
+	if (stateGrid[i] === 0) continue;
+	valueInSquare = stateGrid[i];
+	pieceType = mapPieces[Math.abs(valueInSquare)];
 		if (valueInSquare < 0) pieceColor = 'black';
 		else if (0 < valueInSquare) pieceColor = 'white';
 		selectedPieceIndex = pieceSquarePositionArray[pieceColor][pieceType].indexOf(i);
@@ -381,11 +383,13 @@ let colorIndicator = document.querySelector('.selected');
 for (let i = 1; i <= colorwayElements.length; i++) colorwayArray.push(i);
 for (let i = 0;  i < colorwayArray.length; i++) {
 	colorwayElements[i].addEventListener('click', (event) => {
+		let oldSelectedColorway = chessboard.className;
 		let selectedColorway = event.target.id;
 		let selectedColorwayText = event.target.innerText;
 		chessboard.className = selectedColorway;
 		colorIndicator.innerText = selectedColorwayText;
-
+		topLayerButton.classList.remove(oldSelectedColorway);
+		topLayerButton.classList.add(selectedColorway);
 	})
 }
 
