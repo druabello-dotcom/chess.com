@@ -123,7 +123,7 @@ width: 100%;
 	--black-square-font-color: black;
 	--black-square: #95533b;
 	--white-square: antiquewhite;
-	--square-size: 4em;
+	--square-size: 4rem;
 	--font-size: 1em;
 
 }
@@ -137,11 +137,32 @@ width: 100%;
 #logBook {
 	/* transform: translateY(3.2rem); */
 	transform: translateY(calc(0.8 * var(--square-size)));
-	width: 15rem;
-	height: calc(8 * var(--square-size));
+	width: calc(3.5 * var(--square-size));
+	height: calc(8 * 4rem);
 	border: 2px solid black;
+	font-family: monospace;
 	border-radius: 1.5mm;
+	display: flex;
+	flex-direction: column;
 }
+.columnHeader {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: 1fr;
+	padding: 0.5rem;
+	border-radius: 0.9mm;
+	background-color: var(--white-square);
+	outline: 2px solid black;
+}
+/* #moveCount {
+	grid-column: 1;
+}
+#whiteMove {
+	grid-column: 2;
+}
+#blackMove {
+	grid-column: 3;
+} */
 
 .game {
 	--button-padding: 0.75em;
@@ -319,7 +340,7 @@ button:active .topLayer {
 	:root {
 		--size-multiplier: 0.75;
 		--button-padding: calc(var(--size-multiplier) * 0.75em);
-		--square-size: 3em;
+		--square-size: 3rem;
 		--font-size: calc(var(--size-multiplier) * 1em)
 	}
 	.game {
