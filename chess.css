@@ -157,6 +157,7 @@ width: 100%;
 	background-color: var(--black-square);
 	color: white;
 	outline: 2px solid black;
+	transition: 0.2s;
 }
 
 .loggedContent {
@@ -180,7 +181,6 @@ width: 100%;
 	justify-content: center;
 	align-items: center;
 	gap: 0.75rem;
-	/* gap: 0.75rem; */
 }
 
 #chessboard {

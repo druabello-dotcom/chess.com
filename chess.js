@@ -377,6 +377,7 @@ select.addEventListener('click', () => {
 	select.classList.toggle('select-clicked');
 });
 // choose colorway
+const colorHeaderLogBook = document.getElementById('columnHeader');
 let colorwayArray = [];
 const colorwayElements = Array.from(document.querySelectorAll('.options span'));
 let colorIndicator = document.querySelector('.selected');
@@ -386,8 +387,13 @@ for (let i = 0;  i < colorwayArray.length; i++) {
 		let oldSelectedColorway = chessboard.className;
 		let selectedColorway = event.target.id;
 		let selectedColorwayText = event.target.innerText;
+
 		chessboard.className = selectedColorway;
 		colorIndicator.innerText = selectedColorwayText;
+
+		colorHeaderLogBook.classList.remove(oldSelectedColorway);
+		colorHeaderLogBook.classList.add(selectedColorway);
+
 		topLayerButton.classList.remove(oldSelectedColorway);
 		topLayerButton.classList.add(selectedColorway);
 	})
