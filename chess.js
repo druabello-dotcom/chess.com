@@ -418,7 +418,24 @@ for (let i = 0;  i < colorwayArray.length; i++) {
 		topLayerButton.classList.add(selectedColorway);
 	})
 }
-
+const pieceNotation = {
+	black: {
+		pawn: "p",
+		knight: "n",
+		bishop: "b", 
+		rook: "r",
+		queen: "q",
+		king: "k"
+	},
+	white: {
+		pawn: "P",
+		knight: "N",
+		bishop: "B", 
+		rook: "R",
+		queen: "Q",
+		king: "K"
+	}
+}
 const fileNumberIdentifier = {
 	1: "a",
 	2: "b",
@@ -428,6 +445,10 @@ const fileNumberIdentifier = {
 	6: "f",
 	7: "g",
 	8: "h"
+}
+function whatPieceLetter() {
+	if (pieceType === 'pawn') return "";
+	else return pieceNotation[pieceColor][pieceType];
 }
 function whatRank() {
 	let identifiedRankNumber = null;
@@ -586,21 +607,23 @@ function registerTurn() {
 	turnCounterElement.innerText = "Turn counter:  " + turnCounter;
 	let pieceMovedToSquareSpan = document.createElement('span');
 	let loggedPieceElementIcon = document.createElement('img');
+
 	loggedPieceElementIcon.src = CreatePieceElements.pieceIcons[pieceColor][pieceType];
 	loggedPieceElementIcon.alt = CreatePieceElements.pieceIconAlt[pieceColor][pieceType];
 	loggedPieceElementIcon.classList.add('movedPiece');
-	pieceMovedToSquareSpan.innerText = pointToGridIdx();
+
+	/* pieceMovedToSquareSpan.innerText = pointToGridIdx(); */
+	pieceMovedToSquareSpan.innerText = `${whatPieceLetter()}${pointToGridIdx()}`;
 	pieceMovedToSquareSpan.appendChild(loggedPieceElementIcon);
+
 	if (turnCounter % 2 === 1) {
 		logBookRowCounter++;
 		let logBookRowCounterElement = document.createElement('span');
 		logBookRowCounterElement.innerText = `${logBookRowCounter}.`;
 		moveCountColumn.appendChild(logBookRowCounterElement)
 		whiteMoveColumn.appendChild(pieceMovedToSquareSpan);
-		/* whiteMoveColumn.appendChild(loggedPieceElement); */
 	} else {
 		blackMoveColumn.appendChild(pieceMovedToSquareSpan);
-		/* blackMoveColumn.appendChild(loggedPieceElement); */
 	}
 	alternatingTurn();
 }
