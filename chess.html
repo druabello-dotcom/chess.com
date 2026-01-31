@@ -8,30 +8,38 @@
 </head>
 <body>
 	
-
-<div class="game">
-	<div id="chessboard" class="chessboard">
-		<span class="piece bishop">
-			<img src="pieces-basic-png/black-bishop.png" alt="bishop">
-		</span>
-		<span class="piece pawn">
-			<img src="pieces-basic-png/black-pawn.png" alt="pawn">
-			</span>
-			
-		<span class="piece rook">
-			<img src="pieces-basic-png/black-rook.png" alt="rook">
-		</span>
-		<span class="piece queen">
-			<img src="pieces-basic-png/black-queen.png" alt="queen">
-		</span>
-		</span>
-		<span class="piece knight">
-			<img src="pieces-basic-png/black-knight.png" alt="knight">
-		</span>
+<div class="dropdown">
+	<h2>Color palattes</h2>
+	<div class="select">
+		<span class="selected">Default</span>
+		<div class="caret"></div>
 	</div>
-	</div>
+	<ul class="options">
+		<span class="default" id="default">Default</span>
+		<span class="freshwater" id="freshwater">Freshwater</span>
+		<span class="gotham" id="gotham">Gotham</span>
+		<span class="yaleBlue" id="yaleBlue">Yale Blue</span>
+		<span class="bile" id="bile">"Bile"</span>
+	</ul>
 </div>
 
-<script src="chess.js"></script>
+<div class="game">
+	<div class="top-ui" id="topUi">
+		<button type="button" id="resetChessboardButton">
+			<div class="topLayer default" id="topLayer">Reset Chessboard</div>
+			<div class="bottomLayer"></div>
+		</button>
+		<div id="alternatingTurn">
+			<div class="white" id="turn-counter"></div>
+			<div class="turn-decider white">
+				<span class="turn-white" id="turnDeciderColorIndicator"></span>
+				<div id="turnDecider">White to turn</div>
+			</div>
+		</div>
+	</div>
+	<div id="chessboard" class="default" ></div>
+</div>
+
+<script type="module" src="chess.js"></script>
 </body>
 </html>
