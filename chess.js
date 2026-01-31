@@ -204,7 +204,7 @@ function resetChessboard() {
 		moveCountColumnElements[i].remove();
 		whiteMoveColumnElements[i].remove();
 	}
-	for (let i = 0; i < moveCountColumnElements.length; i++) blackMoveColumnElements[i].remove();
+	for (let i = 0; i < blackMoveColumnElements.length; i++) blackMoveColumnElements[i].remove();
 	logBookRowCounter = 0;
 
 	// reset castling information
