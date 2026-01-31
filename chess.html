@@ -16,28 +16,33 @@
 	</div>
 	<ul class="options">
 		<span class="default" id="default">Default</span>
-		<span class="freshwater id="freshwater">Freshwater</span>
+		<span class="freshwater" id="freshwater">Freshwater</span>
 		<span class="gotham" id="gotham">Gotham</span>
 		<span class="yaleBlue" id="yaleBlue">Yale Blue</span>
 		<span class="bile" id="bile">"Bile"</span>
 	</ul>
 </div>
 
-<div class="game">
-	<div class="top-ui" id="topUi">
-		<button type="button" id="resetChessboardButton">
-			<div class="topLayer default" id="topLayer">Reset Chessboard</div>
-			<div class="bottomLayer"></div>
-		</button>
-		<div id="alternatingTurn">
-			<div class="white" id="turn-counter"></div>
-			<div class="turn-decider white">
-				<span class="turn-white" id="turnDeciderColorIndicator"></span>
-				<div id="turnDecider">White to turn</div>
+<div class="chess">
+	<div class="game">
+		<div class="top-ui" id="topUi">
+			<button type="button" id="resetChessboardButton">
+				<div class="topLayer default" id="topLayer">Reset Chessboard</div>
+				<div class="bottomLayer"></div>
+			</button>
+			<div id="alternatingTurn">
+				<div class="white" id="turn-counter"></div>
+				<div class="turn-decider white">
+					<span class="turn-white" id="turnDeciderColorIndicator"></span>
+					<div id="turnDecider">White to turn</div>
+				</div>
 			</div>
 		</div>
+		<div id="chessboard" class="default" ></div>
 	</div>
-	<div id="chessboard" class="default" ></div>
+	<div class="logBook" id="logBook">
+		hei
+	</div>
 </div>
 
 <script type="module" src="chess.js"></script>
