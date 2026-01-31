@@ -419,7 +419,31 @@ for (let i = 0;  i < colorwayArray.length; i++) {
 	})
 }
 
+const fileNumberIdentifier = {
+	1: "a",
+	2: "b",
+	3: "c",
+	4: "d",
+	5: "e",
+	6: "f",
+	7: "g",
+	8: "h"
+}
+function whatFile() {
+	let identifiedFileNumber = null;
+	if (Number(destinationSquare.id) % 8 === 0) identifiedFileNumber = 1;
+	else if (Number(destinationSquare.id) % 8 === 1) identifiedFileNumber = 2;
+	else if (Number(destinationSquare.id) % 8 === 2) identifiedFileNumber = 3;
+	else if (Number(destinationSquare.id) % 8 === 3) identifiedFileNumber = 4;
+	else if (Number(destinationSquare.id) % 8 === 4) identifiedFileNumber = 5;
+	else if (Number(destinationSquare.id) % 8 === 5) identifiedFileNumber = 6;
+	else if (Number(destinationSquare.id) % 8 === 6) identifiedFileNumber = 7;
+	else if (Number(destinationSquare.id) % 8 === 7) identifiedFileNumber = 8;
+	return fileNumberIdentifier[identifiedFileNumber];
+}
+let identifiedFile = null;
 function pointToGridIdx(x, y) {
+	identifiedFile = whatFile();
 	return y * 8 + x;
 }
 
