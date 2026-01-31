@@ -523,15 +523,23 @@ function updateStateGrid() {
 }
 let logBookRowCounter = 0;
 const loggedMoves = document.getElementById('loggedContent');
+const moveCountColumn = document.getElementById('moveCountColumn')
+const whiteMoveColumn = document.getElementById('whiteMoveColumn');
+const blackMoveColumn = document.getElementById('blackMoveColumn');
 function registerTurn() {
 	// the other player's turn
 	turnCounter++;
 	turnCounterElement.innerText = "Turn counter:  " + turnCounter;
+	let pieceMovedToSquare = document.createElement('span');
+	pieceMovedToSquare.innerText = "hei";
 	if (turnCounter % 2 === 1) {
 		logBookRowCounter++;
 		let logBookRowCounterElement = document.createElement('span');
 		logBookRowCounterElement.innerText = `${logBookRowCounter}.`;
-		loggedMoves.appendChild(logBookRowCounterElement);
+		moveCountColumn.appendChild(logBookRowCounterElement)
+		whiteMoveColumn.appendChild(pieceMovedToSquare);
+	} else {
+		blackMoveColumn.appendChild(pieceMovedToSquare);
 	}
 	alternatingTurn();
 }

@@ -162,8 +162,25 @@ width: 100%;
 
 .loggedContent {
 	display: grid;
+	grid-template-columns: repeat(3, 1fr);
 	padding-left: calc(0.125 * var(--square-size));
 }
+#moveCountColumn {
+	grid-column: 1;
+	display: flex;
+	flex-direction: column;
+}
+#whiteMoveColumn {
+	grid-column: 2;
+	display: flex;
+	flex-direction: column;
+}
+#blackMoveColumn {
+	grid-column: 3;
+	display: flex;
+	flex-direction: column;
+}
+
 /* #moveCount {
 	grid-column: 1;
 }
