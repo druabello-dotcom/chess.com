@@ -584,16 +584,23 @@ function registerTurn() {
 	// the other player's turn
 	turnCounter++;
 	turnCounterElement.innerText = "Turn counter:  " + turnCounter;
-	let pieceMovedToSquare = document.createElement('span');
-	pieceMovedToSquare.innerText = pointToGridIdx();
+	let pieceMovedToSquareSpan = document.createElement('span');
+	let loggedPieceElementIcon = document.createElement('img');
+	loggedPieceElementIcon.src = CreatePieceElements.pieceIcons[pieceColor][pieceType];
+	loggedPieceElementIcon.alt = CreatePieceElements.pieceIconAlt[pieceColor][pieceType];
+	loggedPieceElementIcon.classList.add('movedPiece');
+	pieceMovedToSquareSpan.innerText = pointToGridIdx();
+	pieceMovedToSquareSpan.appendChild(loggedPieceElementIcon);
 	if (turnCounter % 2 === 1) {
 		logBookRowCounter++;
 		let logBookRowCounterElement = document.createElement('span');
 		logBookRowCounterElement.innerText = `${logBookRowCounter}.`;
 		moveCountColumn.appendChild(logBookRowCounterElement)
-		whiteMoveColumn.appendChild(pieceMovedToSquare);
+		whiteMoveColumn.appendChild(pieceMovedToSquareSpan);
+		/* whiteMoveColumn.appendChild(loggedPieceElement); */
 	} else {
-		blackMoveColumn.appendChild(pieceMovedToSquare);
+		blackMoveColumn.appendChild(pieceMovedToSquareSpan);
+		/* blackMoveColumn.appendChild(loggedPieceElement); */
 	}
 	alternatingTurn();
 }

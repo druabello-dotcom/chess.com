@@ -127,7 +127,10 @@ width: 100%;
 	--font-size: 1em;
 
 }
-
+.movedPiece {
+	width: calc(0.175 * var(--square-size));
+	height: calc(0.175 * var(--square-size));
+}
 .chess {
 	display: flex;
 	flex-direction: row;
