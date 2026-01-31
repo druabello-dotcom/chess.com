@@ -585,7 +585,7 @@ function registerTurn() {
 	turnCounter++;
 	turnCounterElement.innerText = "Turn counter:  " + turnCounter;
 	let pieceMovedToSquare = document.createElement('span');
-	pieceMovedToSquare.innerText = "hei";
+	pieceMovedToSquare.innerText = pointToGridIdx();
 	if (turnCounter % 2 === 1) {
 		logBookRowCounter++;
 		let logBookRowCounterElement = document.createElement('span');
