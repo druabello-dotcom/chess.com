@@ -388,10 +388,6 @@ for (let i = 0;  i < colorwayArray.length; i++) {
 		let selectedColorwayText = event.target.innerText;
 		chessboard.className = selectedColorway;
 		colorIndicator.innerText = selectedColorwayText;
-		for (let i = 0; i < colorwayElements.length; i++) {
-			colorwayElements[i].classList.remove(oldSelectedColorway);
-			colorwayElements[i].classList.add(selectedColorway);
-		}
 		topLayerButton.classList.remove(oldSelectedColorway);
 		topLayerButton.classList.add(selectedColorway);
 	})
