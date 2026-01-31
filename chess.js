@@ -58,6 +58,13 @@ function alternatingTurn() {
 }
 alternatingTurn();
 
+// log book variables
+let logBookRowCounter = 0;
+const loggedMoves = document.getElementById('loggedContent');
+const moveCountColumn = document.getElementById('moveCountColumn')
+const whiteMoveColumn = document.getElementById('whiteMoveColumn');
+const blackMoveColumn = document.getElementById('blackMoveColumn');
+
 // grid-array with all square elements
 const grid = Array.from(document.querySelectorAll('.square'));
 
@@ -186,6 +193,19 @@ function resetChessboard() {
 	turnDeciderText.innerText = "White to move";
 	turnDeciderColorIndicator.className = "turn-white";
 	stateGrid.fill(0);
+
+	// log book elements
+	let moveCountColumnElements = document.querySelectorAll('#moveCountColumn span');
+	let whiteMoveColumnElements = document.querySelectorAll('#whiteMoveColumn span');
+	let blackMoveColumnElements = document.querySelectorAll('#blackMoveColumn span');
+
+	// remove elements visually
+	for (let i = 0; i < moveCountColumnElements.length; i++) {
+		moveCountColumnElements[i].remove();
+		whiteMoveColumnElements[i].remove();
+	}
+	for (let i = 0; i < moveCountColumnElements.length; i++) blackMoveColumnElements[i].remove();
+	logBookRowCounter = 0;
 
 	// reset castling information
 	noPieceBetweenKingRook.left.fill(false);
@@ -521,11 +541,6 @@ function updateStateGrid() {
 	stateGrid[destinationSquare.id] = valueInSquare;
 	console.log(stateGrid);
 }
-let logBookRowCounter = 0;
-const loggedMoves = document.getElementById('loggedContent');
-const moveCountColumn = document.getElementById('moveCountColumn')
-const whiteMoveColumn = document.getElementById('whiteMoveColumn');
-const blackMoveColumn = document.getElementById('blackMoveColumn');
 function registerTurn() {
 	// the other player's turn
 	turnCounter++;
