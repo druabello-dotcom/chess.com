@@ -521,10 +521,18 @@ function updateStateGrid() {
 	stateGrid[destinationSquare.id] = valueInSquare;
 	console.log(stateGrid);
 }
+let logBookRowCounter = 0;
+const loggedMoves = document.getElementById('loggedContent');
 function registerTurn() {
 	// the other player's turn
 	turnCounter++;
 	turnCounterElement.innerText = "Turn counter:  " + turnCounter;
+	if (turnCounter % 2 === 1) {
+		logBookRowCounter++;
+		let logBookRowCounterElement = document.createElement('span');
+		logBookRowCounterElement.innerText = `${logBookRowCounter}.`;
+		loggedMoves.appendChild(logBookRowCounterElement);
+	}
 	alternatingTurn();
 }
 function resetOnSquareClickInfo() {
