@@ -431,14 +431,14 @@ const fileNumberIdentifier = {
 }
 function whatRank() {
 	let identifiedRankNumber = null;
-	if (0 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 8) identifiedRankNumber = 1;
-	else if (8 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 16) identifiedRankNumber = 2;
-	else if (16 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 24) identifiedRankNumber = 3;
-	else if (24 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 32) identifiedRankNumber = 4;
-	else if (32 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 40) identifiedRankNumber = 5;
-	else if (40 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 48) identifiedRankNumber = 6;
-	else if (48 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 56) identifiedRankNumber = 7;
-	else if (56 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 64) identifiedRankNumber = 8;
+	if (0 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 8) identifiedRankNumber = 8;
+	else if (8 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 16) identifiedRankNumber = 7;
+	else if (16 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 24) identifiedRankNumber = 6;
+	else if (24 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 32) identifiedRankNumber = 5;
+	else if (32 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 40) identifiedRankNumber = 4;
+	else if (40 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 48) identifiedRankNumber = 3;
+	else if (48 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 56) identifiedRankNumber = 2;
+	else if (56 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 64) identifiedRankNumber = 1;
 	return identifiedRankNumber;
 }
 function whatFile() {
