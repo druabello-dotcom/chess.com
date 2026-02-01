@@ -177,6 +177,9 @@ width: 100%;
 	-ms-overflow-style: none;
 	overflow-y: scroll;
 }
+.loggedContent span {
+	margin-bottom: 5em;
+}
 #moveCountColumn {
 	grid-column: 1;
 	display: flex;
@@ -192,16 +195,6 @@ width: 100%;
 	display: flex;
 	flex-direction: column;
 }
-
-/* #moveCount {
-	grid-column: 1;
-}
-#whiteMove {
-	grid-column: 2;
-}
-#blackMove {
-	grid-column: 3;
-} */
 
 .game {
 	--button-padding: 0.75em;

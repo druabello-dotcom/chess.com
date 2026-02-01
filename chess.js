@@ -615,7 +615,7 @@ function registerTurn() {
 	/* pieceMovedToSquareSpan.innerText = pointToGridIdx(); */
 	pieceMovedToSquareSpan.innerText = `${whatPieceLetter()}${pointToGridIdx()}`;
 	pieceMovedToSquareSpan.appendChild(loggedPieceElementIcon);
-
+	
 	if (turnCounter % 2 === 1) {
 		logBookRowCounter++;
 		let logBookRowCounterElement = document.createElement('span');
@@ -625,6 +625,7 @@ function registerTurn() {
 	} else {
 		blackMoveColumn.appendChild(pieceMovedToSquareSpan);
 	}
+	loggedMoves.scrollTop = loggedMoves.scrollHeight;
 	alternatingTurn();
 }
 function resetOnSquareClickInfo() {
