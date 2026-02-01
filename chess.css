@@ -123,9 +123,77 @@ width: 100%;
 	--black-square-font-color: black;
 	--black-square: #95533b;
 	--white-square: antiquewhite;
-	--square-size: 4em;
+	--square-size: 4rem;
 	--font-size: 1em;
 
+}
+.movedPiece {
+	width: calc(0.175 * var(--square-size));
+	height: calc(0.175 * var(--square-size));
+}
+.chess {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: calc(0.25 * var(--square-size));
+}
+
+#logBook {
+	/* transform: translateY(3.2rem); */
+	transform: translateY(calc(0.8 * var(--square-size)));
+	width: calc(3.5 * var(--square-size));
+	height: calc(8 * 4rem);
+	border: 2px solid black;
+	font-family: monospace;
+	border-radius: 1.5mm;
+	display: flex;
+	flex-direction: column;
+	/* gap: calc(0.125 * var(--square-size)); */
+	background-color: var(--white-square);
+}
+.logBook::-webkit-scrollbar {
+	display: none;
+}
+.columnHeader {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: 1fr;
+	padding: 0.5rem;
+	border-radius: 0.9mm;
+	background-color: var(--black-square);
+	color: white;
+	outline: 2px solid black;
+	transition: 0.2s;
+}
+
+.loggedContent {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	margin-top: calc(0.125 * var(--square-size));
+	padding-left: calc(0.125 * var(--square-size));
+	padding-bottom: calc(0.125 * var(--square-size));
+
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	overflow-y: scroll;
+}
+.loggedContent span {
+	margin-bottom: calc(0.1 * var(--square-size));
+}
+#moveCountColumn {
+	grid-column: 1;
+	display: flex;
+	flex-direction: column;
+}
+#whiteMoveColumn {
+	grid-column: 2;
+	display: flex;
+	flex-direction: column;
+}
+#blackMoveColumn {
+	grid-column: 3;
+	display: flex;
+	flex-direction: column;
 }
 
 .game {
@@ -134,7 +202,7 @@ width: 100%;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: 75vh;
+	gap: 0.75rem;
 }
 
 #chessboard {
@@ -251,7 +319,6 @@ button:active .topLayer {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 0.75em;
 	font-size: var(--font-size);
 }
 
@@ -305,7 +372,7 @@ button:active .topLayer {
 	:root {
 		--size-multiplier: 0.75;
 		--button-padding: calc(var(--size-multiplier) * 0.75em);
-		--square-size: 3em;
+		--square-size: 3rem;
 		--font-size: calc(var(--size-multiplier) * 1em)
 	}
 	.game {

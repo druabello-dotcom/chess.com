@@ -58,6 +58,13 @@ function alternatingTurn() {
 }
 alternatingTurn();
 
+// log book variables
+let logBookRowCounter = 0;
+const loggedMoves = document.getElementById('loggedContent');
+const moveCountColumn = document.getElementById('moveCountColumn')
+const whiteMoveColumn = document.getElementById('whiteMoveColumn');
+const blackMoveColumn = document.getElementById('blackMoveColumn');
+
 // grid-array with all square elements
 const grid = Array.from(document.querySelectorAll('.square'));
 
@@ -186,6 +193,19 @@ function resetChessboard() {
 	turnDeciderText.innerText = "White to move";
 	turnDeciderColorIndicator.className = "turn-white";
 	stateGrid.fill(0);
+
+	// log book elements
+	let moveCountColumnElements = document.querySelectorAll('#moveCountColumn span');
+	let whiteMoveColumnElements = document.querySelectorAll('#whiteMoveColumn span');
+	let blackMoveColumnElements = document.querySelectorAll('#blackMoveColumn span');
+
+	// remove elements visually
+	for (let i = 0; i < moveCountColumnElements.length; i++) {
+		moveCountColumnElements[i].remove();
+		whiteMoveColumnElements[i].remove();
+	}
+	for (let i = 0; i < blackMoveColumnElements.length; i++) blackMoveColumnElements[i].remove();
+	logBookRowCounter = 0;
 
 	// reset castling information
 	noPieceBetweenKingRook.left.fill(false);
@@ -377,6 +397,7 @@ select.addEventListener('click', () => {
 	select.classList.toggle('select-clicked');
 });
 // choose colorway
+const colorHeaderLogBook = document.getElementById('columnHeader');
 let colorwayArray = [];
 const colorwayElements = Array.from(document.querySelectorAll('.options span'));
 let colorIndicator = document.querySelector('.selected');
@@ -386,15 +407,80 @@ for (let i = 0;  i < colorwayArray.length; i++) {
 		let oldSelectedColorway = chessboard.className;
 		let selectedColorway = event.target.id;
 		let selectedColorwayText = event.target.innerText;
+
 		chessboard.className = selectedColorway;
 		colorIndicator.innerText = selectedColorwayText;
+
+		colorHeaderLogBook.classList.remove(oldSelectedColorway);
+		colorHeaderLogBook.classList.add(selectedColorway);
+
 		topLayerButton.classList.remove(oldSelectedColorway);
 		topLayerButton.classList.add(selectedColorway);
 	})
 }
-
+const pieceNotation = {
+	black: {
+		pawn: "p",
+		knight: "n",
+		bishop: "b", 
+		rook: "r",
+		queen: "q",
+		king: "k"
+	},
+	white: {
+		pawn: "P",
+		knight: "N",
+		bishop: "B", 
+		rook: "R",
+		queen: "Q",
+		king: "K"
+	}
+}
+const fileNumberIdentifier = {
+	1: "a",
+	2: "b",
+	3: "c",
+	4: "d",
+	5: "e",
+	6: "f",
+	7: "g",
+	8: "h"
+}
+function whatPieceLetter() {
+	if (pieceType === 'pawn') return "";
+	else return pieceNotation[pieceColor][pieceType];
+}
+function whatRank() {
+	let identifiedRankNumber = null;
+	if (0 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 8) identifiedRankNumber = 8;
+	else if (8 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 16) identifiedRankNumber = 7;
+	else if (16 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 24) identifiedRankNumber = 6;
+	else if (24 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 32) identifiedRankNumber = 5;
+	else if (32 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 40) identifiedRankNumber = 4;
+	else if (40 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 48) identifiedRankNumber = 3;
+	else if (48 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 56) identifiedRankNumber = 2;
+	else if (56 <= Number(destinationSquare.id) && Number(destinationSquare.id) < 64) identifiedRankNumber = 1;
+	return identifiedRankNumber;
+}
+function whatFile() {
+	let identifiedFileNumber = null;
+	if (Number(destinationSquare.id) % 8 === 0) identifiedFileNumber = 1;
+	else if (Number(destinationSquare.id) % 8 === 1) identifiedFileNumber = 2;
+	else if (Number(destinationSquare.id) % 8 === 2) identifiedFileNumber = 3;
+	else if (Number(destinationSquare.id) % 8 === 3) identifiedFileNumber = 4;
+	else if (Number(destinationSquare.id) % 8 === 4) identifiedFileNumber = 5;
+	else if (Number(destinationSquare.id) % 8 === 5) identifiedFileNumber = 6;
+	else if (Number(destinationSquare.id) % 8 === 6) identifiedFileNumber = 7;
+	else if (Number(destinationSquare.id) % 8 === 7) identifiedFileNumber = 8;
+	return fileNumberIdentifier[identifiedFileNumber];
+}
+let identifiedFile = null;
 function pointToGridIdx(x, y) {
-	return y * 8 + x;
+	let identifiedFile = whatFile();
+	let identifiedRank = whatRank();
+	let squareNotation = `${identifiedFile}${identifiedRank}`;
+	return squareNotation;
+	/* return y * 8 + x; */
 }
 
 console.log(centerPositionSqaure)
@@ -519,6 +605,27 @@ function registerTurn() {
 	// the other player's turn
 	turnCounter++;
 	turnCounterElement.innerText = "Turn counter:  " + turnCounter;
+	let pieceMovedToSquareSpan = document.createElement('span');
+	let loggedPieceElementIcon = document.createElement('img');
+
+	loggedPieceElementIcon.src = CreatePieceElements.pieceIcons[pieceColor][pieceType];
+	loggedPieceElementIcon.alt = CreatePieceElements.pieceIconAlt[pieceColor][pieceType];
+	loggedPieceElementIcon.classList.add('movedPiece');
+
+	/* pieceMovedToSquareSpan.innerText = pointToGridIdx(); */
+	pieceMovedToSquareSpan.innerText = `${whatPieceLetter()}${pointToGridIdx()}`;
+	pieceMovedToSquareSpan.appendChild(loggedPieceElementIcon);
+	
+	if (turnCounter % 2 === 1) {
+		logBookRowCounter++;
+		let logBookRowCounterElement = document.createElement('span');
+		logBookRowCounterElement.innerText = `${logBookRowCounter}.`;
+		moveCountColumn.appendChild(logBookRowCounterElement)
+		whiteMoveColumn.appendChild(pieceMovedToSquareSpan);
+	} else {
+		blackMoveColumn.appendChild(pieceMovedToSquareSpan);
+	}
+	loggedMoves.scrollTop = loggedMoves.scrollHeight;
 	alternatingTurn();
 }
 function resetOnSquareClickInfo() {

@@ -23,21 +23,35 @@
 	</ul>
 </div>
 
-<div class="game">
-	<div class="top-ui" id="topUi">
-		<button type="button" id="resetChessboardButton">
-			<div class="topLayer default" id="topLayer">Reset Chessboard</div>
-			<div class="bottomLayer"></div>
-		</button>
-		<div id="alternatingTurn">
-			<div class="white" id="turn-counter"></div>
-			<div class="turn-decider white">
-				<span class="turn-white" id="turnDeciderColorIndicator"></span>
-				<div id="turnDecider">White to turn</div>
+<div class="chess">
+	<div class="game">
+		<div class="top-ui" id="topUi">
+			<button type="button" id="resetChessboardButton">
+				<div class="topLayer default" id="topLayer">Reset Chessboard</div>
+				<div class="bottomLayer"></div>
+			</button>
+			<div id="alternatingTurn">
+				<div class="white" id="turn-counter"></div>
+				<div class="turn-decider white">
+					<span class="turn-white" id="turnDeciderColorIndicator"></span>
+					<div id="turnDecider">White to turn</div>
+				</div>
 			</div>
 		</div>
+		<div id="chessboard" class="default" ></div>
 	</div>
-	<div id="chessboard" class="default" ></div>
+	<div class="logBook" id="logBook">
+		<div class="columnHeader default" id="columnHeader">
+			<span id="moveCount">Move</span>
+			<span id="whiteMove">White</span>
+			<span id="blackMove">Black</span>
+		</div>
+		<div class="loggedContent" id="loggedContent">
+			<div class="moveCountColumn" id="moveCountColumn"></div>
+			<div class="whiteMoveColumn" id="whiteMoveColumn"></div>
+			<div class="blackMoveColumn" id="blackMoveColumn"></div>
+		</div>
+	</div>
 </div>
 
 <script type="module" src="chess.js"></script>
