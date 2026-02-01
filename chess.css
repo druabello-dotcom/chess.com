@@ -150,6 +150,13 @@ width: 100%;
 	flex-direction: column;
 	gap: calc(0.125 * var(--square-size));
 	background-color: var(--white-square);
+
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	overflow-y: scroll;
+}
+.logBook::-webkit-scrollbar {
+	display: none;
 }
 .columnHeader {
 	display: grid;
@@ -167,6 +174,7 @@ width: 100%;
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	padding-left: calc(0.125 * var(--square-size));
+	padding-bottom: calc(0.125 * var(--square-size));
 }
 #moveCountColumn {
 	grid-column: 1;
