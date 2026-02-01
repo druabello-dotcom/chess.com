@@ -178,7 +178,7 @@ width: 100%;
 	overflow-y: scroll;
 }
 .loggedContent span {
-	margin-bottom: 5em;
+	margin-bottom: calc(0.1 * var(--square-size));
 }
 #moveCountColumn {
 	grid-column: 1;
