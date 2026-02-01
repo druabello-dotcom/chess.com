@@ -148,12 +148,8 @@ width: 100%;
 	border-radius: 1.5mm;
 	display: flex;
 	flex-direction: column;
-	gap: calc(0.125 * var(--square-size));
+	/* gap: calc(0.125 * var(--square-size)); */
 	background-color: var(--white-square);
-
-	scrollbar-width: none;
-	-ms-overflow-style: none;
-	overflow-y: scroll;
 }
 .logBook::-webkit-scrollbar {
 	display: none;
@@ -173,8 +169,13 @@ width: 100%;
 .loggedContent {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
+	margin-top: calc(0.125 * var(--square-size));
 	padding-left: calc(0.125 * var(--square-size));
 	padding-bottom: calc(0.125 * var(--square-size));
+
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	overflow-y: scroll;
 }
 #moveCountColumn {
 	grid-column: 1;
