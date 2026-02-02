@@ -870,9 +870,9 @@ const availablePieceMovesObject = {
 				if (stateGrid[j] != 0) noPieceBetweenKingRook.left[i] = false;
 				else noPieceBetweenKingRook.left[i] = true;
 			}
-			for (let i = 0; i < noPieceBetweenKingRook.left.length; i++) {
-				if (noPieceBetweenKingRook.left[i] != true) break;
-				else letKingCastleLeft = true;
+			for (let i = 1; i < noPieceBetweenKingRook.left.length; i++) {
+				if (noPieceBetweenKingRook.left[0] === true && noPieceBetweenKingRook.left[i] === true) letKingCastleLeft = true;
+				else break;
 			}
 			if (letKingCastleLeft === true) {
 				grid[selectedSquareId - 2].addEventListener('click', moveToDestination);
@@ -887,9 +887,9 @@ const availablePieceMovesObject = {
 				if (stateGrid[j] != 0) noPieceBetweenKingRook.right[i] = false;
 				else noPieceBetweenKingRook.right[i] = true;
 			}
-			for (let i = 0; i < noPieceBetweenKingRook.right.length; i++) {
-				if (noPieceBetweenKingRook.right[i] != true) break;
-				letKingCastleRight = true;
+			for (let i = 1; i < noPieceBetweenKingRook.right.length; i++) {
+				if (noPieceBetweenKingRook.right[0] === true && noPieceBetweenKingRook.right[i] === true) letKingCastleRight = true;
+				else break;
 			}
 			if (letKingCastleRight === true) {
 				grid[selectedSquareId + 2].addEventListener('click', moveToDestination);
