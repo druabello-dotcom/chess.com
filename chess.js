@@ -870,9 +870,9 @@ const availablePieceMovesObject = {
 				if (stateGrid[j] != 0) noPieceBetweenKingRook.left[i] = false;
 				else noPieceBetweenKingRook.left[i] = true;
 			}
-			for (let i = 0; i < noPieceBetweenKingRook.left.length; i++) {
-				if (noPieceBetweenKingRook.left[i] != true) break;
-				else letKingCastleLeft = true;
+			for (let i = 1; i < noPieceBetweenKingRook.left.length; i++) {
+				if (noPieceBetweenKingRook.left[0] === true && noPieceBetweenKingRook.left[i] === true) letKingCastleLeft = true;
+				else break;
 			}
 			if (letKingCastleLeft === true) {
 				grid[selectedSquareId - 2].addEventListener('click', moveToDestination);
