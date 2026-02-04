@@ -39,7 +39,7 @@ export function resetChessboard() {
 		whiteMoveColumnElements[i].remove();
 	}
 	for (let i = 0; i < blackMoveColumnElements.length; i++) blackMoveColumnElements[i].remove();
-	TurnRegister.registerTurnVariables.logBookRowCounter = 0;
+	TurnRegister.logBookVariables.logBookRowCounter = 0;
 
 	// reset castling information
 	noPieceBetweenKingRook.left.fill(false);
