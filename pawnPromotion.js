@@ -25,3 +25,17 @@ export function promotePawn(destinationSquare) {
     showPromotionOptions(selectPieceState.pieceColor)
     chessboard.appendChild(promotionOptions);
 }
+
+function showPromotionOptions(color) {
+    for (let t = 1; t < (CreatePieceElements.pieceTypeArray.length - 1); t++) {
+        let type = CreatePieceElements.pieceTypeArray[t];
+        let pieceElementSpan = document.createElement('span');
+        pieceElementSpan.addEventListener('click', switchPieceType(color, type));
+        let pieceElementIcon = document.createElement('img');
+        pieceElementSpan.classList.add('piece', color, type);
+        pieceElementIcon.src = CreatePieceElements.pieceIcons[color][type];
+        pieceElementIcon.alt = CreatePieceElements.pieceIconAlt[color][type];
+
+        pieceElementSpan.appendChild(pieceElementIcon);
+    }
+}
