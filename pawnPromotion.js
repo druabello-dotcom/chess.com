@@ -39,3 +39,29 @@ function showPromotionOptions(color) {
         pieceElementSpan.appendChild(pieceElementIcon);
     }
 }
+function switchPieceType(color, pieceType) {
+    // pieceElementsObject[pieceColor][pieceType][pieceIndex] — get img.src = pieceIcons[color][pieceType];
+    // remove current pawn icon, and replace with selected promotion
+    let selectedPieceImg = selectPieceState.selectPieceState.getElementsByTagName('img');
+    selectedPieceImg.src = CreatePieceElements.pieceIcons[color][pieceType];
+    selectedPieceImg.alt = CreatePieceElements.pieceIcons[color][pieceType];
+
+    // update class for promoted piece
+    for (let i = 1; i < selectPieceState.selectPieceState.classList.length; i++) selectPieceState.selectPieceState.classList[i].remove();
+    selectPieceState.selectPieceState.classList.add(color, pieceType);
+
+    // update pieceSquarePosition array & stateGrid
+    stateGrid[selectPieceState.destinationSquareId] = pieceNumberIdentifier[color][pieceType];
+    pieceSquarePositionArray[color].pawn[selectPieceState.selectedPieceIndex] = null;
+    pieceSquarePositionArray[color][pieceType].push(selectPieceState.destinationSquareId);
+}
+
+/* 
+    NOTATER:
+    - create span elements with span element
+        STYLING: 
+        same with as chessboard squares
+        highest z-index
+        pieceIcons inside the span
+        inside span elements shall be pieceicon
+*/
