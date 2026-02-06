@@ -1311,258 +1311,64 @@ const availablePieceMovesObject = {
 		}
 	},
 	king: function() {
-		if (0 <= (selectedSquareId - 9) && (selectedSquareId - 9) % 8 < selectedSquareId % 8 && checkIfPieceOnSquare(selectedSquareId - 9) === true) {
-			grid[selectedSquareId - 9].addEventListener('click', moveToDestination);
-			grid[selectedSquareId - 9].style.boxShadow = highlightDestinationSquares;
-			function valueInSquareChecker() {
-				if (valueInSquare < 0)  return "black" 
-				if (valueInSquare > 0) return "white" 
-			}
+		//same logic with checking the differenrnt pieces
 
-			let VIS = valueInSquareChecker()
+	function valueInSquareChecker() {
+		if (valueInSquare < 0) return "black";
+		if (valueInSquare > 0) return "white";
+	}
+	const VIS = valueInSquareChecker();
+	//'idx' as parameter  
+	//check colout at target square using the gids number system
+	function stateColorAt(idx) {
+		if (stateGrid[idx] === 0) return "empty";
+		if (stateGrid[idx] < 0) return "black";
+		return "white";
+	}
+		//'if no pieces at target -> continue
+		function addKingMove(idx) {
+			if (checkIfPieceOnSquare(idx) === false) return;
 
-			function stateGridChecker() {
-				if (stateGrid[selectedSquareId-9] === 0) return "empty"  
-				if (stateGrid[selectedSquareId-9] < 0)  return "black" 
-				if (stateGrid[selectedSquareId-9] > 0)  return "white" 
-			}
-			let STC = stateGridChecker()
-			console.log(STC)
-			console.log(VIS)
+			grid[idx].addEventListener('click', moveToDestination);
+			grid[idx].style.boxShadow = highlightDestinationSquares;
 
-	 		if (VIS !== STC) {             
-				grid[selectedSquareId-9].style.boxShadow = highlightCaptureDestinationSquares;
-			}
-			else if (VIS === STC) {             
-				grid[selectedSquareId-9].removeEventListener('click', moveToDestination);
-				grid[selectedSquareId-9].style.boxShadow = "";
+			const STC = stateColorAt(idx);
+			//'if target not empty and not equal (to same colour) as selected king
+			if (STC !== "empty" && VIS !== STC) {
+				grid[idx].style.boxShadow = highlightCaptureDestinationSquares;
 			}
 		}
+		//from file will always be modolus 8 to later hinder wraparound.
+		const fromFile = selectedSquareId % 8;
+		let to = selectedSquareId - 9;
+		//'if the 'to' square is bigge than 0 and modlus 8 to square is bigger than from --> create available move
+				//addKingMove will check for enemy
+		if (to >= 0 && (to % 8) < fromFile) addKingMove(to);
 
-		if (0 <= (selectedSquareId - 1) && (selectedSquareId - 1) % 8 < selectedSquareId % 8 ) {
-			grid[selectedSquareId - 1].addEventListener('click', moveToDestination);
-			grid[selectedSquareId - 1].style.boxShadow = highlightDestinationSquares;
-			function valueInSquareChecker() {
-				if (valueInSquare < 0)  return "black"
-				if (valueInSquare > 0) 	return "white" 
-			}
-			let VIS = valueInSquareChecker()
+	to = selectedSquareId - 8;
+	if (to >= 0) addKingMove(to);
 
-			function stateGridChecker() {
-				if (stateGrid[selectedSquareId-1] === 0) return "empty" 
-				if (stateGrid[selectedSquareId-1] < 0)  return "black" 
-				if (stateGrid[selectedSquareId-1] > 0) return "white" 
-			}
-			let STC = stateGridChecker()
-			console.log(STC)
-			console.log(VIS)
-			if (VIS !== STC) {             
-				grid[selectedSquareId-1].style.boxShadow = highlightCaptureDestinationSquares;
-			
-			}
-		else if (VIS === STC) {             
-			grid[selectedSquareId-1].removeEventListener('click', moveToDestination);
-			grid[selectedSquareId-1].style.boxShadow = "";	
-		}
-			}
-			if ((selectedSquareId + 7) < 64 && (selectedSquareId + 7) % 8 < selectedSquareId % 8 && checkIfPieceOnSquare(selectedSquareId + 7) === true) {
-				grid[selectedSquareId + 7].addEventListener('click', moveToDestination);
-				grid[selectedSquareId + 7].style.boxShadow = highlightDestinationSquares;
-				function valueInSquareChecker() {
-					if (valueInSquare < 0)  return "black" 
-					if (valueInSquare > 0)  return "white" 
-				}
+	to = selectedSquareId - 7;
+	if (to >= 0 && (to % 8) > fromFile) addKingMove(to);
 
-				let VIS = valueInSquareChecker()
+	to = selectedSquareId - 1;
+	if (to >= 0 && (to % 8) < fromFile) addKingMove(to);
 
-				function stateGridChecker() {
-					if (stateGrid[selectedSquareId+7] === 0)  return "empty"  
-					if (stateGrid[selectedSquareId+7] < 0)  return "black" 
-					if (stateGrid[selectedSquareId+7] > 0)  return "white" 
-			}
-				let STC = stateGridChecker()
+	to = selectedSquareId + 1;
+	if (to < 64 && (to % 8) > fromFile) addKingMove(to);
 
-				console.log(STC)
-				console.log(VIS)
+	to = selectedSquareId + 7;
+	if (to < 64 && (to % 8) < fromFile) addKingMove(to);
 
-				if (VIS !== STC) {             
-					grid[selectedSquareId+7].style.boxShadow = highlightCaptureDestinationSquares;
-				}
-				else if (VIS === STC) {             
-					grid[selectedSquareId+7].removeEventListener('click', moveToDestination);
-					grid[selectedSquareId+7].style.boxShadow = "";
-				}	
-		}
-		if ((selectedSquareId + 8) < 64) {
-				grid[selectedSquareId + 8].addEventListener('click', moveToDestination);
-				grid[selectedSquareId + 8].style.boxShadow = highlightDestinationSquares;
-				function valueInSquareChecker() {
-		if (valueInSquare < 0)  return "black" 
-		if (valueInSquare > 0)  return "white" 
-	}
-	let VIS = valueInSquareChecker()
+	to = selectedSquareId + 8;
+	if (to < 64) addKingMove(to);
 
-	function stateGridChecker() {
-		if (stateGrid[selectedSquareId+8] === 0)  return "empty"   
-		if (stateGrid[selectedSquareId+8] < 0)  return "black" 
-		if (stateGrid[selectedSquareId+8] > 0)  return "white" 
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-	
-	}
-	else if (VIS !== STC) {             
-		grid[selectedSquareId+8].style.boxShadow = highlightCaptureDestinationSquares;
-		
-	}
-	else if (VIS === STC) {             
-		grid[selectedSquareId+8].removeEventListener('click', moveToDestination);
-		grid[selectedSquareId+8].style.boxShadow = "";
-
-	
-	}
-			
-			
-		}
-		if ((selectedSquareId + 9) < 64 && selectedSquareId % 8 < (selectedSquareId + 9) % 8) {
-			
-			
-				grid[selectedSquareId + 9].addEventListener('click', moveToDestination);
-				grid[selectedSquareId + 9].style.boxShadow = highlightDestinationSquares;
-			// if false, capturePiece()
-
-				function valueInSquareChecker() {
-		if (valueInSquare < 0)  return "black" 
-		if (valueInSquare > 0)  return "white" 
-	
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[selectedSquareId+9] === 0) { return "empty" }  
-		if (stateGrid[selectedSquareId+9] < 0) { return "black" }
-		if (stateGrid[selectedSquareId+9] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-	}
-	else if (VIS !== STC) {             
-		grid[selectedSquareId+9].style.boxShadow = highlightCaptureDestinationSquares;
-	}
-	else if (VIS === STC) {             
-		grid[selectedSquareId+9].removeEventListener('click', moveToDestination);
-		grid[selectedSquareId+9].style.boxShadow = "";
-	
-	}
-		}
-		if ((selectedSquareId + 1) < 64 && selectedSquareId % 8 < (selectedSquareId + 1) % 8) {
-		
-				grid[selectedSquareId + 1].addEventListener('click', moveToDestination);
-				grid[selectedSquareId + 1].style.boxShadow = highlightDestinationSquares;
-			
-			
-				
-				function valueInSquareChecker() {
-		if (valueInSquare < 0)  return "black" 
-		if (valueInSquare > 0)  return "white" 
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[selectedSquareId+1] === 0)  return "empty" }  
-		if (stateGrid[selectedSquareId+1] < 0)  return "black" 
-		if (stateGrid[selectedSquareId+1] > 0)  return "white" 
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-	}
-	else if (VIS !== STC) {             
-		grid[selectedSquareId+1].style.boxShadow = highlightCaptureDestinationSquares;
-	
-	}
-	else if (VIS === STC) {             
-		grid[selectedSquareId+1].removeEventListener('click', moveToDestination);
-		grid[selectedSquareId+1].style.boxShadow = "";
-	
-	}
-		}
-		if (0 <= (selectedSquareId - 7) && selectedSquareId % 8 < (selectedSquareId - 7) % 8) {
-
-				grid[selectedSquareId - 7].addEventListener('click', moveToDestination);
-				grid[selectedSquareId - 7].style.boxShadow = highlightDestinationSquares;
-			
-
-				function valueInSquareChecker() {
-		if (valueInSquare < 0)  return "black" 
-		if (valueInSquare > 0)  return "white" 
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[selectedSquareId-7] === 0)  return "empty"   
-		if (stateGrid[selectedSquareId-7] < 0)  return "black" 
-		if (stateGrid[selectedSquareId-7] > 0)  return "white" 
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-
-	}
-	else if (VIS !== STC) {             
-		grid[selectedSquareId-7].style.boxShadow = highlightCaptureDestinationSquares;
-		
-	}
-	else if (VIS === STC) {             
-		grid[selectedSquareId-7].removeEventListener('click', moveToDestination);
-		grid[selectedSquareId-7].style.boxShadow = "";
-	}
-		}
-		
-		if (0 <= selectedSquareId - 8) {
-			console.log(selectedSquareId - 8)
-	
-				grid[selectedSquareId - 8].addEventListener('click', moveToDestination); 
-				grid[selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
-
-				function valueInSquareChecker() {
-		if (valueInSquare < 0)  return "black" 
-		if (valueInSquare > 0)  return "white" 
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[selectedSquareId-8] === 0)  return "empty"  
-		if (stateGrid[selectedSquareId-8] < 0)  return "black" 
-		if (stateGrid[selectedSquareId-8] > 0)  return "white"
-
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-	}
-	else if (VIS !== STC) {             
-		grid[selectedSquareId-8].style.boxShadow = highlightCaptureDestinationSquares;
-
-	}
-	else if (VIS === STC) {             
-		grid[selectedSquareId-8].removeEventListener('click', moveToDestination);
-		grid[selectedSquareId-8].style.boxShadow = "";
-		
-	}
+	to = selectedSquareId + 9;
+	if (to < 64 && (to % 8) > fromFile) addKingMove(to);
+	//improvement because moves are only created once the if statements are true.
+	//they are only altered once after being created by colour of highlight.
 }
-	}
+
 }
 
 function checkIfPieceOnSquare(i) {
