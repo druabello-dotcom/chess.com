@@ -368,6 +368,15 @@ button:active .topLayer {
 	padding-right: 0.8em;
 }
 
+.promotionOptions {
+	display: flex;
+	flex-direction: column;
+	width: var(--square-size);
+	border-radius: 1.5mm;
+	background-color: var(--white-square);
+	box-shadow: 0px 0.15em 7.5px 0.125em rgb(171, 171, 171);
+}
+
 @media (max-width: 600px) {
 	:root {
 		--size-multiplier: 0.75;
