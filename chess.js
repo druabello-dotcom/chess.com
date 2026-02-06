@@ -433,10 +433,16 @@ const availablePieceMovesObject = {
 		if (pawnHasNotMoved.black[selectedPieceIndex] === true) {
 			grid[selectedSquareId + 16].addEventListener('click', moveToDestination);
 			grid[selectedSquareId + 16].style.boxShadow = highlightDestinationSquares;
+
 			if (stateGrid[(selectedSquareId+16)]!==0 && pawnHasNotMoved.black[selectedPieceIndex] === true ) {
 				grid[selectedSquareId+16].removeEventListener('click', moveToDestination);
 				grid[selectedSquareId+16].style.boxShadow = "";	
-			}	
+			}
+
+			if (stateGrid[(selectedSquareId+8)]!==0 && pawnHasNotMoved.black[selectedPieceIndex] === true ){
+				grid[selectedSquareId+16].removeEventListener('click', moveToDestination);
+				grid[selectedSquareId+16].style.boxShadow = "";
+			}
 		}
 
 	} else if(pieceColor == 'white' && 0 <= (selectedSquareId - 8) || pieceColor == 'white' && 0 <= (selectedSquareId - 7)|| pieceColor == 'white' && 0 <= (selectedSquareId - 9)) {
@@ -473,6 +479,11 @@ const availablePieceMovesObject = {
 			}
 			
 			if (stateGrid[(selectedSquareId-16)]!==0 && pawnHasNotMoved.white[selectedPieceIndex] === true ){
+				grid[selectedSquareId-16].removeEventListener('click', moveToDestination);
+				grid[selectedSquareId-16].style.boxShadow = "";
+			}	
+
+			if (stateGrid[(selectedSquareId-8)]!==0 && pawnHasNotMoved.white[selectedPieceIndex] === true ){
 				grid[selectedSquareId-16].removeEventListener('click', moveToDestination);
 				grid[selectedSquareId-16].style.boxShadow = "";
 			}	
