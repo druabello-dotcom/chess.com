@@ -416,63 +416,51 @@ const availablePieceMovesObject = {
 				grid[selectedSquareId + 9].addEventListener('click', moveToDestination);
 				}
 				
-				console.log(stateGrid[pieceSquarePositionArray.white.pawn[selectedPieceIndex]+9]+"!!!")
-				console.log(selectedPieceIndex + "!!!!!")
-				}
-					if (stateGrid[(i+8)]!==0){
-							console.log(stateGrid[(i-8)])
-							grid[i+8].removeEventListener('click', moveToDestination);
-							grid[i+8].style.boxShadow = "";
-
-				}
+		
+			}
+				
+			if (stateGrid[(i+8)]!==0){
+				console.log(stateGrid[(i-8)])
+				grid[i+8].removeEventListener('click', moveToDestination);
+				grid[i+8].style.boxShadow = "";
+			}
 
 		
 
-			}
+		}
 		
  // this is to not make the pawn take any piece - friendlyor not when moving 2 squares forward on the first move
-			if (pawnHasNotMoved.black[selectedPieceIndex] === true) {
-				grid[selectedSquareId + 16].addEventListener('click', moveToDestination);
-				grid[selectedSquareId + 16].style.boxShadow = highlightDestinationSquares;
-					if (stateGrid[(selectedSquareId+16)]!==0 && pawnHasNotMoved.black[selectedPieceIndex] === true ){
-						grid[selectedSquareId+16].removeEventListener('click', moveToDestination);
-						grid[selectedSquareId+16].style.boxShadow = "";
-						
-					}	
-			}
+		if (pawnHasNotMoved.black[selectedPieceIndex] === true) {
+			grid[selectedSquareId + 16].addEventListener('click', moveToDestination);
+			grid[selectedSquareId + 16].style.boxShadow = highlightDestinationSquares;
+			if (stateGrid[(selectedSquareId+16)]!==0 && pawnHasNotMoved.black[selectedPieceIndex] === true ) {
+				grid[selectedSquareId+16].removeEventListener('click', moveToDestination);
+				grid[selectedSquareId+16].style.boxShadow = "";	
+			}	
+		}
 
-		} else if(pieceColor == 'white' && 0 <= (selectedSquareId - 8) || pieceColor == 'white' && 0 <= (selectedSquareId - 7)|| pieceColor == 'white' && 0 <= (selectedSquareId - 9)) {
+	} else if(pieceColor == 'white' && 0 <= (selectedSquareId - 8) || pieceColor == 'white' && 0 <= (selectedSquareId - 7)|| pieceColor == 'white' && 0 <= (selectedSquareId - 9)) {
 			grid[selectedSquareId - 8].addEventListener('click', moveToDestination);
 			grid[selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
 			for (let i = (selectedSquareId);  i < selectedSquareId+9; i+=9){
-			if ( (stateGrid[i-7]) < 0 || (stateGrid[i-9]) < 0) {
+				if ( (stateGrid[i-7]) < 0 || (stateGrid[i-9]) < 0) {
+					if ((stateGrid[i-7]) < 0 ){
+						grid[selectedSquareId - 7].addEventListener('click', moveToDestination);
+						grid[selectedSquareId - 7].style.boxShadow = highlightCaptureDestinationSquares;
+					}
 
-				if ((stateGrid[i-7]) < 0 ){
-				grid[selectedSquareId - 7].addEventListener('click', moveToDestination);
-				grid[selectedSquareId - 7].style.boxShadow = highlightCaptureDestinationSquares;
-				}
-
-				if ((stateGrid[i-9]) < 0 ){
-				grid[selectedSquareId - 9].style.boxShadow = highlightCaptureDestinationSquares;
-				grid[selectedSquareId - 9].addEventListener('click', moveToDestination);
-				}
-				
-				console.log(stateGrid[pieceSquarePositionArray.white.pawn[selectedPieceIndex]-9]+"!!!")
-				console.log(selectedPieceIndex + "!!!!!")
+					if ((stateGrid[i-9]) < 0 ){
+						grid[selectedSquareId - 9].style.boxShadow = highlightCaptureDestinationSquares;
+						grid[selectedSquareId - 9].addEventListener('click', moveToDestination);
+					}
 				}
 				
 				if (stateGrid[(i-8)]!==0){
-							console.log(stateGrid[(i-8)])
-							grid[i-8].removeEventListener('click', moveToDestination);
-							grid[i-8].style.boxShadow = "";
-
+						grid[i-8].removeEventListener('click', moveToDestination);
+						grid[i-8].style.boxShadow = "";
 				}
-
-
-			
 			}
 	
-
 			if (pawnHasNotMoved.white[selectedPieceIndex] === true) {
 				grid[selectedSquareId - 16].addEventListener('click', moveToDestination);
 				grid[selectedSquareId - 16].style.boxShadow = highlightDestinationSquares
@@ -480,256 +468,57 @@ const availablePieceMovesObject = {
 				if (stateGrid[(selectedSquareId-16)]!==0 && pawnHasNotMoved.white[selectedPieceIndex] === true ){
 					grid[selectedSquareId-16].removeEventListener('click', moveToDestination);
 					grid[selectedSquareId-16].style.boxShadow = "";
-			}
+				}
 				
 			}
 			
 			if (stateGrid[(selectedSquareId-16)]!==0 && pawnHasNotMoved.white[selectedPieceIndex] === true ){
 				grid[selectedSquareId-16].removeEventListener('click', moveToDestination);
 				grid[selectedSquareId-16].style.boxShadow = "";
-				console.log(stateGrid[(selectedSquareId-16)])
-				console.log(pawnHasNotMoved.white[selectedPieceIndex])
 			}	
 		}
 	},
-	bishop: function() {
-		for (let i = (selectedSquareId + 9); (selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
-			if (checkIfPieceOnSquare(i) === false) break;
+bishop: function() {
+	for (let i = (selectedSquareId + 9); (selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
+		if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 			function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+		let VIS = valueInSquareChecker()
 
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		continue
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
+		function stateGridChecker() {
+			if (stateGrid[i] === 0) { return "empty" }  
+			if (stateGrid[i] < 0) { return "black" }
+			if (stateGrid[i] > 0) { return "white" }
 		}
-		for (let i = (selectedSquareId + 7); (i % 8) < (selectedSquareId % 8) && i < 64; i+=7) {
-			if (checkIfPieceOnSquare(i) === false) break;
+		let STC = stateGridChecker()
+		console.log(STC)
+		console.log(VIS)
+
+		if (STC === "empty") {             
+			continue
+		}
+		else if (VIS !== STC) {             
+			grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+			break
+		}
+		else if (VIS === STC) {             
+			grid[i].removeEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = "";
+			break
+		}
+	}
+	for (let i = (selectedSquareId + 7); (i % 8) < (selectedSquareId % 8) && i < 64; i+=7) {
+		if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 			function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		continue
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
-		}
-		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			grid[i].addEventListener('click', moveToDestination);
-			grid[i].style.boxShadow = highlightDestinationSquares;
-			function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		continue
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
-		}
-		for (let i = (selectedSquareId - 7); (selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			checkIfPieceOnSquare(i);
-			grid[i].addEventListener('click', moveToDestination);
-			grid[i].style.boxShadow = highlightDestinationSquares;
-			function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		continue
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
-		}
-	},
-	rook: function() {
-		for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < (i % 8) && i < 64; i++) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			grid[i].addEventListener("click", moveToDestination);
-			grid[i].style.boxShadow = highlightDestinationSquares;
-			function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		continue
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
-		}
-		
-		for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			grid[i].addEventListener("click", moveToDestination);
-			grid[i].style.boxShadow = highlightDestinationSquares;
-			function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		continue
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
-		}
-		for (let i = (selectedSquareId + 8); i < 64; i+=8) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			grid[i].addEventListener("click", moveToDestination);
-			grid[i].style.boxShadow = highlightDestinationSquares;
-			function wrappedCapture () {}
-			function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		continue
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
-		}
-		for (let i = (selectedSquareId - 8); 0 <= i ; i-=8) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			grid[i].addEventListener("click", moveToDestination);
-			grid[i].style.boxShadow = highlightDestinationSquares;
-			function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}	
 			let VIS = valueInSquareChecker()
 
 			function stateGridChecker() {
@@ -753,78 +542,274 @@ const availablePieceMovesObject = {
 				grid[i].style.boxShadow = "";
 				break
 			}
-				}
-			},
-	knight: function(){
-		function RD (){
-			let i = selectedSquareId + 10;
-			if ((selectedSquareId % 8) < (i % 8) && i < 64 && checkIfPieceOnSquare(i) === true){
-				grid[i].addEventListener("click", moveToDestination);
-				grid[i].style.boxShadow = highlightDestinationSquares;
-							 function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
 	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		return
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		return
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		return
-	}
-				
-	}
-		}; RD();
-		function RU (){
-			let i = selectedSquareId - 10;
-			if ((selectedSquareId % 8) > (i % 8) && i >= 0 && checkIfPieceOnSquare(i) == true){
-				grid[i].addEventListener("click", moveToDestination);
-				grid[i].style.boxShadow = highlightDestinationSquares;
-							 function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		return
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		return
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		return
-	}
+	for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
+		if (checkIfPieceOnSquare(i) === false) break;
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
 			}
-		}; RU();
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
+	}
+	for (let i = (selectedSquareId - 7); (selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
+		if (checkIfPieceOnSquare(i) === false) break;
+			checkIfPieceOnSquare(i);
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
+	}
+},
+rook: function() {
+	for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < (i % 8) && i < 64; i++) {
+		if (checkIfPieceOnSquare(i) === false) break;
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
+	}
+		
+	for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
+		if (checkIfPieceOnSquare(i) === false) break;
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
+	}
+	for (let i = (selectedSquareId + 8); i < 64; i+=8) {
+		if (checkIfPieceOnSquare(i) === false) break;
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
+	}
+	for (let i = (selectedSquareId - 8); 0 <= i ; i-=8) {
+		if (checkIfPieceOnSquare(i) === false) break;
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
+	}
+},
+knight: function(){
+	function RD (){
+		let i = selectedSquareId + 10;
+		if ((selectedSquareId % 8) < (i % 8) && i < 64 && checkIfPieceOnSquare(i) === true){
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+			 function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				return
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				return
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				return
+			}
+				
+		}
+	}; RD();
+	function RU (){
+		let i = selectedSquareId - 10;
+		if ((selectedSquareId % 8) > (i % 8) && i >= 0 && checkIfPieceOnSquare(i) == true){
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+			 function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				return
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				return
+			}
+			else if (VIS === STC) {             
+			grid[i].removeEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = "";
+				return
+			}
+		}
+	}; RU();
 	function LD (){
 		let i = selectedSquareId + 6;
 		if ((selectedSquareId % 8) > (i % 8) && i < 64 && checkIfPieceOnSquare(i) === true){
@@ -860,7 +845,6 @@ const availablePieceMovesObject = {
 			}
 		}
 	}; LD();
-
 	function LU (){
 		let i = selectedSquareId - 6;
 		if ((selectedSquareId % 8) < (i % 8)  && i >= 0 && checkIfPieceOnSquare(i) == true){
@@ -869,30 +853,30 @@ const availablePieceMovesObject = {
 			 function valueInSquareChecker() {
 					if (valueInSquare < 0) { return "black" }
 					if (valueInSquare > 0) { return "white" }
-					}
+			}
 			let VIS = valueInSquareChecker()
 			
-				function stateGridChecker() {
-					if (stateGrid[i] === 0) { return "empty" }  
-					if (stateGrid[i] < 0) { return "black" }
-					if (stateGrid[i] > 0) { return "white" }
-				}
-				let STC = stateGridChecker()
-				console.log(STC)
-				console.log(VIS)
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
 
-				if (STC === "empty") {             
-					return
-				}
-				else if (VIS !== STC) {             
-					grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-					return
-				}
-				else if (VIS === STC) {             
-					grid[i].removeEventListener('click', moveToDestination);
-					grid[i].style.boxShadow = "";
-					return
-				}
+			if (STC === "empty") {             
+				return
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				return
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				return
+			}
 				
 		}
 	}; LU();
@@ -942,347 +926,345 @@ const availablePieceMovesObject = {
 				if (valueInSquare < 0) { return "black" }
 				if (valueInSquare > 0) { return "white" }
 			}
-		let VIS = valueInSquareChecker()
+			let VIS = valueInSquareChecker()
 
-		function stateGridChecker() {
-			if (stateGrid[i] === 0) { return "empty" }  
-			if (stateGrid[i] < 0) { return "black" }
-			if (stateGrid[i] > 0) { return "white" }
-		}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		return
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		return
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		return
-	}
-			}
-		}; LDD();
-		function LUU (){
-			let i = selectedSquareId - 17;
-			if ((selectedSquareId % 8) > (i % 8)  && i >= 0 && checkIfPieceOnSquare(i) === true){
-				grid[i].addEventListener("click", moveToDestination);
-				grid[i].style.boxShadow = highlightDestinationSquares;
-							 function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		return
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		return
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		return
-	}
-			}
-		}; LUU();
-
-		function RUU (){
-			let i = selectedSquareId - 15;
-			if ((selectedSquareId % 8) < (i % 8) && i >= 0 && checkIfPieceOnSquare(i) === true){
-				grid[i].addEventListener("click", moveToDestination);
-				grid[i].style.boxShadow = highlightDestinationSquares;
-				 function valueInSquareChecker() {
-				if (valueInSquare < 0) { return "black" }
-				if (valueInSquare > 0) { return "white" }
-				}
-
-				let VIS = valueInSquareChecker()
-
-				function stateGridChecker() {
+			function stateGridChecker() {
 				if (stateGrid[i] === 0) { return "empty" }  
 				if (stateGrid[i] < 0) { return "black" }
 				if (stateGrid[i] > 0) { return "white" }
-				}
-
-				let STC = stateGridChecker()
-				console.log(STC)
-				console.log(VIS)
-
-				if (STC === "empty") {             
-					return
-				}
-				else if (VIS !== STC) {             
-					grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-					return
-				}
-
-				else if (VIS === STC) {             
-					grid[i].removeEventListener('click', moveToDestination);
-					grid[i].style.boxShadow = "";
-					return
-				}
-				
 			}
-		}; RUU();
-	},
-	queen: function (){
-		for (let i = (selectedSquareId + 9); (selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			grid[i].addEventListener('click', moveToDestination);
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				return
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				return
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				return
+			}
+		}
+	}; LDD();
+	function LUU (){
+		let i = selectedSquareId - 17;
+		if ((selectedSquareId % 8) > (i % 8)  && i >= 0 && checkIfPieceOnSquare(i) === true){
+			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 			 function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-		let VIS = valueInSquareChecker()
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
 
-		function stateGridChecker() {
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				return
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				return
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				return
+			}
+		}
+	}; LUU();
+
+	function RUU (){
+		let i = selectedSquareId - 15;
+		if ((selectedSquareId % 8) < (i % 8) && i >= 0 && checkIfPieceOnSquare(i) === true){
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+			 function valueInSquareChecker() {
+					if (valueInSquare < 0) { return "black" }
+					if (valueInSquare > 0) { return "white" }
+			}
+
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
 			if (stateGrid[i] === 0) { return "empty" }  
 			if (stateGrid[i] < 0) { return "black" }
 			if (stateGrid[i] > 0) { return "white" }
-		}
-		let STC = stateGridChecker()
-		console.log(STC)
-		console.log(VIS)
+			}
+
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
 
 		if (STC === "empty") {             
-			continue
+				return
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				return
+			}
+
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				return
+			}	
 		}
-		else if (VIS !== STC) {             
-			grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-			break
-		}
-		else if (VIS === STC) {             
-			grid[i].removeEventListener('click', moveToDestination);
-			grid[i].style.boxShadow = "";
-			break
-		}
-					
+	}; RUU();
+},
+queen: function (){
+	for (let i = (selectedSquareId + 9); (selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
+		if (checkIfPieceOnSquare(i) === false) break;
+			grid[i].addEventListener('click', moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+				function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
+						
 	}
-		for (let i = (selectedSquareId + 7); (i % 8) < (selectedSquareId % 8) && i < 64; i+=7) {
-			if (checkIfPieceOnSquare(i) === false) break;
+	for (let i = (selectedSquareId + 7); (i % 8) < (selectedSquareId % 8) && i < 64; i+=7) {
+		if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 		
-		function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
+			function valueInSquareChecker() {
+			if (valueInSquare < 0) { return "black" }
+			if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
 
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
 
-	if (STC === "empty") {             
-		continue
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
+					
 	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
-			  
-		}
-		for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
-			if (checkIfPieceOnSquare(i) === false) break;
+	for (let i = (selectedSquareId - 9); (i % 8) < (selectedSquareId % 8) && 0 <= i; i-=9) {
+		if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
-		function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
+			function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
 
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
 
-	if (STC === "empty") {             
-		continue
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
 	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
-		}
-		for (let i = (selectedSquareId - 7); (selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
-			if (checkIfPieceOnSquare(i) === false) break;
+	for (let i = (selectedSquareId - 7); (selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
+		if (checkIfPieceOnSquare(i) === false) break;
 			checkIfPieceOnSquare(i);
 			grid[i].addEventListener('click', moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
 			function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
 
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
 
-	if (STC === "empty") {             
-		continue
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
 	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
-		}
 	for (let i = (selectedSquareId + 1); (selectedSquareId % 8) < ( i % 8) && i < 64; i++) {
-	if (checkIfPieceOnSquare(i) === false) break;
-	grid[i].addEventListener("click", moveToDestination);
-	grid[i].style.boxShadow = highlightDestinationSquares;
-
-	function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		continue
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
-}
-
-		
-		for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
-			if (checkIfPieceOnSquare(i) === false) break;
+		if (checkIfPieceOnSquare(i) === false) break;
 			grid[i].addEventListener("click", moveToDestination);
 			grid[i].style.boxShadow = highlightDestinationSquares;
-			function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
 
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		continue
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
-		}
-		for (let i = (selectedSquareId + 8); i < 64; i+=8) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			grid[i].addEventListener("click", moveToDestination);
-			grid[i].style.boxShadow = highlightDestinationSquares;
-		function valueInSquareChecker() {
-		if (valueInSquare < 0) { return "black" }
-		if (valueInSquare > 0) { return "white" }
-	}
-	let VIS = valueInSquareChecker()
-
-	function stateGridChecker() {
-		if (stateGrid[i] === 0) { return "empty" }  
-		if (stateGrid[i] < 0) { return "black" }
-		if (stateGrid[i] > 0) { return "white" }
-	}
-	let STC = stateGridChecker()
-	console.log(STC)
-	console.log(VIS)
-
-	if (STC === "empty") {             
-		continue
-	}
-	else if (VIS !== STC) {             
-		grid[i].style.boxShadow = highlightCaptureDestinationSquares;
-		break
-	}
-	else if (VIS === STC) {             
-		grid[i].removeEventListener('click', moveToDestination);
-		grid[i].style.boxShadow = "";
-		break
-	}
-
-		}
-
-		for (let i = (selectedSquareId - 8); 0 <= i ; i-=8) {
-			if (checkIfPieceOnSquare(i) === false) break;
-				grid[i].addEventListener("click", moveToDestination);
-				grid[i].style.boxShadow = highlightDestinationSquares;
 			function valueInSquareChecker() {
 				if (valueInSquare < 0) { return "black" }
 				if (valueInSquare > 0) { return "white" }
-				}
+			}
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
+	}
+
+	for (let i = (selectedSquareId - 1); (selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
+		if (checkIfPieceOnSquare(i) === false) break;
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
+	}
+	for (let i = (selectedSquareId + 8); i < 64; i+=8) {
+		if (checkIfPieceOnSquare(i) === false) break;
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
+			let VIS = valueInSquareChecker()
+
+			function stateGridChecker() {
+				if (stateGrid[i] === 0) { return "empty" }  
+				if (stateGrid[i] < 0) { return "black" }
+				if (stateGrid[i] > 0) { return "white" }
+			}
+			let STC = stateGridChecker()
+			console.log(STC)
+			console.log(VIS)
+
+			if (STC === "empty") {             
+				continue
+			}
+			else if (VIS !== STC) {             
+				grid[i].style.boxShadow = highlightCaptureDestinationSquares;
+				break
+			}
+			else if (VIS === STC) {             
+				grid[i].removeEventListener('click', moveToDestination);
+				grid[i].style.boxShadow = "";
+				break
+			}
+
+	}
+
+	for (let i = (selectedSquareId - 8); 0 <= i ; i-=8) {
+		if (checkIfPieceOnSquare(i) === false) break;
+			grid[i].addEventListener("click", moveToDestination);
+			grid[i].style.boxShadow = highlightDestinationSquares;
+			function valueInSquareChecker() {
+				if (valueInSquare < 0) { return "black" }
+				if (valueInSquare > 0) { return "white" }
+			}
 
 			let VIS = valueInSquareChecker()
 
@@ -1308,10 +1290,10 @@ const availablePieceMovesObject = {
 				grid[i].style.boxShadow = "";
 				break
 			}
-		}
-	},
-	king: function() {
-		//same logic with checking the differenrnt pieces
+	}
+},
+king: function() {
+	//same logic with checking the differenrnt pieces
 
 	function valueInSquareChecker() {
 		if (valueInSquare < 0) return "black";
@@ -1325,25 +1307,25 @@ const availablePieceMovesObject = {
 		if (stateGrid[idx] < 0) return "black";
 		return "white";
 	}
-		//'if no pieces at target -> continue
-		function addKingMove(idx) {
-			if (checkIfPieceOnSquare(idx) === false) return;
+	//'if no pieces at target -> continue
+	function addKingMove(idx) {
+		if (checkIfPieceOnSquare(idx) === false) return;
 
-			grid[idx].addEventListener('click', moveToDestination);
-			grid[idx].style.boxShadow = highlightDestinationSquares;
+		grid[idx].addEventListener('click', moveToDestination);
+		grid[idx].style.boxShadow = highlightDestinationSquares;
 
-			const STC = stateColorAt(idx);
-			//'if target not empty and not equal (to same colour) as selected king
-			if (STC !== "empty" && VIS !== STC) {
-				grid[idx].style.boxShadow = highlightCaptureDestinationSquares;
-			}
+		const STC = stateColorAt(idx);
+		//'if target not empty and not equal (to same colour) as selected king
+		if (STC !== "empty" && VIS !== STC) {
+			grid[idx].style.boxShadow = highlightCaptureDestinationSquares;
 		}
-		//from file will always be modolus 8 to later hinder wraparound.
-		const fromFile = selectedSquareId % 8;
-		let to = selectedSquareId - 9;
-		//'if the 'to' square is bigge than 0 and modlus 8 to square is bigger than from --> create available move
-				//addKingMove will check for enemy
-		if (to >= 0 && (to % 8) < fromFile) addKingMove(to);
+	}
+	//from file will always be modolus 8 to later hinder wraparound.
+	const fromFile = selectedSquareId % 8;
+	let to = selectedSquareId - 9;
+	//'if the 'to' square is bigge than 0 and modlus 8 to square is bigger than from --> create available move
+			//addKingMove will check for enemy
+	if (to >= 0 && (to % 8) < fromFile) addKingMove(to);
 
 	to = selectedSquareId - 8;
 	if (to >= 0) addKingMove(to);
