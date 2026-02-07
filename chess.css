@@ -371,10 +371,17 @@ button:active .topLayer {
 .promotionOptions {
 	display: flex;
 	flex-direction: column;
+	position: absolute;
+	z-index: 11;
 	width: var(--square-size);
+	height: auto;
 	border-radius: 1.5mm;
 	background-color: var(--white-square);
-	box-shadow: 0px 0.15em 7.5px 0.125em rgb(171, 171, 171);
+	box-shadow: 0px 0.15em 7.5px 0.5em rgb(171, 171, 171);
+	overflow: hidden;
+}
+.promotionOptions span {
+	position: static;
 }
 
 @media (max-width: 600px) {
