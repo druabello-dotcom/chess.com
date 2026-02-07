@@ -31,6 +31,7 @@ export function promotePawn(destinationSquare) {
     // promotion options placement on chessboard
     promotionOptions.style.left = parseInt(squareDivision[destinationSquare - optionsIndex].x_coordinate) + "px";
     promotionOptions.style.top = parseInt(squareDivision[destinationSquare - optionsIndex].y_coordinate) + "px";
+    promotionOptions.style.position = "absolute";
     promotionOptions.style.height = "100px";
     chessboard.appendChild(promotionOptions);
 }
