@@ -41,7 +41,8 @@ export function promotePawn(destinationSquare) {
 }
 
 function showPromotionOptions(color) {
-    for (let t = 1; t < (CreatePieceElements.pieceTypeArray.length - 1); t++) {
+    /* for (let t = 1; t < (CreatePieceElements.pieceTypeArray.length - 1); t++) { */
+    for (let t = (CreatePieceElements.pieceTypeArray.length - 2); 0 < t; t--) {
         let type = CreatePieceElements.pieceTypeArray[t];
         let optionSpan = document.createElement('span');
         let optionImg =document.createElement('img');
