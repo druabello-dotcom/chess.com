@@ -374,14 +374,21 @@ button:active .topLayer {
 	position: absolute;
 	z-index: 11;
 	width: var(--square-size);
-	height: auto;
 	border-radius: 1.5mm;
 	background-color: var(--white-square);
 	box-shadow: 0px 0.15em 7.5px 0.5em rgb(171, 171, 171);
 	overflow: hidden;
 }
+.promotionOptions * {
+	pointer-events: auto;
+}
 .promotionOptions span {
-	position: static;
+	position: relative;
+	transition: 0.2s;
+}
+.promotionOptions span:hover {
+	border-radius: 1.75mm;
+	filter: brightness(0.85);
 }
 
 @media (max-width: 600px) {

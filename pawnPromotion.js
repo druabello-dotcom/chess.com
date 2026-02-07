@@ -2,6 +2,7 @@ import { stateGrid, subtractChessboardPixels } from "./main.js";
 import * as CreatePieceElements from "./createPieceElements.js";
 import { pieceElementsObject, pieceNumberIdentifier, pieceSquarePositionArray, selectPieceState } from "./gameState.js";
 import { makeKingCastle } from "./makeKingCastle.js";
+import { pawnSpanElementObject } from "./resetChessboard.js";
 
 /* let squareDivision = [];
 for (let row = 0; row < 8; row++) {
@@ -11,9 +12,11 @@ for (let row = 0; row < 8; row++) {
 } */
 
 //————————————————————————————————————————————————————————————————————————————————————
-
 let promotionOptions = null;
+let pawnIndex = null;
 export function promotePawn(destinationSquare) {
+    pawnIndex = selectPieceState.selectedPieceIndex;
+    console.log("pawn index:  " + pawnIndex);
     let squareDivision = [];
     let chessboard = document.getElementById('chessboard');
     let chessboardDim = chessboard.getBoundingClientRect();
@@ -41,16 +44,101 @@ export function promotePawn(destinationSquare) {
 }
 
 function showPromotionOptions(color) {
-    /* for (let t = 1; t < (CreatePieceElements.pieceTypeArray.length - 1); t++) { */
     for (let t = (CreatePieceElements.pieceTypeArray.length - 2); 0 < t; t--) {
         let type = CreatePieceElements.pieceTypeArray[t];
         let optionSpan = document.createElement('span');
         let optionImg =document.createElement('img');
-        optionSpan.classList.add('piece', color, type);        
+        optionSpan.classList.add('piece', color, type);
         optionImg.src = CreatePieceElements.pieceIcons[color][type];
         optionImg.alt = CreatePieceElements.pieceIconAlt[color][type];
-
+        
+        optionSpan.addEventListener('click', () => {
+            switchToPieceType(color, type);
+        });
         optionSpan.appendChild(optionImg);
-        promotionOptions.appendChild(optionSpan);
+        promotionOptions.appendChild(optionSpan);;
     }
 }
+
+function switchToPieceType(color, promotionPieceType) {
+    // get selected piece span and img
+    /* console.log("pawn index is:  " + pawnIndex); */
+    console.log("pawn index is still:  " + pawnIndex);
+    let promotingPawnImg = pawnSpanElementObject[color][pawnIndex];
+    promotingPawnImg.src = CreatePieceElements.pieceIcons[promotionPieceType];
+    promotingPawnImg.alt = CreatePieceElements.pieceIcons[promotionPieceType];
+    /* console.log(pawnSpanElementObject[color][0]) */
+    console.log("YOU HAVE SELECTED A PROMOTION OPTION");
+}
+
+/* export function promotePawn(destinationSquare) {
+    let squareDivision = [];
+    let chessboard = document.getElementById('chessboard');
+    let chessboardDim = chessboard.getBoundingClientRect();
+    let pixelCoordinatesSquares = chessboardDim.width / 8;
+    for (let row = 0; row < 8; row++) {
+        for (let column = 0; column < 9; column++) {
+            squareDivision.push({x_coordinate: pixelCoordinatesSquares * column, y_coordinate: pixelCoordinatesSquares * row})
+        }
+    }
+
+    if ((0 <= selectPieceState.destinationSquareId && selectPieceState.destinationSquareId < 8) || (56 <= selectPieceState.destinationSquareId && selectPieceState.destinationSquareId < 64)) {
+        let promotionOptions = document.createElement('div');
+        promotionOptions.className = "promotionOptions"
+
+        // promotion option placement on chessboard
+        promotionOptions.style.left = parseInt(squareDivision[destinationSquare].x_coordinate) + "px";
+        promotionOptions.style.top = parseInt(squareDivision[destinationSquare].y_coordinate) + "px";
+
+        // show user bishop, rook, knight, queen as options
+        showPromotionOptions(selectPieceState.pieceColor);
+        chessboard.appendChild(promotionOptions);
+    }
+}
+
+function showPromotionOptions(color) {
+    for (let t = 1; t < (CreatePieceElements.pieceTypeArray.length - 1); t++) {
+        let type = CreatePieceElements.pieceTypeArray[t];
+        let pieceElementSpan = document.createElement('span');
+        pieceElementSpan.addEventListener('click', switchPieceType(color, type));
+        let pieceElementIcon = document.createElement('img');
+        pieceElementSpan.classList.add('piece', color, type);
+        pieceElementIcon.src = CreatePieceElements.pieceIcons[color][type];
+        pieceElementIcon.alt = CreatePieceElements.pieceIconAlt[color][type];
+
+        pieceElementSpan.appendChild(pieceElementIcon);
+    }
+}
+function switchPieceType(color, pieceType) {
+    // pieceElementsObject[pieceColor][pieceType][pieceIndex] — get img.src = pieceIcons[color][pieceType];
+    // remove current pawn icon, and replace with selected promotion
+    let selectedPieceImg = selectPieceState.selectPieceState.getElementsByTagName('img');
+
+    let selectedPieceSpan = pieceElementsObject[selectPieceState.pieceColor][selectPieceState.pieceType][selectPieceState.selectedPieceIndex];
+    console.log(selectedPieceSpan);
+    console.log(selectedPieceSpan.classList);
+    console.log(selectedPieceSpan.classList.length);
+    let selectedPieceImg = selectedPieceSpan.querySelector('img');
+    console.log(selectedPieceImg);
+    selectedPieceImg.src = CreatePieceElements.pieceIcons[color][pieceType];
+    selectedPieceImg.alt = CreatePieceElements.pieceIconAlt[color][pieceType];
+
+    // update class for promoted piece
+    for (let i = 1; i < selectedPieceSpan.length; i++) selectedPieceSpan.classList[i].remove();
+    for (let i = 1; i < selectPieceState.selectPieceState.classList.length; i++) selectPieceState.selectPieceState.classList[i].remove();
+    selectedPieceSpan.classList.add(color, pieceType); 
+
+    // update pieceSquarePosition array & stateGrid
+    stateGrid[selectPieceState.destinationSquareId] = pieceNumberIdentifier[color][pieceType];
+    pieceSquarePositionArray[color].pawn[selectPieceState.selectedPieceIndex] = null;
+    pieceSquarePositionArray[color][pieceType].push(selectPieceState.destinationSquareId);
+}
+
+
+    NOTATER:
+    - create span elements with span element
+        STYLING: 
+        same with as chessboard squares
+        highest z-index
+        pieceIcons inside the span
+        inside span elements shall be pieceicon */

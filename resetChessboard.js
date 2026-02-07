@@ -18,7 +18,10 @@ export const resetChessboardButtonElements = {
 }
 
  //—————————————————————————————————————————————————————————————————————————————————————
-
+export let pawnSpanElementObject = {
+	black: [],
+	white: []
+}
 let classNamePieceArray = document.querySelectorAll('.piece');
 export function resetChessboard() {
 	TurnRegister.registerTurnVariables.turnCounter = 0;
@@ -56,18 +59,22 @@ export function resetChessboard() {
     piecesHasNotMoved.white.king = true;
 
 	// remove all pieces with class name "piece"
-	for (let i = 0; i < classNamePieceArray.length; i++) {
-		classNamePieceArray[i].remove();
-	}
+	for (let i = 0; i < classNamePieceArray.length; i++) classNamePieceArray[i].remove();
 
 	// create the piece elements. Append them as childs of the chessboard
 	const visualPieceElements = CreatePieceElements.createPieceElements();
-	for (let i = 0; i < visualPieceElements.length; i++) {
-		chessboard.appendChild(visualPieceElements[i]);
-	}
+	for (let i = 0; i < visualPieceElements.length; i++) chessboard.appendChild(visualPieceElements[i]);
+
 	classNamePieceArray = document.querySelectorAll('.piece');
-	for (let i = 0; i < classNamePieceArray.length; i++) {
-		classNamePieceArray[i].style.transition = "0.15s";
+	for (let i = 0; i < classNamePieceArray.length; i++) classNamePieceArray[i].style.transition = "0.15s";
+	
+	pawnSpanElementObject.black = [];
+	pawnSpanElementObject.white = [];
+	let blackPawns = document.querySelectorAll('.piece.black.pawn img');
+	let whitePawns = document.querySelectorAll('.piece.white.pawn img');
+	for (let i = 0; i < 8; i++) {
+		pawnSpanElementObject.black.push(blackPawns[i]);
+		pawnSpanElementObject.white.push(whitePawns[i]);
 	}
 
 	// fill pieceElementObject with array to corresponding color and piece
