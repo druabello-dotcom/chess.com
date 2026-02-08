@@ -1,4 +1,4 @@
-import { stateGrid, subtractChessboardPixels } from "./main.js";
+import { chessboard, stateGrid, subtractChessboardPixels } from "./main.js";
 import * as CreatePieceElements from "./createPieceElements.js";
 import { pieceElementsObject, pieceNumberIdentifier, pieceSquarePositionArray, selectPieceState } from "./gameState.js";
 import { makeKingCastle } from "./makeKingCastle.js";
@@ -56,7 +56,7 @@ function showPromotionOptions(color) {
             switchToPieceType(color, type);
         });
         optionSpan.appendChild(optionImg);
-        promotionOptions.appendChild(optionSpan);;
+        promotionOptions.appendChild(optionSpan);
     }
 }
 
@@ -67,6 +67,8 @@ function switchToPieceType(color, promotionPieceType) {
     let promotingPawnImg = pawnSpanElementObject[color][pawnIndex];
     promotingPawnImg.src = CreatePieceElements.pieceIcons[promotionPieceType];
     promotingPawnImg.alt = CreatePieceElements.pieceIcons[promotionPieceType];
+
+    chessboard.removeChild(promotionOptions);
     /* console.log(pawnSpanElementObject[color][0]) */
     console.log("YOU HAVE SELECTED A PROMOTION OPTION");
 }
