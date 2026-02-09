@@ -1,7 +1,6 @@
 import { chessboard, stateGrid, mapPieces } from "./main.js";
 import * as CreatePieceElements from "./createPieceElements.js";
 import { pieceElementsObject, pieceNumberIdentifier, pieceSquarePositionArray, selectPieceState } from "./gameState.js";
-import { makeKingCastle } from "./makeKingCastle.js";
 import { pawnSpanElementObject } from "./resetChessboard.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
@@ -9,6 +8,7 @@ import { pawnSpanElementObject } from "./resetChessboard.js";
 let promotionOptions = null;
 let destinationSquareIndex = null;
 let pawnIndex = null;
+let selectedPieceSpan = null;
 export function promotePawn(destinationSquare) {
     pawnIndex = selectPieceState.selectedPieceIndex;
     destinationSquareIndex = destinationSquare;
@@ -60,7 +60,6 @@ function showPromotionOptions(color) {
 
 function switchToPieceType(color, promotionPieceType) {
     // get selected piece span and img
-    /* console.log("pawn index is:  " + pawnIndex); */
     console.log("pawn index is still:  " + pawnIndex);
     let promotingPawnImg = pawnSpanElementObject[color][pawnIndex];
     promotingPawnImg.src = CreatePieceElements.pieceIcons[color][promotionPieceType];
@@ -84,9 +83,22 @@ function switchToPieceType(color, promotionPieceType) {
     pieceSquarePositionArray[color][promotionPieceType].push(destinationSquareIndex);
     console.log(pieceSquarePositionArray[color]);
 
+    // update pieceElementsObject
+    // set pieceElementsObject.pawn[index] as null
+    selectedPieceSpan = pieceElementsObject[color].pawn[pawnIndex];
+    console.log("THIS WILL BE PUSHED INTO PIECE ELEMENT OBJECT")
+    console.log(selectedPieceSpan);
+    pieceElementsObject[color].pawn[pawnIndex] = null;
+
+    // push selected piece span into pieceElementsObject
+    pieceElementsObject[color][promotionPieceType].push(selectedPieceSpan);
+    console.log("THIS WAS PUSHED INTO PIECE ELEMENT OBJECT")
+    console.log(selectedPieceSpan);
+
     promotionOptions = null;
     destinationSquareIndex = null;
     pawnIndex = null;
+    selectedPieceSpan = null;
 }
 
 /* export function promotePawn(destinationSquare) {
