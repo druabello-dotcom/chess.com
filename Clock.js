@@ -1,7 +1,7 @@
 
 
 
-
+/*
 import * as TurnRegister from "./turnRegister.js";
 import { resetChessboard,resetChessboardButtonElements } from "./resetChessboard.js";
 import { resizeGame } from "./resizeGame.js";
@@ -10,9 +10,10 @@ import { resizeGame } from "./resizeGame.js";
 let turn = null
 
 const lia = document.getElementById(turn+'Clockviual')
+*/
 
 
-let remainingSeconds = minutes*60 + seconds
+let remainingSeconds = 10*60 
 function timer(){
 
     --remainingSeconds
@@ -25,6 +26,11 @@ function timer(){
         clearInterval(timeInterval);
         console.log("Time’s up");
     }
+
+document.getElementById("whiteClockVisual").innerHTML =
+  "<div>" + minutes + ":" + seconds.toString().padStart(2, "0") + "</div>";
+
+
 }
 timer()
 
