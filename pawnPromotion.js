@@ -4,14 +4,8 @@ import { pieceElementsObject, pieceNumberIdentifier, pieceSquarePositionArray, s
 import { makeKingCastle } from "./makeKingCastle.js";
 import { pawnSpanElementObject } from "./resetChessboard.js";
 
-/* let squareDivision = [];
-for (let row = 0; row < 8; row++) {
-    for (let column = 0; column < 9; column++) {
-        squareDivision.push({x_coordinate: pixelCoordinatesSquares * column, y_coordinate: pixelCoordinatesSquares * row})
-    }
-} */
-
 //————————————————————————————————————————————————————————————————————————————————————
+
 let promotionOptions = null;
 let destinationSquareIndex = null;
 let pawnIndex = null;
@@ -88,6 +82,11 @@ function switchToPieceType(color, promotionPieceType) {
     // update pieceSquarePositionArray
     pieceSquarePositionArray[color].pawn[pawnIndex] = null;
     pieceSquarePositionArray[color][promotionPieceType].push(destinationSquareIndex);
+    console.log(pieceSquarePositionArray[color]);
+
+    promotionOptions = null;
+    destinationSquareIndex = null;
+    pawnIndex = null;
 }
 
 /* export function promotePawn(destinationSquare) {
