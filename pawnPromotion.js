@@ -13,10 +13,12 @@ for (let row = 0; row < 8; row++) {
 
 //————————————————————————————————————————————————————————————————————————————————————
 let promotionOptions = null;
-let destinationSquareId = selectPieceState.destinationSquareId
+let destinationSquareIndex = null;
 let pawnIndex = null;
 export function promotePawn(destinationSquare) {
     pawnIndex = selectPieceState.selectedPieceIndex;
+    destinationSquareIndex = destinationSquare;
+    console.log(selectPieceState.destinationSquareId);
     console.log("pawn index:  " + pawnIndex);
     let squareDivision = [];
     let chessboard = document.getElementById('chessboard');
@@ -59,6 +61,7 @@ function showPromotionOptions(color) {
         optionSpan.appendChild(optionImg);
         promotionOptions.appendChild(optionSpan);
     }
+    console.log(pieceSquarePositionArray[color]);
 }
 
 function switchToPieceType(color, promotionPieceType) {
@@ -75,9 +78,16 @@ function switchToPieceType(color, promotionPieceType) {
     console.log("color and type:  " + color + promotionPieceType);
 
     // update stateGrid
-    stateGrid[destinationSquareId] = pieceNumberIdentifier[color][promotionPieceType];
-    console.log(stateGrid[destinationSquareId]);
-    console.log(mapPieces[Math.abs(stateGrid[destinationSquareId])]);
+    stateGrid[destinationSquareIndex] = pieceNumberIdentifier[color][promotionPieceType];
+    console.log(stateGrid[destinationSquareIndex]);
+    console.log(mapPieces[Math.abs(stateGrid[destinationSquareIndex])]);
+
+    console.log(stateGrid);
+    console.log(destinationSquareIndex);
+
+    // update pieceSquarePositionArray
+    pieceSquarePositionArray[color].pawn[pawnIndex] = null;
+    pieceSquarePositionArray[color][promotionPieceType].push(destinationSquareIndex);
 }
 
 /* export function promotePawn(destinationSquare) {
