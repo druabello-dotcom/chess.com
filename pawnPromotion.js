@@ -1,4 +1,4 @@
-import { chessboard, stateGrid, subtractChessboardPixels } from "./main.js";
+import { chessboard, stateGrid, mapPieces } from "./main.js";
 import * as CreatePieceElements from "./createPieceElements.js";
 import { pieceElementsObject, pieceNumberIdentifier, pieceSquarePositionArray, selectPieceState } from "./gameState.js";
 import { makeKingCastle } from "./makeKingCastle.js";
@@ -13,6 +13,7 @@ for (let row = 0; row < 8; row++) {
 
 //————————————————————————————————————————————————————————————————————————————————————
 let promotionOptions = null;
+let destinationSquareId = selectPieceState.destinationSquareId
 let pawnIndex = null;
 export function promotePawn(destinationSquare) {
     pawnIndex = selectPieceState.selectedPieceIndex;
@@ -72,6 +73,11 @@ function switchToPieceType(color, promotionPieceType) {
     console.log("YOU HAVE SELECTED A PROMOTION OPTION");
     console.log(promotingPawnImg);
     console.log("color and type:  " + color + promotionPieceType);
+
+    // update stateGrid
+    stateGrid[destinationSquareId] = pieceNumberIdentifier[color][promotionPieceType];
+    console.log(stateGrid[destinationSquareId]);
+    console.log(mapPieces[Math.abs(stateGrid[destinationSquareId])]);
 }
 
 /* export function promotePawn(destinationSquare) {
