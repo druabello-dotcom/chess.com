@@ -65,12 +65,13 @@ function switchToPieceType(color, promotionPieceType) {
     /* console.log("pawn index is:  " + pawnIndex); */
     console.log("pawn index is still:  " + pawnIndex);
     let promotingPawnImg = pawnSpanElementObject[color][pawnIndex];
-    promotingPawnImg.src = CreatePieceElements.pieceIcons[promotionPieceType];
-    promotingPawnImg.alt = CreatePieceElements.pieceIcons[promotionPieceType];
+    promotingPawnImg.src = CreatePieceElements.pieceIcons[color][promotionPieceType];
+    promotingPawnImg.alt = CreatePieceElements.pieceIconAlt[color][promotionPieceType];
 
     chessboard.removeChild(promotionOptions);
-    /* console.log(pawnSpanElementObject[color][0]) */
     console.log("YOU HAVE SELECTED A PROMOTION OPTION");
+    console.log(promotingPawnImg);
+    console.log("color and type:  " + color + promotionPieceType);
 }
 
 /* export function promotePawn(destinationSquare) {
