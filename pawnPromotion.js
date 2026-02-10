@@ -46,7 +46,7 @@ function showPromotionOptions(color) {
         let type = CreatePieceElements.pieceTypeArray[t];
         let optionSpan = document.createElement('span');
         let optionImg =document.createElement('img');
-        optionSpan.classList.add('piece', color, type);
+        optionSpan.classList.add('piece', 'white');
         optionImg.src = CreatePieceElements.pieceIcons[color][type];
         optionImg.alt = CreatePieceElements.pieceIconAlt[color][type];
         
