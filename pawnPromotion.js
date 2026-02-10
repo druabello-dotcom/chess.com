@@ -90,6 +90,9 @@ function switchToPieceType(color, promotionPieceType) {
     console.log(selectedPieceSpan);
     pieceElementsObject[color].pawn[pawnIndex] = null;
 
+    // update class of promoted pawn
+    selectedPieceSpan.className = `piece ${color} ${promotionPieceType}`;
+
     // push selected piece span into pieceElementsObject
     pieceElementsObject[color][promotionPieceType].push(selectedPieceSpan);
     console.log("THIS WAS PUSHED INTO PIECE ELEMENT OBJECT")
