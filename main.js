@@ -1,8 +1,8 @@
 import * as TurnRegister from "./turnRegister.js";
 import * as OnSquareClick from './onSquareClick.js';
 import { resetChessboard,resetChessboardButtonElements } from "./resetChessboard.js";
-import { resizeGame } from "./resizeGame.js";
-
+import { clockFunction} from "./Clock.js"
+import  {registerTurn} from "./turnRegister.js";
 export const chessboard = document.getElementById('chessboard');
 let posIndx = 0;
 let square;
@@ -72,7 +72,7 @@ export const mapPieces = {
 	6: "king"
   };
 
-resizeGame();
+ 
 console.log("Width of window:  " + window.innerWidth)
 
 // toggle dropdown menu
@@ -115,4 +115,6 @@ for (let i = 0; i < 64; i++) {
 	grid[i].addEventListener('click', OnSquareClick.onSquareClick);
 };
 
-window.addEventListener('resize', resizeGame);
+
+
+clockFunction();

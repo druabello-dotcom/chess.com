@@ -1,46 +1,33 @@
 
+import { registerTurnVariables } from "./turnRegister.js";
 
 
-/*
-import * as TurnRegister from "./turnRegister.js";
-import { resetChessboard,resetChessboardButtonElements } from "./resetChessboard.js";
-import { resizeGame } from "./resizeGame.js";
 
-//export const clocks = 
-let turn = null
+let timeInterval = null;
+let remainingSeconds = 600;
 
-const lia = document.getElementById(turn+'Clockviual')
-*/
+export function clockFunction(){
 
+    if (timeInterval) return; 
 
-let remainingSeconds = 10*60 
-function timer(){
+    function timer(){
+        remainingSeconds--;
 
-    --remainingSeconds
-    let minutes= Math.floor(remainingSeconds/60)
-    let seconds = remainingSeconds%60
-    console.log(minutes + ":" + seconds)
-    console.log(`${minutes}:${seconds.toString().padStart(2, "0")}`);
+        let minutes = Math.floor(remainingSeconds/60);
+        let seconds = remainingSeconds % 60;
 
-    if (remainingSeconds <= 0) {
-        clearInterval(timeInterval);
-        console.log("Time’s up");
+        document.getElementById(
+            registerTurnVariables.turnDecider + "ClockVisual"
+        ).innerHTML =
+        minutes + ":" + seconds.toString().padStart(2, "0");
+
+        if (remainingSeconds <= 0) {
+            clearInterval(timeInterval);
+        }
     }
 
-document.getElementById("whiteClockVisual").innerHTML =
-  "<div>" + minutes + ":" + seconds.toString().padStart(2, "0") + "</div>";
-
-
+    timeInterval = setInterval(timer, 1000);
 }
-timer()
-
-let timeInterval = setInterval(timer,1000)
-
-
-
-
-
-
 
 
 
