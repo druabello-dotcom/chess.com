@@ -22,7 +22,7 @@ export function promotePawn(destinationSquare) {
     if (selectPieceState.pieceColor === 'white') {
         for (let column = 0, row = 0; column < 8; column++) squareDivision.push({x_coordinate: pixelCoordinatesSquares * column, y_coordinate: pixelCoordinatesSquares * row});
         optionsIndex = 0;
-    } else if (selectPieceState.pieceColor === 'black') {
+    } else if (selectPieceState.pieceColor === 'black') { // fix promotion options placement
         for (let column = 0, row = 7; column < 8; column++) squareDivision.push({x_coordinate: pixelCoordinatesSquares * column, y_coordinate: pixelCoordinatesSquares * row});
         optionsIndex = 56;
     }
@@ -34,7 +34,8 @@ export function promotePawn(destinationSquare) {
 
     // promotion options placement on chessboard
     promotionOptions.style.left = parseInt(squareDivision[destinationSquare - optionsIndex].x_coordinate) + "px";
-    promotionOptions.style.top = parseInt(squareDivision[destinationSquare - optionsIndex].y_coordinate) + "px";
+    if (selectPieceState.pieceColor === 'white') promotionOptions.style.top = parseInt(squareDivision[destinationSquare - optionsIndex].y_coordinate) + "px";
+    else promotionOptions.style.bottom = parseInt((squareDivision[destinationSquare - optionsIndex].y_coordinate) - (pixelCoordinatesSquares * 7)) + "px"
     showPromotionOptions(selectPieceState.pieceColor);
     
     chessboard.appendChild(promotionOptions);
