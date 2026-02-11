@@ -1,8 +1,9 @@
 import * as TurnRegister from "./turnRegister.js";
 import * as OnSquareClick from './onSquareClick.js';
 import { resetChessboard,resetChessboardButtonElements } from "./resetChessboard.js";
-import { clockFunction} from "./Clock.js"
-import  {registerTurn} from "./turnRegister.js";
+import { clockFunction } from "./Clock.js"
+import { startClockAfterFirstMove } from "./Clock.js"
+import  { registerTurn } from "./turnRegister.js";
 export const chessboard = document.getElementById('chessboard');
 let posIndx = 0;
 let square;
@@ -117,4 +118,6 @@ for (let i = 0; i < 64; i++) {
 
 
 
-clockFunction();
+startClockAfterFirstMove()
+
+
