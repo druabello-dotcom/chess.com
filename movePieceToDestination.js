@@ -2,6 +2,7 @@ import * as Main from "./main.js"
 import * as additFunc from "./additionalFunctions.js"
 import * as TurnRegister from "./turnRegister.js";
 
+import { soundWhenMovingPiece } from "./sounds.js";
 import { promotePawn } from "./pawnPromotion.js";
 import { chessboardBoard } from "./main.js";
 import { subtractChessboardPixels } from "./main.js";
@@ -10,7 +11,6 @@ import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray } from ".
 
 export function moveToDestination(destination) {
 	// register destination square
-	/* selectPieceStateselectPieceState.destinationSquareIddestination.target; */
     selectPieceState.destinationSquare = destination.target;
     selectPieceState.destinationSquareId = Number(destination.target.id);
 
@@ -43,11 +43,10 @@ export function moveToDestination(destination) {
 	}
 	movePieceElementToDestination();
 	additFunc.updateStateGrid();
+	soundWhenMovingPiece();
 
 	// update Main.pieceSquarePositionArray
 	pieceSquarePositionArray[selectPieceState.pieceColor][selectPieceState.pieceType][selectPieceState.selectedPieceIndex] = selectPieceState.destinationSquareId;
-	/* console.log("Black " + selectPieceState.pieceType + ":  " +  Main.pieceSquarePositionArray.black[selectPieceState.pieceType]); */
-	/* console.log("White " + selectPieceState.pieceType + ":  " + Main.pieceSquarePositionArray.white[selectPieceState.pieceType]); */
 
 	// pawn's double step rule: (Article 3.7.b), a pawn may move two squares forward on its very first move
 	if (selectPieceState.pieceType === 'pawn') piecesHasNotMoved[selectPieceState.pieceColor].pawn[selectPieceState.selectedPieceIndex] = false;
