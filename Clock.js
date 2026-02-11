@@ -37,12 +37,12 @@ export function clockFunction() {
     remainingSeconds[clockTurn()]--
     let RSC = remainingSeconds[turnOfClock] 
     RSC--;
-    console.log(RSC)
+
 
 
     let minutes = Math.floor(RSC / 60);
     let seconds = RSC % 60;
-    console.log(registerTurnVariables.turnDecider + "ClockVisual")
+
     document.getElementById(registerTurnVariables.turnDecider + "ClockVisual").innerHTML = minutes + ":" + seconds.toString().padStart(2, "0");
 
     if (RSC <= 0) {
