@@ -33,7 +33,6 @@
 	transition: 0.3s;
 }
 .select:hover {
-	/*background: #335c81;*/
 	filter: brightness(0.7);
 }
 .options span {
@@ -141,14 +140,13 @@ width: 100%;
 #logBook {
 	/* transform: translateY(3.2rem); */
 	transform: translateY(calc(0.8 * var(--square-size)));
-	width: calc(3.5 * var(--square-size));
+	width: calc(3 * var(--square-size));
 	height: calc(8 * 4rem);
 	border: 2px solid black;
 	font-family: monospace;
 	border-radius: 1.5mm;
 	display: flex;
 	flex-direction: column;
-	/* gap: calc(0.125 * var(--square-size)); */
 	background-color: var(--white-square);
 }
 .logBook::-webkit-scrollbar {
@@ -272,8 +270,6 @@ button {
 	padding-left: var(--button-padding);
 
 	background-color: antiquewhite;
-	/* background-color: rgb(255, 255, 238); */
-	/* background-color: var(--black-square); */
 	font-family: monospace;
 	font-size: var(--font-size);
 
@@ -283,7 +279,6 @@ button {
 
 	border-radius: 2.5mm;
 	outline: 2px solid rgb(36, 38, 34);
-	/* outline: 2px solid var(--black-square-font-color); */
 
 	transition: 0.2s;
 }
@@ -296,7 +291,6 @@ button {
 	padding-top: 1em;
 	padding-bottom: 1.5em;
 
-	/* background-color: rgb(229, 229, 199); */
 	background-color: beige;
 	font-family: monospace;
 
@@ -419,7 +413,6 @@ button:active .topLayer {
 		height: 0%;
 		width: 212.5%;
 		
-		/* padding-bottom: 0.875em; */
 		color: var(--black-square-font-color);
 		background-color: var(--black-square);
 		padding-bottom: 0.8em;
@@ -427,7 +420,6 @@ button:active .topLayer {
 		padding-right: 0%;
 	}
 	.bottomLayer {
-		/* z-index: 20; */
 		border-radius: 7mm;
 		height: 0%;
 		width: 212.5%;
