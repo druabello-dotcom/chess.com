@@ -27,7 +27,7 @@ export function onSquareClick(event) {
 	selectPieceState.selectedPieceArray = pieceSquarePositionArray[selectPieceState.pieceColor][selectPieceState.pieceType];
 	console.log(selectPieceState.selectedPieceArray);
 	console.log("You must move:  " + selectPieceState.pieceType)
-	selectPieceState.selectedPieceIndex = selectPieceState.selectedPieceArray.indexOf(selectPieceState.selectedSquareId);
+	selectPieceState.selectedPieceIndex = Number(selectPieceState.selectedPieceArray.indexOf(selectPieceState.selectedSquareId));
 	console.log(selectPieceState.selectedPieceIndex);
 
 	// the selected piece is now found inside program

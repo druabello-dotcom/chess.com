@@ -33,6 +33,7 @@ export function makeKingCastle(rookIndex, rookMove, rookGridPlacement) {
 	piecesHasNotMoved[selectPieceState.pieceColor].king = false;
 	
 	// reset onSquareClick information
+	additFunc.resetOnSquareClick();
 	additFunc.resetOnSquareClickInfo();
 	rookMoveTo = null;
 	x_squareCoordinateRook = null;

@@ -2,7 +2,7 @@ import * as Main from "./main.js"
 import * as additFunc from "./additionalFunctions.js"
 import * as TurnRegister from "./turnRegister.js";
 
-
+import { promotePawn } from "./pawnPromotion.js";
 import { chessboardBoard } from "./main.js";
 import { subtractChessboardPixels } from "./main.js";
 import { makeKingCastle } from "./makeKingCastle.js";
@@ -13,6 +13,13 @@ export function moveToDestination(destination) {
 	/* selectPieceStateselectPieceState.destinationSquareIddestination.target; */
     selectPieceState.destinationSquare = destination.target;
     selectPieceState.destinationSquareId = Number(destination.target.id);
+
+	// if pawn is on the other side —> promote
+	if (selectPieceState.pieceType === 'pawn') {
+		if ((0 <= selectPieceState.destinationSquareId && selectPieceState.destinationSquareId < 8) || (56 <= selectPieceState.destinationSquareId && selectPieceState.destinationSquareId < 64)) {
+			promotePawn(selectPieceState.destinationSquareId);
+		}
+	}
 
 	// if user wants to castle, here it is activated
 	if (selectPieceState.pieceType === 'king' && (selectPieceState.destinationSquareId === selectPieceState.selectedSquareId - 2 || selectPieceState.destinationSquareId === selectPieceState.selectedSquareId + 2)) {
@@ -51,6 +58,8 @@ export function moveToDestination(destination) {
 	// reset after piece has been moved
 	additFunc.resetOnSquareClick();
 	additFunc.resetOnSquareClickInfo();
+
+	console.log(pieceSquarePositionArray);
 }
 
 export function movePieceElementToDestination() {
@@ -61,5 +70,4 @@ export function movePieceElementToDestination() {
 	// move piece to destination square
 	selectPieceState.selectedPiece.style.left = (selectPieceState.x_squareCoordinate - subtractChessboardPixels.width) + "px"; // FIND better way, than to subtract
 	selectPieceState.selectedPiece.style.top = (selectPieceState.y_squareCoordinate - subtractChessboardPixels.height) + "px"; 
-
 }
