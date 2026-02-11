@@ -9,6 +9,9 @@ let promotionOptions = null;
 let destinationSquareIndex = null;
 let pawnIndex = null;
 let selectedPieceSpan = null;
+
+//————————————————————————————————————————————————————————————————————————————————————
+
 export function promotePawn(destinationSquare) {
     pawnIndex = selectPieceState.selectedPieceIndex;
     destinationSquareIndex = destinationSquare;
@@ -41,6 +44,8 @@ export function promotePawn(destinationSquare) {
     chessboard.appendChild(promotionOptions);
 }
 
+//————————————————————————————————————————————————————————————————————————————————————
+
 function showPromotionOptions(color) {
     for (let t = (CreatePieceElements.pieceTypeArray.length - 2); 0 < t; t--) {
         let type = CreatePieceElements.pieceTypeArray[t];
@@ -58,6 +63,8 @@ function showPromotionOptions(color) {
     }
     console.log(pieceSquarePositionArray[color]);
 }
+
+//————————————————————————————————————————————————————————————————————————————————————
 
 function switchToPieceType(color, promotionPieceType) {
     // get selected piece span and img
