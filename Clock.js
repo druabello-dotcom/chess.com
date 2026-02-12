@@ -1,74 +1,104 @@
 import { registerTurnVariables } from "./turnRegister.js";
 
 let timeInterval = null;
+let msTimeInterval = null;
+
 let remainingSeconds = {
-    White: 600,
-    Black: 600
-}
-let urgencyMode= {
-    White: false,
-    Black: false
-}
+  White: 6000,
+  Black: 6000
+};
 
-
+let urgencyMode = {
+  White: false,
+  Black: false
+};
 
 export function waitUntilFirstMove() {
-  return new Promise(function (resolve) {       //return a promise/ await til promise is returned by function 
-    const interval = setInterval(() => {  //create a interval based function which runs every 100 ms
-      if (registerTurnVariables.turnCounter === 2) { //if the turncounter has reached 2 then clear 
-        clearInterval(interval); // the interval and run resolve() which will confimr the promise
+  return new Promise(function (resolve) {
+    const interval = setInterval(() => {
+      if (registerTurnVariables.turnCounter === 2) {
+        clearInterval(interval);
         console.log("it worked");
         resolve();
       }
-
     }, 10);
   });
 }
 
 export function clockFunction() {
-  if (timeInterval) return;
-  
+  if (timeInterval || msTimeInterval) return;
 
-  function timer() {
-    function clockTurn(){
-        if (registerTurnVariables.turnCounter % 2 == 0){
-            return "White"
-        } else {
-            return "Black"}
-
-    }
-    
-    let turnOfClock = clockTurn()
-    remainingSeconds[clockTurn()]--
-    let RSC = remainingSeconds[clockTurn()] 
-
-
-
-
-    let minutes = Math.floor(RSC / 60);
-    let seconds = RSC % 60;
-
-    document.getElementById(registerTurnVariables.turnDecider + "ClockVisual").innerHTML = minutes + ":" + seconds.toString().padStart(2, "0");
-
-    if (RSC <= 0) {
-      clearInterval(timeInterval);
-      timeInterval = null;
-    }
-
-    if(RSC<599){
-      urgencyMode[clockTurn()] = true
-      let urgentMs= Math.floor(remainingSeconds[clockTurn()]/1000)
-      let urgentSeconds= remainingSeconds[clockTurn()]%1000
-        document.getElementById(registerTurnVariables.turnDecider + "ClockVisual").innerHTML = urgentSeconds + "." + urgentMs.toString().padStart(2, "0");
-      
+  function clockTurn() {
+    if (registerTurnVariables.turnCounter % 2 == 0) {
+      return "White";
+    } else {
+      return "Black";
     }
   }
 
-  timer();
-  timeInterval = setInterval(timer, 1000); //update every second = 1000ms
+  function normalTimer() {
+    let turnOfClock = clockTurn();
+
+
+    remainingSeconds[turnOfClock] -= 1000;     // normal mode ticks in seconds = 1000ms
+    let RSC = remainingSeconds[turnOfClock];
+
+    if (RSC <= 0) {
+      remainingSeconds[turnOfClock] = 0;
+      clearInterval(timeInterval);
+      timeInterval = null;
+      document.getElementById(registerTurnVariables.turnDecider + "ClockVisual").innerHTML = "0:00";
+      return;
+    }
+
+    let minutes = Math.floor(RSC / 60000);
+    let seconds = Math.floor((RSC / 1000) % 60);
+
+    document.getElementById(registerTurnVariables.turnDecider + "ClockVisual").innerHTML =
+      minutes + ":" + seconds.toString().padStart(2, "0");
+
+    // if we crossed into urgency, switch intervals to a samller 10ms
+    if (RSC < 5999) {
+      urgencyMode[turnOfClock] = true;
+
+      clearInterval(timeInterval);
+      timeInterval = null;
+
+      urgentTimer(); // instant change
+      msTimeInterval = setInterval(urgentTimer, 10);
+    }
+  }
+
+  function urgentTimer() {
+    let turnOfClock = clockTurn();
+
+
+    remainingSeconds[turnOfClock] -= 10;     // urgent mode ticks in 10ms
+    let RSC = remainingSeconds[turnOfClock];
+
+    if (RSC <= 0) {
+      remainingSeconds[turnOfClock] = 0;
+
+      clearInterval(msTimeInterval);
+      msTimeInterval = null;
+
+      document.getElementById(registerTurnVariables.turnDecider + "ClockVisual").innerHTML = "0.00";
+      return;
+    }
+
+    let urgentSeconds = Math.floor((RSC / 1000) % 60);
+    let urgentHundredths = Math.floor((RSC % 1000) / 10);
+
+    document.getElementById(registerTurnVariables.turnDecider + "ClockVisual").innerHTML =
+      urgentSeconds + "." + urgentHundredths.toString().padStart(2, "0");
+  }
+
+
+  normalTimer();   // start in normal mode
+  timeInterval = setInterval(normalTimer, 1000);
 }
 
 export async function startClockAfterFirstMove() {
-  await waitUntilFirstMove(); // await until the promise has been completed
-  clockFunction(); //then run the code of the clock
+  await waitUntilFirstMove();
+  clockFunction();
 }

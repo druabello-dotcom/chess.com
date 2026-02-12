@@ -448,12 +448,14 @@ button:active .topLayer {
 	} */
 }
 
+/*Clocks*/
 .clocks {
 	transform: translateY(calc(0.8 * var(--square-size)));
 	height: calc(8 * 4rem);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	align-items: center;
 }
 
 #blackClock {
@@ -465,6 +467,11 @@ button:active .topLayer {
 	border-radius: 2.5mm;
 	padding: var(--top-bottom-padding);
 	padding-right: 0.8em;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	justify-content: center;
 }
 #whiteClock {
 	display: flex;
@@ -475,6 +482,11 @@ button:active .topLayer {
 	border-radius: 2.5mm;
 	padding: var(--top-bottom-padding);
 	padding-right: 0.8em;
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	justify-content: center;
 }
 #whiteClockVisual {
 	padding-left: 4px;
@@ -482,6 +494,7 @@ button:active .topLayer {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	align-items: center;
+	justify-content: center;
 	
 }
 #blackClockVisual {
@@ -490,10 +503,10 @@ button:active .topLayer {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	align-items: center;
+	justify-content: center;
+
 }
-.clocks {
-align-items: center;
-}
+
 
 
 /* #turnDecider {
