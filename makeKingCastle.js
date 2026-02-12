@@ -1,10 +1,13 @@
 import * as Main from "./main.js";
 import { chessboardBoard, subtractChessboardPixels } from "./main.js";
 import * as additFunc from "./additionalFunctions.js"
-/* import { updateStateGrid, resetOnSquareClickInfo } from "./additionalFunctions.js"; */
+
+import { castleSound } from "./sounds.js";
 import { registerTurn } from "./turnRegister.js";
 import { selectPieceState, pieceSquarePositionArray, piecesHasNotMoved, pieceElementsObject, pieceNumberIdentifier } from "./gameState.js";
 import { movePieceElementToDestination } from "./movePieceToDestination.js";
+
+//————————————————————————————————————————————————————————————————————————————————————
 
 export function makeKingCastle(rookIndex, rookMove, rookGridPlacement) {
 	let rookMoveTo = selectPieceState.selectedSquareId + (rookMove)
@@ -25,6 +28,7 @@ export function makeKingCastle(rookIndex, rookMove, rookGridPlacement) {
 	additFunc.updateStateGrid();
 
 	registerTurn();
+	castleSound();
 
 	// castling is no longer possible again
     selectPieceState.letKingCastleLeft = false;
