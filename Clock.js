@@ -4,12 +4,12 @@ let timeInterval = null;
 let msTimeInterval = null;
 
 let remainingSeconds = {
-  White: 6000,
-  Black: 6000
+  white: 6000,
+  black: 6000
 };
 
 let urgencyMode = {
-  White: false,
+  white: false,
   Black: false
 };
 
@@ -30,9 +30,9 @@ export function clockFunction() {
 
   function clockTurn() {
     if (registerTurnVariables.turnCounter % 2 == 0) {
-      return "White";
+      return "white";
     } else {
-      return "Black";
+      return "black";
     }
   }
 
@@ -60,7 +60,6 @@ export function clockFunction() {
     // if we crossed into urgency, switch intervals to a samller 10ms
     if (RSC < 5999) {
       urgencyMode[turnOfClock] = true;
-
       clearInterval(timeInterval);
       timeInterval = null;
 
@@ -71,8 +70,8 @@ export function clockFunction() {
 
   function urgentTimer() {
     let turnOfClock = clockTurn();
-
-
+       document.getElementById(turnOfClock+"ClockVisual").style.color = "red"
+    console.log( document.getElementById(turnOfClock+"ClockVisual").style.color = "red")
     remainingSeconds[turnOfClock] -= 10;     // urgent mode ticks in 10ms
     let RSC = remainingSeconds[turnOfClock];
 
@@ -81,7 +80,6 @@ export function clockFunction() {
 
       clearInterval(msTimeInterval);
       msTimeInterval = null;
-
       document.getElementById(registerTurnVariables.turnDecider + "ClockVisual").innerHTML = "0.00";
       return;
     }
