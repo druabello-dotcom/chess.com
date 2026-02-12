@@ -2,6 +2,7 @@ import { chessboard, stateGrid, mapPieces } from "./main.js";
 import * as CreatePieceElements from "./createPieceElements.js";
 import { pieceElementsObject, pieceNumberIdentifier, pieceSquarePositionArray, selectPieceState } from "./gameState.js";
 import { pawnSpanElementObject } from "./resetChessboard.js";
+import { promotionSound } from "./sounds.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
@@ -105,6 +106,8 @@ function switchToPieceType(color, promotionPieceType) {
     pieceElementsObject[color][promotionPieceType].push(selectedPieceSpan);
     console.log("THIS WAS PUSHED INTO PIECE ELEMENT OBJECT")
     console.log(selectedPieceSpan);
+
+    promotionSound();
 
     promotionOptions = null;
     destinationSquareIndex = null;
