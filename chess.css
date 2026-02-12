@@ -476,9 +476,23 @@ button:active .topLayer {
 	padding: var(--top-bottom-padding);
 	padding-right: 0.8em;
 }
-.WhiteClockVisual {
-	padding-top: 16px;
-
+#whiteClockVisual {
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	align-items: center;
+	
+}
+#blackClockVisual {
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	align-items: center;
+}
+.clocks {
+align-items: center;
 }
 
 

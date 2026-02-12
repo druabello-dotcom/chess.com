@@ -5,18 +5,23 @@ let remainingSeconds = {
     White: 600,
     Black: 600
 }
+let urgencyMode= {
+    White: false,
+    Black: false
+}
+
 
 
 export function waitUntilFirstMove() {
   return new Promise(function (resolve) {       //return a promise/ await til promise is returned by function 
-    const interval = setInterval(function () {  //create a interval based function which runs every 100 ms
+    const interval = setInterval(() => {  //create a interval based function which runs every 100 ms
       if (registerTurnVariables.turnCounter === 2) { //if the turncounter has reached 2 then clear 
         clearInterval(interval); // the interval and run resolve() which will confimr the promise
         console.log("it worked");
         resolve();
       }
 
-    }, 100);
+    }, 10);
   });
 }
 
@@ -35,8 +40,8 @@ export function clockFunction() {
     
     let turnOfClock = clockTurn()
     remainingSeconds[clockTurn()]--
-    let RSC = remainingSeconds[turnOfClock] 
-    RSC--;
+    let RSC = remainingSeconds[clockTurn()] 
+
 
 
 
@@ -48,6 +53,14 @@ export function clockFunction() {
     if (RSC <= 0) {
       clearInterval(timeInterval);
       timeInterval = null;
+    }
+
+    if(RSC<599){
+      urgencyMode[clockTurn()] = true
+      let urgentMs= Math.floor(remainingSeconds[clockTurn()]/1000)
+      let urgentSeconds= remainingSeconds[clockTurn()]%1000
+        document.getElementById(registerTurnVariables.turnDecider + "ClockVisual").innerHTML = urgentSeconds + "." + urgentMs.toString().padStart(2, "0");
+      
     }
   }
 
