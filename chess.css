@@ -507,6 +507,20 @@ button:active .topLayer {
 	justify-content: center;
 
 }
+#blitzButton {
+	display: grid;
+	flex-direction: column;
+	align-items: center;
+	
+}
+img {
+ width: 20px;  /* Sets a fixed width */
+  height: auto;  /* Height adjusts automatically to maintain aspect ratio */   /* Automatically adjusts the height to maintain aspect ratio */
+}
+#blitzButton{
+		transform: translateY(-0.25rem);
+}
+
 
 
 
