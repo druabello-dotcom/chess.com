@@ -1,16 +1,16 @@
 import { registerTurnVariables } from "./turnRegister.js";
 
-let timeInterval = null;
-let msTimeInterval = null;
+export let timeInterval = null;
+export let msTimeInterval = null;
 
-let remainingSeconds = {
+export let remainingSeconds = {
   white: 6000,
   black: 6000
 };
 
-let urgencyMode = {
+export let urgencyMode = {
   white: false,
-  Black: false
+  black: false
 };
 
 export function waitUntilFirstMove() {
@@ -57,8 +57,8 @@ export function clockFunction() {
     document.getElementById(registerTurnVariables.turnDecider + "ClockVisual").innerHTML =
       minutes + ":" + seconds.toString().padStart(2, "0");
 
-    // if we crossed into urgency, switch intervals to a samller 10ms
-    if (RSC < 5999) {
+  
+    if (RSC < 5999) {   // if we crossed into urgency, switch intervals to a samller 10ms
       urgencyMode[turnOfClock] = true;
       clearInterval(timeInterval);
       timeInterval = null;
@@ -94,9 +94,19 @@ export function clockFunction() {
 
   normalTimer();   // start in normal mode
   timeInterval = setInterval(normalTimer, 1000);
+
 }
+
+
 
 export async function startClockAfterFirstMove() {
   await waitUntilFirstMove();
   clockFunction();
 }
+
+export function resetIntervals() { //for resetting clock
+  if (timeInterval) { clearInterval(timeInterval); timeInterval = null; }
+  if (msTimeInterval) { clearInterval(msTimeInterval); msTimeInterval = null; }
+}
+
+  
