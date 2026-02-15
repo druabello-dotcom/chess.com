@@ -104,41 +104,8 @@ export const attackingMovesObject = {
 		}
 	},
 	queen: function(squareIndex, oppositeColor) {
-		// rook
-		for (let i = squareIndex + 8; i < 64; i+=8) {
-			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSameColorsPiece(squareIndex) === true) break;
-		}
-		for (let i = squareIndex - 8; 0 <= i; i-=8) {
-			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSameColorsPiece(squareIndex) === true) break;
-		}
-		for (let i = squareIndex + 1; (squareIndex % 8) < (i % 8) && i < 64; i++) {
-			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSameColorsPiece(squareIndex) === true) break;
-		}
-		for (let i = squareIndex - 1; (i % 8) < (squareIndex % 8) && 0 <= i; i--) {
-			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSameColorsPiece(squareIndex) === true) break;
-		}
-
-		// bishop
-		for (let i = squareIndex - 7; (squareIndex % 8) < (i % 8) && 0 <= i; i-=7) { // up to the right 
-			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSameColorsPiece(squareIndex) === true) break;
-		}
-		for (let i = squareIndex + 9; (squareIndex % 8) < (i % 8) && i < 64; i+=9) { // down to the right
-			if (stopAttackingSameColorsPiece(squareIndex) === true) break;
-			kingUnavailableaSquares[oppositeColor].push(i);
-		}
-		for (let i = squareIndex - 9; (i % 8) < (squareIndex % 8) && 0 <= 64; i-=9) { // up to the left
-			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSameColorsPiece(squareIndex) === true) break;
-		}
-		for (let i = squareIndex + 7; (i % 8) < (squareIndex % 8) && i < 64; i+=7) { // down to the left
-			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSameColorsPiece(squareIndex) === true) break;
-		}
+		this.bishop(squareIndex, oppositeColor);
+		this.rook(squareIndex, oppositeColor);
 	},
 	king: function(squareIndex, oppositeColor) {
 		let upToLeft = squareIndex - 9;
