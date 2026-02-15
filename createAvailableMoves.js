@@ -1,7 +1,8 @@
 import * as Main from "./main.js";
 import { selectPieceState, piecesHasNotMoved, noPieceBetweenKingRook } from "./gameState.js";
 import { moveToDestination  } from "./movePieceToDestination.js";
-/* import { piecesHasNotMoved } from "./gameState.js"; */
+
+//————————————————————————————————————————————————————————————————————————————————————
 
 function checkIfPieceOnSquare(i) {
 	let otherPieceColor = 0;
@@ -14,6 +15,8 @@ function checkIfPieceOnSquare(i) {
 	if (selectPieceState.pieceColor === otherPieceColor) return false;
 	else return true;
 }
+
+//————————————————————————————————————————————————————————————————————————————————————
 
 const highlightDestinationSquares = "inset 0 0 0 0.25em #80EF80";
 export const availablePieceMovesObject = {
