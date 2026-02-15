@@ -3,15 +3,16 @@ import { selectPieceState, kingUnavailableaSquares } from "./gameState.js"
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-function stopAttackingSameColorsPiece(squareIndex) {
-	let otherPieceColor = 0;
-	let otherPieceValue = Main.stateGrid[squareIndex];
+function stopAttackingSameColorsPiece(i) {
+	let otherPieceColor = null;
+	let otherPieceValue = Main.stateGrid[i];
 	if (otherPieceValue < 0) otherPieceColor = 'black';
 	else if (0 < otherPieceValue) otherPieceColor = 'white';
 	if (selectPieceState.pieceColor === otherPieceColor) return true;
 }
 
 //————————————————————————————————————————————————————————————————————————————————————
+
 export const attackingMovesObject = {
     pawn: function(squareIndex, oppositeColor) {
         let attackingLeft = null;
