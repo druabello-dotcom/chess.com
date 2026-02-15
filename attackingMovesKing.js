@@ -1,5 +1,4 @@
-import { selectPieceState } from "./gameState";
-import { kingUnavailableaSquares, pieceSquarePositionArray } from "./gameState";
+import { selectPieceState, kingUnavailableaSquares } from "./gameState.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
@@ -111,4 +110,39 @@ export const attackingMovesObject = {
 			kingUnavailableaSquares[oppositeColor].push(i);
 		}
 	},
+	king: function(squareIndex, oppositeColor) {
+		let upToLeft = squareIndex - 9;
+		let up = squareIndex - 8;
+		let upToRight = squareIndex - 7
+		let right = squareIndex + 1;
+		let downToRight = squareIndex + 9;
+		let down = squareIndex + 8;
+		let downToLeft = squareIndex + 7;
+		let left = squareIndex - 1;
+
+		if ((upToLeft % 8) < (squareIndex % 8) && 0 <= upToLeft) {
+			kingUnavailableaSquares[oppositeColor].push(upToLeft);
+		}
+		if (0 <= (up % 8)) {
+			kingUnavailableaSquares[oppositeColor].push(up);
+		}
+		if ((squareIndex % 8) < (upToRight % 8) && 0 <= upToRight) {
+			kingUnavailableaSquares[oppositeColor].push(upToRight);
+		}
+		if ((squareIndex % 8) < (right % 8) && right < 64) {
+			kingUnavailableaSquares[oppositeColor].push(right);
+		}
+		if ((squareIndex % 8) < (downToRight % 8) && downToRight < 64) {
+			kingUnavailableaSquares[oppositeColor].push(downToRight);
+		}
+		if (down < 64) {
+			kingUnavailableaSquares[oppositeColor].push(down);
+		}
+		if ((downToLeft % 8) < (squareIndex % 8) && downToLeft < 64) {
+			kingUnavailableaSquares[oppositeColor].push(downToLeft);
+		}
+		if ((left % 8) < (squareIndex % 8) && 0 <= left) {
+			kingUnavailableaSquares[oppositeColor].push(left);
+		}
+	}
 }
