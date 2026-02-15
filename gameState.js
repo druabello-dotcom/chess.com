@@ -94,3 +94,8 @@ export const pieceNumberIdentifier = {
 		king: 6
 	} 
 }
+
+export const kingUnavailableaSquares = {
+	black: [],
+	white: []
+}
