@@ -141,49 +141,9 @@ export const availablePieceMovesObject = {
 			}
 		}; RUU();
 	},
-	queen: function (){
-		for (let i = (selectPieceState.selectedSquareId + 9); (selectPieceState.selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener('click', moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
-		}
-		for (let i = (selectPieceState.selectedSquareId + 7); (i % 8) < (selectPieceState.selectedSquareId % 8) && i < 64; i+=7) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener('click', moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
-		}
-		for (let i = (selectPieceState.selectedSquareId - 9); (i % 8) < (selectPieceState.selectedSquareId % 8) && 0 <= i; i-=9) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener('click', moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
-		}
-		for (let i = (selectPieceState.selectedSquareId - 7); (selectPieceState.selectedSquareId % 8) < (i % 8) && 0 < i; i-=7) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			checkIfPieceOnSquare(i);
-			Main.grid[i].addEventListener('click', moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
-		}
-		for (let i = (selectPieceState.selectedSquareId + 1); (selectPieceState.selectedSquareId % 8) < ( i % 8) && i < 64; i++) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener("click", moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
-		}
-		
-		for (let i = (selectPieceState.selectedSquareId - 1); (selectPieceState.selectedSquareId) % 8 > (i % 8) && 0 <= i; i--) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener("click", moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
-		}
-		for (let i = (selectPieceState.selectedSquareId + 8); i < 64; i+=8) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener("click", moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
-		}
-		for (let i = (selectPieceState.selectedSquareId - 8); 0 <= i ; i-=8) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener("click", moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
-		}
+	queen: function() {
+		this.rook();
+		this.bishop();
 	},
 	king: function() {
 		if (0 <= (selectPieceState.selectedSquareId - 9) && (selectPieceState.selectedSquareId - 9) % 8 < selectPieceState.selectedSquareId % 8 && checkIfPieceOnSquare(selectPieceState.selectedSquareId - 9) === true) {
