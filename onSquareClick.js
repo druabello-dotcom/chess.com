@@ -41,5 +41,5 @@ export function onSquareClick(event) {
 			selectPieceState.clickOnPieceToReset.push(i);
 		} 
 	}
-	availablePieceMovesObject[selectPieceState.pieceType]();
+	availablePieceMovesObject[selectPieceState.pieceType](selectPieceState.selectedSquareId);
 }
