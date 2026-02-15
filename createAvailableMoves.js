@@ -1,5 +1,5 @@
 import * as Main from "./main.js";
-import { selectPieceState, piecesHasNotMoved, noPieceBetweenKingRook } from "./gameState.js";
+import { selectPieceState, piecesHasNotMoved, noPieceBetweenKingRook, kingUnavailableaSquares } from "./gameState.js";
 import { moveToDestination  } from "./movePieceToDestination.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
@@ -146,47 +146,52 @@ export const availablePieceMovesObject = {
 		this.bishop(squareIndex);
 	},
 	king: function(squareIndex) {
-		if (0 <= (squareIndex - 9) && (squareIndex - 9) % 8 < squareIndex % 8 && checkIfPieceOnSquare(squareIndex - 9) === true) {
-			Main.grid[squareIndex - 9].addEventListener('click', moveToDestination);
-			Main.grid[squareIndex - 9].style.boxShadow = highlightDestinationSquares;
-		}
-		if (0 <= (squareIndex - 1) && (squareIndex - 1) % 8 < squareIndex % 8 && checkIfPieceOnSquare(squareIndex - 1) === true) {
-			Main.grid[squareIndex - 1].addEventListener('click', moveToDestination);
-			Main.grid[squareIndex - 1].style.boxShadow = highlightDestinationSquares;
-		}
-		if ((squareIndex + 7) < 64 && (squareIndex + 7) % 8 < squareIndex % 8 && checkIfPieceOnSquare(squareIndex + 7) === true) {
-			Main.grid[squareIndex + 7].addEventListener('click', moveToDestination);
-			Main.grid[squareIndex + 7].style.boxShadow = highlightDestinationSquares;
-		}
-		if ((squareIndex + 8) < 64) {
-			if (checkIfPieceOnSquare(squareIndex + 8) === true) {
-				Main.grid[squareIndex + 8].addEventListener('click', moveToDestination);
-				Main.grid[squareIndex + 8].style.boxShadow = highlightDestinationSquares;
+		let upToLeft = squareIndex - 9;
+		let up = squareIndex - 8;
+		let upToRight = squareIndex - 7;
+		let right = squareIndex + 1;
+		let downToRight = squareIndex + 9;
+		let down = squareIndex + 8;
+		let downToLeft = squareIndex + 7;
+		let left = squareIndex - 1;
+
+		function checkIfSquareIsAvailable(desiredSquare) {
+			let letKingMovehere = true;
+			for (let i = 0; i < kingUnavailableaSquares[selectPieceState.pieceColor].length; i++) {
+				if (desiredSquare === kingUnavailableaSquares[selectPieceState.pieceColor][i]) {
+					letKingMovehere = false;
+					break;
+				} 
+			}
+			if (checkIfPieceOnSquare(desiredSquare) === true && letKingMovehere === true) {
+				Main.grid[desiredSquare].addEventListener('click', moveToDestination) 
+				Main.grid[desiredSquare].style.boxShadow = highlightDestinationSquares;
 			}
 		}
-		if ((squareIndex + 9) < 64 && squareIndex % 8 < (squareIndex + 9) % 8) {
-			if (checkIfPieceOnSquare(squareIndex + 9) === true) {
-				Main.grid[squareIndex + 9].addEventListener('click', moveToDestination);
-				Main.grid[squareIndex + 9].style.boxShadow = highlightDestinationSquares;
-			} // if false, capturePiece()
+
+		if ((upToLeft % 8) < (squareIndex % 8) && 0 <= upToLeft) {
+			checkIfSquareIsAvailable(upToLeft);
 		}
-		if ((squareIndex + 1) < 64 && squareIndex % 8 < (squareIndex + 1) % 8) {
-			if (checkIfPieceOnSquare(squareIndex + 1) === true) {
-				Main.grid[squareIndex + 1].addEventListener('click', moveToDestination);
-				Main.grid[squareIndex + 1].style.boxShadow = highlightDestinationSquares;
-			}
+		if (0 <= up) {
+			checkIfSquareIsAvailable(up);
 		}
-		if (0 <= (squareIndex - 7) && squareIndex % 8 < (squareIndex - 7) % 8) {
-			if (checkIfPieceOnSquare(squareIndex - 7) === true) {
-				Main.grid[squareIndex - 7].addEventListener('click', moveToDestination);
-				Main.grid[squareIndex - 7].style.boxShadow = highlightDestinationSquares;
-			}
+		if ((squareIndex % 8) < (upToRight % 8) &&  0 <= upToRight) {
+			checkIfSquareIsAvailable(upToRight);
 		}
-		if (0 <= squareIndex - 8) {
-			if (checkIfPieceOnSquare(squareIndex - 8) === true) {
-				Main.grid[squareIndex - 8].addEventListener('click', moveToDestination); 
-				Main.grid[squareIndex - 8].style.boxShadow = highlightDestinationSquares;
-			}
+		if ((squareIndex % 8) < (right % 8) && right < 64) {
+			checkIfSquareIsAvailable(right);
+		}
+		if ((squareIndex % 8) < (downToRight % 8) && downToRight < 64) {
+			checkIfSquareIsAvailable(downToRight);
+		}
+		if (down < 64) {
+			checkIfSquareIsAvailable(down);
+		}
+		if ((downToLeft % 8) < (squareIndex % 8) && downToLeft < 64) {
+			checkIfSquareIsAvailable(downToLeft);
+		}
+		if ((left % 8) < (squareIndex % 8) && 0 <= left) {
+			checkIfSquareIsAvailable(left);
 		}
 
 		// castling
