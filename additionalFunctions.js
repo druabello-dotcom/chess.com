@@ -15,7 +15,6 @@ export function resetOnSquareClick() {
 export function updateStateGrid() {
 	Main.stateGrid[selectPieceState.selectedSquareId] = 0;
 	Main.stateGrid[selectPieceState.destinationSquareId] = selectPieceState.valueInSquare;
-	console.log(Main.stateGrid);
 }
 export function resetOnSquareClickInfo() {
 	for (let i = 0; i < 64; i++) {

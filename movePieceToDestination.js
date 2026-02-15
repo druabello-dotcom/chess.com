@@ -72,15 +72,11 @@ export function moveToDestination(destination) {
 			attackingMovesObject[type](squareIndex, oppositeColor);
 		}
 	}
-	console.log(kingUnavailableaSquares[oppositeColor]);
 	
 	// reset after piece has been moved
 	additFunc.resetOnSquareClick();
 	additFunc.resetOnSquareClickInfo();
 	additFunc.reviewIfKingIsChecked(oppositeColor);
-	
-	console.log(pieceSquarePositionArray);
-
 }
 
 //———————————————————————————————————————————————————————————————————————————————————
@@ -88,7 +84,6 @@ export function moveToDestination(destination) {
 export function movePieceElementToDestination() {
 	selectPieceState.x_squareCoordinate = parseInt(chessboardBoard.centerPositionSqaure[selectPieceState.destinationSquareId].x_coordinate);
 	selectPieceState.y_squareCoordinate = parseInt(chessboardBoard.centerPositionSqaure[selectPieceState.destinationSquareId].y_coordinate);
-	console.log(selectPieceState.x_squareCoordinate + ", " + selectPieceState.y_squareCoordinate);
 
 	// move piece to destination square
 	selectPieceState.selectedPiece.style.left = (selectPieceState.x_squareCoordinate - subtractChessboardPixels.width) + "px"; // FIND better way, than to subtract

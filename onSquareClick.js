@@ -16,7 +16,6 @@ export function onSquareClick(event) {
 	selectPieceState.valueInSquare = Main.stateGrid[selectPieceState.selectedSquareId];
 	if (selectPieceState.valueInSquare < 0) selectPieceState.pieceColor = 'black';
 	else if (0 < selectPieceState.valueInSquare) selectPieceState.pieceColor = 'white';
-	console.log("Color of piece:  " + selectPieceState.pieceColor);
 	if (selectPieceState.pieceColor != TurnRegister.registerTurnVariables.turnDecider) return; // same player can't move twice in a row
 
 	selectPieceState.isClicked = true;
@@ -25,14 +24,10 @@ export function onSquareClick(event) {
 	// get information about piece
 	selectPieceState.pieceType = Main.mapPieces[Math.abs(selectPieceState.valueInSquare)];
 	selectPieceState.selectedPieceArray = pieceSquarePositionArray[selectPieceState.pieceColor][selectPieceState.pieceType];
-	console.log(selectPieceState.selectedPieceArray);
-	console.log("You must move:  " + selectPieceState.pieceType)
 	selectPieceState.selectedPieceIndex = Number(selectPieceState.selectedPieceArray.indexOf(selectPieceState.selectedSquareId));
-	console.log(selectPieceState.selectedPieceIndex);
 
 	// the selected piece is now found inside program
 	selectPieceState.selectedPiece = pieceElementsObject[selectPieceState.pieceColor][selectPieceState.pieceType][selectPieceState.selectedPieceIndex];
-	console.log(selectPieceState.selectedPiece);
 
 	// add eventListeners for available square for corresponding piece
 	// determine what squares shall activate resetOnSquareClick()
@@ -46,6 +41,5 @@ export function onSquareClick(event) {
 			selectPieceState.clickOnPieceToReset.push(i);
 		} 
 	}
-	console.log("Click on piece to reset:  " +selectPieceState.clickOnPieceToReset)
 	availablePieceMovesObject[selectPieceState.pieceType]();
 }
