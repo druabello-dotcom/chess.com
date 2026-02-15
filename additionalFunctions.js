@@ -1,6 +1,6 @@
 import * as Main from "./main.js";
 import { giveCheckSound } from "./sounds.js";
-import { kingUnavailableaSquares, selectPieceState, pieceSquarePositionArray } from "./gameState.js";
+import { kingUnavailableaSquares, selectPieceState, pieceSquarePositionArray, piecesHasNotMoved } from "./gameState.js";
 import { onSquareClick } from "./onSquareClick.js";
 import { moveToDestination } from "./movePieceToDestination.js";
 
@@ -44,7 +44,8 @@ export function reviewIfKingIsChecked(oppositeColor) {
 	for (let i = 0; i < kingUnavailableaSquares[oppositeColor].length; i++) {
 		if (pieceSquarePositionArray[oppositeColor].king[0] === kingUnavailableaSquares[oppositeColor][i]) {
 			giveCheckSound();
-			grid[pieceSquarePositionArray[oppositeColor].king[0]].style.border = "2px solid #ff3b3b"
+			Main.grid[pieceSquarePositionArray[oppositeColor].king[0]].style.boxShadow = "inset 0 0 0 4px #F01E2C";
+			return;
 		}
 	}
 }

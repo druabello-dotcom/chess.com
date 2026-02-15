@@ -1,16 +1,25 @@
 import * as Main from "./main.js"
+import * as CreatePieceElements from "./createPieceElements.js"
 import * as additFunc from "./additionalFunctions.js"
-import * as TurnRegister from "./turnRegister.js";
+import * as TurnRegister from "./turnRegister.js"
 
 import { soundWhenMovingPiece } from "./sounds.js";
-import { promotePawn } from "./pawnPromotion.js";
-import { chessboardBoard } from "./main.js";
-import { subtractChessboardPixels } from "./main.js";
-import { makeKingCastle } from "./makeKingCastle.js";
-import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray } from "./gameState.js";
+import { attackingMovesObject } from "./attackingMovesKing.js"
+import { promotePawn } from "./pawnPromotion.js"
+import { chessboardBoard } from "./main.js"
+import { subtractChessboardPixels } from "./main.js"
+import { makeKingCastle } from "./makeKingCastle.js"
+import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray, kingUnavailableaSquares } from "./gameState.js"
+
+//———————————————————————————————————————————————————————————————————————————————————
 
 export function moveToDestination(destination) {
 	// register destination square
+	let oppositeColor = null;
+	if (selectPieceState.pieceColor === 'white') oppositeColor = 'black'
+	else oppositeColor = 'white';
+	kingUnavailableaSquares[oppositeColor] = [];
+	
     selectPieceState.destinationSquare = destination.target;
     selectPieceState.destinationSquareId = Number(destination.target.id);
 
@@ -54,12 +63,27 @@ export function moveToDestination(destination) {
 	
 	TurnRegister.registerTurn();
 
+	// update kingUnavailableSquares[oppositeColor]
+	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
+		let type = CreatePieceElements.pieceTypeArray[t];
+		for (let i = 0; i < pieceSquarePositionArray[selectPieceState.pieceColor][type].length; i++) {
+			let squareIndex = pieceSquarePositionArray[selectPieceState.pieceColor][type][i];
+			if (squareIndex === null) continue;
+			attackingMovesObject[type](squareIndex, oppositeColor);
+		}
+	}
+	console.log(kingUnavailableaSquares[oppositeColor]);
+	
 	// reset after piece has been moved
 	additFunc.resetOnSquareClick();
 	additFunc.resetOnSquareClickInfo();
-
+	additFunc.reviewIfKingIsChecked(oppositeColor);
+	
 	console.log(pieceSquarePositionArray);
+
 }
+
+//———————————————————————————————————————————————————————————————————————————————————
 
 export function movePieceElementToDestination() {
 	selectPieceState.x_squareCoordinate = parseInt(chessboardBoard.centerPositionSqaure[selectPieceState.destinationSquareId].x_coordinate);
