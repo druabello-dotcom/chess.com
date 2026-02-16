@@ -205,10 +205,10 @@ function reviewIfKingMayCastleLeft(squareIndex, color) {
 		if (squareIndex - 3 === kingUnavailableaSquares[color][i]) return;
 		if (squareIndex - 2 === kingUnavailableaSquares[color][i]) return;
 		if (squareIndex - 1 === kingUnavailableaSquares[color][i]) return;
-	}
+	} 
 	for (let i = 0, j = squareIndex - 3; i < noPieceBetweenKingRook.left.length; i++, j++) {
 		if (Main.stateGrid[j] !== 0) noPieceBetweenKingRook.left[i] = false;
-		else noPieceBetweenKingRook[i] = true;
+		else noPieceBetweenKingRook.left[i] = true;
 	}
 	for (let i = 1; i < noPieceBetweenKingRook.left.length; i++) {
 		if (noPieceBetweenKingRook.left[0] === true && noPieceBetweenKingRook.left[i] === true) selectPieceState.letKingCastleLeft = true;
