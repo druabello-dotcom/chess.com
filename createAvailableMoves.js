@@ -194,38 +194,46 @@ export const availablePieceMovesObject = {
 			checkIfSquareIsAvailable(left);
 		}
 
-		// castling
-		if (piecesHasNotMoved[selectPieceState.pieceColor].king === true && piecesHasNotMoved[selectPieceState.pieceColor].rook[0] === true) {
-			// check if there are any pieces in between rook and king before adding the event listeners
-			for (let i = 0, j = squareIndex - 3; i < noPieceBetweenKingRook.left.length; i++, j++) {
-				if (Main.stateGrid[j] != 0) noPieceBetweenKingRook.left[i] = false;
-				else noPieceBetweenKingRook.left[i] = true;
-			}
-			for (let i = 1; i < noPieceBetweenKingRook.left.length; i++) {
-				if (noPieceBetweenKingRook.left[0] === true && noPieceBetweenKingRook.left[i] === true) selectPieceState.letKingCastleLeft = true;
-				else break;
-			}
-			if (selectPieceState.letKingCastleLeft === true) {
-				Main.grid[squareIndex - 2].addEventListener('click', moveToDestination);
-				Main.grid[squareIndex - 2].style.boxShadow = highlightDestinationSquares;
-			}
-		}
+		// castle
+		reviewIfKingMayCastleLeft(squareIndex, selectPieceState.pieceColor);
+		reviewIfKingMayCastleRight(squareIndex, selectPieceState.pieceColor);
+	}
+}
 
-		//castle to right
-		if (piecesHasNotMoved[selectPieceState.pieceColor].king === true && piecesHasNotMoved[selectPieceState.pieceColor].rook[1] === true) {
-			// check if there are any pieces in between rook and king before adding the event listeners
-			for (let i = 0, j = squareIndex + 1; i < 2; i++, j++) {
-				if (Main.stateGrid[j] != 0) noPieceBetweenKingRook.right[i] = false;
-				else noPieceBetweenKingRook.right[i] = true;
-			}
-			for (let i = 1; i < noPieceBetweenKingRook.right.length; i++) {
-				if (noPieceBetweenKingRook.right[0] === true && noPieceBetweenKingRook.right[i] === true) selectPieceState.letKingCastleRight = true;
-				else break;
-			}
-			if (selectPieceState.letKingCastleRight === true) {
-				Main.grid[squareIndex + 2].addEventListener('click', moveToDestination);
-				Main.grid[squareIndex + 2].style.boxShadow = highlightDestinationSquares;
-			}
-		}
+function reviewIfKingMayCastleLeft(squareIndex, color) {
+	for (let i = 0; i < kingUnavailableaSquares[color].length; i++) {
+		if (squareIndex - 3 === kingUnavailableaSquares[color][i]) return;
+		if (squareIndex - 2 === kingUnavailableaSquares[color][i]) return;
+		if (squareIndex - 1 === kingUnavailableaSquares[color][i]) return;
+	} 
+	for (let i = 0, j = squareIndex - 3; i < noPieceBetweenKingRook.left.length; i++, j++) {
+		if (Main.stateGrid[j] !== 0) noPieceBetweenKingRook.left[i] = false;
+		else noPieceBetweenKingRook.left[i] = true;
+	}
+	for (let i = 1; i < noPieceBetweenKingRook.left.length; i++) {
+		if (noPieceBetweenKingRook.left[0] === true && noPieceBetweenKingRook.left[i] === true) selectPieceState.letKingCastleLeft = true;
+		else break;
+	}
+	if (selectPieceState.letKingCastleLeft === true) {
+		Main.grid[squareIndex - 2].addEventListener('click', moveToDestination);
+		Main.grid[squareIndex - 2].style.boxShadow = highlightDestinationSquares;
+	}
+}
+function reviewIfKingMayCastleRight(squareIndex, color) {
+	for (let i = 0; i < kingUnavailableaSquares[color].length; i++) {
+		if (squareIndex + 2 === kingUnavailableaSquares[color][i]) return;
+		if (squareIndex + 1 === kingUnavailableaSquares[color][i]) return;
+	}
+	for (let i = 0, j = squareIndex + 1; i < 2; i++, j++) {
+		if (Main.stateGrid[j] !== 0) noPieceBetweenKingRook.right[i] = false;
+		else noPieceBetweenKingRook.right[i] = true;
+	}
+	for (let i = 1; i < noPieceBetweenKingRook.right.length; i++) {
+		if (noPieceBetweenKingRook.right[0] === true && noPieceBetweenKingRook.right[i] === true) selectPieceState.letKingCastleRight = true;
+		else break;
+	}
+	if (selectPieceState.letKingCastleRight === true) {
+		Main.grid[squareIndex + 2].addEventListener('click', moveToDestination);
+		Main.grid[squareIndex + 2].style.boxShadow = highlightDestinationSquares;
 	}
 }
