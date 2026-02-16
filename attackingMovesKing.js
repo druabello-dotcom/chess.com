@@ -1,33 +1,10 @@
 import * as Main from "./main.js"
-import { selectPieceState, kingUnavailableaSquares, pinnedPieces} from "./gameState.js"
+import { selectPieceState, kingUnavailableaSquares } from "./gameState.js"
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-function stopAttackingSquare(i, nextIteration, oppositeColor) {
-	if (Main.stateGrid[i] !== 0) {
-		
-		return true;
-	}
-/* 	detectPinnedPiece(i, nextIteration, oppositeColor); */
-/* function stopAttackingSquare(i, previousIteration) {
-	let value = Main.stateGrid[i];
-	if (value === 0) return false;
-	let otherColor = null;
-
-	if (value < 0) otherColor = 'black';
-	else otherColor = 'white';
-	if (selectPieceState.pieceColor === otherColor) {
-		return true;
-	} else if (selectPieceState.pieceColor !== otherColor && previousIteration !== 0) {
-		if (value === -6 || value === 6) {
-			storePinnedPiece(previousIteration, value, otherColor);
-		}
-	}
-} */
-
-function storePinnedPiece(previousIteration, value, oppositeColor) {
-	pinnedPieces[oppositeColor].value.push(value);
-	pinnedPieces[oppositeColor].square.push(previousIteration);
+function stopAttackingSquare(i) {
+	if (Main.stateGrid[i] !== 0) return true;
 }
 
 //————————————————————————————————————————————————————————————————————————————————————
@@ -54,37 +31,37 @@ export const attackingMovesObject = {
     bishop: function(squareIndex, oppositeColor) {
 		for (let i = squareIndex - 9; (i % 8) < (squareIndex % 8) && 0 <= i; i-=9) {
 			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i, i-9, oppositeColor) === true) break;
+			if (stopAttackingSquare(i) === true) break;
 		}
 		for (let i = squareIndex - 7; (squareIndex % 8) < (i % 8) && 0 <= i; i-=7) {
 			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i, i-7, oppositeColor) === true) break;
+			if (stopAttackingSquare(i) === true) break;
 		}
 		for (let i = squareIndex + 7; (i % 8) < (squareIndex % 8) && i < 64; i+=7) {
 			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i, i+7, oppositeColor) === true) break;
+			if (stopAttackingSquare(i) === true) break;
 		}
 		for (let i = squareIndex + 9; (squareIndex % 8) < (i % 8) && i < 64; i+=9) {
 			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i, i+9, oppositeColor) === true) break;
+			if (stopAttackingSquare(i) === true) break;
 		}
     },
     rook: function(squareIndex, oppositeColor) {
         for (let i = squareIndex + 8; i < 64; i+=8) {
             kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i, i+8, oppositeColor) === true) break;
+			if (stopAttackingSquare(i) === true) break;
         }
         for (let i = squareIndex - 8; 0 <= i; i-=8) {
             kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i, i-8, oppositeColor) === true) break;
+			if (stopAttackingSquare(i) === true) break;
         }
         for (let i = squareIndex + 1; (squareIndex % 8) < (i % 8) && i < 64; i++) {
             kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i, i+1, oppositeColor) === true) break;
+			if (stopAttackingSquare(i) === true) break;
         }
         for (let i = squareIndex - 1; (i % 8) < (squareIndex % 8) && 0 <= i; i--) {
             kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i, i-1, oppositeColor) === true) break;
+			if (stopAttackingSquare(i) === true) break;
         }
     },
     knight: function(squareIndex, oppositeColor) {
