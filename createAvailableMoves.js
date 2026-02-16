@@ -202,6 +202,7 @@ export const availablePieceMovesObject = {
 
 function reviewIfKingMayCastleLeft(squareIndex, color) {
 	for (let i = 0; i < kingUnavailableaSquares[color].length; i++) {
+		if (squareIndex === kingUnavailableaSquares[color][i]) return;
 		if (squareIndex - 3 === kingUnavailableaSquares[color][i]) return;
 		if (squareIndex - 2 === kingUnavailableaSquares[color][i]) return;
 		if (squareIndex - 1 === kingUnavailableaSquares[color][i]) return;
@@ -221,6 +222,7 @@ function reviewIfKingMayCastleLeft(squareIndex, color) {
 }
 function reviewIfKingMayCastleRight(squareIndex, color) {
 	for (let i = 0; i < kingUnavailableaSquares[color].length; i++) {
+		if (squareIndex === kingUnavailableaSquares[color][i]) return;
 		if (squareIndex + 2 === kingUnavailableaSquares[color][i]) return;
 		if (squareIndex + 1 === kingUnavailableaSquares[color][i]) return;
 	}
