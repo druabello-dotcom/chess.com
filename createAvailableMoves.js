@@ -222,6 +222,7 @@ function reviewIfKingMayCastleLeft(squareIndex, color) {
 function reviewIfKingMayCastleRight(squareIndex, color) {
 	for (let i = 0; i < kingUnavailableaSquares[color].length; i++) {
 		if (squareIndex + 2 === kingUnavailableaSquares[color][i]) return;
+		if (squareIndex + 1 === kingUnavailableaSquares[color][i]) return;
 	}
 	for (let i = 0, j = squareIndex + 1; i < 2; i++, j++) {
 		if (Main.stateGrid[j] !== 0) noPieceBetweenKingRook.right[i] = false;
