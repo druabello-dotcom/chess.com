@@ -7,13 +7,19 @@ import { promotionSound } from "./sounds.js";
 /* function stopAttackingSquare(i) {
 	if (Main.stateGrid[i] !== 0) return true;
 } */
-
+// KUS = kingUnavailableSquares
+let allowPushToKUS = true;
 let attackNextDirection = null;
 let possiblyPinnedPiece = {
 	counter: 0,
 	iterationsCounter: 0,
 	value: null,
 	square: null
+}
+function pushToKUS(square, oppositeColor) {
+	if (allowPushToKUS === true) {
+		kingUnavailableaSquares[oppositeColor].push(square);
+	} else return;
 }
 function resetPossiblyPinnedPiece() {
 	possiblyPinnedPiece.counter = 0;
