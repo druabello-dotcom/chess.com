@@ -103,12 +103,10 @@ export const kingUnavailableaSquares = {
 
 export const pinnedPiecesObject = {
 	black: {
-		value: [],
 		square: [],
 		incrementation: []
 	},
 	white: {
-		value: [],
 		square: [],
 		incrementation: []
 	}
