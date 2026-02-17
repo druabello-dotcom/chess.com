@@ -99,3 +99,14 @@ export const kingUnavailableaSquares = {
 	black: [],
 	white: []
 }
+
+export const pinnedPiecesObject = {
+	black: {
+		value: [],
+		square: []
+	},
+	white: {
+		value: [],
+		square: []
+	}
+}

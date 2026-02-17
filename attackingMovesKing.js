@@ -1,5 +1,6 @@
 import * as Main from "./main.js"
 import { selectPieceState, kingUnavailableaSquares, pinnedPiecesObject } from "./gameState.js"
+import { promotionSound } from "./sounds.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
@@ -19,6 +20,45 @@ function resetPossiblyPinnedPiece() {
 	iterationsCounter = 0;
 	possiblyPinnedPiece.value = null;
 	possiblyPinnedPiece.square = null;
+}
+
+function stopAttackingSquare(i, oppositeColor) {
+	if (Main.stateGrid[i] === 0 && possiblyPinnedPiece.counter === 0) {
+		return false;
+	}
+	let value = Main.stateGrid[i];
+	let otherColor = null;
+	if (value < 0) otherColor = 'black';
+	else otherColor = 'white';
+
+	if (otherColor === selectPieceState.pieceColor && possiblyPinnedPiece.counter === 0) return true;
+
+	if (0 === possiblyPinnedPiece.counter) {
+		if (value !== -6 || value !== 6) {
+			possiblyPinnedPiece.counter++;
+			possiblyPinnedPiece.value = value;
+			possiblyPinnedPiece.square = i;
+			return false;
+		} else if (value === -6 || value === 6) {
+			return true;
+		}
+	} else if (1 <= possiblyPinnedPiece.counter) {
+		if (value === 0) {
+			possiblyPinnedPiece.iterationsCounter++;
+			return false;
+		} else if (1 < possiblyPinnedPiece.counter) {
+			resetPossiblyPinnedPiece();
+			// reset the empty squares between possiblyPinnedPiece and another piece
+		} else if (value !== 0 && (value !== -6 || value !== 6)) {
+			resetPossiblyPinnedPiece();
+			// reset the empty squares between possiblyPinnedPiece and another piece
+		} else if (value === -6 || value === 6) {
+			pinnedPiecesObject[oppositeColor].value = possiblyPinnedPiece.value;
+			pinnedPiecesObject[oppositeColor].square = possiblyPinnedPiece.square;
+			resetPossiblyPinnedPiece();
+			return true;
+		}
+	} 
 }
 
 //————————————————————————————————————————————————————————————————————————————————————
