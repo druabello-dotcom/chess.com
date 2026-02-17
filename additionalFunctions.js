@@ -1,6 +1,6 @@
 import * as Main from "./main.js";
 import { giveCheckSound } from "./sounds.js";
-import { kingUnavailableaSquares, selectPieceState, pieceSquarePositionArray, piecesHasNotMoved } from "./gameState.js";
+import { kingUnavailableaSquares, selectPieceState, pieceSquarePositionArray, pinnedPiecesObject } from "./gameState.js";
 import { onSquareClick } from "./onSquareClick.js";
 import { moveToDestination } from "./movePieceToDestination.js";
 
@@ -45,6 +45,15 @@ export function reviewIfKingIsChecked(oppositeColor) {
 			giveCheckSound();
 			Main.grid[pieceSquarePositionArray[oppositeColor].king[0]].style.boxShadow = "inset 0 0 0 4px #F01E2C";
 			return;
+		}
+	}
+}
+export function checkIfPinnedPiece(squarePosition, color) {
+	for (let i = 0; i < pinnedPiecesObject[color].square.length; i++) {
+		if (squarePosition === pinnedPiecesObject[color].square[i]) {
+			return pinnedPiecesObject[color].incrementation[i];
+		} else {
+			return false;
 		}
 	}
 }
