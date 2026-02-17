@@ -21,6 +21,7 @@ function checkIfPieceOnSquare(i) {
 const highlightDestinationSquares = "inset 0 0 0 0.25em #80EF80";
 export const availablePieceMovesObject = {
 	pawn: function(squareIndex) {
+		if (selectPieceState.pieceIsPinned === false) return;
 		if (selectPieceState.pieceColor == 'black' && (squareIndex + 8) < 64) {
 			Main.grid[squareIndex + 8].addEventListener('click', moveToDestination);
 			Main.grid[squareIndex + 8].style.boxShadow = highlightDestinationSquares;
@@ -84,6 +85,7 @@ export const availablePieceMovesObject = {
 		}
 	},
 	knight: function(squareIndex){
+		if (selectPieceState.pieceIsPinned === false) return;
 		function RD (){
 			let i = squareIndex + 10;
 			if ((squareIndex % 8) < (i % 8) && i < 64 && checkIfPieceOnSquare(i) === true){
