@@ -2,14 +2,9 @@ import * as Main from "./main.js"
 import { selectPieceState, kingUnavailableaSquares, pinnedPiecesObject } from "./gameState.js"
 
 //————————————————————————————————————————————————————————————————————————————————————
-/* function stopAttackingSquare(i) {
-	if (Main.stateGrid[i] !== 0) return true;
-} */
 
-// KUS = kingUnavailableSquares
-let allowPushToKUS = true;
+let allowPushToKUS = true; // KUS = kingUnavailableSquares
 let attackNextDirection = null;
-
 let possiblyPinnedPiece = {
 	pieceCounter: 0,
 	value: null,
@@ -38,34 +33,39 @@ function attackSquare(i, oppositeColor) {
 		return true;
 	}
 	let value = Main.stateGrid[i];
-	let otherColor = null;
-	if (value < 0) otherColor = 'black';
-	else if (0 < value) otherColor = 'white';
-
+	let otherColor = otherColorValue(value);
 	if (otherColor === selectPieceState.pieceColor && possiblyPinnedPiece.pieceCounter === 0) {
 		pushToKUS(i, oppositeColor);
 		return false;
 	}
-	let enemyKing = null;
-	if (selectPieceState.pieceColor === 'white') {
-		enemyKing = -6;
-	} else if (selectPieceState.pieceColor === 'black') {
-		enemyKing = 6;
+	let enemyKing = enemyKingValue(selectPieceState.pieceColor);
+	checkPinnedRay(i, oppositeColor, enemyKing);
+}
+function otherColorValue(value) {
+	if (value < 0) return 'black';
+	else if (0 < value) return 'white';
+}
+function enemyKingValue(pieceColor) {
+	if (pieceColor === 'white') {
+		return -6;
+	} else if (pieceColor === 'black') {
+		return 6;
 	}
-
+}
+function checkPinnedRay(square, oppositeColor, enemyKing) {
 	if (possiblyPinnedPiece.pieceCounter === 0 && attackNextDirection === false) {
 		if (value !== enemyKing) {
 			possiblyPinnedPiece.pieceCounter++;
 			possiblyPinnedPiece.value = value;
-			possiblyPinnedPiece.square = i;
-			pushToKUS(i, oppositeColor);
+			possiblyPinnedPiece.square = square;
+			pushToKUS(square, oppositeColor);
 			allowPushToKUS = false;
 			return true;
 		}
-	} else if (1 === possiblyPinnedPiece.pieceCounter && attackNextDirection === false) {
+	} else if (possiblyPinnedPiece.pieceCounter === 1 && attackNextDirection === false) {
 		if (value === 0) {
 			return true;
-		} else if (value !== 0 && value !== enemyKing) { //if attack meets another piece that is not the enemyKing
+		} else if (value !== 0 && value !== enemyKing) {
 			resetPossiblyPinnedPiece();
 			allowPushToKUS = true;
 			return false;
