@@ -1,20 +1,19 @@
 import * as Main from "./main.js"
 import { selectPieceState, kingUnavailableaSquares, pinnedPiecesObject } from "./gameState.js"
-import { promotionSound } from "./sounds.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
-
 /* function stopAttackingSquare(i) {
 	if (Main.stateGrid[i] !== 0) return true;
 } */
+
 // KUS = kingUnavailableSquares
 let allowPushToKUS = true;
 let attackNextDirection = null;
+
 let possiblyPinnedPiece = {
-	counter: 0,
-	iterationsCounter: 0,
+	pieceCounter: 0,
 	value: null,
-	square: null
+	square: null,
 }
 function pushToKUS(square, oppositeColor) {
 	if (allowPushToKUS === true) {
@@ -22,49 +21,59 @@ function pushToKUS(square, oppositeColor) {
 	} else return;
 }
 function resetPossiblyPinnedPiece() {
-	possiblyPinnedPiece.counter = 0;
-	iterationsCounter = 0;
+	possiblyPinnedPiece.pieceCounter = 0;
 	possiblyPinnedPiece.value = null;
 	possiblyPinnedPiece.square = null;
 }
 
-function stopAttackingSquare(i, oppositeColor) {
-	if (Main.stateGrid[i] === 0 && possiblyPinnedPiece.counter === 0) {
-		return false;
+function attackSquare(i, oppositeColor) {
+	if (attackNextDirection === true) {
+		attackNextDirection = false;
+		pushToKUS(i, oppositeColor);
+		resetPossiblyPinnedPiece();
+		return true;
+	}
+	if (Main.stateGrid[i] === 0 && attackNextDirection === false && possiblyPinnedPiece.pieceCounter === 0) {
+		pushToKUS(i, oppositeColor);
+		return true;
 	}
 	let value = Main.stateGrid[i];
 	let otherColor = null;
 	if (value < 0) otherColor = 'black';
-	else otherColor = 'white';
+	else if (0 < value) otherColor = 'white';
 
-	if (otherColor === selectPieceState.pieceColor && possiblyPinnedPiece.counter === 0) return true;
+	if (otherColor === selectPieceState.pieceColor && possiblyPinnedPiece.pieceCounter === 0) {
+		pushToKUS(i, oppositeColor);
+		return false;
+	}
+	let enemyKing = null;
+	if (selectPieceState.pieceColor === 'white') {
+		enemyKing = -6;
+	} else if (selectPieceState.pieceColor === 'black') {
+		enemyKing = 6;
+	}
 
-	if (0 === possiblyPinnedPiece.counter) {
-		if (value !== -6 || value !== 6) {
-			possiblyPinnedPiece.counter++;
+	if (possiblyPinnedPiece.pieceCounter === 0 && attackNextDirection === false) {
+		if (value !== enemyKing) {
+			possiblyPinnedPiece.pieceCounter++;
 			possiblyPinnedPiece.value = value;
 			possiblyPinnedPiece.square = i;
-			return false;
-		} else if (value === -6 || value === 6) {
+			pushToKUS(i, oppositeColor);
+			allowPushToKUS = false;
 			return true;
 		}
-	} else if (1 <= possiblyPinnedPiece.counter) {
+	} else if (1 === possiblyPinnedPiece.pieceCounter && attackNextDirection === false) {
 		if (value === 0) {
-			possiblyPinnedPiece.iterationsCounter++;
+			return true;
+		} else if (value !== 0 && value !== enemyKing) { //if attack meets another piece that is not the enemyKing
+			resetPossiblyPinnedPiece();
+			allowPushToKUS = true;
 			return false;
-		} else if (1 < possiblyPinnedPiece.counter) {
-			resetPossiblyPinnedPiece();
-			// reset the empty squares between possiblyPinnedPiece and another piece
-		} else if (value !== 0 && (value !== -6 || value !== 6)) {
-			resetPossiblyPinnedPiece();
-			// reset the empty squares between possiblyPinnedPiece and another piece
-		} else if (value === -6 || value === 6) {
+		} else if (value === enemyKing) {// save this piece as a pinned piece
 			pinnedPiecesObject[oppositeColor].value = possiblyPinnedPiece.value;
 			pinnedPiecesObject[oppositeColor].square = possiblyPinnedPiece.square;
-			resetPossiblyPinnedPiece();
-			return true;
 		}
-	} 
+	}
 }
 
 //————————————————————————————————————————————————————————————————————————————————————
