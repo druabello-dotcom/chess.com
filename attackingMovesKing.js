@@ -1,10 +1,24 @@
 import * as Main from "./main.js"
-import { selectPieceState, kingUnavailableaSquares } from "./gameState.js"
+import { selectPieceState, kingUnavailableaSquares, pinnedPiecesObject } from "./gameState.js"
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-function stopAttackingSquare(i) {
+/* function stopAttackingSquare(i) {
 	if (Main.stateGrid[i] !== 0) return true;
+} */
+
+let attackNextDirection = null;
+let possiblyPinnedPiece = {
+	counter: 0,
+	iterationsCounter: 0,
+	value: null,
+	square: null
+}
+function resetPossiblyPinnedPiece() {
+	possiblyPinnedPiece.counter = 0;
+	iterationsCounter = 0;
+	possiblyPinnedPiece.value = null;
+	possiblyPinnedPiece.square = null;
 }
 
 //————————————————————————————————————————————————————————————————————————————————————
@@ -22,44 +36,60 @@ export const attackingMovesObject = {
             attackingRight = squareIndex + 9;
         }
 		if ((attackingLeft % 8) < (squareIndex % 8)) {
-			kingUnavailableaSquares[oppositeColor].push(attackingLeft);
+			kingUnavailableaSquares[oppositeColor].push();
 		}
 		if ((squareIndex % 8) < (attackingRight % 8)) {
 			kingUnavailableaSquares[oppositeColor].push(attackingRight);
 		}
     },
     bishop: function(squareIndex, oppositeColor) {
+		attackNextDirection = true;
 		for (let i = squareIndex - 9; (i % 8) < (squareIndex % 8) && 0 <= i; i-=9) {
+			attackNextDirection = false;
 			kingUnavailableaSquares[oppositeColor].push(i);
 			if (stopAttackingSquare(i) === true) break;
 		}
+		attackNextDirection = true;
 		for (let i = squareIndex - 7; (squareIndex % 8) < (i % 8) && 0 <= i; i-=7) {
+			attackNextDirection = false;
 			kingUnavailableaSquares[oppositeColor].push(i);
 			if (stopAttackingSquare(i) === true) break;
 		}
+		attackNextDirection = true;
 		for (let i = squareIndex + 7; (i % 8) < (squareIndex % 8) && i < 64; i+=7) {
+			attackNextDirection = false;
 			kingUnavailableaSquares[oppositeColor].push(i);
 			if (stopAttackingSquare(i) === true) break;
 		}
+		attackNextDirection = true;
 		for (let i = squareIndex + 9; (squareIndex % 8) < (i % 8) && i < 64; i+=9) {
+			attackNextDirection = false;
 			kingUnavailableaSquares[oppositeColor].push(i);
 			if (stopAttackingSquare(i) === true) break;
 		}
     },
     rook: function(squareIndex, oppositeColor) {
+		attackNextDirection = true;
         for (let i = squareIndex + 8; i < 64; i+=8) {
+			attackNextDirection = false;
             kingUnavailableaSquares[oppositeColor].push(i);
 			if (stopAttackingSquare(i) === true) break;
         }
+		attackNextDirection = true;
         for (let i = squareIndex - 8; 0 <= i; i-=8) {
+			attackNextDirection = false;
             kingUnavailableaSquares[oppositeColor].push(i);
 			if (stopAttackingSquare(i) === true) break;
         }
+		attackNextDirection = true;
         for (let i = squareIndex + 1; (squareIndex % 8) < (i % 8) && i < 64; i++) {
+			attackNextDirection = false;
             kingUnavailableaSquares[oppositeColor].push(i);
 			if (stopAttackingSquare(i) === true) break;
         }
+		attackNextDirection = true;
         for (let i = squareIndex - 1; (i % 8) < (squareIndex % 8) && 0 <= i; i--) {
+			attackNextDirection = false;
             kingUnavailableaSquares[oppositeColor].push(i);
 			if (stopAttackingSquare(i) === true) break;
         }
