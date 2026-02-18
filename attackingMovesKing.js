@@ -9,15 +9,6 @@ let possiblyPinnedPiece = {
 	value: null,
 	square: null,
 }
-function pushToKUS(square, oppositeColor) {
-	kingUnavailableaSquares[oppositeColor].push(square);
-}
-function resetPossiblyPinnedPiece() {
-	possiblyPinnedPiece.pieceCounter = 0;
-	possiblyPinnedPiece.value = null;
-	possiblyPinnedPiece.square = null;
-}
-
 function attackSquare(square, oppositeColor, incrementation) {
 	let value = Main.stateGrid[square];
 	if (attackNextDirection === true) {
@@ -40,17 +31,6 @@ function attackSquare(square, oppositeColor, incrementation) {
 	let enemyKing = enemyKingValue(selectPieceState.pieceColor);
 	checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation);
 }
-function otherColorValue(value) {
-	if (value < 0) return 'black';
-	else if (0 < value) return 'white';
-}
-function enemyKingValue(pieceColor) {
-	if (pieceColor === 'white') {
-		return -6;
-	} else if (pieceColor === 'black') {
-		return 6;
-	}
-}
 function checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation) {
 	if (possiblyPinnedPiece.pieceCounter === 0) {
 		if (value !== enemyKing) {
@@ -72,6 +52,25 @@ function checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation)
 			resetPossiblyPinnedPiece();
 			return false;
 		}
+	}
+}
+function pushToKUS(square, oppositeColor) {
+	kingUnavailableaSquares[oppositeColor].push(square);
+}
+function resetPossiblyPinnedPiece() {
+	possiblyPinnedPiece.pieceCounter = 0;
+	possiblyPinnedPiece.value = null;
+	possiblyPinnedPiece.square = null;
+}
+function otherColorValue(value) {
+	if (value < 0) return 'black';
+	else if (0 < value) return 'white';
+}
+function enemyKingValue(pieceColor) {
+	if (pieceColor === 'white') {
+		return -6;
+	} else if (pieceColor === 'black') {
+		return 6;
 	}
 }
 
