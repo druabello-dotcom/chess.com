@@ -543,6 +543,8 @@ button:active .topLayer {
 #CustomButton{
 		transform: translateY(-0.25rem);
 }
+
+
 img {
  	width: 20px;  /* Sets a fixed width */
   	height: auto;  /* Height adjusts automatically to maintain aspect ratio */   /* Automatically adjusts the height to maintain aspect ratio */
