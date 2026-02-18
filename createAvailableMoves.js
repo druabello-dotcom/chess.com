@@ -25,7 +25,7 @@ function allowMove(desiredSquare) {
 
 export const availablePieceMovesObject = {
 	pawn: function(squareIndex) {
-		if (selectPieceState.pieceIsPinned === false) return;
+		if (selectPieceState.pieceIsPinned === true) return;
 		if (selectPieceState.pieceColor === 'black' && (squareIndex + 8) < 64) {
 			allowMove(squareIndex + 8);
 			if (piecesHasNotMoved.black.pawn[selectPieceState.selectedPieceIndex] === true) {
@@ -39,6 +39,7 @@ export const availablePieceMovesObject = {
 		}
 	},
 	bishop: function(squareIndex) {
+		if (selectPieceState.pieceIsPinned === true) return;
 		for (let i = (squareIndex + 9); (squareIndex % 8) < (i % 8) && i < 64; i+=9) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			allowMove(i);
@@ -57,6 +58,7 @@ export const availablePieceMovesObject = {
 		}
 	},
 	rook: function(squareIndex) {
+		if (selectPieceState.pieceIsPinned === true) return;
 		for (let i = (squareIndex + 1); (squareIndex % 8) < (i % 8) && i < 64; i++) {
 			if (checkIfPieceOnSquare(i) === false) break;
 			allowMove(i);
@@ -75,7 +77,7 @@ export const availablePieceMovesObject = {
 		}
 	},
 	knight: function(squareIndex){
-		if (selectPieceState.pieceIsPinned === false) return;
+		if (selectPieceState.pieceIsPinned === true) return;
 		let LU = squareIndex - 10 
 		let LUU = squareIndex - 17;
 		let LD = squareIndex + 6;

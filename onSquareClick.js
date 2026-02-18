@@ -1,8 +1,11 @@
 import * as Main from "./main.js";
+import * as additFunc from "./additionalFunctions.js"
 import * as TurnRegister from "./turnRegister.js";
 import { selectPieceState, pieceSquarePositionArray, pieceElementsObject } from "./gameState.js";
 import { moveToDestination } from "./movePieceToDestination.js";
 import { availablePieceMovesObject } from "./createAvailableMoves.js";
+
+//———————————————————————————————————————————————————————————————————————————————————
 
 export function onSquareClick(event) {
 	selectPieceState.selectedSquare = event.target;
@@ -16,7 +19,7 @@ export function onSquareClick(event) {
 	selectPieceState.valueInSquare = Main.stateGrid[selectPieceState.selectedSquareId];
 	if (selectPieceState.valueInSquare < 0) selectPieceState.pieceColor = 'black';
 	else if (0 < selectPieceState.valueInSquare) selectPieceState.pieceColor = 'white';
-	if (selectPieceState.pieceColor != TurnRegister.registerTurnVariables.turnDecider) return; // same player can't move twice in a row
+	if (selectPieceState.pieceColor !== TurnRegister.registerTurnVariables.turnDecider) return; // same player can't move twice in a row
 
 	selectPieceState.isClicked = true;
 	selectPieceState.selectedSquare.style.filter = "brightness(0.4)";
@@ -30,7 +33,7 @@ export function onSquareClick(event) {
 	selectPieceState.selectedPiece = pieceElementsObject[selectPieceState.pieceColor][selectPieceState.pieceType][selectPieceState.selectedPieceIndex];
 
 	// add eventListeners for available square for corresponding piece
-	// determine what squares shall activate resetOnSquareClick()
+	// determine what squares will activate resetOnSquareClick()
 	for (let i = 0; i < 64; i++) {
 		Main.grid[i].removeEventListener('click', onSquareClick);
 		if (Main.stateGrid[i] < 0 && selectPieceState.pieceColor === 'black') { // 
@@ -41,5 +44,6 @@ export function onSquareClick(event) {
 			selectPieceState.clickOnPieceToReset.push(i);
 		} 
 	}
+	additFunc.isPiecePinned(selectPieceState.selectedSquareId, selectPieceState.pieceColor);
 	availablePieceMovesObject[selectPieceState.pieceType](selectPieceState.selectedSquareId);
 }

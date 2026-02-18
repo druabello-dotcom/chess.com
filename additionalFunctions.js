@@ -24,6 +24,7 @@ export function resetOnSquareClickInfo() {
 	}
 	selectPieceState.selectedSquare.style.filter = "brightness(1)";
 	selectPieceState.isClicked = false;
+	selectPieceState.pieceColor = false;
 
 	selectPieceState.selectedSquare = null;
 	selectPieceState.selectedSquareId = null;
@@ -57,4 +58,8 @@ export function isPiecePinned(squarePosition, color) {
 	}
 	selectPieceState.pieceIsPinned = false;
 	return false;
+}
+export function resetPinnedPiecesList(color) {
+	pinnedPiecesObject[color].square.length = 0;
+	pinnedPiecesObject[color].incrementation.length = 0;
 }
