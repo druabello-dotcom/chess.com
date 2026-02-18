@@ -48,11 +48,13 @@ export function reviewIfKingIsChecked(oppositeColor) {
 		}
 	}
 }
-export function checkIfPinnedPiece(squarePosition, color) {
+export function isPiecePinned(squarePosition, color) {
 	for (let i = 0; i < pinnedPiecesObject[color].square.length; i++) {
 		if (squarePosition === pinnedPiecesObject[color].square[i]) {
+			selectPieceState.pieceIsPinned = true;
 			return pinnedPiecesObject[color].incrementation[i];
 		} else {
+			selectPieceState.pieceIsPinned = false;
 			return false;
 		}
 	}
