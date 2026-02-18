@@ -4,9 +4,9 @@ import { moveToDestination  } from "./movePieceToDestination.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-function checkIfPieceOnSquare(i) {
+function checkIfPieceOnSquare(square) {
 	let otherPieceColor = 0;
-	let otherPieceValue = Main.stateGrid[i];
+	let otherPieceValue = Main.stateGrid[square];
 	if (otherPieceValue < 0) otherPieceColor = 'black';
 	else if (0 < otherPieceValue) otherPieceColor = 'white';
 	console.log(otherPieceValue);
@@ -15,133 +15,101 @@ function checkIfPieceOnSquare(i) {
 	if (selectPieceState.pieceColor === otherPieceColor) return false;
 	else return true;
 }
+const highlightDestinationSquares = "inset 0 0 0 0.25em #80EF80";
+function allowMove(desiredSquare) {
+	Main.grid[desiredSquare].addEventListener('click', moveToDestination);
+	Main.grid[desiredSquare].style.boxShadow = highlightDestinationSquares;
+}
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-const highlightDestinationSquares = "inset 0 0 0 0.25em #80EF80";
 export const availablePieceMovesObject = {
 	pawn: function(squareIndex) {
 		if (selectPieceState.pieceIsPinned === false) return;
-		if (selectPieceState.pieceColor == 'black' && (squareIndex + 8) < 64) {
-			Main.grid[squareIndex + 8].addEventListener('click', moveToDestination);
-			Main.grid[squareIndex + 8].style.boxShadow = highlightDestinationSquares;
+		if (selectPieceState.pieceColor === 'black' && (squareIndex + 8) < 64) {
+			allowMove(squareIndex + 8);
 			if (piecesHasNotMoved.black.pawn[selectPieceState.selectedPieceIndex] === true) {
-				Main.grid[squareIndex + 16].addEventListener('click', moveToDestination);
-				Main.grid[squareIndex + 16].style.boxShadow = highlightDestinationSquares;
+				allowMove(squareIndex + 16);
 			}
-		} else if(selectPieceState.pieceColor == 'white' && 0 <= (squareIndex - 8)) {
-			Main.grid[squareIndex - 8].addEventListener('click', moveToDestination);
-			Main.grid[squareIndex - 8].style.boxShadow = highlightDestinationSquares;
+		} else if(selectPieceState.pieceColor === 'white' && 0 <= (squareIndex - 8)) {
+			allowMove(squareIndex - 8);
 			if (piecesHasNotMoved.white.pawn[selectPieceState.selectedPieceIndex] === true) {
-				Main.grid[squareIndex - 16].addEventListener('click', moveToDestination);
-				Main.grid[squareIndex - 16].style.boxShadow = highlightDestinationSquares
+				allowMove(squareIndex - 16);
 			}	
 		}
 	},
 	bishop: function(squareIndex) {
 		for (let i = (squareIndex + 9); (squareIndex % 8) < (i % 8) && i < 64; i+=9) {
 			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener('click', moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
+			allowMove(i);
 		}
 		for (let i = (squareIndex + 7); (i % 8) < (squareIndex % 8) && i < 64; i+=7) {
 			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener('click', moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
+			allowMove(i);
 		}
 		for (let i = (squareIndex - 9); (i % 8) < (squareIndex % 8) && 0 <= i; i-=9) {
 			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener('click', moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
+			allowMove(i);
 		}
 		for (let i = (squareIndex - 7); (squareIndex % 8) < (i % 8) && 0 < i; i-=7) {
 			if (checkIfPieceOnSquare(i) === false) break;
-			checkIfPieceOnSquare(i);
-			Main.grid[i].addEventListener('click', moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
+			allowMove(i);
 		}
 	},
 	rook: function(squareIndex) {
 		for (let i = (squareIndex + 1); (squareIndex % 8) < (i % 8) && i < 64; i++) {
 			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener("click", moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
+			allowMove(i);
 		}
-		
 		for (let i = (squareIndex - 1); (squareIndex) % 8 > (i % 8) && 0 <= i; i--) {
 			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener("click", moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
+			allowMove(i);
 		}
 		for (let i = (squareIndex + 8); i < 64; i+=8) {
 			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener("click", moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
+			allowMove(i);
 		}
 		for (let i = (squareIndex - 8); 0 <= i ; i-=8) {
 			if (checkIfPieceOnSquare(i) === false) break;
-			Main.grid[i].addEventListener("click", moveToDestination);
-			Main.grid[i].style.boxShadow = highlightDestinationSquares;
+			allowMove(i);
 		}
 	},
 	knight: function(squareIndex){
 		if (selectPieceState.pieceIsPinned === false) return;
-		function RD (){
-			let i = squareIndex + 10;
-			if ((squareIndex % 8) < (i % 8) && i < 64 && checkIfPieceOnSquare(i) === true){
-				Main.grid[i].addEventListener("click", moveToDestination);
-				Main.grid[i].style.boxShadow = highlightDestinationSquares;
-			}
-		}; RD();
-		function RU (){
-			let i = squareIndex - 10;
-			if ((squareIndex % 8) > (i % 8) && i >= 0 && checkIfPieceOnSquare(i) == true){
-				Main.grid[i].addEventListener("click", moveToDestination);
-				Main.grid[i].style.boxShadow = highlightDestinationSquares;
-			}
-		}; RU();
-		function LD (){
-			let i = squareIndex + 6;
-			if ((squareIndex % 8) > (i % 8) && i < 64 && checkIfPieceOnSquare(i) === true){
-				Main.grid[i].addEventListener("click", moveToDestination);
-				Main.grid[i].style.boxShadow = highlightDestinationSquares;
-			}
-		}; LD();
-		function LU (){
-			let i = squareIndex - 6;
-			if ((squareIndex % 8) < (i % 8)  && i >= 0 && checkIfPieceOnSquare(i) == true){
-				Main.grid[i].addEventListener("click", moveToDestination);
-				Main.grid[i].style.boxShadow = highlightDestinationSquares;
-			}
-		}; LU();
-		function RDD (){
-			let i = squareIndex + 17;
-			if ((squareIndex % 8) < (i % 8) && i < 64 && checkIfPieceOnSquare(i) == true){
-				Main.grid[i].addEventListener("click", moveToDestination);
-				Main.grid[i].style.boxShadow = highlightDestinationSquares;
-			}
-		}; RDD();
-		function LDD (){
-			let i = squareIndex + 15;
-			if ((squareIndex % 8) > (i % 8) && i < 64 && checkIfPieceOnSquare(i) === true){
-				Main.grid[i].addEventListener("click", moveToDestination);
-				Main.grid[i].style.boxShadow = highlightDestinationSquares;
-			}
-		}; LDD();
-		function LUU (){
-			let i = squareIndex - 17;
-			if ((squareIndex % 8) > (i % 8)  && i >= 0 && checkIfPieceOnSquare(i) === true){
-				Main.grid[i].addEventListener("click", moveToDestination);
-				Main.grid[i].style.boxShadow = highlightDestinationSquares;
-			}
-		}; LUU();
-		function RUU (){
-			let i = squareIndex - 15;
-			if ((squareIndex % 8) < (i % 8) && i >= 0 && checkIfPieceOnSquare(i) === true){
-				Main.grid[i].addEventListener("click", moveToDestination);
-				Main.grid[i].style.boxShadow = highlightDestinationSquares;
-			}
-		}; RUU();
+		let LU = squareIndex - 10 
+		let LUU = squareIndex - 17;
+		let LD = squareIndex + 6;
+		let LDD = squareIndex + 15;
+
+		let RU = squareIndex - 6;
+		let RUU = squareIndex - 15;
+		let RD = squareIndex + 10;
+		let RDD = squareIndex + 17;
+
+		if ((LD % 8) < (squareIndex % 8) && LD < 64) {
+			allowMove(LD);
+		}
+		if ((LDD % 8) < (squareIndex % 8) && LDD < 64) {
+			allowMove(LDD);
+		}
+		if ((LU % 8) < (squareIndex % 8) && 0 <= LU) {
+			allowMove(LU);
+		}
+		if ((LUU % 8) < (squareIndex % 8) && 0 <= LUU) {
+			allowMove(LUU);
+		}
+		if ((squareIndex % 8) < (RU % 8) && 0 <= RU) {
+			allowMove(RU);
+		}
+		if ((squareIndex % 8) < (RUU % 8) && 0 <= RUU) {
+			allowMove(RUU);
+		} 
+		if ((squareIndex % 8) < (RD % 8) && RD < 64) {
+			allowMove(RD);
+		}
+		if ((squareIndex % 8) < (RDD % 8) && RDD < 64) {
+			allowMove(RDD);
+		}
 	},
 	queen: function(squareIndex) {
 		this.rook(squareIndex);
@@ -166,11 +134,9 @@ export const availablePieceMovesObject = {
 				} 
 			}
 			if (checkIfPieceOnSquare(desiredSquare) === true && letKingMovehere === true) {
-				Main.grid[desiredSquare].addEventListener('click', moveToDestination) 
-				Main.grid[desiredSquare].style.boxShadow = highlightDestinationSquares;
+				allowMove(desiredSquare);
 			}
 		}
-
 		if ((upToLeft % 8) < (squareIndex % 8) && 0 <= upToLeft) {
 			checkIfSquareIsAvailable(upToLeft);
 		}
