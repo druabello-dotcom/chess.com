@@ -13,6 +13,17 @@ export let urgencyMode = {
   black: false
 };
 
+const blitzButton = document.getElementById("blitzButton")
+const bulletButton = document.getElementById("bulletButton")
+const customButton = document.getElementById("customButton")
+
+
+
+
+
+
+
+
 export function waitUntilFirstMove() {
   return new Promise(function (resolve) {
     const interval = setInterval(() => {
