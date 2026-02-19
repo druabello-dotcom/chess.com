@@ -45,7 +45,6 @@ export function reviewIfKingIsChecked(oppositeColor) {
 		if (pieceSquarePositionArray[oppositeColor].king[0] === kingUnavailableaSquares[oppositeColor][i]) {
 			giveCheckSound();
 			Main.grid[pieceSquarePositionArray[oppositeColor].king[0]].style.boxShadow = "inset 0 0 0 4px #F01E2C";
-			return;
 		}
 	}
 }

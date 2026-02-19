@@ -1,13 +1,13 @@
 import * as Main from "./main.js"
 import { selectPieceState, kingUnavailableaSquares, pinnedPiecesObject } from "./gameState.js"
+import { promotionSound } from "./sounds.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
 let attackNextDirection = null;
 let possiblyPinnedPiece = {
 	pieceCounter: 0,
-	value: null,
-	square: null,
+	square: null
 }
 function attackSquare(square, oppositeColor, incrementation) {
 	let value = Main.stateGrid[square];
@@ -33,9 +33,11 @@ function attackSquare(square, oppositeColor, incrementation) {
 }
 function checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation) {
 	if (possiblyPinnedPiece.pieceCounter === 0) {
-		if (value !== enemyKing) {
+		if (value === enemyKing) {
+			pushToKUS(square, oppositeColor);
+			return false;
+		} else if (value !== enemyKing) {
 			possiblyPinnedPiece.pieceCounter++;
-			possiblyPinnedPiece.value = value;
 			possiblyPinnedPiece.square = square;
 			pushToKUS(square, oppositeColor);
 			return true;
