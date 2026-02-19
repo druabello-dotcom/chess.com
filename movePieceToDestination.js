@@ -18,7 +18,7 @@ export function moveToDestination(destination) {
 	let oppositeColor = null;
 	if (selectPieceState.pieceColor === 'white') oppositeColor = 'black'
 	else oppositeColor = 'white';
-	kingUnavailableaSquares[oppositeColor] = [];
+	kingUnavailableaSquares[oppositeColor].length = 0;
 	
     selectPieceState.destinationSquare = destination.target;
     selectPieceState.destinationSquareId = Number(destination.target.id);
@@ -74,6 +74,7 @@ export function moveToDestination(destination) {
 			attackingMovesObject[type](squareIndex, oppositeColor);
 		}
 	}
+	console.log(kingUnavailableaSquares[oppositeColor]);
 	
 	// reset after piece has been moved
 	additFunc.resetOnSquareClick();

@@ -29,7 +29,7 @@ function attackSquare(square, oppositeColor, incrementation) {
 		return false;
 	}
 	let enemyKing = enemyKingValue(selectPieceState.pieceColor);
-	checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation);
+	return checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation);
 }
 function checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation) {
 	if (possiblyPinnedPiece.pieceCounter === 0) {
