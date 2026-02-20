@@ -1,10 +1,78 @@
 import * as Main from "./main.js"
-import { selectPieceState, kingUnavailableaSquares } from "./gameState.js"
+import { selectPieceState, kingUnavailableaSquares, pinnedPiecesObject } from "./gameState.js"
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-function stopAttackingSquare(i) {
-	if (Main.stateGrid[i] !== 0) return true;
+let attackNextDirection = null;
+let possiblyPinnedPiece = {
+	pieceCounter: 0,
+	square: null
+}
+function attackSquare(square, oppositeColor, incrementation) {
+	let value = Main.stateGrid[square];
+	if (attackNextDirection === true) {
+		resetPossiblyPinnedPiece();
+		pushToKUS(square, oppositeColor);
+		attackNextDirection = false;
+		if (value === 0) {
+			return true;
+		}
+	}
+	if (value === 0 && possiblyPinnedPiece.pieceCounter === 0) {
+		pushToKUS(square, oppositeColor);
+		return true;
+	}
+	let otherColor = otherColorValue(value);
+	if (otherColor === selectPieceState.pieceColor && possiblyPinnedPiece.pieceCounter === 0) {
+		pushToKUS(square, oppositeColor);
+		return false;
+	}
+	let enemyKing = enemyKingValue(selectPieceState.pieceColor);
+	return checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation);
+}
+function checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation) {
+	if (possiblyPinnedPiece.pieceCounter === 0) {
+		if (value === enemyKing) {
+			pushToKUS(square, oppositeColor);
+			return false;
+		} else if (value !== enemyKing) {
+			possiblyPinnedPiece.pieceCounter++;
+			possiblyPinnedPiece.square = square;
+			pushToKUS(square, oppositeColor);
+			return true;
+		}
+	} else if (possiblyPinnedPiece.pieceCounter === 1) {
+		if (value === 0) {
+			return true;
+		} else if (value !== 0 && value !== enemyKing) {
+			resetPossiblyPinnedPiece();
+			return false;
+		} else if (value === enemyKing) {// save this piece as a pinned piece
+			pinnedPiecesObject[oppositeColor].square.push(possiblyPinnedPiece.square);
+			pinnedPiecesObject[oppositeColor].incrementation.push(incrementation);
+			resetPossiblyPinnedPiece();
+			return false;
+		}
+	}
+}
+function pushToKUS(square, oppositeColor) {
+	kingUnavailableaSquares[oppositeColor].push(square);
+}
+function resetPossiblyPinnedPiece() {
+	possiblyPinnedPiece.pieceCounter = 0;
+	possiblyPinnedPiece.value = null;
+	possiblyPinnedPiece.square = null;
+}
+function otherColorValue(value) {
+	if (value < 0) return 'black';
+	else if (0 < value) return 'white';
+}
+function enemyKingValue(pieceColor) {
+	if (pieceColor === 'white') {
+		return -6;
+	} else if (pieceColor === 'black') {
+		return 6;
+	}
 }
 
 //————————————————————————————————————————————————————————————————————————————————————
@@ -29,39 +97,39 @@ export const attackingMovesObject = {
 		}
     },
     bishop: function(squareIndex, oppositeColor) {
+		attackNextDirection = true;
 		for (let i = squareIndex - 9; (i % 8) < (squareIndex % 8) && 0 <= i; i-=9) {
-			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i) === true) break;
+			if (attackSquare(i, oppositeColor, 9) === false) break;
 		}
+		attackNextDirection = true;
 		for (let i = squareIndex - 7; (squareIndex % 8) < (i % 8) && 0 <= i; i-=7) {
-			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i) === true) break;
+			if (attackSquare(i, oppositeColor, 7) === false) break;
 		}
+		attackNextDirection = true;
 		for (let i = squareIndex + 7; (i % 8) < (squareIndex % 8) && i < 64; i+=7) {
-			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i) === true) break;
+			if (attackSquare(i, oppositeColor, 7) === false) break;
 		}
+		attackNextDirection = true;
 		for (let i = squareIndex + 9; (squareIndex % 8) < (i % 8) && i < 64; i+=9) {
-			kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i) === true) break;
+			if (attackSquare(i, oppositeColor, 9) === false) break;
 		}
     },
     rook: function(squareIndex, oppositeColor) {
+		attackNextDirection = true;
         for (let i = squareIndex + 8; i < 64; i+=8) {
-            kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i) === true) break;
+			if (attackSquare(i, oppositeColor, 8) === false) break;
         }
+		attackNextDirection = true;
         for (let i = squareIndex - 8; 0 <= i; i-=8) {
-            kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i) === true) break;
+			if (attackSquare(i, oppositeColor, 8) === false) break;
         }
+		attackNextDirection = true;
         for (let i = squareIndex + 1; (squareIndex % 8) < (i % 8) && i < 64; i++) {
-            kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i) === true) break;
+			if (attackSquare(i, oppositeColor, 1) === false) break;
         }
+		attackNextDirection = true;
         for (let i = squareIndex - 1; (i % 8) < (squareIndex % 8) && 0 <= i; i--) {
-            kingUnavailableaSquares[oppositeColor].push(i);
-			if (stopAttackingSquare(i) === true) break;
+			if (attackSquare(i, oppositeColor, 1) === false) break;
         }
     },
     knight: function(squareIndex, oppositeColor) {
