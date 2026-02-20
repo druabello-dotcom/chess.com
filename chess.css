@@ -553,6 +553,7 @@ img {
 #Options{
 	display: flex;
 	flex-direction: row;
+	width: 100 px;
 }
 
 #fiveminblitzButton {
@@ -597,6 +598,16 @@ img {
 		padding-left: 20%;
 		padding-right: 20%;
 	}
+
+	input {
+  font-size: 1px;
+  width: 7px;
+  padding: 2px;
+  font-size: 12px;
+  display: inline-block;
+}
+
+
 
 
 
