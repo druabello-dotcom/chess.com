@@ -9,7 +9,7 @@ import { promotePawn } from "./pawnPromotion.js"
 import { chessboardBoard } from "./main.js"
 import { subtractChessboardPixels } from "./main.js"
 import { makeKingCastle } from "./makeKingCastle.js"
-import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray, kingUnavailableaSquares } from "./gameState.js"
+import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray, kingUnavailableaSquares, pinnedPiecesObject } from "./gameState.js"
 
 //———————————————————————————————————————————————————————————————————————————————————
 
@@ -18,7 +18,7 @@ export function moveToDestination(destination) {
 	let oppositeColor = null;
 	if (selectPieceState.pieceColor === 'white') oppositeColor = 'black'
 	else oppositeColor = 'white';
-	kingUnavailableaSquares[oppositeColor] = [];
+	kingUnavailableaSquares[oppositeColor].length = 0;
 	
     selectPieceState.destinationSquare = destination.target;
     selectPieceState.destinationSquareId = Number(destination.target.id);
@@ -64,6 +64,7 @@ export function moveToDestination(destination) {
 	TurnRegister.registerTurn();
 
 	// update kingUnavailableSquares[oppositeColor]
+	additFunc.resetPinnedPiecesList(oppositeColor);
 	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
 		let type = CreatePieceElements.pieceTypeArray[t];
 		for (let i = 0; i < pieceSquarePositionArray[selectPieceState.pieceColor][type].length; i++) {
