@@ -1,6 +1,5 @@
 import * as Main from "./main.js"
 import { selectPieceState, kingUnavailableaSquares, pinnedPiecesObject } from "./gameState.js"
-import { legalDirection } from "./gameState.js"
 
 //————————————————————————————————————————————————————————————————————————————————————
 
@@ -50,17 +49,11 @@ function checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation)
 			return false;
 		} else if (value === enemyKing) {// save this piece as a pinned piece
 			pinnedPiecesObject[oppositeColor].square.push(possiblyPinnedPiece.square);
-			checkLegalDirection(incrementation);
+			pinnedPiecesObject[oppositeColor].incrementation.push(incrementation);
 			resetPossiblyPinnedPiece();
 			return false;
 		}
 	}
-}
-function checkLegalDirection(incrementation) {
-	if (incrementation === 9) legalDirection.NW_SE = false;
-	else if (incrementation === 7) legalDirection.NE_SW = false;
-	else if (incrementation === 1) legalDirection.east_west = false;
-	else if (incrementation === 8) legalDirection.north_south = false;
 }
 function pushToKUS(square, oppositeColor) {
 	kingUnavailableaSquares[oppositeColor].push(square);

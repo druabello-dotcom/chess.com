@@ -1,5 +1,5 @@
 import * as Main from "./main.js";
-import { selectPieceState, piecesHasNotMoved, noPieceBetweenKingRook, kingUnavailableaSquares } from "./gameState.js";
+import { selectPieceState, piecesHasNotMoved, noPieceBetweenKingRook, kingUnavailableaSquares, legalDirection } from "./gameState.js";
 import { moveToDestination  } from "./movePieceToDestination.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
@@ -9,9 +9,6 @@ function checkIfPieceOnSquare(square) {
 	let otherPieceValue = Main.stateGrid[square];
 	if (otherPieceValue < 0) otherPieceColor = 'black';
 	else if (0 < otherPieceValue) otherPieceColor = 'white';
-	console.log(otherPieceValue);
-	console.log(otherPieceColor);
-	console.log("du kan ikke bevege deg her")
 	if (selectPieceState.pieceColor === otherPieceColor) return false;
 	else return true;
 }
@@ -39,41 +36,47 @@ export const availablePieceMovesObject = {
 		}
 	},
 	bishop: function(squareIndex) {
-		if (selectPieceState.pieceIsPinned === true) return;
-		for (let i = (squareIndex + 9); (squareIndex % 8) < (i % 8) && i < 64; i+=9) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			allowMove(i);
+		if (legalDirection.NW_SE === true) {
+			for (let i = (squareIndex - 9); (i % 8) < (squareIndex % 8) && 0 <= i; i-=9) {
+				if (checkIfPieceOnSquare(i) === false) break;
+				allowMove(i);
+			}
+			for (let i = (squareIndex + 9); (squareIndex % 8) < (i % 8) && i < 64; i+=9) {
+				if (checkIfPieceOnSquare(i) === false) break;
+				allowMove(i);
+			}
 		}
-		for (let i = (squareIndex + 7); (i % 8) < (squareIndex % 8) && i < 64; i+=7) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			allowMove(i);
-		}
-		for (let i = (squareIndex - 9); (i % 8) < (squareIndex % 8) && 0 <= i; i-=9) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			allowMove(i);
-		}
-		for (let i = (squareIndex - 7); (squareIndex % 8) < (i % 8) && 0 < i; i-=7) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			allowMove(i);
+		if (legalDirection.NE_SW === true) {
+			for (let i = (squareIndex - 7); (squareIndex % 8) < (i % 8) && 0 < i; i-=7) {
+				if (checkIfPieceOnSquare(i) === false) break;
+				allowMove(i);
+			}
+			for (let i = (squareIndex + 7); (i % 8) < (squareIndex % 8) && i < 64; i+=7) {
+				if (checkIfPieceOnSquare(i) === false) break;
+				allowMove(i);
+			}
 		}
 	},
 	rook: function(squareIndex) {
-		if (selectPieceState.pieceIsPinned === true) return;
-		for (let i = (squareIndex + 1); (squareIndex % 8) < (i % 8) && i < 64; i++) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			allowMove(i);
+		if (legalDirection.east_west === true) {
+			for (let i = (squareIndex - 1); (squareIndex) % 8 > (i % 8) && 0 <= i; i--) {
+				if (checkIfPieceOnSquare(i) === false) break;
+				allowMove(i);
+			}
+			for (let i = (squareIndex + 1); (squareIndex % 8) < (i % 8) && i < 64; i++) {
+				if (checkIfPieceOnSquare(i) === false) break;
+				allowMove(i);
+			}
 		}
-		for (let i = (squareIndex - 1); (squareIndex) % 8 > (i % 8) && 0 <= i; i--) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			allowMove(i);
-		}
-		for (let i = (squareIndex + 8); i < 64; i+=8) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			allowMove(i);
-		}
-		for (let i = (squareIndex - 8); 0 <= i ; i-=8) {
-			if (checkIfPieceOnSquare(i) === false) break;
-			allowMove(i);
+		if (legalDirection.north_south === true) {
+			for (let i = (squareIndex - 8); 0 <= i; i-=8) {
+				if (checkIfPieceOnSquare(i) === false) break;
+				allowMove(i);
+			}
+			for (let i = (squareIndex + 8); i < 64; i+=8) {
+				if (checkIfPieceOnSquare(i) === false) break;
+				allowMove(i);
+			}
 		}
 	},
 	knight: function(squareIndex){

@@ -104,15 +104,25 @@ export const kingUnavailableaSquares = {
 export const pinnedPiecesObject = {
 	black: {
 		square: [],
+		incrementation: []
 	},
 	white: {
 		square: [],
+		incrementation: []
 	}
 }
 
 export const legalDirection = {
-	north_south: true,
-	east_west: true,
-	NE_SW: true,
-	NW_SE: true,
+	black: {
+		north_south: true,
+		east_west: true,
+		NE_SW: true,
+		NW_SE: true,
+	},
+	white: {
+		north_south: true,
+		east_west: true,
+		NE_SW: true,
+		NW_SE: true,
+	}
 }
