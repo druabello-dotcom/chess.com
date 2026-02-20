@@ -21,8 +21,9 @@ function allowMove(desiredSquare) {
 //————————————————————————————————————————————————————————————————————————————————————
 
 export const availablePieceMovesObject = {
-	pawn: function(squareIndex) {
-		if (selectPieceState.pieceIsPinned === true) return;
+	pawn: function(squareIndex,color) {
+		/* if (selectPieceState.pieceIsPinned === true) return; */
+		if (legalDirection[color].north_south !== true) return;
 		if (selectPieceState.pieceColor === 'black' && (squareIndex + 8) < 64) {
 			allowMove(squareIndex + 8);
 			if (piecesHasNotMoved.black.pawn[selectPieceState.selectedPieceIndex] === true) {
@@ -35,8 +36,8 @@ export const availablePieceMovesObject = {
 			}	
 		}
 	},
-	bishop: function(squareIndex) {
-		if (legalDirection.NW_SE === true) {
+	bishop: function(squareIndex, color) {
+		if (legalDirection[color].NW_SE === true) {
 			for (let i = (squareIndex - 9); (i % 8) < (squareIndex % 8) && 0 <= i; i-=9) {
 				if (checkIfPieceOnSquare(i) === false) break;
 				allowMove(i);
@@ -46,7 +47,7 @@ export const availablePieceMovesObject = {
 				allowMove(i);
 			}
 		}
-		if (legalDirection.NE_SW === true) {
+		if (legalDirection[color].NE_SW === true) {
 			for (let i = (squareIndex - 7); (squareIndex % 8) < (i % 8) && 0 < i; i-=7) {
 				if (checkIfPieceOnSquare(i) === false) break;
 				allowMove(i);
@@ -57,8 +58,8 @@ export const availablePieceMovesObject = {
 			}
 		}
 	},
-	rook: function(squareIndex) {
-		if (legalDirection.east_west === true) {
+	rook: function(squareIndex, color) {
+		if (legalDirection[color].east_west === true) {
 			for (let i = (squareIndex - 1); (squareIndex) % 8 > (i % 8) && 0 <= i; i--) {
 				if (checkIfPieceOnSquare(i) === false) break;
 				allowMove(i);
@@ -68,7 +69,7 @@ export const availablePieceMovesObject = {
 				allowMove(i);
 			}
 		}
-		if (legalDirection.north_south === true) {
+		if (legalDirection[color].north_south === true) {
 			for (let i = (squareIndex - 8); 0 <= i; i-=8) {
 				if (checkIfPieceOnSquare(i) === false) break;
 				allowMove(i);
@@ -116,9 +117,9 @@ export const availablePieceMovesObject = {
 			allowMove(RDD);
 		}
 	},
-	queen: function(squareIndex) {
-		this.rook(squareIndex);
-		this.bishop(squareIndex);
+	queen: function(squareIndex, color) {
+		this.rook(squareIndex, color);
+		this.bishop(squareIndex, color);
 	},
 	king: function(squareIndex) {
 		let upToLeft = squareIndex - 9;

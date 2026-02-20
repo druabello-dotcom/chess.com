@@ -4,7 +4,6 @@ import * as TurnRegister from "./turnRegister.js";
 import { selectPieceState, pieceSquarePositionArray, pieceElementsObject } from "./gameState.js";
 import { moveToDestination } from "./movePieceToDestination.js";
 import { availablePieceMovesObject } from "./createAvailableMoves.js";
-import { resetChessboard } from "./resetChessboard.js";
 
 //———————————————————————————————————————————————————————————————————————————————————
 
@@ -46,5 +45,5 @@ export function onSquareClick(event) {
 		} 
 	}
 	additFunc.checkIfPieceIsPinned(selectPieceState.selectedSquareId, selectPieceState.pieceColor);
-	availablePieceMovesObject[selectPieceState.pieceType](selectPieceState.selectedSquareId);
+	availablePieceMovesObject[selectPieceState.pieceType](selectPieceState.selectedSquareId, selectPieceState.pieceColor);
 }

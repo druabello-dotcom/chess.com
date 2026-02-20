@@ -61,6 +61,7 @@ export function isPiecePinned(squarePosition, color) {
 }
 export function checkIfPieceIsPinned(squarePosition, color) {
 	if (isPiecePinned(squarePosition, color) !== false) {
+		resetLegalDirections();
 		let incrementation = isPiecePinned(squarePosition, color);
 		checkLegalDirection(incrementation, color);
 	}
