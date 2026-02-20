@@ -70,11 +70,9 @@ export function moveToDestination(destination) {
 		for (let i = 0; i < pieceSquarePositionArray[selectPieceState.pieceColor][type].length; i++) {
 			let squareIndex = pieceSquarePositionArray[selectPieceState.pieceColor][type][i];
 			if (squareIndex === null) continue;
-			/* additFunc.resetPinnedPiecesList(oppositeColor); */
 			attackingMovesObject[type](squareIndex, oppositeColor);
 		}
 	}
-	console.log(kingUnavailableaSquares[oppositeColor]);
 	
 	// reset after piece has been moved
 	additFunc.resetOnSquareClick();
