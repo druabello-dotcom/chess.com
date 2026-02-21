@@ -1,431 +1,436 @@
 .dropdown {
-	font-family: monospace;
-	width: 15em;
-	height: 100%;
-	position: relative;
-	margin: 2em;
+  font-family: monospace;
+  width: 15em;
+  height: 100%;
+  position: relative;
+  margin: 2em;
 
-	display: flex;
-	flex-direction: column;
-	border-radius: 2.5mm;
+  display: flex;
+  flex-direction: column;
+  border-radius: 2.5mm;
 }
 .dropdown h2 {
-	color: black;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .dropdown * {
-	box-sizing: border-box;;
+  box-sizing: border-box;
 }
 .select {
-	background-color: var(--white-square);
-	display: flex;
-	margin-right: .5em;
-	margin-left: .5em;
+  background-color: var(--white-square);
+  display: flex;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
 
-	justify-content: space-between;
-	align-items: center;
-	border: 2px solid;
-	border-radius: 2.5mm;
-	padding: 1em;
-	cursor: pointer;
-	transition: 0.3s;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid;
+  border-radius: 2.5mm;
+  padding: 1em;
+  cursor: pointer;
+  transition: 0.3s;
 }
 .select:hover {
-	/*background: #335c81;*/
-	filter: brightness(0.7);
+  /*background: #335c81;*/
+  filter: brightness(0.7);
 }
 .options span {
-	width: calc(100% - 0.45em);
-	padding: 0.7em;
-	transition: 0.2s;
-	border-radius: 2mm;
+  width: calc(100% - 0.45em);
+  padding: 0.7em;
+  transition: 0.2s;
+  border-radius: 2mm;
 }
 .options span:first-child {
-	margin-top: 0.5em;
+  margin-top: 0.5em;
 }
 .options span:last-child {
-	margin-bottom: 0.5em;
+  margin-bottom: 0.5em;
 }
 .options span:hover {
-	background-color: var(--black-square);
-	color: white;
+  background-color: var(--black-square);
+  color: white;
 }
 .caret {
-	width: 0;
-	height: 0;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	border-top: 6px solid black;
-	transition: 0.3s;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid black;
+  transition: 0.3s;
 }
 .caret-rotate {
-	transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 .select-clicked {
-	border: 2px solid black;
-	box-shadow: 0 0 0.3em black;
+  border: 2px solid black;
+  box-shadow: 0 0 0.3em black;
 }
 .options {
-	top: 100%;
-	list-style: none;
-	position: absolute;
-	transition: 0.2s;
-	z-index: 1;
-	display: none;
+  top: 100%;
+  list-style: none;
+  position: absolute;
+  transition: 0.2s;
+  z-index: 1;
+  display: none;
 }
 .options-open {
-	display: flex;
-	box-shadow: 0 0 0.15em black;
+  display: flex;
+  box-shadow: 0 0 0.15em black;
 }
 .options li:hover {
-background-color: #95533b;
-transition: 0.3s;
-width: 100%;
+  background-color: #95533b;
+  transition: 0.3s;
+  width: 100%;
 }
 
 .dropdown ul {
-	flex-direction: column;
-	align-items: flex-start;
-	padding-left: 0.5em;
-	color: black;
-	border-radius: 2.5mm;
-	border: 2px solid black;
-	background-color: var(--white-square);
-	margin-left: .5em;
-	width: calc(100% - 1em);
-	z-index: 20;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 0.5em;
+  color: black;
+  border-radius: 2.5mm;
+  border: 2px solid black;
+  background-color: var(--white-square);
+  margin-left: 0.5em;
+  width: calc(100% - 1em);
+  z-index: 20;
 }
 
 /* Color palattes */
 .freshwater {
-	--black-square-font-color: white;
-	--black-square: #7e998a;
-	--white-square: antiquewhite; }
+  --black-square-font-color: white;
+  --black-square: #7e998a;
+  --white-square: antiquewhite;
+}
 .gotham {
-	--black-square-font-color: white;
-	--black-square: #445552;
-	--white-square: antiquewhite; }
+  --black-square-font-color: white;
+  --black-square: #445552;
+  --white-square: antiquewhite;
+}
 .yaleBlue {
-	--black-square-font-color: white;
-	--black-square: #274060;
-	--white-square: antiquewhite; }
+  --black-square-font-color: white;
+  --black-square: #274060;
+  --white-square: antiquewhite;
+}
 .bile {
-	--black-square-font-color: white;
-	--black-square: #335c81;
-	--white-square: antiquewhite; }
+  --black-square-font-color: white;
+  --black-square: #335c81;
+  --white-square: antiquewhite;
+}
 .default {
-	--black-square-font-color: white;
-	--black-square: #95533b;
-	--white-square: antiquewhite; }
+  --black-square-font-color: white;
+  --black-square: #95533b;
+  --white-square: antiquewhite;
+}
 :root {
-	--black-square-font-color: black;
-	--black-square: #95533b;
-	--white-square: antiquewhite;
-	--square-size: 4rem;
-	--font-size: 1em;
-
+  --black-square-font-color: black;
+  --black-square: #95533b;
+  --white-square: antiquewhite;
+  --square-size: 4rem;
+  --font-size: 1em;
 }
 .movedPiece {
-	width: calc(0.175 * var(--square-size));
-	height: calc(0.175 * var(--square-size));
+  width: calc(0.175 * var(--square-size));
+  height: calc(0.175 * var(--square-size));
 }
 .chess {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	gap: calc(0.25 * var(--square-size));
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: calc(0.25 * var(--square-size));
 }
 
 #logBook {
-	/* transform: translateY(3.2rem); */
-	transform: translateY(calc(0.8 * var(--square-size)));
-	width: calc(3.5 * var(--square-size));
-	height: calc(8 * 4rem);
-	border: 2px solid black;
-	font-family: monospace;
-	border-radius: 1.5mm;
-	display: flex;
-	flex-direction: column;
-	/* gap: calc(0.125 * var(--square-size)); */
-	background-color: var(--white-square);
+  /* transform: translateY(3.2rem); */
+  transform: translateY(calc(0.8 * var(--square-size)));
+  width: calc(3.5 * var(--square-size));
+  height: calc(8 * 4rem);
+  border: 2px solid black;
+  font-family: monospace;
+  border-radius: 1.5mm;
+  display: flex;
+  flex-direction: column;
+  /* gap: calc(0.125 * var(--square-size)); */
+  background-color: var(--white-square);
 }
 .logBook::-webkit-scrollbar {
-	display: none;
+  display: none;
 }
 .columnHeader {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: 1fr;
-	padding: 0.5rem;
-	border-radius: 0.9mm;
-	background-color: var(--black-square);
-	color: white;
-	outline: 2px solid black;
-	transition: 0.2s;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+  padding: 0.5rem;
+  border-radius: 0.9mm;
+  background-color: var(--black-square);
+  color: white;
+  outline: 2px solid black;
+  transition: 0.2s;
 }
 
 .loggedContent {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	margin-top: calc(0.125 * var(--square-size));
-	padding-left: calc(0.125 * var(--square-size));
-	padding-bottom: calc(0.125 * var(--square-size));
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: calc(0.125 * var(--square-size));
+  padding-left: calc(0.125 * var(--square-size));
+  padding-bottom: calc(0.125 * var(--square-size));
 
-	scrollbar-width: none;
-	-ms-overflow-style: none;
-	overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow-y: scroll;
 }
 .loggedContent span {
-	margin-bottom: calc(0.1 * var(--square-size));
+  margin-bottom: calc(0.1 * var(--square-size));
 }
 #moveCountColumn {
-	grid-column: 1;
-	display: flex;
-	flex-direction: column;
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
 }
 #whiteMoveColumn {
-	grid-column: 2;
-	display: flex;
-	flex-direction: column;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
 }
 #blackMoveColumn {
-	grid-column: 3;
-	display: flex;
-	flex-direction: column;
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
 }
 
 .game {
-	--button-padding: 0.75em;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	gap: 0.75rem;
+  --button-padding: 0.75em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 #chessboard {
-	position: relative;
-	display: grid;
-	grid-template-columns: repeat(8, var(--square-size));
-	grid-template-rows: repeat(8, var(--square-size));
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(8, var(--square-size));
+  grid-template-rows: repeat(8, var(--square-size));
 }
 
 .square {
-	--square-transition: 250ms;
-	width: var(--square-size);
-	height: var(--square-size);
-	transition: var(--square-transition);
+  --square-transition: 250ms;
+  width: var(--square-size);
+  height: var(--square-size);
+  transition: var(--square-transition);
 }
 
 .white {
-	background-color: var(--white-square);
+  background-color: var(--white-square);
 }
 
 .black {
-	background-color: var(--black-square);
+  background-color: var(--black-square);
 }
 
 .square:hover {
-	filter: brightness(0.7);
-	border-width: 0.16em;
-	border-radius: 0.11em;
+  filter: brightness(0.7);
+  border-width: 0.16em;
+  border-radius: 0.11em;
 }
 
 .piece {
-	pointer-events: none;
-	position: absolute;
-	z-index: 10;
-	justify-content: center;
-	text-align: center;
+  pointer-events: none;
+  position: absolute;
+  z-index: 10;
+  justify-content: center;
+  text-align: center;
 }
 .piece img {
-	width: var(--square-size);
-	height: var(--square-size);
+  width: var(--square-size);
+  height: var(--square-size);
 }
 
 button {
-	outline: none;
-	background: none;
-	padding: 0;
-	border: none;
-	position: relative;
+  outline: none;
+  background: none;
+  padding: 0;
+  border: none;
+  position: relative;
 }
 
 #resetChessboardButton {
-	display: grid;
-	flex-direction: column;
-	align-items: center;
+  display: grid;
+  flex-direction: column;
+  align-items: center;
 }
-.topLayer, .bottomLayer {
-	grid-column: 1;
-	grid-row: 1;
+.topLayer,
+.bottomLayer {
+  grid-column: 1;
+  grid-row: 1;
 }
 .topLayer {
-	font-size: 1em;
-	color: black;
-	width: 100%;
-	padding-top: 0.75em;
-	padding-bottom: 0.75em;
-	padding-right: var(--button-padding);
-	padding-left: var(--button-padding);
+  font-size: 1em;
+  color: black;
+  width: 100%;
+  padding-top: 0.75em;
+  padding-bottom: 0.75em;
+  padding-right: var(--button-padding);
+  padding-left: var(--button-padding);
 
-	background-color: antiquewhite;
-	/* background-color: rgb(255, 255, 238); */
-	/* background-color: var(--black-square); */
-	font-family: monospace;
-	font-size: var(--font-size);
+  background-color: antiquewhite;
+  /* background-color: rgb(255, 255, 238); */
+  /* background-color: var(--black-square); */
+  font-family: monospace;
+  font-size: var(--font-size);
 
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-	border-radius: 2.5mm;
-	outline: 2px solid rgb(36, 38, 34);
-	/* outline: 2px solid var(--black-square-font-color); */
+  border-radius: 2.5mm;
+  outline: 2px solid rgb(36, 38, 34);
+  /* outline: 2px solid var(--black-square-font-color); */
 
-	transition: 0.2s;
+  transition: 0.2s;
 }
 
 .bottomLayer {
-	width: 100%;
-	padding-right: var(--button-padding);
-	padding-left: var(--button-padding);
-	transform: translateY(0.3em);
-	padding-top: 1em;
-	padding-bottom: 1.5em;
+  width: 100%;
+  padding-right: var(--button-padding);
+  padding-left: var(--button-padding);
+  transform: translateY(0.3em);
+  padding-top: 1em;
+  padding-bottom: 1.5em;
 
-	/* background-color: rgb(229, 229, 199); */
-	background-color: beige;
-	font-family: monospace;
+  /* background-color: rgb(229, 229, 199); */
+  background-color: beige;
+  font-family: monospace;
 
-	position: relative;
-	z-index: -1;
+  position: relative;
+  z-index: -1;
 
-	border-radius: 2.5mm;
-	outline: 2px solid rgb(36, 38, 34);
+  border-radius: 2.5mm;
+  outline: 2px solid rgb(36, 38, 34);
 
-	box-shadow: 0px 0.15em 0px 0.125em rgb(171, 171, 171);
+  box-shadow: 0px 0.15em 0px 0.125em rgb(171, 171, 171);
 }
 
 button:active .topLayer {
-	transform: translateY(0.3em);
+  transform: translateY(0.3em);
 }
 .top-ui {
-	--top-bottom-padding: 0.4rem 0.4rem;
-	width: calc(8 * var(--square-size));
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	font-size: var(--font-size);
+  --top-bottom-padding: 0.4rem 0.4rem;
+  width: calc(8 * var(--square-size));
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size);
 }
 
 #alternatingTurn {
-	display: flex;
-	flex-direction: row;
-	gap: 0.25em;
+  display: flex;
+  flex-direction: row;
+  gap: 0.25em;
 }
 .turn-decider {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 
-	font-family: monospace;
-	
-	border: 2px solid black;
-	border-radius: 2.5mm;
-	padding: var(--top-bottom-padding);
+  font-family: monospace;
+
+  border: 2px solid black;
+  border-radius: 2.5mm;
+  padding: var(--top-bottom-padding);
 }
 #turnDecider {
-	padding-right: 0.5em;
+  padding-right: 0.5em;
 }
 #turnDeciderColorIndicator {
-	margin-right: 1em;
-	padding: 0.8em;
-	border-radius: 1.5mm;
+  margin-right: 1em;
+  padding: 0.8em;
+  border-radius: 1.5mm;
 }
 .turn-white {
-	background-color: white;
-	border: 2px solid black;
+  background-color: white;
+  border: 2px solid black;
 }
 .turn-black {
-	background-color: black;
-	border: 2px solid white;
-	outline: 2px solid black;
+  background-color: black;
+  border: 2px solid white;
+  outline: 2px solid black;
 }
 
 #turn-counter {
-	display: flex;
-	align-items: center;
-	font-family: monospace;
-	
-	border: 2px solid black;
-	border-radius: 2.5mm;
-	padding: var(--top-bottom-padding);
-	padding-right: 0.8em;
+  display: flex;
+  align-items: center;
+  font-family: monospace;
+
+  border: 2px solid black;
+  border-radius: 2.5mm;
+  padding: var(--top-bottom-padding);
+  padding-right: 0.8em;
 }
 
 @media (max-width: 600px) {
-	:root {
-		--size-multiplier: 0.75;
-		--button-padding: calc(var(--size-multiplier) * 0.75em);
-		--square-size: 3rem;
-		--font-size: calc(var(--size-multiplier) * 1em)
-	}
-	.game {
-		--button-padding: calc(var(--size-multiplier) * var(--button-padding))
-	}
-	.turn-decider {
-		padding: calc(0.75 * var(--top-bottom-padding));
-	}
-	.top-ui {
-		height: 3em;
-		display: flex;
-		width: calc(8 * 4em);
-		justify-content: space-between;
-		margin-bottom: 0.3rem;
-	}
-	#resetChessboardButton {
-		transform: translateY(-0.25rem);
-	}
-	.topLayer {
-		border-radius: 7mm;
-		height: 0%;
-		width: 212.5%;
-		
-		/* padding-bottom: 0.875em; */
-		color: var(--black-square-font-color);
-		background-color: var(--black-square);
-		padding-bottom: 0.8em;
-		padding-left: 10%;
-		padding-right: 0%;
-	}
-	.bottomLayer {
-		/* z-index: 20; */
-		border-radius: 7mm;
-		height: 0%;
-		width: 212.5%;
-		justify-content: center;
-		align-items: center;
-		transform: translateY(0.15em);
+  :root {
+    --size-multiplier: 0.75;
+    --button-padding: calc(var(--size-multiplier) * 0.75em);
+    --square-size: 3rem;
+    --font-size: calc(var(--size-multiplier) * 1em);
+  }
+  .game {
+    --button-padding: calc(var(--size-multiplier) * var(--button-padding));
+  }
+  .turn-decider {
+    padding: calc(0.75 * var(--top-bottom-padding));
+  }
+  .top-ui {
+    height: 3em;
+    display: flex;
+    width: calc(8 * 4em);
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+  }
+  #resetChessboardButton {
+    transform: translateY(-0.25rem);
+  }
+  .topLayer {
+    border-radius: 7mm;
+    height: 0%;
+    width: 212.5%;
 
-		padding: 0.75em 0.1em 2.25em;
-		box-shadow: 0px 0.2em 0 0.125em rgb(171, 171, 171);
-	}
-	button:active .topLayer {
-		transform: translateY(0.1em);
-	}
-	.turn-decider {
-		padding: calc(0.75 * var(--top-bottom-padding));
-		padding-left: calc(0.75 * 0.3rem);
-	}
-	#turnDeciderColorIndicator {
-		padding: 0.5rem;
-	}
-/* 	.topLayer {
+    /* padding-bottom: 0.875em; */
+    color: var(--black-square-font-color);
+    background-color: var(--black-square);
+    padding-bottom: 0.8em;
+    padding-left: 10%;
+    padding-right: 0%;
+  }
+  .bottomLayer {
+    /* z-index: 20; */
+    border-radius: 7mm;
+    height: 0%;
+    width: 212.5%;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(0.15em);
+
+    padding: 0.75em 0.1em 2.25em;
+    box-shadow: 0px 0.2em 0 0.125em rgb(171, 171, 171);
+  }
+  button:active .topLayer {
+    transform: translateY(0.1em);
+  }
+  .turn-decider {
+    padding: calc(0.75 * var(--top-bottom-padding));
+    padding-left: calc(0.75 * 0.3rem);
+  }
+  #turnDeciderColorIndicator {
+    padding: 0.5rem;
+  }
+  /* 	.topLayer {
 		width: var(--size-multiplier);
 		height: var(--size-multiplier);
 		padding-top: calc(var(--size-multiplier) * 0.75em);
@@ -450,172 +455,61 @@ button:active .topLayer {
 
 /*Clocks*/
 .clocks {
-	transform: translateY(calc(0.8 * var(--square-size)));
-	height: calc(8 * 4rem);
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
+  transform: translateY(calc(0.8 * var(--square-size)));
+  height: calc(8 * 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #blackClock {
-	display: flex;
-	align-items: center;
-	font-family: monospace;
-	
-	border: 2px solid black;
-	border-radius: 2.5mm;
-	padding: var(--top-bottom-padding);
-	padding-right: 0.8em;
-	padding-left: 4px;
-	padding-right: 4px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  font-family: monospace;
+
+  border: 2px solid black;
+  border-radius: 2.5mm;
+  padding: var(--top-bottom-padding);
+  padding-right: 0.8em;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  justify-content: center;
 }
 #whiteClock {
-	display: flex;
-	align-items: center;
-	font-family: monospace;
-	
-	border: 2px solid black;
-	border-radius: 2.5mm;
-	padding: var(--top-bottom-padding);
-	padding-right: 0.8em;
-	padding-left: 4px;
-	padding-right: 4px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  font-family: monospace;
+
+  border: 2px solid black;
+  border-radius: 2.5mm;
+  padding: var(--top-bottom-padding);
+  padding-right: 0.8em;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  justify-content: center;
 }
 #whiteClockVisual {
-	padding-left: 4px;
-	padding-right: 4px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	align-items: center;
-	justify-content: center;
-	color:black;
-	
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  align-items: center;
+  justify-content: center;
+  color: black;
 }
 #blackClockVisual {
-	padding-left: 4px;
-	padding-right: 4px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	align-items: center;
-	justify-content: center;
-
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  align-items: center;
+  justify-content: center;
 }
-#blitzButton {
-	display: grid;
-	flex-direction: column;
-	align-items: center;
-	
-}
-
-
-#blitzButton{
-		transform: translateY(-0.25rem);
-}
-
-#bulletButton {
-	display: grid;
-	flex-direction: column;
-	align-items: center;
-	margin-top: 10px;
-	margin-left: 17px;
-	
-}
-
-
-#bulletButton{
-		transform: translateY(-0.25rem);
-}
-
-#customButton {
-	display: grid;
-	flex-direction: column;
-	align-items: center;
-	margin-left: 70px;
-	
-	
-}
-
-#CustomButton{
-		transform: translateY(-0.25rem);
-}
-
-
-img {
- 	width: 20px;  /* Sets a fixed width */
-  	height: auto;  /* Height adjusts automatically to maintain aspect ratio */   /* Automatically adjusts the height to maintain aspect ratio */
-}
-#Options{
-	display: flex;
-	flex-direction: row;
-	width: 100 px;
-}
-
-#fiveminblitzButton {
-	display: grid;
-	flex-direction: column;
-	align-items: center;
-
-	margin-right: 25px;
-	
-
-}
-
-#fiveminblitzButton {
-		transform: translateY(-0.25rem);
-}
-
-#topLayerUnderSelection {
-		border-radius: 10mm;
-		height: 0%;
-		width: 100.5%;
-		
-		/* padding-bottom: 0.875em; */
-		color: var(--black-square-font-color);
-		background-color: var(--black-square);
-		padding-bottom: 1.2em;
-		padding-top: 1.2em;
-		padding-left: 40%;
-		padding-right: 40%;
-	}
-
-
-#topLayerUnderSelectionfiveMin {
-		border-radius: 10mm;
-		height: 0%;
-		width: 100.5%;
-		
-		/* padding-bottom: 0.875em; */
-		color: var(--black-square-font-color);
-		background-color: var(--black-square);
-		padding-bottom: 1.2em;
-		padding-top: 1.2em;
-		padding-left: 20%;
-		padding-right: 20%;
-	}
-
-	input {
-  font-size: 1px;
-  width: 7px;
-  padding: 2px;
-  font-size: 12px;
-  display: inline-block;
-}
-
-
-
-
-
-
-
-
-
 
 
 /* #turnDecider {
@@ -635,3 +529,7 @@ img {
 	border: 2px solid white;
 	outline: 2px solid black;
 } */
+
+
+/* ─── Clocks ─────────────────────────────────────────────── */
+

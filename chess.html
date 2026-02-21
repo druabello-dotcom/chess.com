@@ -1,149 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Chess Goon</title>
 	<link rel="stylesheet" href="chess.css">
 </head>
+
 <body>
-	
-<div class="dropdown">
-	<h2>Color palattes</h2>
-	<div class="select">
-		<span class="selected">Default</span>
-		<div class="caret"></div>
-	</div>
-	<ul class="options">
-		<span class="default" id="default">Default</span>
-		<span class="freshwater" id="freshwater">Freshwater</span>
-		<span class="gotham" id="gotham">Gotham</span>
-		<span class="yaleBlue" id="yaleBlue">Yale Blue</span>
-		<span class="bile" id="bile">"Bile"</span>
-	</ul>
-</div>
 
-<div class="chess">
+	<div class="dropdown">
+		<h2>Color palattes</h2>
+		<div class="select">
+			<span class="selected">Default</span>
+			<div class="caret"></div>
+		</div>
+		<ul class="options">
+			<span class="default" id="default">Default</span>
+			<span class="freshwater" id="freshwater">Freshwater</span>
+			<span class="gotham" id="gotham">Gotham</span>
+			<span class="yaleBlue" id="yaleBlue">Yale Blue</span>
+			<span class="bile" id="bile">"Bile"</span>
+		</ul>
+	</div>
+
+	<div class="chess">
 	<div class="clocks">
-		<div class ="blackClock white" id="blackClock">
-			<span class="Bclock">
-				<div class="blackClockVisual" id="blackClockVisual">10:00</div>
-			</span>
-		</div>
+    <div class="clock" id="blackClock">
+        <div class="clockVisual" id="blackClockVisual">10:00</div>
+    </div>
 
-		<div class="Buttons" id="Buttons">
-			
-			<div class = "blitzOptions" id = "Options">
+    <div class="timeControls">
 
+        <div class="timeOptions blitzOptions">
+            <button class="timeOptionBtn">
+                <div class="topLayer timeOptionLabel wide">3 min</div>
+                <div class="bottomLayerUnderSelection"></div>
+            </button>
+            <button class="timeOptionBtn">
+                <div class="topLayer timeOptionLabel wide">5 min</div>
+                <div class="bottomLayerUnderSelection"></div>
+            </button>
+            <button class="timeOptionBtn">
+                <div class="topLayer timeOptionLabel narrow">3|2</div>
+                <div class="bottomLayerUnderSelection"></div>
+            </button>
+            <button class="modeBtn" id="blitzButton">
+                <div class="topLayer">
+                    <img src="buttonElements/flash.png" alt="Blitz">
+                </div>
+                <div class="bottomLayer"></div>
+            </button>
+        </div>
 
-				<button type="button" id="fiveminblitzButton">
-					<div class="topLayer default" id="topLayerUnderSelectionfiveMin">3 min</div>
-					<div class="bottomLayerUnderSelection"></div>
-				</button>	
+        <div class="timeOptions bulletOptions">
+            <button class="timeOptionBtn">
+                <div class="topLayer timeOptionLabel wide">1 min</div>
+                <div class="bottomLayerUnderSelection"></div>
+            </button>
+            <button class="timeOptionBtn">
+                <div class="topLayer timeOptionLabel narrow">2|1</div>
+                <div class="bottomLayerUnderSelection"></div>
+            </button>
+            <button class="timeOptionBtn">
+                <div class="topLayer timeOptionLabel narrow">1|1</div>
+                <div class="bottomLayerUnderSelection"></div>
+            </button>
+            <button class="modeBtn" id="bulletButton">
+                <div class="topLayer">
+                    <img src="buttonElements/bullet.png" alt="Bullet">
+                </div>
+                <div class="bottomLayer"></div>
+            </button>
+        </div>
 
-				
-				<button type="button" id="fiveminblitzButton">
-					<div class="topLayer" id="topLayerUnderSelectionfiveMin"> 5 min</div>
-					<div class="bottomLayerUnderSelection"></div>
-				</button>
+        <div class="timeOptions customOptions">
+            <button class="timeOptionBtn">
+                <div class="topLayer timeOptionLabel wide">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    :
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                </div>
+                <div class="bottomLayerUnderSelection"></div>
+            </button>
+            <button class="modeBtn" id="customButton">
+                <div class="topLayer">
+                    <img src="buttonElements/Custom.png" alt="Custom">
+                </div>
+                <div class="bottomLayer"></div>
+            </button>
+        </div>
 
-					<button type="button" id="fiveminblitzButton">
-					<div class="topLayer default" id="topLayerUnderSelection">3|2</div>
-					<div class="bottomLayerUnderSelection"></div>
-				</button>
-				
-		
-				<button type="button" id="blitzButton">
-					<div class="topLayer default" id="topLayer"> <img src="buttonElements/flash.png" alt=""></div>
+    </div>
+
+    <div class="clock" id="whiteClock">
+        <div class="clockVisual" id="whiteClockVisual">10:00</div>
+    </div>
+</div>	
+		<div class="game">
+
+			<div class="top-ui" id="topUi">
+				<button type="button" id="resetChessboardButton">
+					<div class="topLayer default" id="topLayer">Reset Chessboard</div>
 					<div class="bottomLayer"></div>
 				</button>
-			</div>
-
-			<div class = "bulletOptions" id = "Options">
-				
-				<button type="button" id="fiveminblitzButton">
-					<div class="topLayer default" id="topLayerUnderSelectionfiveMin">1 min</div>
-					<div class="bottomLayerUnderSelection"></div>
-				</button>	
-
-				
-				<button type="button" id="fiveminblitzButton">
-					<div class="topLayer" id="topLayerUnderSelection"> 2|1</div>
-					<div class="bottomLayerUnderSelection"></div>
-				</button>
-
-				<button type="button" id="fiveminblitzButton">
-					<div class="topLayer default" id="topLayerUnderSelection">1|1</div>
-					<div class="bottomLayerUnderSelection"></div>
-				</button>
-
-				<button type="button" id="bulletButton">
-					<div class="topLayer default" id="topLayer"> <img src="buttonElements/bullet.png" alt=""></div>
-					<div class="bottomLayer"></div>
-				</button>
-			</div>
-			
-
-				<div class = "inputForTime"	id = "Options">
-				<div id = "fiveminblitzButton">
-						<button type="button" id="bulletButton">
-					<div class="topLayer default" id="topLayerUnderSelection">	
-						<input type="text" maxlength="1">
-      					<input type="text" maxlength="1">
-						:
-					
-						<input type="text" maxlength="1">
-   					   <input type="text" maxlength="1">
+				<div id="alternatingTurn">
+					<div class="white" id="turn-counter"></div>
+					<div class="turn-decider white">
+						<span class="turn-white" id="turnDeciderColorIndicator"></span>
+						<div id="turnDecider">White to turn</div>
 					</div>
-					<div class="bottomLayerUnderSelection"></div>
-				</div>
-				</button>
-
-				<button type="button" id="customButton">
-					<div class="topLayer default" id="topLayer"> <img src="buttonElements/Custom.png" alt=""></div>
-					<div class="bottomLayer"></div>
-				</button>
-			</div>
-		</div>
-
-
-			<div class="whiteClock white" id="whiteClock">
-				<span class ="Wclock">
-					<div class="whiteClockVisual" id="whiteClockVisual">10:00</div>
-				</span>
-			</div>
-		</div>
-	<div class="game">
-		
-		<div class="top-ui" id="topUi">
-			<button type="button" id="resetChessboardButton">
-				<div class="topLayer default" id="topLayer">Reset Chessboard</div>
-				<div class="bottomLayer"></div>
-			</button>
-			<div id="alternatingTurn">
-				<div class="white" id="turn-counter"></div>
-				<div class="turn-decider white">
-					<span class="turn-white" id="turnDeciderColorIndicator"></span>
-					<div id="turnDecider">White to turn</div>
 				</div>
 			</div>
+			<div id="chessboard" class="default"></div>
 		</div>
-		<div id="chessboard" class="default" ></div>
+		<div class="logBook" id="logBook">
+			<div class="columnHeader default" id="columnHeader">
+				<span id="moveCount">Move</span>
+				<span id="whiteMove">White</span>
+				<span id="blackMove">Black</span>
+			</div>
+			<div class="loggedContent" id="loggedContent">
+				<div class="moveCountColumn" id="moveCountColumn"></div>
+				<div class="whiteMoveColumn" id="whiteMoveColumn"></div>
+				<div class="blackMoveColumn" id="blackMoveColumn"></div>
+			</div>
+		</div>
 	</div>
-	<div class="logBook" id="logBook">
-		<div class="columnHeader default" id="columnHeader">
-			<span id="moveCount">Move</span>
-			<span id="whiteMove">White</span>
-			<span id="blackMove">Black</span>
-		</div>
-		<div class="loggedContent" id="loggedContent">
-			<div class="moveCountColumn" id="moveCountColumn"></div>
-			<div class="whiteMoveColumn" id="whiteMoveColumn"></div>
-			<div class="blackMoveColumn" id="blackMoveColumn"></div>
-		</div>
-	</div>
-</div>
 
-<script type="module" src="main.js"></script>
+	<script type="module" src="main.js"></script>
 </body>
+
 </html>
