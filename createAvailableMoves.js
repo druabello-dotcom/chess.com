@@ -22,7 +22,6 @@ function allowMove(desiredSquare) {
 
 export const availablePieceMovesObject = {
 	pawn: function(squareIndex,color) {
-		/* if (selectPieceState.pieceIsPinned === true) return; */
 		if (legalDirection[color].north_south !== true) return;
 		if (selectPieceState.pieceColor === 'black' && (squareIndex + 8) < 64) {
 			allowMove(squareIndex + 8);
