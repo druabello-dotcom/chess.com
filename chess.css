@@ -533,3 +533,112 @@ button:active .topLayer {
 
 /* ─── Clocks ─────────────────────────────────────────────── */
 
+.clocks {
+  transform: translateY(calc(0.8 * var(--square-size)));
+  height: calc(8 * var(--square-size));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  border: 2px solid black;
+  border-radius: 2.5mm;
+  padding: 5px 4px;
+  background-color: var(--white-square);
+}
+
+.clockVisual {
+  padding: 5px 4px;
+  color: black;
+}
+
+/* ─── Time controls ───────────────────────────────────────── */
+
+.timeControls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.timeOptions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Pill-shaped time option buttons (e.g. "3 min", "5 min") */
+.timeOptionBtn {
+  display: grid;
+  align-items: center;
+  transform: translateY(-0.25rem);
+}
+
+.timeOptionLabel {
+  border-radius: 10mm;
+  color: var(--black-square-font-color);
+  background-color: var(--black-square);
+  padding: 1.2em 1.1em;
+  width: 100%;
+}
+
+/* Icon mode-selector buttons (flash / bullet / custom icon) */
+.modeBtn {
+  display: grid;
+  align-items: center;
+  transform: translateY(-0.25rem);
+  margin-left: 0.4rem;
+}
+
+.modeLabel {
+  /* inherits .topLayer styles — no override needed */
+}
+
+/* Custom time input inside a button */
+.customTimeInput .topLayer {
+  padding: 0.6em 0.4em;
+}
+
+input {
+  width: 7px;
+  padding: 2px;
+  font-size: 12px;
+  display: inline-block;
+}
+.timeOptionLabel.wide {
+  border-radius: 10mm;
+  color: var(--black-square-font-color);
+  background-color: var(--black-square);
+  padding: 1.2em 20%;
+  width: 100%;
+}
+
+.timeOptionLabel.narrow {
+  border-radius: 10mm;
+  color: var(--black-square-font-color);
+  background-color: var(--black-square);
+  padding: 1.2em 40%;
+  width: 100%;
+}
+
+.modeBtn {
+  display: grid;
+  align-items: center;
+  transform: translateY(-0.25rem);
+}
+
+#bulletButton {
+  margin-top: 10px;
+  margin-left: 17px;
+}
+
+#customButton {
+  margin-left: 70px;
+}
