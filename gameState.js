@@ -126,3 +126,8 @@ export const legalDirection = {
 		NW_SE: true,
 	}
 }
+
+export const kingAvailableSquares = {
+	black: [],
+	white: []
+}
