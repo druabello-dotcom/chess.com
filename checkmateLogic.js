@@ -15,12 +15,10 @@ That means I need to store what piece, and what direction the attack came from
 
 // KAS - king available moves
 export function updateKAS(color) {
-    for (let i = 0; i < 64; i++) {
-        kingAvailableSquares.push(i);
-    }
+    for (let i = 0; i < 64; i++) kingAvailableSquares.push(i);
     for (let i = 0; i < kingUnavailableaSquares[color].length; i++) {
         if (kingUnavailableaSquares[color][i] === kingAvailableSquares[color][i]) {
-            kingAvailableSquares[color].splice(i);
+            kingAvailableSquares[color].splice(i, 1);
         }
     }
 }
