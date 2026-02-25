@@ -3,34 +3,59 @@ import { registerTurnVariables } from "./turnRegister.js";
 export let timeInterval = null;
 export let msTimeInterval = null;
 
+let addOn = 0;
+
 export let remainingSeconds = {
   white: 6000,
   black: 6000,
 };
+
 
 export let urgencyMode = {
   white: false,
   black: false,
 };
 
-const blitzButton = document.getElementById("blitzButton");
-const bulletButton = document.getElementById("bulletButton");
-const customButton = document.getElementById("customButton");
+let blackClk = document.getElementById("blackClockVisual")
+let whiteClk = document.getElementById("whiteClockVisual")
+
+const fiveMinGames = document.getElementById("fiveMinGame");
+fiveMinGames.addEventListener("click", newTime);
+
+const threeMinGames = document.getElementById("threeMinGame")
+threeMinGames.addEventListener("click", newTime)
+
+function newTime(event) {
+  if ((event.currentTarget.id === "fiveMinGame")) {
+    remainingSeconds.white = 300000;
+    remainingSeconds.black = 300000;
+  blackClk.innerHTML = "5:00";
+  whiteClk.innerHTML = "5:00";
+  }
+  
+  if ((event.currentTarget.id === "threeMinGame")){
+    remainingSeconds.white = 180000
+    remainingSeconds.black = 180000
+    blackClk.innerHTML = "3:00"
+    whiteClk.innerHTML = "3:00"
+  }
+
+}
 
 // custom time iteration
 
 document.addEventListener("keydown", function (event) {
   if (event.code === "Enter") {
     var referenceDiv = document.querySelectorAll("#inputTime");
-    for (let i = 0; i < 4; i++){
-    console.log(referenceDiv[i].value)
-  
-    let timeRange = []
-       for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {
       console.log(referenceDiv[i].value);
 
-      timeRange.push(referenceDiv[i].value); 
-    }
+      let timeRange = [];
+      for (let i = 0; i < 4; i++) {
+        console.log(referenceDiv[i].value);
+
+        timeRange.push(referenceDiv[i].value);
+      }
       console.log(timeRange);
     }
   }
