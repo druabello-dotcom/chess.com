@@ -9,8 +9,8 @@ export function checkIfPieceOnSquare(square) {
 	let otherPieceValue = Main.stateGrid[square];
 	if (otherPieceValue < 0) otherPieceColor = 'black';
 	else if (0 < otherPieceValue) otherPieceColor = 'white';
-	if (selectPieceState.pieceColor === otherPieceColor) return false;
-	else return true;
+	if (selectPieceState.pieceColor === otherPieceColor) return true;
+	else return false;
 }
 const highlightDestinationSquares = "inset 0 0 0 0.25em #80EF80";
 function allowMove(desiredSquare) {
