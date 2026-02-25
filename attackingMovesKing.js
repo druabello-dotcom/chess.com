@@ -185,7 +185,7 @@ export const attackingMovesObject = {
 		if ((upToLeft % 8) < (squareIndex % 8) && 0 <= upToLeft) {
 			kingUnavailableaSquares[oppositeColor].push(upToLeft);
 		}
-		if (0 <= (up % 8)) {
+		if (0 <= up) {
 			kingUnavailableaSquares[oppositeColor].push(up);
 		}
 		if ((squareIndex % 8) < (upToRight % 8) && 0 <= upToRight) {
