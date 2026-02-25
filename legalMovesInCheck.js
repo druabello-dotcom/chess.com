@@ -1,4 +1,5 @@
 import { kingAvailableSquares, kingUnavailableaSquares, pieceSquarePositionArray } from "./gameState.js"
+import { checkIfPieceOnSquare } from "./createAvailableMoves.js"
 
 //————————————————————————————————————————————————————————————————————————————————————
 /* 
@@ -43,28 +44,28 @@ export function updateKAS(squareIndex, oppositeColor) {
     let downToLeft = squareIndex + 7;
     let left = squareIndex - 1;
 
-    if ((upToLeft % 8) < (squareIndex % 8) && 0 <= upToLeft) {
+    if ((upToLeft % 8) < (squareIndex % 8) && 0 <= upToLeft && checkIfPieceOnSquare(upToLeft) === true) {
         kingAvailableSquares[oppositeColor].push(upToLeft);
     }
-    if (0 <= up) {
+    if (0 <= up && checkIfPieceOnSquare(up) && checkIfPieceOnSquare(up) === true) {
         kingAvailableSquares[oppositeColor].push(up);
     }
-    if ((squareIndex % 8) < (upToRight % 8) && 0 <= upToRight) {
+    if ((squareIndex % 8) < (upToRight % 8) && 0 <= upToRight && checkIfPieceOnSquare(upToRight) === true) {
         kingAvailableSquares[oppositeColor].push(upToRight);
     }
-    if ((squareIndex % 8) < (right % 8) && right < 64) {
+    if ((squareIndex % 8) < (right % 8) && right < 64 && checkIfPieceOnSquare(right) === true) {
         kingAvailableSquares[oppositeColor].push(right);
     }
-    if ((squareIndex % 8) < (downToRight % 8) && downToRight < 64) {
+    if ((squareIndex % 8) < (downToRight % 8) && downToRight < 64 && checkIfPieceOnSquare(downToRight ) === true) {
         kingAvailableSquares[oppositeColor].push(downToRight);
     }
-    if (down < 64) {
+    if (down < 64 && checkIfPieceOnSquare(down) === true) {
         kingAvailableSquares[oppositeColor].push(down);
     }
-    if ((downToLeft % 8) < (squareIndex % 8) && downToLeft < 64) {
+    if ((downToLeft % 8) < (squareIndex % 8) && downToLeft < 64 && checkIfPieceOnSquare(downToLeft) === true) {
         kingAvailableSquares[oppositeColor].push(downToLeft);
     }
-    if ((left % 8) < (squareIndex % 8) && 0 <= left) {
+    if ((left % 8) < (squareIndex % 8) && 0 <= left && checkIfPieceOnSquare(left) === true) {
         kingAvailableSquares[oppositeColor].push(left);
     }
 
@@ -105,6 +106,7 @@ export function updateKAS(squareIndex, oppositeColor) {
             kingAvailableSquares[oppositeColor].splice(indexKAS.left, 1);
         }
     }
+    console.log(kingAvailableSquares[oppositeColor].length);
     if (kingAvailableSquares[oppositeColor].length === 0) document.body.style.backgroundColor = "blue";
 }
 
