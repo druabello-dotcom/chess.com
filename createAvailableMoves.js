@@ -4,7 +4,7 @@ import { moveToDestination  } from "./movePieceToDestination.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-function checkIfPieceOnSquare(square) {
+export function checkIfPieceOnSquare(square) {
 	let otherPieceColor = 0;
 	let otherPieceValue = Main.stateGrid[square];
 	if (otherPieceValue < 0) otherPieceColor = 'black';
@@ -166,8 +166,6 @@ export const availablePieceMovesObject = {
 		if ((left % 8) < (squareIndex % 8) && 0 <= left) {
 			checkIfSquareIsAvailable(left);
 		}
-
-		// castle
 		reviewIfKingMayCastleLeft(squareIndex, selectPieceState.pieceColor);
 		reviewIfKingMayCastleRight(squareIndex, selectPieceState.pieceColor);
 	}
