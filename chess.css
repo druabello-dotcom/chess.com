@@ -533,6 +533,8 @@ button:active .topLayer {
 
 /* ─── Clocks ─────────────────────────────────────────────── */
 
+/* ─── Clocks ─────────────────────────────────────────────── */
+
 .clocks {
   transform: translateY(calc(0.8 * var(--square-size)));
   height: calc(8 * var(--square-size));
@@ -563,21 +565,22 @@ button:active .topLayer {
 .timeControls {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  align-items: center;
+  gap: 0.5rem;
+  align-items: flex-start;
 }
 
 .timeOptions {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0;
 }
 
-/* Pill-shaped time option buttons (e.g. "3 min", "5 min") */
+/* Individual pill time-option buttons */
 .timeOptionBtn {
   display: grid;
   align-items: center;
+  margin-right: 25px;
   transform: translateY(-0.25rem);
 }
 
@@ -585,25 +588,41 @@ button:active .topLayer {
   border-radius: 10mm;
   color: var(--black-square-font-color);
   background-color: var(--black-square);
-  padding: 1.2em 1.1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   width: 100%;
 }
 
-/* Icon mode-selector buttons (flash / bullet / custom icon) */
+/* wider labels: "3 min", "5 min", "1 min" */
+.timeOptionLabel.wide {
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
+/* narrower labels: "3|2", "2|1", "1|1" */
+.timeOptionLabel.narrow {
+  padding-left: 40%;
+  padding-right: 40%;
+}
+
+.bottomLayerUnderSelection {
+  display: none; /* no visible bottom layer on pill buttons */
+}
+
+/* Mode icon buttons */
 .modeBtn {
   display: grid;
   align-items: center;
   transform: translateY(-0.25rem);
-  margin-left: 0.4rem;
 }
 
-.modeLabel {
-  /* inherits .topLayer styles — no override needed */
-}
+#blitzButton  { /* no extra offset needed */ }
+#bulletButton { margin-top: 10px; margin-left: 17px; }
+#customButton { margin-left: 70px; }
 
-/* Custom time input inside a button */
-.customTimeInput .topLayer {
-  padding: 0.6em 0.4em;
+img {
+  width: 20px;
+  height: auto;
 }
 
 input {
@@ -611,34 +630,4 @@ input {
   padding: 2px;
   font-size: 12px;
   display: inline-block;
-}
-.timeOptionLabel.wide {
-  border-radius: 10mm;
-  color: var(--black-square-font-color);
-  background-color: var(--black-square);
-  padding: 1.2em 20%;
-  width: 100%;
-}
-
-.timeOptionLabel.narrow {
-  border-radius: 10mm;
-  color: var(--black-square-font-color);
-  background-color: var(--black-square);
-  padding: 1.2em 40%;
-  width: 100%;
-}
-
-.modeBtn {
-  display: grid;
-  align-items: center;
-  transform: translateY(-0.25rem);
-}
-
-#bulletButton {
-  margin-top: 10px;
-  margin-left: 17px;
-}
-
-#customButton {
-  margin-left: 70px;
 }

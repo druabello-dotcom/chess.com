@@ -17,6 +17,25 @@ const blitzButton = document.getElementById("blitzButton");
 const bulletButton = document.getElementById("bulletButton");
 const customButton = document.getElementById("customButton");
 
+// custom time iteration
+
+document.addEventListener("keydown", function (event) {
+  if (event.code === "Enter") {
+    var referenceDiv = document.querySelectorAll("#inputTime");
+    for (let i = 0; i < 4; i++){
+    console.log(referenceDiv[i].value)
+  
+    let timeRange = []
+       for (let i = 0; i < 4; i++) {
+      console.log(referenceDiv[i].value);
+
+      timeRange.push(referenceDiv[i].value); 
+    }
+      console.log(timeRange);
+    }
+  }
+});
+
 export function waitUntilFirstMove() {
   return new Promise(function (resolve) {
     const interval = setInterval(() => {
