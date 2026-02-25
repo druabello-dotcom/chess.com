@@ -1,4 +1,4 @@
-import { kingAvailableSquares, kingAvailableSquares, kingUnavailableaSquares, pieceSquarePositionArray } from "./gameState.js"
+import { kingAvailableSquares, kingUnavailableaSquares, pieceSquarePositionArray } from "./gameState.js"
 
 //————————————————————————————————————————————————————————————————————————————————————
 /* 
@@ -33,7 +33,7 @@ export const attackingPieceInfo = {
     }
 }
 
-export function updateKAS(oppositeColor) {
+export function updateKAS(squareIndex, oppositeColor) {
     let upToLeft = squareIndex - 9;
     let up = squareIndex - 8;
     let upToRight = squareIndex - 7
@@ -69,16 +69,16 @@ export function updateKAS(oppositeColor) {
     }
 
     let indexKAS = {
-        upToLeft: kingAvailableSquares.indexOf(upToLeft),
-        up: kingAvailableSquares.indexOf(up),
-        upToRight: kingAvailableSquares.indexOf(upToRight),
-        right: kingAvailableSquares.indexOf(right),
-        downToRight: kingAvailableSquares.indexOf(downToRight),
-        down: kingAvailableSquares.indexOf(down),
-        downToLeft: kingAvailableSquares.indexOf(downToLeft),
-        left: kingAvailableSquares.indexOf(left)
+        upToLeft: kingAvailableSquares[oppositeColor].indexOf(upToLeft),
+        up: kingAvailableSquares[oppositeColor].indexOf(up),
+        upToRight: kingAvailableSquares[oppositeColor].indexOf(upToRight),
+        right: kingAvailableSquares[oppositeColor].indexOf(right),
+        downToRight: kingAvailableSquares[oppositeColor].indexOf(downToRight),
+        down: kingAvailableSquares[oppositeColor].indexOf(down),
+        downToLeft: kingAvailableSquares[oppositeColor].indexOf(downToLeft),
+        left: kingAvailableSquares[oppositeColor].indexOf(left)
     }
-    
+
     for (let i = 0; i < kingUnavailableaSquares[oppositeColor].length; i++) {
         if (kingUnavailableaSquares[oppositeColor][i] === upToLeft) {
             kingAvailableSquares[oppositeColor].splice(indexKAS.upToLeft, 1);
@@ -105,6 +105,7 @@ export function updateKAS(oppositeColor) {
             kingAvailableSquares[oppositeColor].splice(indexKAS.left, 1);
         }
     }
+    if (kingAvailableSquares[oppositeColor].length === 0) document.body.style.backgroundColor = "blue";
 }
 
 function kingUnableToMove(color) {
