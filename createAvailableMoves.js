@@ -4,12 +4,12 @@ import { moveToDestination  } from "./movePieceToDestination.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-export function checkIfPieceOnSquare(square) {
+export function checkIfPieceOnSquare(square, color) {
 	let otherPieceColor = 0;
 	let otherPieceValue = Main.stateGrid[square];
 	if (otherPieceValue < 0) otherPieceColor = 'black';
 	else if (0 < otherPieceValue) otherPieceColor = 'white';
-	if (selectPieceState.pieceColor === otherPieceColor) return true;
+	if (color === otherPieceColor) return true;
 	else return false;
 }
 const highlightDestinationSquares = "inset 0 0 0 0.25em #80EF80";
@@ -38,21 +38,21 @@ export const availablePieceMovesObject = {
 	bishop: function(squareIndex, color) {
 		if (legalDirection[color].NW_SE === true) {
 			for (let i = (squareIndex - 9); (i % 8) < (squareIndex % 8) && 0 <= i; i-=9) {
-				if (checkIfPieceOnSquare(i) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
 				allowMove(i);
 			}
 			for (let i = (squareIndex + 9); (squareIndex % 8) < (i % 8) && i < 64; i+=9) {
-				if (checkIfPieceOnSquare(i) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
 				allowMove(i);
 			}
 		}
 		if (legalDirection[color].NE_SW === true) {
 			for (let i = (squareIndex - 7); (squareIndex % 8) < (i % 8) && 0 < i; i-=7) {
-				if (checkIfPieceOnSquare(i) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
 				allowMove(i);
 			}
 			for (let i = (squareIndex + 7); (i % 8) < (squareIndex % 8) && i < 64; i+=7) {
-				if (checkIfPieceOnSquare(i) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
 				allowMove(i);
 			}
 		}
@@ -60,21 +60,21 @@ export const availablePieceMovesObject = {
 	rook: function(squareIndex, color) {
 		if (legalDirection[color].east_west === true) {
 			for (let i = (squareIndex - 1); (squareIndex) % 8 > (i % 8) && 0 <= i; i--) {
-				if (checkIfPieceOnSquare(i) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
 				allowMove(i);
 			}
 			for (let i = (squareIndex + 1); (squareIndex % 8) < (i % 8) && i < 64; i++) {
-				if (checkIfPieceOnSquare(i) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
 				allowMove(i);
 			}
 		}
 		if (legalDirection[color].north_south === true) {
 			for (let i = (squareIndex - 8); 0 <= i; i-=8) {
-				if (checkIfPieceOnSquare(i) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
 				allowMove(i);
 			}
 			for (let i = (squareIndex + 8); i < 64; i+=8) {
-				if (checkIfPieceOnSquare(i) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
 				allowMove(i);
 			}
 		}
