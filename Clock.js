@@ -1,7 +1,5 @@
 import { registerTurnVariables } from "./turnRegister.js";
-import { movePieceElementToDestination } from "./movePieceToDestination.js";
-import { functionWasCalled } from "./movePieceToDestination.js";
-import { moveComplete } from "./movePieceToDestination.js";
+
 
 export let timeInterval = null;
 export let msTimeInterval = null;
@@ -21,6 +19,14 @@ export let urgencyMode = {
   white: false,
   black: false,
 };
+
+function clockTurn() {
+    if (registerTurnVariables.turnCounter % 2 == 0) {
+      return "white";
+    } else {
+      return "black";
+    }
+  }
 
 export let blackClk = document.getElementById("blackClockVisual");
 export let whiteClk = document.getElementById("whiteClockVisual");
@@ -59,7 +65,7 @@ function newTime(event) {
     typeGame = "3:00";
     addOn = 2000;
     timeMode = "twoSeconds"
-console.log (functionWasCalled )
+
 console.log(addOn)
 console.log (remainingSeconds)
    
@@ -101,13 +107,7 @@ export function clockFunction() {
   if (timeInterval || msTimeInterval) return;
 
 
-  function clockTurn() {
-    if (registerTurnVariables.turnCounter % 2 == 0) {
-      return "white";
-    } else {
-      return "black";
-    }
-  }
+ 
 
   function normalTimer() {
     let turnOfClock = clockTurn();
@@ -171,6 +171,8 @@ export function clockFunction() {
 
   normalTimer(); // start in normal mode
   timeInterval = setInterval(normalTimer, 1000);
+
+  
 }
 
 export async function startClockAfterFirstMove() {
@@ -190,14 +192,32 @@ export function resetIntervals() {
   }
 }
 
-export async function afterMoveNewTime() {
-  if (timeMode !== "twoSeconds") return;
+let justMoved = "";
 
-  await moveComplete();
-
-  if (registerTurnVariables.turnDecider === "black") {
-    remainingSeconds.white += addOn;
-  } else if (registerTurnVariables.turnDecider === "white") {
-    remainingSeconds.black += addOn;
+function justMadeMove(turnOfClock) {
+  if (turnOfClock === "white") {
+    justMoved = "black";
+  } else if (turnOfClock === "black") {
+    justMoved = "white";
   }
+  return justMoved;
+}
+
+export function refreshClockDisplay(color) {
+  const ms = remainingSeconds[color];
+  const minutes = Math.floor(ms / 60000);
+  const seconds = Math.floor((ms / 1000) % 60);
+
+  document.getElementById(color + "ClockVisual").innerHTML =
+    minutes + ":" + seconds.toString().padStart(2, "0");
+}
+
+export function afterMoveNewTime() {
+  if (addOn === 0) return;
+
+  const turnOfClock = clockTurn();         // current turn
+  const mover = justMadeMove(turnOfClock); // opposite = just moved
+
+  remainingSeconds[mover] += addOn;
+  refreshClockDisplay(mover);
 }

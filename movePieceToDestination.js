@@ -9,7 +9,7 @@ import { makeKingCastle } from "./makeKingCastle.js";
 import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray } from "./gameState.js";
 import { afterMoveNewTime } from "./Clock.js";
 
-export let functionWasCalled = false;
+
 
 export async function moveToDestination(destination) {
 	// register destination square
@@ -38,7 +38,7 @@ export async function moveToDestination(destination) {
 		}
 	}
 	movePieceElementToDestination();
-	 await afterMoveNewTime();
+
 	additFunc.updateStateGrid();
 
 	// update Main.pieceSquarePositionArray
@@ -50,7 +50,10 @@ export async function moveToDestination(destination) {
 	if (selectPieceState.pieceType === 'pawn') piecesHasNotMoved[selectPieceState.pieceColor].pawn[selectPieceState.selectedPieceIndex] = false;
 	if (selectPieceState.pieceType === 'king') piecesHasNotMoved[selectPieceState.pieceColor].king = false; // king can't castle if they have moved
 	
+
+
 	TurnRegister.registerTurn();
+	afterMoveNewTime(); 
 
 	// reset after piece has been moved
 	additFunc.resetOnSquareClick();
@@ -68,7 +71,5 @@ export function movePieceElementToDestination() {
 	
 
 }
- export async function moveComplete (){
-		return 42;
-	} 
+
 
