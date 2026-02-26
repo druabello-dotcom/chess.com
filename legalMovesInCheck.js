@@ -1,4 +1,4 @@
-import { kingAvailableSquares, kingUnavailableaSquares, pieceSquarePositionArray } from "./gameState.js"
+import { kingAvailableSquares, kingUnavailableaSquares } from "./gameState.js"
 import { checkIfPieceOnSquare } from "./createAvailableMoves.js"
 
 //————————————————————————————————————————————————————————————————————————————————————
@@ -33,10 +33,9 @@ export const attackingPieceInfo = {
         incrementation: []
     }
 }
-
 function isSquareValid(square, oppositeColor) {
     if (square < 0 || 63 < square) return false;
-    if (!checkIfPieceOnSquare(square)) return false;
+    if (checkIfPieceOnSquare(square, oppositeColor)) return false;
     for (let i = 0; i < kingUnavailableaSquares[oppositeColor].length; i++) {
         if (kingUnavailableaSquares[oppositeColor][i] === square) {
             return false;
@@ -45,9 +44,10 @@ function isSquareValid(square, oppositeColor) {
     return true;
 }
 
+//————————————————————————————————————————————————————————————————————————————————————
+
 export function updateKAS(squareIndex, oppositeColor) {
     kingAvailableSquares[oppositeColor].length = 0;
-    console.log("length of KAS:  " + kingAvailableSquares[oppositeColor].length)
     let upToLeft = squareIndex - 9;
     let up = squareIndex - 8;
     let upToRight = squareIndex - 7
@@ -81,6 +81,7 @@ export function updateKAS(squareIndex, oppositeColor) {
     if ((left % 8) < (squareIndex % 8) && isSquareValid(left, oppositeColor) === true) {
         kingAvailableSquares[oppositeColor].push(left);
     }
+
     if (kingAvailableSquares[oppositeColor].length === 0) {
         document.body.style.backgroundColor = "blue";
         console.log("Checkmate");
