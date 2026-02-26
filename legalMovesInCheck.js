@@ -1,4 +1,4 @@
-import { kingAvailableSquares, kingUnavailableaSquares } from "./gameState.js"
+import { kingAvailableSquares, kingUnavailableaSquares  } from "./gameState.js"
 import { checkIfPieceOnSquare } from "./createAvailableMoves.js"
 
 //————————————————————————————————————————————————————————————————————————————————————

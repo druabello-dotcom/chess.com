@@ -21,7 +21,7 @@ function allowMove(desiredSquare) {
 //————————————————————————————————————————————————————————————————————————————————————
 
 export const availablePieceMovesObject = {
-	pawn: function(squareIndex,color) {
+	pawn: function(squareIndex, color) {
 		if (legalDirection[color].north_south !== true) return;
 		if (selectPieceState.pieceColor === 'black' && (squareIndex + 8) < 64) {
 			allowMove(squareIndex + 8);
@@ -79,7 +79,7 @@ export const availablePieceMovesObject = {
 			}
 		}
 	},
-	knight: function(squareIndex){
+	knight: function(squareIndex, color){
 		if (selectPieceState.pieceIsPinned === true) return;
 		let LU = squareIndex - 10 
 		let LUU = squareIndex - 17;
@@ -91,28 +91,28 @@ export const availablePieceMovesObject = {
 		let RD = squareIndex + 10;
 		let RDD = squareIndex + 17;
 
-		if ((LD % 8) < (squareIndex % 8) && LD < 64) {
+		if ((LD % 8) < (squareIndex % 8) && LD < 64 && !checkIfPieceOnSquare(LD, color)) {
 			allowMove(LD);
 		}
-		if ((LDD % 8) < (squareIndex % 8) && LDD < 64) {
+		if ((LDD % 8) < (squareIndex % 8) && LDD < 64 && !checkIfPieceOnSquare(LDD, color)) {
 			allowMove(LDD);
 		}
-		if ((LU % 8) < (squareIndex % 8) && 0 <= LU) {
+		if ((LU % 8) < (squareIndex % 8) && 0 <= LU && !checkIfPieceOnSquare(LU, color)) {
 			allowMove(LU);
 		}
-		if ((LUU % 8) < (squareIndex % 8) && 0 <= LUU) {
+		if ((LUU % 8) < (squareIndex % 8) && 0 <= LUU && !checkIfPieceOnSquare(LUU, color)) {
 			allowMove(LUU);
 		}
-		if ((squareIndex % 8) < (RU % 8) && 0 <= RU) {
+		if ((squareIndex % 8) < (RU % 8) && 0 <= RU && !checkIfPieceOnSquare(RU, color)) {
 			allowMove(RU);
 		}
-		if ((squareIndex % 8) < (RUU % 8) && 0 <= RUU) {
+		if ((squareIndex % 8) < (RUU % 8) && 0 <= RUU && !checkIfPieceOnSquare(RUU, color)) {
 			allowMove(RUU);
 		} 
-		if ((squareIndex % 8) < (RD % 8) && RD < 64) {
+		if ((squareIndex % 8) < (RD % 8) && RD < 64 && !checkIfPieceOnSquare(RD, color)) {
 			allowMove(RD);
 		}
-		if ((squareIndex % 8) < (RDD % 8) && RDD < 64) {
+		if ((squareIndex % 8) < (RDD % 8) && RDD < 64 && !checkIfPieceOnSquare(RDD, color)) {
 			allowMove(RDD);
 		}
 	},
@@ -120,7 +120,7 @@ export const availablePieceMovesObject = {
 		this.rook(squareIndex, color);
 		this.bishop(squareIndex, color);
 	},
-	king: function(squareIndex) {
+	king: function(squareIndex, color) {
 		let upToLeft = squareIndex - 9;
 		let up = squareIndex - 8;
 		let upToRight = squareIndex - 7;
@@ -130,7 +130,7 @@ export const availablePieceMovesObject = {
 		let downToLeft = squareIndex + 7;
 		let left = squareIndex - 1;
 
-		function checkIfSquareIsAvailable(desiredSquare) {
+		function checkIfSquareIsAvailable(desiredSquare, color) {
 			let letKingMovehere = true;
 			for (let i = 0; i < kingUnavailableaSquares[selectPieceState.pieceColor].length; i++) {
 				if (desiredSquare === kingUnavailableaSquares[selectPieceState.pieceColor][i]) {
@@ -138,33 +138,33 @@ export const availablePieceMovesObject = {
 					break;
 				} 
 			}
-			if (checkIfPieceOnSquare(desiredSquare) === false && letKingMovehere === true) {
+			if (!checkIfPieceOnSquare(desiredSquare, color) && letKingMovehere === true) {
 				allowMove(desiredSquare);
 			}
 		}
 		if ((upToLeft % 8) < (squareIndex % 8) && 0 <= upToLeft) {
-			checkIfSquareIsAvailable(upToLeft);
+			checkIfSquareIsAvailable(upToLeft, color);
 		}
 		if (0 <= up) {
-			checkIfSquareIsAvailable(up);
+			checkIfSquareIsAvailable(up, color);
 		}
 		if ((squareIndex % 8) < (upToRight % 8) &&  0 <= upToRight) {
-			checkIfSquareIsAvailable(upToRight);
+			checkIfSquareIsAvailable(upToRight, color);
 		}
 		if ((squareIndex % 8) < (right % 8) && right < 64) {
-			checkIfSquareIsAvailable(right);
+			checkIfSquareIsAvailable(right, color);
 		}
 		if ((squareIndex % 8) < (downToRight % 8) && downToRight < 64) {
-			checkIfSquareIsAvailable(downToRight);
+			checkIfSquareIsAvailable(downToRight, color);
 		}
 		if (down < 64) {
-			checkIfSquareIsAvailable(down);
+			checkIfSquareIsAvailable(down, color);
 		}
 		if ((downToLeft % 8) < (squareIndex % 8) && downToLeft < 64) {
-			checkIfSquareIsAvailable(downToLeft);
+			checkIfSquareIsAvailable(downToLeft, color);
 		}
 		if ((left % 8) < (squareIndex % 8) && 0 <= left) {
-			checkIfSquareIsAvailable(left);
+			checkIfSquareIsAvailable(left, color);
 		}
 		reviewIfKingMayCastleLeft(squareIndex, selectPieceState.pieceColor);
 		reviewIfKingMayCastleRight(squareIndex, selectPieceState.pieceColor);
