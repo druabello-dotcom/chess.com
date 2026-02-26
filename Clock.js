@@ -105,10 +105,6 @@ export function waitUntilFirstMove() {
 
 export function clockFunction() {
   if (timeInterval || msTimeInterval) return;
-
-
- 
-
   function normalTimer() {
     let turnOfClock = clockTurn();
 
@@ -203,7 +199,7 @@ function justMadeMove(turnOfClock) {
   return justMoved;
 }
 
-export function refreshClockDisplay(color) {
+ function refreshClockDisplay(color) {
   const ms = remainingSeconds[color];
   const minutes = Math.floor(ms / 60000);
   const seconds = Math.floor((ms / 1000) % 60);

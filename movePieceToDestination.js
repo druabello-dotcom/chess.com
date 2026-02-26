@@ -68,8 +68,6 @@ export function movePieceElementToDestination() {
 	// move piece to destination square
 	selectPieceState.selectedPiece.style.left = (selectPieceState.x_squareCoordinate - subtractChessboardPixels.width) + "px"; // FIND better way, than to subtract
 	selectPieceState.selectedPiece.style.top = (selectPieceState.y_squareCoordinate - subtractChessboardPixels.height) + "px"; 
-	
-
 }
 
 
