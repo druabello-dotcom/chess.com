@@ -34,7 +34,20 @@ export const attackingPieceInfo = {
     }
 }
 
+function isSquareValid(square, oppositeColor) {
+    if (square < 0 || 63 < square) return false;
+    if (!checkIfPieceOnSquare(square)) return false;
+    for (let i = 0; i < kingUnavailableaSquares[oppositeColor].length; i++) {
+        if (kingUnavailableaSquares[oppositeColor][i] === square) {
+            return false;
+        }
+    }
+    return true;
+}
+
 export function updateKAS(squareIndex, oppositeColor) {
+    kingAvailableSquares[oppositeColor].length = 0;
+    console.log("length of KAS:  " + kingAvailableSquares[oppositeColor].length)
     let upToLeft = squareIndex - 9;
     let up = squareIndex - 8;
     let upToRight = squareIndex - 7
@@ -44,86 +57,32 @@ export function updateKAS(squareIndex, oppositeColor) {
     let downToLeft = squareIndex + 7;
     let left = squareIndex - 1;
 
-    if ((upToLeft % 8) < (squareIndex % 8) && 0 <= upToLeft && checkIfPieceOnSquare(upToLeft) === true) {
+    if ((upToLeft % 8) < (squareIndex % 8) && isSquareValid(upToLeft, oppositeColor) === true) {
         kingAvailableSquares[oppositeColor].push(upToLeft);
     }
-    if (0 <= up && checkIfPieceOnSquare(up) && checkIfPieceOnSquare(up) === true) {
+    if (0 <= up && isSquareValid(up, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(up);
     }
-    if ((squareIndex % 8) < (upToRight % 8) && 0 <= upToRight && checkIfPieceOnSquare(upToRight) === true) {
+    if ((squareIndex % 8) < (upToRight % 8) && isSquareValid(upToRight, oppositeColor) === true) {
         kingAvailableSquares[oppositeColor].push(upToRight);
     }
-    if ((squareIndex % 8) < (right % 8) && right < 64 && checkIfPieceOnSquare(right) === true) {
+    if ((squareIndex % 8) < (right % 8) && isSquareValid(right, oppositeColor) === true) {
         kingAvailableSquares[oppositeColor].push(right);
     }
-    if ((squareIndex % 8) < (downToRight % 8) && downToRight < 64 && checkIfPieceOnSquare(downToRight ) === true) {
+    if ((squareIndex % 8) < (downToRight % 8) && isSquareValid(downToRight, oppositeColor) === true) {
         kingAvailableSquares[oppositeColor].push(downToRight);
     }
-    if (down < 64 && checkIfPieceOnSquare(down) === true) {
+    if (down < 64 && isSquareValid(down, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(down);
     }
-    if ((downToLeft % 8) < (squareIndex % 8) && downToLeft < 64 && checkIfPieceOnSquare(downToLeft) === true) {
+    if ((downToLeft % 8) < (squareIndex % 8) && isSquareValid(downToLeft, oppositeColor) === true) {
         kingAvailableSquares[oppositeColor].push(downToLeft);
     }
-    if ((left % 8) < (squareIndex % 8) && 0 <= left && checkIfPieceOnSquare(left) === true) {
+    if ((left % 8) < (squareIndex % 8) && isSquareValid(left, oppositeColor) === true) {
         kingAvailableSquares[oppositeColor].push(left);
     }
-
-    let indexKAS = {
-        upToLeft: kingAvailableSquares[oppositeColor].indexOf(upToLeft),
-        up: kingAvailableSquares[oppositeColor].indexOf(up),
-        upToRight: kingAvailableSquares[oppositeColor].indexOf(upToRight),
-        right: kingAvailableSquares[oppositeColor].indexOf(right),
-        downToRight: kingAvailableSquares[oppositeColor].indexOf(downToRight),
-        down: kingAvailableSquares[oppositeColor].indexOf(down),
-        downToLeft: kingAvailableSquares[oppositeColor].indexOf(downToLeft),
-        left: kingAvailableSquares[oppositeColor].indexOf(left)
-    }
-
-    for (let i = 0; i < kingUnavailableaSquares[oppositeColor].length; i++) {
-        if (kingUnavailableaSquares[oppositeColor][i] === upToLeft) {
-            kingAvailableSquares[oppositeColor].splice(indexKAS.upToLeft, 1);
-        }
-        if (kingUnavailableaSquares[oppositeColor][i] === up) {
-            kingAvailableSquares[oppositeColor].splice(indexKAS, 1);
-        }
-        if (kingUnavailableaSquares[oppositeColor][i] === upToRight) {
-            kingAvailableSquares[oppositeColor].splice(indexKAS.upToRight, 1);
-        }
-        if (kingUnavailableaSquares[oppositeColor][i] === right) {
-            kingAvailableSquares[oppositeColor].splice(indexKAS.right, 1);
-        }
-        if (kingUnavailableaSquares[oppositeColor][i] === downToRight) {
-            kingAvailableSquares[oppositeColor].splice(indexKAS.downToRight, 1);
-        }
-        if (kingUnavailableaSquares[oppositeColor][i] === down) {
-            kingAvailableSquares[oppositeColor].splice(indexKAS.down, 1);
-        }
-        if (kingUnavailableaSquares[oppositeColor][i] === downToLeft) {
-            kingAvailableSquares[oppositeColor].splice(indexKAS.downToLeft, 1);
-        }
-        if (kingUnavailableaSquares[oppositeColor][i] === left) {
-            kingAvailableSquares[oppositeColor].splice(indexKAS.left, 1);
-        }
-    }
-    console.log(kingAvailableSquares[oppositeColor].length);
-    if (kingAvailableSquares[oppositeColor].length === 0) document.body.style.backgroundColor = "blue";
-}
-
-function kingUnableToMove(color) {
-    let squareIndex = pieceSquarePositionArray[color].king[0];
-    let upToLeft = squareIndex - 9;
-    let up = squareIndex - 8;
-    let upToRight = squareIndex - 7
-    let right = squareIndex + 1;
-    let downToRight = squareIndex + 9;
-    let down = squareIndex + 8;
-    let downToLeft = squareIndex + 7;
-    let left = squareIndex - 1;
-}
-
-function iterateThroughKAS(color, square) {
-    for (let i = 0; i < kingAvailableSquares[color].length; i++) {
-        if (square === kingAvailableSquares[color][i]) return true;
+    if (kingAvailableSquares[oppositeColor].length === 0) {
+        document.body.style.backgroundColor = "blue";
+        console.log("Checkmate");
     }
 }
