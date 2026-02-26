@@ -7,8 +7,11 @@ import { chessboardBoard } from "./main.js";
 import { subtractChessboardPixels } from "./main.js";
 import { makeKingCastle } from "./makeKingCastle.js";
 import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray } from "./gameState.js";
+import { afterMoveNewTime } from "./Clock.js";
 
-export function moveToDestination(destination) {
+export let functionWasCalled = false;
+
+export async function moveToDestination(destination) {
 	// register destination square
 	/* selectPieceStateselectPieceState.destinationSquareIddestination.target; */
     selectPieceState.destinationSquare = destination.target;
@@ -35,6 +38,7 @@ export function moveToDestination(destination) {
 		}
 	}
 	movePieceElementToDestination();
+	 await afterMoveNewTime();
 	additFunc.updateStateGrid();
 
 	// update Main.pieceSquarePositionArray
@@ -61,5 +65,10 @@ export function movePieceElementToDestination() {
 	// move piece to destination square
 	selectPieceState.selectedPiece.style.left = (selectPieceState.x_squareCoordinate - subtractChessboardPixels.width) + "px"; // FIND better way, than to subtract
 	selectPieceState.selectedPiece.style.top = (selectPieceState.y_squareCoordinate - subtractChessboardPixels.height) + "px"; 
+	
 
 }
+ export async function moveComplete (){
+		return 42;
+	} 
+

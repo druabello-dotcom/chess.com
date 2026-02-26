@@ -13,12 +13,13 @@ import { chessboardBoard } from "./main.js";
 import { subtractChessboardPixels } from "./main.js";
 
 
-import { remainingSeconds } from "./Clock.js";
+import { remainingSeconds, whiteClk } from "./Clock.js";
 import { urgencyMode } from "./Clock.js";
 import { timeInterval  } from "./Clock.js";
 import { msTimeInterval  } from "./Clock.js";
 import { startClockAfterFirstMove } from "./Clock.js"
 import { resetIntervals } from "./Clock.js"
+import { typeGame } from "./Clock.js";
 
 export const resetChessboardButtonElements = {
     resetChessboardButton: document.getElementById('resetChessboardButton'),
@@ -45,8 +46,8 @@ urgencyMode.black = false;
 
 document.getElementById("whiteClockVisual").style.color = ""; // reset visuals
 document.getElementById("blackClockVisual").style.color = "";
-document.getElementById("whiteClockVisual").innerHTML = "10:00";
-document.getElementById("blackClockVisual").innerHTML = "10:00";
+document.getElementById("whiteClockVisual").innerHTML = typeGame
+document.getElementById("blackClockVisual").innerHTML = typeGame
 
 
 resetIntervals(); // stop any running timer loops (IMPORTANT: dont delete)

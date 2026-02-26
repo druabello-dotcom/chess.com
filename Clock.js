@@ -1,7 +1,14 @@
 import { registerTurnVariables } from "./turnRegister.js";
+import { movePieceElementToDestination } from "./movePieceToDestination.js";
+import { functionWasCalled } from "./movePieceToDestination.js";
+import { moveComplete } from "./movePieceToDestination.js";
 
 export let timeInterval = null;
 export let msTimeInterval = null;
+
+let timeMode = ""
+export let typeGame= ""
+
 
 let addOn = 0;
 
@@ -10,40 +17,56 @@ export let remainingSeconds = {
   black: 6000,
 };
 
-
 export let urgencyMode = {
   white: false,
   black: false,
 };
 
-let blackClk = document.getElementById("blackClockVisual")
-let whiteClk = document.getElementById("whiteClockVisual")
+export let blackClk = document.getElementById("blackClockVisual");
+export let whiteClk = document.getElementById("whiteClockVisual");
 
 const fiveMinGames = document.getElementById("fiveMinGame");
 fiveMinGames.addEventListener("click", newTime);
 
-const threeMinGames = document.getElementById("threeMinGame")
-threeMinGames.addEventListener("click", newTime)
+const threeMinGames = document.getElementById("threeMinGame");
+threeMinGames.addEventListener("click", newTime);
+
+const TMTSA = document.getElementById("threeMinTwoSecAddOn");
+TMTSA.addEventListener("click", newTime);
 
 function newTime(event) {
-  if ((event.currentTarget.id === "fiveMinGame")) {
+  if (event.currentTarget.id === "fiveMinGame") {
     remainingSeconds.white = 300000;
     remainingSeconds.black = 300000;
-  blackClk.innerHTML = "5:00";
-  whiteClk.innerHTML = "5:00";
-  }
-  
-  if ((event.currentTarget.id === "threeMinGame")){
-    remainingSeconds.white = 180000
-    remainingSeconds.black = 180000
-    blackClk.innerHTML = "3:00"
-    whiteClk.innerHTML = "3:00"
+     blackClk.innerHTML = "5:00";
+     whiteClk.innerHTML = "5:00";
+    typeGame = "5:00";
   }
 
+  if (event.currentTarget.id === "threeMinGame") {
+    remainingSeconds.white = 180000;
+    remainingSeconds.black = 180000;
+    blackClk.innerHTML = "3:00";
+    whiteClk.innerHTML = "3:00";
+     typeGame = "3:00";
+  }
+
+  if (event.currentTarget.id === "threeMinTwoSecAddOn") {
+    remainingSeconds.white = 180000;
+    remainingSeconds.black = 180000;
+    blackClk.innerHTML = "3:00";
+    whiteClk.innerHTML = "3:00";
+    typeGame = "3:00";
+    addOn = 2000;
+    timeMode = "twoSeconds"
+console.log (functionWasCalled )
+console.log(addOn)
+console.log (remainingSeconds)
+   
+  }
 }
 
 // custom time iteration
-
 document.addEventListener("keydown", function (event) {
   if (event.code === "Enter") {
     var referenceDiv = document.querySelectorAll("#inputTime");
@@ -72,9 +95,11 @@ export function waitUntilFirstMove() {
     }, 10);
   });
 }
+ 
 
 export function clockFunction() {
   if (timeInterval || msTimeInterval) return;
+
 
   function clockTurn() {
     if (registerTurnVariables.turnCounter % 2 == 0) {
@@ -121,10 +146,6 @@ export function clockFunction() {
   function urgentTimer() {
     let turnOfClock = clockTurn();
     document.getElementById(turnOfClock + "ClockVisual").style.color = "red";
-    console.log(
-      (document.getElementById(turnOfClock + "ClockVisual").style.color =
-        "red"),
-    );
     remainingSeconds[turnOfClock] -= 10; // urgent mode ticks in 10ms
     let RSC = remainingSeconds[turnOfClock];
 
@@ -166,5 +187,17 @@ export function resetIntervals() {
   if (msTimeInterval) {
     clearInterval(msTimeInterval);
     msTimeInterval = null;
+  }
+}
+
+export async function afterMoveNewTime() {
+  if (timeMode !== "twoSeconds") return;
+
+  await moveComplete();
+
+  if (registerTurnVariables.turnDecider === "black") {
+    remainingSeconds.white += addOn;
+  } else if (registerTurnVariables.turnDecider === "white") {
+    remainingSeconds.black += addOn;
   }
 }
