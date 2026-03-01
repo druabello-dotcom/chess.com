@@ -201,7 +201,7 @@ width: 100%;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 0.75rem;
+	gap: calc(0.5 * var(--font-size));
 }
 
 #chessboard {
@@ -394,10 +394,11 @@ button:active .topLayer {
 		--font-size: calc(var(--size-multiplier) * 1em)
 	}
 	.game {
-		--button-padding: calc(var(--size-multiplier) * var(--button-padding))
+		--button-padding: calc(var(--size-multiplier) * var(--button-padding));
+		gap: calc(0.02 * var(--square-size));
 	}
 	#logBook {
-		transform: translateY(calc(1.05 * var(--square-size)));
+		transform: translateY(calc(1 * var(--square-size)));
 	}
 	.turn-decider {
 		padding: calc(0.75 * var(--top-bottom-padding));
@@ -452,8 +453,5 @@ button:active .topLayer {
 		--button-padding: calc(var(--size-multiplier) * 0.5em);
 		--square-size: 2rem;
 		--font-size: calc(var(--size-multiplier) * 1em)
-	}
-	#logBook {
-		transform: translateY(calc(1.2 * var(--square-size)));
 	}
 }
