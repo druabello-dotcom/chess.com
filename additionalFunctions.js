@@ -9,21 +9,19 @@ import { updateKAS } from "./legalMovesInCheck.js";
 
 export function resetOnSquareClick() {
 	// reset array
-	while (0 < selectPieceState.clickOnPieceToReset.length) {
-		selectPieceState.clickOnPieceToReset.pop();
+	selectPieceState.clickOnPieceToReset.length = 0;
+	for (let i = 0; i < 64; i++) {
+		Main.grid[i].removeEventListener('click', moveToDestination);
+		Main.grid[i].addEventListener('click', onSquareClick);
+		Main.grid[i].style.boxShadow = "";
 	}
+	if (selectPieceState.selectedSquare) selectPieceState.selectedSquare.style.filter = "brightness(1)";
 }
 export function updateStateGrid() {
 	Main.stateGrid[selectPieceState.selectedSquareId] = 0;
 	Main.stateGrid[selectPieceState.destinationSquareId] = selectPieceState.valueInSquare;
 }
 export function resetOnSquareClickInfo() {
-	for (let i = 0; i < 64; i++) {
-		Main.grid[i].removeEventListener('click', moveToDestination)
-		Main.grid[i].addEventListener('click', onSquareClick);
-		Main.grid[i].style.boxShadow = "";
-	}
-	selectPieceState.selectedSquare.style.filter = "brightness(1)";
 	selectPieceState.isClicked = false;
 	selectPieceState.pieceColor = false;
 
