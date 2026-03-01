@@ -440,25 +440,4 @@ button:active .topLayer {
 	#turnDeciderColorIndicator {
 		padding: 0.5rem;
 	}
-/* 	.topLayer {
-		width: var(--size-multiplier);
-		height: var(--size-multiplier);
-		padding-top: calc(var(--size-multiplier) * 0.75em);
-		padding-bottom: calc(var(--size-multiplier) * 0.75em);
-		padding-right: var(--button-padding);
-		padding-left: var(--button-padding);
-
-		font-size: calc(var(--size-multiplier) * 1em);
-	}
-	.bottomLayer {
-		width: var(--size-multiplier);
-		height: var(--size-multiplier);
-		padding-right: var(--button-padding);
-		padding-left: var(--button-padding);
-
-		padding-top: calc(var(--size-multiplier) * 0.75em);
-		padding-bottom: calc(var(--size-multiplier) * 2em);
-		top: calc(var(--size-multiplier) * -2.25em);
-		border-radius: calc(var(--size-multiplier) * 7mm);
-	} */
 }
