@@ -385,7 +385,7 @@ button:active .topLayer {
 	filter: brightness(0.85);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 720px) {
 	:root {
 		--size-multiplier: 0.75;
 		--button-padding: calc(var(--size-multiplier) * 0.75em);
