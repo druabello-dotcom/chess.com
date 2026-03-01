@@ -138,11 +138,11 @@ width: 100%;
 }
 
 #logBook {
-	/* transform: translateY(3.2rem); */
 	transform: translateY(calc(0.8 * var(--square-size)));
-	width: calc(3 * var(--square-size));
-	height: calc(8 * 4rem);
+	width: calc(2.85 * var(--square-size));
+	height: calc(8 * var(--square-size));
 	border: 2px solid black;
+	font-size: var(--font-size);
 	font-family: monospace;
 	border-radius: 1.5mm;
 	display: flex;
