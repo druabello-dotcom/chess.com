@@ -1,7 +1,6 @@
 import * as Main from "./main.js";
 import { resetChessboardButtonElements } from "./resetChessboard.js";
-import { chessboardBoard } from "./main.js";
-import { subtractChessboardPixels } from "./main.js";
+import { chessboardBoard, subtractChessboardPixels } from "./main.js";
 import { selectPieceState, pieceSquarePositionArray, pieceElementsObject } from "./gameState.js";
 
 export let chessboardChildren = Array.from(chessboard.children);
@@ -16,12 +15,12 @@ export function resizeGame() {
 }
 
 function updateElementsResize() {
-	if (600 < window.innerWidth) {
+	if (720 < window.innerWidth) {
 		resetChessboardButtonElements.topLayerButton.innerText = "Reset Chessboard";
 		resetChessboardButtonElements.topLayerButton.style.fontSize = "100%";
 		resetChessboardButtonElements.topLayerButton.style.color = "black";
 	}
-	if (window.innerWidth < 600) {
+	if (window.innerWidth < 720) {
 		resetChessboardButtonElements.topLayerButton.innerText = "⟳";
 		resetChessboardButtonElements.topLayerButton.style.fontSize = "200%"
 		resetChessboardButtonElements.topLayerButton.style.color = "white";
@@ -40,6 +39,7 @@ function updateElementsResize() {
     subtractChessboardPixels.height = (chessboardBoard.chessboardDimentions.height / 17)
 
 	//——————————————————————————————————————————————————————————————————————
+
 	// update pieces — make this into a function
 	for (let i = 0; i < Main.stateGrid.length; i++) {
 	if (Main.stateGrid[i] === 0) continue;

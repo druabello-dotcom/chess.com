@@ -138,11 +138,11 @@ width: 100%;
 }
 
 #logBook {
-	/* transform: translateY(3.2rem); */
 	transform: translateY(calc(0.8 * var(--square-size)));
-	width: calc(3 * var(--square-size));
-	height: calc(8 * 4rem);
+	width: calc(2.85 * var(--square-size));
+	height: calc(8 * var(--square-size));
 	border: 2px solid black;
+	font-size: var(--font-size);
 	font-family: monospace;
 	border-radius: 1.5mm;
 	display: flex;
@@ -385,7 +385,7 @@ button:active .topLayer {
 	filter: brightness(0.85);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 720px) {
 	:root {
 		--size-multiplier: 0.75;
 		--button-padding: calc(var(--size-multiplier) * 0.75em);
@@ -394,6 +394,9 @@ button:active .topLayer {
 	}
 	.game {
 		--button-padding: calc(var(--size-multiplier) * var(--button-padding))
+	}
+	#logBook {
+		transform: translateY(calc(1.05 * var(--square-size)));
 	}
 	.turn-decider {
 		padding: calc(0.75 * var(--top-bottom-padding));
@@ -440,25 +443,4 @@ button:active .topLayer {
 	#turnDeciderColorIndicator {
 		padding: 0.5rem;
 	}
-/* 	.topLayer {
-		width: var(--size-multiplier);
-		height: var(--size-multiplier);
-		padding-top: calc(var(--size-multiplier) * 0.75em);
-		padding-bottom: calc(var(--size-multiplier) * 0.75em);
-		padding-right: var(--button-padding);
-		padding-left: var(--button-padding);
-
-		font-size: calc(var(--size-multiplier) * 1em);
-	}
-	.bottomLayer {
-		width: var(--size-multiplier);
-		height: var(--size-multiplier);
-		padding-right: var(--button-padding);
-		padding-left: var(--button-padding);
-
-		padding-top: calc(var(--size-multiplier) * 0.75em);
-		padding-bottom: calc(var(--size-multiplier) * 2em);
-		top: calc(var(--size-multiplier) * -2.25em);
-		border-radius: calc(var(--size-multiplier) * 7mm);
-	} */
 }
