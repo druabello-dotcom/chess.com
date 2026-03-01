@@ -463,6 +463,13 @@ button:active .topLayer {
 	button:active .topLayer {
 		transform: translateY(0.075em);
 	}
+	.turn-decider {
+		padding-left: calc(0.65 * 0.3rem);
+	}
+	#turnDeciderColorIndicator {
+		border-radius: 1.25mm;
+		padding: 0.4rem;
+	}
 	#logBook {
 		transform: translateY(calc(0.85 * var(--square-size)));
 	}
