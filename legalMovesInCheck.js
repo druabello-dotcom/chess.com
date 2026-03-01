@@ -83,6 +83,11 @@ export function updateKAS(squareIndex, oppositeColor) {
     }
 
     if (kingAvailableSquares[oppositeColor].length === 0) {
+        /* 
+        check if there are any piecs that can defend king from check
+        HOW?:
+        
+        */
         document.body.style.backgroundColor = "blue";
         console.log("Checkmate");
     }

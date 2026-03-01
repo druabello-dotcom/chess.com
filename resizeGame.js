@@ -28,12 +28,6 @@ function updateElementsResize() {
 	}
 
 	chessboardBoard.chessboardDimentions = chessboard.getBoundingClientRect();
-	/* console.log("Height of chessboard:  " + chessboardDimentions.height); */
-	/* console.log("Width of chessboard:  " + chessboardDimentions.width); */
-	//store coordinates for center of each square (x & y component)
-	/* centerPositionSqaure = []; */
-	/* let squareXValue = (chessboardDimentions.width) / 16; */
-	/* let squareYValue = (chessboardDimentions.height) / 16; */
     chessboardBoard.centerPositionSqaure = [];
     let squareXValue = (chessboardBoard.chessboardDimentions.width / 16);
     let squareYValue = (chessboardBoard.chessboardDimentions.height / 16);
