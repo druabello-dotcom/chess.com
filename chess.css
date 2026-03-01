@@ -157,7 +157,7 @@ width: 100%;
 	justify-content: center;
 	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: 1fr;
-	padding: calc(0.5 * var(--font-size));
+	padding: calc(0.75 * var(--font-size));
 	border-radius: 0.9mm;
 	background-color: var(--black-square);
 	color: white;
