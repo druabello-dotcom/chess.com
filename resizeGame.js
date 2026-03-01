@@ -1,7 +1,6 @@
 import * as Main from "./main.js";
 import { resetChessboardButtonElements } from "./resetChessboard.js";
-import { chessboardBoard } from "./main.js";
-import { subtractChessboardPixels } from "./main.js";
+import { chessboardBoard, subtractChessboardPixels } from "./main.js";
 import { selectPieceState, pieceSquarePositionArray, pieceElementsObject } from "./gameState.js";
 
 export let chessboardChildren = Array.from(chessboard.children);
@@ -40,7 +39,7 @@ function updateElementsResize() {
     subtractChessboardPixels.height = (chessboardBoard.chessboardDimentions.height / 17)
 
 	//——————————————————————————————————————————————————————————————————————
-	
+
 	// update pieces — make this into a function
 	for (let i = 0; i < Main.stateGrid.length; i++) {
 	if (Main.stateGrid[i] === 0) continue;
