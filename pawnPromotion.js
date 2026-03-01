@@ -16,8 +16,6 @@ let selectedPieceSpan = null;
 export function promotePawn(destinationSquare) {
     pawnIndex = selectPieceState.selectedPieceIndex;
     destinationSquareIndex = destinationSquare;
-    console.log(selectPieceState.destinationSquareId);
-    console.log("pawn index:  " + pawnIndex);
     let squareDivision = [];
     let chessboard = document.getElementById('chessboard');
     let chessboardDim = chessboard.getBoundingClientRect();
@@ -62,41 +60,28 @@ function showPromotionOptions(color) {
         optionSpan.appendChild(optionImg);
         promotionOptions.appendChild(optionSpan);
     }
-    console.log(pieceSquarePositionArray[color]);
 }
 
 //————————————————————————————————————————————————————————————————————————————————————
 
 function switchToPieceType(color, promotionPieceType) {
     // get selected piece span and img
-    console.log("pawn index is still:  " + pawnIndex);
     let promotingPawnImg = pawnSpanElementObject[color][pawnIndex];
     promotingPawnImg.src = CreatePieceElements.pieceIcons[color][promotionPieceType];
     promotingPawnImg.alt = CreatePieceElements.pieceIconAlt[color][promotionPieceType];
 
     chessboard.removeChild(promotionOptions);
-    console.log("YOU HAVE SELECTED A PROMOTION OPTION");
-    console.log(promotingPawnImg);
-    console.log("color and type:  " + color + promotionPieceType);
 
     // update stateGrid
     stateGrid[destinationSquareIndex] = pieceNumberIdentifier[color][promotionPieceType];
-    console.log(stateGrid[destinationSquareIndex]);
-    console.log(mapPieces[Math.abs(stateGrid[destinationSquareIndex])]);
-
-    console.log(stateGrid);
-    console.log(destinationSquareIndex);
 
     // update pieceSquarePositionArray
     pieceSquarePositionArray[color].pawn[pawnIndex] = null;
     pieceSquarePositionArray[color][promotionPieceType].push(destinationSquareIndex);
-    console.log(pieceSquarePositionArray[color]);
 
     // update pieceElementsObject
     // set pieceElementsObject.pawn[index] as null
     selectedPieceSpan = pieceElementsObject[color].pawn[pawnIndex];
-    console.log("THIS WILL BE PUSHED INTO PIECE ELEMENT OBJECT")
-    console.log(selectedPieceSpan);
     pieceElementsObject[color].pawn[pawnIndex] = null;
 
     // update class of promoted pawn
@@ -104,9 +89,6 @@ function switchToPieceType(color, promotionPieceType) {
 
     // push selected piece span into pieceElementsObject
     pieceElementsObject[color][promotionPieceType].push(selectedPieceSpan);
-    console.log("THIS WAS PUSHED INTO PIECE ELEMENT OBJECT")
-    console.log(selectedPieceSpan);
-
     promotionSound();
 
     promotionOptions = null;

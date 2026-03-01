@@ -1,28 +1,27 @@
 import * as Main from "./main.js";
 import { giveCheckSound } from "./sounds.js";
-import { kingUnavailableaSquares, selectPieceState, pieceSquarePositionArray, pinnedPiecesObject, legalDirection } from "./gameState.js";
+import { kingUnavailableaSquares, selectPieceState, pieceSquarePositionArray, pinnedPiecesObject, legalDirection, kingState } from "./gameState.js";
 import { onSquareClick } from "./onSquareClick.js";
 import { moveToDestination } from "./movePieceToDestination.js";
+import { updateKAS } from "./legalMovesInCheck.js";
 
 //—————————————————————————————————————————————————————————————————————————————————————
 
 export function resetOnSquareClick() {
 	// reset array
-	while (0 < selectPieceState.clickOnPieceToReset.length) {
-		selectPieceState.clickOnPieceToReset.pop();
+	selectPieceState.clickOnPieceToReset.length = 0;
+	for (let i = 0; i < 64; i++) {
+		Main.grid[i].removeEventListener('click', moveToDestination);
+		Main.grid[i].addEventListener('click', onSquareClick);
+		Main.grid[i].style.boxShadow = "";
 	}
+	if (selectPieceState.selectedSquare) selectPieceState.selectedSquare.style.filter = "brightness(1)";
 }
 export function updateStateGrid() {
 	Main.stateGrid[selectPieceState.selectedSquareId] = 0;
 	Main.stateGrid[selectPieceState.destinationSquareId] = selectPieceState.valueInSquare;
 }
 export function resetOnSquareClickInfo() {
-	for (let i = 0; i < 64; i++) {
-		Main.grid[i].removeEventListener('click', moveToDestination)
-		Main.grid[i].addEventListener('click', onSquareClick);
-		Main.grid[i].style.boxShadow = "";
-	}
-	selectPieceState.selectedSquare.style.filter = "brightness(1)";
 	selectPieceState.isClicked = false;
 	selectPieceState.pieceColor = false;
 
@@ -45,7 +44,17 @@ export function reviewIfKingIsChecked(oppositeColor) {
 	for (let i = 0; i < kingUnavailableaSquares[oppositeColor].length; i++) {
 		if (pieceSquarePositionArray[oppositeColor].king[0] === kingUnavailableaSquares[oppositeColor][i]) {
 			giveCheckSound();
+			kingState[oppositeColor].checked = true;
+			for (i = 0; i < 64; i++) {
+				Main.grid[i].removeEventListener('click', onSquareClick);
+				Main.grid[i].style.filter = "brightness(1)";
+				Main.grid[i].style.boxShadow = "";
+			}
+			updateKAS(pieceSquarePositionArray[oppositeColor].king[0], oppositeColor);
 			Main.grid[pieceSquarePositionArray[oppositeColor].king[0]].style.boxShadow = "inset 0 0 0 4px #F01E2C";
+			Main.grid[pieceSquarePositionArray[oppositeColor].king[0]].addEventListener('click', onSquareClick);
+			resetOnSquareClickInfo();
+			return;
 		}
 	}
 }

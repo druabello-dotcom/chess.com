@@ -28,8 +28,6 @@ export let chessboardBoard = {
 	chessboardDimentions: chessboard.getBoundingClientRect(),
 	centerPositionSqaure: [],
 }
-console.log("Width of chessboard:  " + chessboardBoard.chessboardDimentions.width);
-console.log("Height of chessboard:  " + chessboardBoard.chessboardDimentions.height);
 
 let squareXValue = (chessboardBoard.chessboardDimentions.width / 16);
 let squareYValue = (chessboardBoard.chessboardDimentions.height / 16);
@@ -42,7 +40,6 @@ export let subtractChessboardPixels = {
 	width: chessboardBoard.chessboardDimentions.width / 16,
 	height: chessboardBoard.chessboardDimentions.height / 17
 }
-console.log("Center position square object:  " + chessboardBoard.centerPositionSqaure[0].y_coordinate)
 
 export const stateGrid = [];
 for (let i = 0; i < 64; i++) {
@@ -73,7 +70,6 @@ export const mapPieces = {
   };
 
 resizeGame();
-console.log("Width of window:  " + window.innerWidth)
 
 // toggle dropdown menu
 const select = document.querySelector('.select');
@@ -108,7 +104,6 @@ for (let i = 0;  i < colorwayArray.length; i++) {
 	})
 }
 
-console.log(chessboardBoard.centerPositionSqaure)
 
 // adding event listeners to all square elements in the chessboard. If square get clicked, go to the function onSquareClick
 for (let i = 0; i < 64; i++) {

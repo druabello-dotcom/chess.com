@@ -83,7 +83,6 @@ export function resetChessboard() {
 		pieceElementsObject.black[type] = Array.from(document.querySelectorAll(`.black.${type}`));
 		pieceElementsObject.white[type] = Array.from(document.querySelectorAll(`.white.${type}`));
 	}
-	console.log(pieceElementsObject);
 
 	let pieceSquareIncrementation = {
 		pawn: 1,
@@ -115,8 +114,6 @@ export function resetChessboard() {
 	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
 		let type = CreatePieceElements.pieceTypeArray[t];
 		for (let counts = 0, blackStartingSquare = pieceStartingSquare.black[type], whiteStartingSquare = pieceStartingSquare.white[type]; counts < CreatePieceElements.pieceCounts[type]; counts++) {
-			console.log("Piece type:  " + type + "     Count:  " + counts);
-
 			// reset background information
 			pieceSquarePositionArray.black[type][counts] = blackStartingSquare;
 			pieceSquarePositionArray.white[type][counts] = whiteStartingSquare;
@@ -137,6 +134,6 @@ export function resetChessboard() {
 			whiteStartingSquare += pieceSquareIncrementation[type];
 		}
 	}
+	additFunc.resetOnSquareClickInfo();
     additFunc.resetOnSquareClick();
-	console.log(Main.stateGrid);
 }
