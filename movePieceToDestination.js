@@ -1,4 +1,3 @@
-import * as Main from "./main.js"
 import * as CreatePieceElements from "./createPieceElements.js"
 import * as additFunc from "./additionalFunctions.js"
 import * as TurnRegister from "./turnRegister.js"
@@ -6,10 +5,9 @@ import * as TurnRegister from "./turnRegister.js"
 import { soundWhenMovingPiece } from "./sounds.js";
 import { attackingMovesObject } from "./attackingMovesKing.js"
 import { promotePawn } from "./pawnPromotion.js"
-import { chessboardBoard } from "./main.js"
-import { subtractChessboardPixels } from "./main.js"
+import { chessboardBoard, subtractChessboardPixels } from "./main.js"
 import { makeKingCastle } from "./makeKingCastle.js"
-import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray, kingUnavailableaSquares, pinnedPiecesObject } from "./gameState.js"
+import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray, kingUnavailableaSquares } from "./gameState.js"
 
 //———————————————————————————————————————————————————————————————————————————————————
 
@@ -22,6 +20,15 @@ export function moveToDestination(destination) {
 	
     selectPieceState.destinationSquare = destination.target;
     selectPieceState.destinationSquareId = Number(destination.target.id);
+
+	// if user clicks on a piece with same color, activate resetOnSquareClick()
+	for (let i = 0; i < selectPieceState.clickOnPieceToReset.length; i++) {
+		if (selectPieceState.clickOnPieceToReset[i] === selectPieceState.destinationSquareId) {
+			additFunc.resetOnSquareClick();
+			additFunc.resetOnSquareClickInfo();
+			return;
+		}
+	}
 
 	// if pawn is on the other side —> promote
 	if (selectPieceState.pieceType === 'pawn') {
@@ -42,14 +49,6 @@ export function moveToDestination(destination) {
 		return;
 	}
 
-	// if user clicks on a piece with same color, activate resetOnSquareClick()
-	for (let i = 0; i < selectPieceState.clickOnPieceToReset.length; i++) {
-		if (selectPieceState.destinationSquareId === selectPieceState.clickOnPieceToReset[i]) {
-			additFunc.resetOnSquareClick();
-			additFunc.resetOnSquareClickInfo();
-			return;
-		}
-	}
 	movePieceElementToDestination();
 	additFunc.updateStateGrid();
 	soundWhenMovingPiece();
