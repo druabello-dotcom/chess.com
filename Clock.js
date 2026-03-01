@@ -1,12 +1,10 @@
 import { registerTurnVariables } from "./turnRegister.js";
 
-
 export let timeInterval = null;
 export let msTimeInterval = null;
 
-let timeMode = ""
-export let typeGame= ""
-
+let timeMode = ""; // The add on seconds
+export let typeGame = ""; //type of game in mins, ex. "3:00", "2:00"
 
 let addOn = 0;
 
@@ -21,12 +19,12 @@ export let urgencyMode = {
 };
 
 function clockTurn() {
-    if (registerTurnVariables.turnCounter % 2 == 0) {
-      return "white";
-    } else {
-      return "black";
-    }
+  if (registerTurnVariables.turnCounter % 2 == 0) {
+    return "white";
+  } else {
+    return "black";
   }
+}
 
 export let blackClk = document.getElementById("blackClockVisual");
 export let whiteClk = document.getElementById("whiteClockVisual");
@@ -40,12 +38,19 @@ threeMinGames.addEventListener("click", newTime);
 const TMTSA = document.getElementById("threeMinTwoSecAddOn");
 TMTSA.addEventListener("click", newTime);
 
+const oneMinGame = document.getElementById("oneMinGame");
+oneMinGame.addEventListener("click", newTime);
+
+const TMOSA = document.getElementById("twoMinOneSecAddOn");
+TMOSA.addEventListener("click", newTime);
+
 function newTime(event) {
+      console.log(event.currentTarget.id)
   if (event.currentTarget.id === "fiveMinGame") {
     remainingSeconds.white = 300000;
     remainingSeconds.black = 300000;
-     blackClk.innerHTML = "5:00";
-     whiteClk.innerHTML = "5:00";
+    blackClk.innerHTML = "5:00";
+    whiteClk.innerHTML = "5:00";
     typeGame = "5:00";
   }
 
@@ -54,7 +59,7 @@ function newTime(event) {
     remainingSeconds.black = 180000;
     blackClk.innerHTML = "3:00";
     whiteClk.innerHTML = "3:00";
-     typeGame = "3:00";
+    typeGame = "3:00";
   }
 
   if (event.currentTarget.id === "threeMinTwoSecAddOn") {
@@ -64,12 +69,16 @@ function newTime(event) {
     whiteClk.innerHTML = "3:00";
     typeGame = "3:00";
     addOn = 2000;
-    timeMode = "twoSeconds"
-
-console.log(addOn)
-console.log (remainingSeconds)
-   
+    timeMode = "twoSeconds";
   }
+  if (event.currentTarget.id === "oneMinGame") {
+    remainingSeconds.white = 60000
+    remainingSeconds.black = 60000
+    blackClk.innerHTML = "1:00"
+    whiteClk.innerHTML = "1:00"
+    typeGame = "1:00"
+ }
+ 
 }
 
 // custom time iteration
@@ -89,7 +98,7 @@ document.addEventListener("keydown", function (event) {
     }
   }
 });
-
+ // wait for first move to be made, returns a promise which activates the timer function
 export function waitUntilFirstMove() {
   return new Promise(function (resolve) {
     const interval = setInterval(() => {
@@ -98,10 +107,9 @@ export function waitUntilFirstMove() {
         console.log("it worked");
         resolve();
       }
-    }, 10);
+    }, 10); // check every 10 ms untill the first move has been made
   });
 }
- 
 
 export function clockFunction() {
   if (timeInterval || msTimeInterval) return;
@@ -167,8 +175,6 @@ export function clockFunction() {
 
   normalTimer(); // start in normal mode
   timeInterval = setInterval(normalTimer, 1000);
-
-  
 }
 
 export async function startClockAfterFirstMove() {
@@ -199,7 +205,7 @@ function justMadeMove(turnOfClock) {
   return justMoved;
 }
 
- function refreshClockDisplay(color) {
+function refreshClockDisplay(color) {
   const ms = remainingSeconds[color];
   const minutes = Math.floor(ms / 60000);
   const seconds = Math.floor((ms / 1000) % 60);
@@ -211,7 +217,7 @@ function justMadeMove(turnOfClock) {
 export function afterMoveNewTime() {
   if (addOn === 0) return;
 
-  const turnOfClock = clockTurn();         // current turn
+  const turnOfClock = clockTurn(); // current turn
   const mover = justMadeMove(turnOfClock); // opposite = just moved
 
   remainingSeconds[mover] += addOn;
