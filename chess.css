@@ -138,7 +138,7 @@ width: 100%;
 }
 
 #logBook {
-	transform: translateY(calc(0.8 * var(--square-size)));
+	transform: translateY(calc(0.75 * var(--square-size)));
 	width: calc(2.85 * var(--square-size));
 	height: calc(8 * var(--square-size));
 	border: 2px solid black;
@@ -398,7 +398,7 @@ button:active .topLayer {
 		gap: calc(0.02 * var(--square-size));
 	}
 	#logBook {
-		transform: translateY(calc(1 * var(--square-size)));
+		transform: translateY(calc(0.8 * var(--square-size)));
 	}
 	.turn-decider {
 		padding: calc(0.75 * var(--top-bottom-padding));
@@ -453,5 +453,17 @@ button:active .topLayer {
 		--button-padding: calc(var(--size-multiplier) * 0.5em);
 		--square-size: 2rem;
 		--font-size: calc(var(--size-multiplier) * 1em)
+	}
+	.bottomLayer {
+		width: 210%;
+		padding-top: calc(var(--font-size) * 0.2);
+		padding-bottom: 1.75rem;
+		box-shadow: 0px 0.125em 0px 0.125em rgb(171, 171, 171);
+	}
+	button:active .topLayer {
+		transform: translateY(0.075em);
+	}
+	#logBook {
+		transform: translateY(calc(0.85 * var(--square-size)));
 	}
 }
