@@ -449,8 +449,11 @@ button:active .topLayer {
 @media (max-width: 550px) {
 	:root {
 		--size-multiplier: 0.5;
-		--button-padding: calc(var(--size-multiplier) * 0.75em);
+		--button-padding: calc(var(--size-multiplier) * 0.5em);
 		--square-size: 2rem;
 		--font-size: calc(var(--size-multiplier) * 1em)
+	}
+	#logBook {
+		transform: translateY(calc(1.2 * var(--square-size)));
 	}
 }
