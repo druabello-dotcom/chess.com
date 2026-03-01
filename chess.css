@@ -395,6 +395,9 @@ button:active .topLayer {
 	.game {
 		--button-padding: calc(var(--size-multiplier) * var(--button-padding))
 	}
+	#logBook {
+		transform: translateY(calc(1.05 * var(--square-size)));
+	}
 	.turn-decider {
 		padding: calc(0.75 * var(--top-bottom-padding));
 	}
