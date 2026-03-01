@@ -444,3 +444,12 @@ button:active .topLayer {
 		padding: 0.5rem;
 	}
 }
+
+@media (max-width: 550px) {
+	:root {
+		--size-multiplier: 0.5;
+		--button-padding: calc(var(--size-multiplier) * 0.75em);
+		--square-size: 2rem;
+		--font-size: calc(var(--size-multiplier) * 1em)
+	}
+}
