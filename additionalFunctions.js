@@ -98,11 +98,6 @@ export function checkLegalDirection(incrementation, color) {
 	}
 }
 export function resetLegalDirections(color) {
-	/* legalDirection.north_south = true;
-	legalDirection.east_west = true;
-	legalDirection.NE_SW = true;
-	legalDirection.NW_SE = true; */
-	console.log(color);
 	legalDirection[color].north_south = true;
 	legalDirection[color].east_west = true;
 	legalDirection[color].NE_SW = true;
