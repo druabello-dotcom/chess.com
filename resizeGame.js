@@ -25,6 +25,11 @@ function updateElementsResize() {
 		resetChessboardButtonElements.topLayerButton.style.fontSize = "200%"
 		resetChessboardButtonElements.topLayerButton.style.color = "white";
 	}
+	if (window.innerWidth < 550) {
+		resetChessboardButtonElements.topLayerButton.innerText = "⟳";
+		resetChessboardButtonElements.topLayerButton.style.fontSize = "150%";
+		resetChessboardButtonElements.topLayerButton.style.color = "white";
+	}
 
 	chessboardBoard.chessboardDimentions = chessboard.getBoundingClientRect();
     chessboardBoard.centerPositionSqaure = [];
