@@ -1,3 +1,40 @@
+:root {
+	--black-square-font-color: black;
+	--black-square: #95533b;
+	--white-square: antiquewhite;
+	--square-size: 4rem;
+	--font-size: 1em;
+}
+
+.winScreen {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	z-index: 20;
+	width: calc(6 * var(--square-size));
+
+	font-family: monospace;
+	border-radius: 2.5mm;
+	outline: 2px solid black;
+}
+#victoryAnnouncement {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	color: white;
+	background-color: var(--black-square);
+	border-radius: 2.5mm;
+}
+.winScreen img {
+	height: calc(0.75 * var(--square-size));
+}
+.close {
+	filter: invert(100%);
+}
+.close img {
+	height: calc(0.4 * var(--square-size));
+}
+
 .dropdown {
 	font-family: monospace;
 	width: 100%;
@@ -116,14 +153,7 @@
 	--black-square-font-color: white;
 	--black-square: #95533b;
 	--white-square: antiquewhite; }
-:root {
-	--black-square-font-color: black;
-	--black-square: #95533b;
-	--white-square: antiquewhite;
-	--square-size: 4rem;
-	--font-size: 1em;
 
-}
 .movedPiece {
 	width: calc(0.175 * var(--square-size));
 	height: calc(0.175 * var(--square-size));
