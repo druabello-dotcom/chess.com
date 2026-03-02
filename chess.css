@@ -12,6 +12,7 @@
 	position: absolute;
 	z-index: 20;
 	width: calc(6 * var(--square-size));
+	transform: translate(80%, 80%);
 
 	font-family: monospace;
 	border-radius: 2.5mm;
