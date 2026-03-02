@@ -1,6 +1,7 @@
 .dropdown {
 	font-family: monospace;
-	width: 15em;
+	width: 100%;
+	max-width: 15em;
 	height: 100%;
 	position: relative;
 	margin: 2em;
@@ -36,6 +37,7 @@
 	filter: brightness(0.7);
 }
 .options span {
+	display: block;
 	width: calc(100% - 0.45em);
 	padding: 0.7em;
 	transition: 0.2s;
@@ -67,9 +69,11 @@
 	box-shadow: 0 0 0.3em black;
 }
 .options {
-	top: 100%;
-	list-style: none;
 	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	list-style: none;
 	transition: 0.2s;
 	z-index: 1;
 	display: none;
@@ -78,12 +82,6 @@
 	display: flex;
 	box-shadow: 0 0 0.15em black;
 }
-.options li:hover {
-background-color: #95533b;
-transition: 0.3s;
-width: 100%;
-}
-
 .dropdown ul {
 	flex-direction: column;
 	align-items: flex-start;
@@ -406,7 +404,7 @@ button:active .topLayer {
 	.top-ui {
 		height: 3em;
 		display: flex;
-		width: calc(8 * 4em);
+		width: calc(8 * var(--square-size));
 		justify-content: space-between;
 		margin-bottom: 0.3rem;
 	}
@@ -445,6 +443,24 @@ button:active .topLayer {
 	#turnDeciderColorIndicator {
 		padding: 0.5rem;
 	}
+	.dropdown {
+		align-items: center;
+	}
+	.dropdown h2 {
+		font-size: 125%;
+	}
+	.select {
+		font-size: calc(var(--size-multiplier) * 1rem);
+		width: 75%;
+	}
+	.options {
+		width: 75% !important;
+		left: 1.15rem;
+	}
+	.options span {
+		font-size: calc(var(--size-multiplier) * 1rem);
+	}
+	
 }
 
 @media (max-width: 550px) {
