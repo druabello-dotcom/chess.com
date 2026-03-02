@@ -24,6 +24,7 @@ export function moveToDestination(destination) {
 	// if user clicks on a piece with same color, activate resetOnSquareClick()
 	for (let i = 0; i < selectPieceState.clickOnPieceToReset.length; i++) {
 		if (selectPieceState.clickOnPieceToReset[i] === selectPieceState.destinationSquareId) {
+			additFunc.resetLegalDirections(selectPieceState.pieceColor);
 			additFunc.resetOnSquareClick();
 			additFunc.resetOnSquareClickInfo();
 			return;

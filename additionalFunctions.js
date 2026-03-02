@@ -38,7 +38,6 @@ export function resetOnSquareClickInfo() {
 
 	selectPieceState.x_squareCoordinate = null;
 	selectPieceState.y_squareCoordinate = null;
-	resetLegalDirections();
 }
 export function reviewIfKingIsChecked(oppositeColor) {
 	for (let i = 0; i < kingUnavailableaSquares[oppositeColor].length; i++) {
@@ -70,7 +69,7 @@ export function isPiecePinned(squarePosition, color) {
 }
 export function checkIfPieceIsPinned(squarePosition, color) {
 	if (isPiecePinned(squarePosition, color) !== false) {
-		resetLegalDirections();
+		resetLegalDirections(color);
 		let incrementation = isPiecePinned(squarePosition, color);
 		checkLegalDirection(incrementation, color);
 	}
@@ -98,13 +97,18 @@ export function checkLegalDirection(incrementation, color) {
 		legalDirection[color].NW_SE = false;
 	}
 }
-export function resetLegalDirections() {
-	legalDirection.north_south = true;
+export function resetLegalDirections(color) {
+	/* legalDirection.north_south = true;
 	legalDirection.east_west = true;
 	legalDirection.NE_SW = true;
-	legalDirection.NW_SE = true;
+	legalDirection.NW_SE = true; */
+	console.log(color);
+	legalDirection[color].north_south = true;
+	legalDirection[color].east_west = true;
+	legalDirection[color].NE_SW = true;
+	legalDirection[color].NW_SE = true;
 }
 export function resetPinnedPiecesList(color) {
 	pinnedPiecesObject[color].square.length = 0;
-	resetLegalDirections();
+	resetLegalDirections(color);
 }
