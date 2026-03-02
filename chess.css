@@ -460,7 +460,6 @@ button:active .topLayer {
 	.options span {
 		font-size: calc(var(--size-multiplier) * 1rem);
 	}
-	
 }
 
 @media (max-width: 550px) {
@@ -469,6 +468,12 @@ button:active .topLayer {
 		--button-padding: calc(var(--size-multiplier) * 0.5em);
 		--square-size: 2rem;
 		--font-size: calc(var(--size-multiplier) * 1em)
+	}
+	.dropdown ul {
+		padding-left: 0.2rem;
+	}
+	.options span {
+		width: calc(100% - 0.2rem);
 	}
 	.bottomLayer {
 		width: 210%;
