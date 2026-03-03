@@ -2,7 +2,6 @@ import * as TurnRegister from "./turnRegister.js";
 import * as OnSquareClick from './onSquareClick.js';
 import { resetChessboard,resetChessboardButtonElements } from "./resetChessboard.js";
 import { resizeGame } from "./resizeGame.js";
-import { resetLegalDirections } from "./additionalFunctions.js";
 
 export const chessboard = document.getElementById('chessboard');
 let posIndx = 0;
@@ -85,6 +84,7 @@ select.addEventListener('click', () => {
 
 // choose colorway
 const colorHeaderLogBook = document.getElementById('columnHeader');
+const victoryAnnouncement = document.getElementById('victoryAnnouncement');
 let colorwayArray = [];
 const colorwayElements = Array.from(document.querySelectorAll('.options span'));
 let colorIndicator = document.querySelector('.selected');
@@ -103,6 +103,7 @@ for (let i = 0;  i < colorwayArray.length; i++) {
 
 		resetChessboardButtonElements.topLayerButton.classList.remove(oldSelectedColorway);
 		resetChessboardButtonElements.topLayerButton.classList.add(selectedColorway);
+		victoryAnnouncement.className = selectedColorway;
 	})
 }
 
