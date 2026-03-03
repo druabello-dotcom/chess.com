@@ -46,12 +46,6 @@
                 <div class="topLayer timeOptionLabel narrow">3|2</div>
                 <div class="bottomLayerUnderSelection"></div>
             </button>
-            <button class="modeBtn" id="blitzButton">
-                <div class="topLayer">
-                    <img src="buttonElements/flash.png" alt="Blitz">
-                </div>
-                <div class="bottomLayer"></div>
-            </button>
         </div>
 
         <div class="timeOptions bulletOptions">
@@ -63,15 +57,9 @@
                 <div class="topLayer timeOptionLabel narrow">2|1</div>
                 <div class="bottomLayerUnderSelection"></div>
             </button>
-            <button class="timeOptionBtn">
+            <button class="timeOptionBtn" id = "oneMinOneSecAddOn">
                 <div class="topLayer timeOptionLabel narrow">1|1</div>
                 <div class="bottomLayerUnderSelection"></div>
-            </button>
-            <button class="modeBtn" id="bulletButton">
-                <div class="topLayer">
-                    <img src="buttonElements/bullet.png" alt="Bullet">
-                </div>
-                <div class="bottomLayer"></div>
             </button>
         </div>
 
@@ -79,20 +67,14 @@
             <button class="timeOptionBtn">
                 <div class="topLayer timeOptionLabel wide" id="inputSection">
 
-                    <input type="text" maxlength="1" id = "inputTime">
-                    <input type="text" maxlength="1" id = "inputTime">
+                    <input type="text" maxlength="1" id = "inputTime" autocomplete="off" min="1" max="100">
+                    <input type="text" maxlength="1" id = "inputTime" autocomplete="off" min="1" max="100">
                     :
-                    <input type="text" maxlength="1" id = "inputTime">
-                    <input type="text" maxlength="1" id = "inputTime">
+                    <input type="text" maxlength="1" id = "inputTime" autocomplete="off" min="1" max="6">
+                    <input type="text" maxlength="1" id = "inputTime" autocomplete="off"min="1" max="9">
 					
                 </div>
                 <div class="bottomLayerUnderSelection"></div>
-            </button>
-            <button class="modeBtn" id="customButton">
-                <div class="topLayer">
-                    <img src="buttonElements/Custom.png" alt="Custom">
-                </div>
-                <div class="bottomLayer"></div>
             </button>
         </div>
 
