@@ -54,6 +54,9 @@
 #topLayerWS {
 	width: calc(5.6 * var(--square-size));
 }
+#bottomLayerWS {
+	box-shadow: 0px 0.1em 0px 0.25em rgb(171, 171, 171);	
+}
 
 .dropdown {
 	font-family: monospace;
