@@ -105,101 +105,98 @@ export function updateKAS(squareIndex, oppositeColor, color) {
 function canDefendKing(kingSquare, color) {
     if (1 < pieceAttackingKing.square.length) return false;
 
-    //if king got attacked from a bishop
-    if (pieceAttackingKing.pieceType[0] === 'rook') {
-        for (let checkingSquare = kingSquare - pieceAttackingKing.direction[0], j = 0; j <= pieceAttackingKing.iterations[0]; checkingSquare-=pieceAttackingKing.direction[0], j++) {
+    for (let checkingSquare = kingSquare - pieceAttackingKing.direction[0], j = 0; j <= pieceAttackingKing.iterations[0]; checkingSquare-=pieceAttackingKing.direction[0], j++) {
 
-            //Check for rook or queen (or pawn)
-            let counter = 0; 
-            for (let i = checkingSquare - 8; 0 <= i; i-=8, counter++) { //up
-                if (counter === 0 && i === -1 && color === 'black') {
-                    letPieceDefend(i)
-                }
-                if (counter === 1 && i === -1 && color === 'black' && (i <= 8 && i < 16)) {
-                    letPieceDefend(i)
-                }
-                if (Math.abs(stateGrid[i]) === 4 || Math.abs(stateGrid[i] === 5)) {
-                    letPieceDefend(i)
-                }
+        //Check for rook or queen (or pawn)
+        let counter = 0; 
+        for (let i = checkingSquare - 8; 0 <= i; i-=8, counter++) { //up
+            if (counter === 0 && i === -1 && color === 'black') {
+                letPieceDefend(i)
             }
-            counter = 0;
-            for (let i = checkingSquare + 8; i < 64; i+=8, counter++) { //down
-                if (counter === 0 && i === 1 && color === 'white') {
-                    letPieceDefend(i)
-                }
-                if (counter === 1 && i === 1 && color === 'white' && (i <= 48 && i < 56)) {
-                    letPieceDefend(i)
-                }
-                if (Math.abs(stateGrid[i] === 4 || Math.abs(stateGrid[i] === 5))) {
-                    letPieceDefend(i);
-                }
+            if (counter === 1 && i === -1 && color === 'black' && (i <= 8 && i < 16)) {
+                letPieceDefend(i)
             }
-            for (let i = checkingSquare + 1; (checkingSquare % 8) < (i % 8) && i < 64; i++) { //right
-                if (Math.abs(stateGrid[i] !== 4 || Math.abs(stateGrid[i]) !== 5)) break;
-                else letPieceDefend(i);
+            if (Math.abs(stateGrid[i]) === 4 || Math.abs(stateGrid[i] === 5)) {
+                letPieceDefend(i)
             }
-            for (let i = checkingSquare - 1; (i % 8) < (checkingSquare % 8) && 0 <= i; i--)  { //left
-                if (Math.abs(stateGrid[i] !== 4 || Math.abs(stateGrid[i]) !== 5)) break;
-                else letPieceDefend(i);
+        }
+        counter = 0;
+        for (let i = checkingSquare + 8; i < 64; i+=8, counter++) { //down
+            if (counter === 0 && i === 1 && color === 'white') {
+                letPieceDefend(i)
             }
+            if (counter === 1 && i === 1 && color === 'white' && (i <= 48 && i < 56)) {
+                letPieceDefend(i)
+            }
+            if (Math.abs(stateGrid[i] === 4 || Math.abs(stateGrid[i] === 5))) {
+                letPieceDefend(i);
+            }
+        }
+        for (let i = checkingSquare + 1; (checkingSquare % 8) < (i % 8) && i < 64; i++) { //right
+            if (Math.abs(stateGrid[i] !== 4 || Math.abs(stateGrid[i]) !== 5)) break;
+            else letPieceDefend(i);
+        }
+        for (let i = checkingSquare - 1; (i % 8) < (checkingSquare % 8) && 0 <= i; i--)  { //left
+            if (Math.abs(stateGrid[i] !== 4 || Math.abs(stateGrid[i]) !== 5)) break;
+            else letPieceDefend(i);
+        }
 
-            //check for bishop
-            for (let i = checkingSquare - 9; (i % 8) < (checkingSquare % 8) && 0 <= i; i-=9) {
-                if (stateGrid[i] === 0) continue;
-                if (!canBishopDefend(color, i)) break;
-                else letPieceDefend(i)
-            }
-            for (let i = checkingSquare - 7; (checkingSquare % 8) < (i % 8) && 0 <= i; i-=7, iterations++) {
-                if (stateGrid[i] === 0) continue;
-                if (!canBishopDefend(color, i)) break;
-                else letPieceDefend(i);
-            }
-            for (let i = checkingSquare + 7; (i % 8) < (checkingSquare % 8) && i < 64; i+=7) {
-                if (stateGrid[i] === 0) continue;
-                if (!canBishopDefend(color, i)) break;
-                else letPieceDefend(i);
-            }
-            for (let i = checkingSquare + 9; (checkingSquare % 8) < (i % 8) && i < 64; i+=9) {
-                if (stateGrid[i] === 0) continue;
-                if (!canBishopDefend(color, i)) break;
-                else letPieceDefend(i);
-            }
-            
-            //check for knight
-            let LU = checkingSquare - 10 
-            let LUU = checkingSquare - 17;
-            let LD = checkingSquare + 6;
-            let LDD = checkingSquare + 15;
+        //check for bishop
+        for (let i = checkingSquare - 9; (i % 8) < (checkingSquare % 8) && 0 <= i; i-=9) {
+            if (stateGrid[i] === 0) continue;
+            if (!canBishopDefend(color, i)) break;
+            else letPieceDefend(i)
+        }
+        for (let i = checkingSquare - 7; (checkingSquare % 8) < (i % 8) && 0 <= i; i-=7, iterations++) {
+            if (stateGrid[i] === 0) continue;
+            if (!canBishopDefend(color, i)) break;
+            else letPieceDefend(i);
+        }
+        for (let i = checkingSquare + 7; (i % 8) < (checkingSquare % 8) && i < 64; i+=7) {
+            if (stateGrid[i] === 0) continue;
+            if (!canBishopDefend(color, i)) break;
+            else letPieceDefend(i);
+        }
+        for (let i = checkingSquare + 9; (checkingSquare % 8) < (i % 8) && i < 64; i+=9) {
+            if (stateGrid[i] === 0) continue;
+            if (!canBishopDefend(color, i)) break;
+            else letPieceDefend(i);
+        }
+        
+        //check for knight
+        let LU = checkingSquare - 10 
+        let LUU = checkingSquare - 17;
+        let LD = checkingSquare + 6;
+        let LDD = checkingSquare + 15;
 
-            let RU = checkingSquare - 6;
-            let RUU = checkingSquare - 15;
-            let RD = checkingSquare + 10;
-            let RDD = checkingSquare + 17;
+        let RU = checkingSquare - 6;
+        let RUU = checkingSquare - 15;
+        let RD = checkingSquare + 10;
+        let RDD = checkingSquare + 17;
 
-            if ((LD % 8) < (checkingSquare % 8) && LD < 64) {
-                if (canKnightDefend(color, LD)) letPieceDefend(LD);
-            }
-            if ((LDD % 8) < (checkingSquare % 8) && LDD < 64) {
-                if (canKnightDefend(color, LDD)) letPieceDefend(LDD);
-            }
-            if ((LU % 8) < (checkingSquare % 8) && 0 <= LU) {
-                if (canKnightDefend(color, LU)) letPieceDefend(LU);
-            }
-            if ((LUU % 8) < (checkingSquare % 8) && 0 <= LUU) {
-                if (canKnightDefend(color, LUU)) letPieceDefend(LUU);
-            }
-            if ((checkingSquare % 8) < (RU % 8) && 0 <= RU) {
-                if (canKnightDefend(color, RU)) letPieceDefend(RU);
-            }
-            if ((checkingSquare % 8) < (RUU % 8) && 0 <= RUU) {
-                if (canKnightDefend(color, RUU)) letPieceDefend(RUU);
-            }
-            if ((checkingSquare % 8) < (RD % 8) && RD < 64) {
-                if (canKnightDefend(color, RD)) letPieceDefend(RD);
-            }
-            if ((checkingSquare % 8) < (RDD % 8) && RDD < 64) {
-                if (canKnightDefend(color, RDD)) letPieceDefend(RDD);
-            }
+        if ((LD % 8) < (checkingSquare % 8) && LD < 64) {
+            if (canKnightDefend(color, LD)) letPieceDefend(LD);
+        }
+        if ((LDD % 8) < (checkingSquare % 8) && LDD < 64) {
+            if (canKnightDefend(color, LDD)) letPieceDefend(LDD);
+        }
+        if ((LU % 8) < (checkingSquare % 8) && 0 <= LU) {
+            if (canKnightDefend(color, LU)) letPieceDefend(LU);
+        }
+        if ((LUU % 8) < (checkingSquare % 8) && 0 <= LUU) {
+            if (canKnightDefend(color, LUU)) letPieceDefend(LUU);
+        }
+        if ((checkingSquare % 8) < (RU % 8) && 0 <= RU) {
+            if (canKnightDefend(color, RU)) letPieceDefend(RU);
+        }
+        if ((checkingSquare % 8) < (RUU % 8) && 0 <= RUU) {
+            if (canKnightDefend(color, RUU)) letPieceDefend(RUU);
+        }
+        if ((checkingSquare % 8) < (RD % 8) && RD < 64) {
+            if (canKnightDefend(color, RD)) letPieceDefend(RD);
+        }
+        if ((checkingSquare % 8) < (RDD % 8) && RDD < 64) {
+            if (canKnightDefend(color, RDD)) letPieceDefend(RDD);
         }
     }
 }
