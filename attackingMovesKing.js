@@ -77,14 +77,12 @@ function enemyKingValue(pieceColor) {
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-function savePieceAttackingKing(square, incrementation, iterations, oppositeColor, color, pieceType, checkSquare) {
-	if (oppositeColor !== color) {
-		if (Main.stateGrid[checkSquare] === 6 || Main.stateGrid[checkSquare] === -6) {
-			pieceAttackingKing.square.push(square);
-			pieceAttackingKing.direction.push(incrementation);
-			pieceAttackingKing.iterations.push(iterations);
-			pieceAttackingKing.pieceType.push(pieceType);
-		}
+function savePieceAttackingKing(square, incrementation, iterations, color, pieceType, checkSquare) {
+	if ((Main.stateGrid[checkSquare] === 6 && color === 'black') || (Main.stateGrid[checkSquare] === -6 && color === 'white')) {
+		pieceAttackingKing.square.push(square);
+		pieceAttackingKing.direction.push(incrementation);
+		pieceAttackingKing.iterations.push(iterations);
+		pieceAttackingKing.pieceType.push(pieceType);
 	}
 }
 
@@ -109,69 +107,69 @@ export const attackingMovesObject = {
             attackingRight = squareIndex + 9;
         }
 		if ((attackingLeft % 8) < (squareIndex % 8)) {
-			savePieceAttackingKing(squareIndex, leftIncrementation, 1, oppositeColor, color, 'pawn', attackingLeft);
+			savePieceAttackingKing(squareIndex, leftIncrementation, 1, color, 'pawn', attackingLeft);
 			kingUnavailableaSquares[oppositeColor].push(attackingLeft);
 		}
 		if ((squareIndex % 8) < (attackingRight % 8)) {
-			savePieceAttackingKing(squareIndex, rightIncrementation, 1, oppositeColor, color, 'pawn', attackingRight);
+			savePieceAttackingKing(squareIndex, rightIncrementation, 1, color, 'pawn', attackingRight);
 			kingUnavailableaSquares[oppositeColor].push(attackingRight);
 		}
     },
     bishop: function(squareIndex, oppositeColor, color) {
 		attackNextDirection = true;
-		let iterations = 0;
+		let iterations = 1;
 		for (let i = squareIndex - 9; (i % 8) < (squareIndex % 8) && 0 <= i; i-=9, iterations++) {
-			savePieceAttackingKing(squareIndex, -9, iterations, oppositeColor, color, 'bishop', i);
+			savePieceAttackingKing(squareIndex, -9, iterations, color, 'bishop', i);
 			if (attackSquare(i, oppositeColor, 9) === false) break;
 		}
 
 		attackNextDirection = true;
-		iterations = 0;
+		iterations = 1;
 		for (let i = squareIndex - 7; (squareIndex % 8) < (i % 8) && 0 <= i; i-=7, iterations++) {
-			savePieceAttackingKing(squareIndex, -7, iterations, oppositeColor, color, 'bishop', i);
+			savePieceAttackingKing(squareIndex, -7, iterations, color, 'bishop', i);
 			if (attackSquare(i, oppositeColor, 7) === false) break;
 		}
 
 		attackNextDirection = true;
-		iterations = 0;
+		iterations = 1;
 		for (let i = squareIndex + 7; (i % 8) < (squareIndex % 8) && i < 64; i+=7, iterations++) {
-			savePieceAttackingKing(squareIndex, 7, iterations, oppositeColor, color, 'bishop', i);
+			savePieceAttackingKing(squareIndex, 7, iterations, color, 'bishop', i);
 			if (attackSquare(i, oppositeColor, 7) === false) break;
 		}
 
 		attackNextDirection = true;
-		iterations = 0;
+		iterations = 1;
 		for (let i = squareIndex + 9; (squareIndex % 8) < (i % 8) && i < 64; i+=9, iterations++) {
-			savePieceAttackingKing(squareIndex, 9, iterations, oppositeColor, color, 'bishop', i);
+			savePieceAttackingKing(squareIndex, 9, iterations, color, 'bishop', i);
 			if (attackSquare(i, oppositeColor, 9) === false) break;
 		}
     },
     rook: function(squareIndex, oppositeColor, color) {
 		attackNextDirection = true;
-		let iterations = 0;
+		let iterations = 1;
         for (let i = squareIndex + 8; i < 64; i+=8, iterations++) {
-			savePieceAttackingKing(squareIndex, 8, iterations, oppositeColor, color, 'rook', i);
+			savePieceAttackingKing(squareIndex, 8, iterations, color, 'rook', i);
 			if (attackSquare(i, oppositeColor, 8) === false) break;
         }
 
 		attackNextDirection = true;
-		iterations = 0;
+		iterations = 1;
         for (let i = squareIndex - 8; 0 <= i; i-=8, iterations++) {
-			savePieceAttackingKing(squareIndex, -8, iterations, oppositeColor, color, 'rook', i);
+			savePieceAttackingKing(squareIndex, -8, iterations, color, 'rook', i);
 			if (attackSquare(i, oppositeColor, 8) === false) break;
         }
 
 		attackNextDirection = true;
-		iterations = 0;
+		iterations = 1;
         for (let i = squareIndex + 1; (squareIndex % 8) < (i % 8) && i < 64; i++, iterations++) {
-			savePieceAttackingKing(squareIndex, 1, iterations, oppositeColor, color, 'rook', i);
+			savePieceAttackingKing(squareIndex, 1, iterations, color, 'rook', i);
 			if (attackSquare(i, oppositeColor, 1) === false) break;
         }
 
 		attackNextDirection = true;
-		iterations = 0;
+		iterations = 1;
         for (let i = squareIndex - 1; (i % 8) < (squareIndex % 8) && 0 <= i; i--, iterations++) {
-			savePieceAttackingKing(squareIndex, -1, iterations, oppositeColor, color, 'rook', i);
+			savePieceAttackingKing(squareIndex, -1, iterations, color, 'rook', i);
 			if (attackSquare(i, oppositeColor, 1) === false) break;
         }
     },
@@ -187,35 +185,35 @@ export const attackingMovesObject = {
 		let RDD = squareIndex + 17;
 
 		if ((LD % 8) < (squareIndex % 8) && LD < 64) {
-			savePieceAttackingKing(squareIndex, 6, 1, oppositeColor, color, 'knight', LD);
+			savePieceAttackingKing(squareIndex, 6, 1, color, 'knight', LD);
 			kingUnavailableaSquares[oppositeColor].push(LD);
 		}
 		if ((LDD % 8) < (squareIndex % 8) && LDD < 64) {
-			savePieceAttackingKing(squareIndex, 15, 1, oppositeColor, color, 'knight', LDD);
+			savePieceAttackingKing(squareIndex, 15, 1, color, 'knight', LDD);
 			kingUnavailableaSquares[oppositeColor].push(LDD);
 		}
 		if ((LU % 8) < (squareIndex % 8) && 0 <= LU) {
-			savePieceAttackingKing(squareIndex, -10, 1, oppositeColor, color, 'knight', LU);
+			savePieceAttackingKing(squareIndex, -10, 1, color, 'knight', LU);
 			kingUnavailableaSquares[oppositeColor].push(LU);
 		}
 		if ((LUU % 8) < (squareIndex % 8) && 0 <= LUU) {
-			savePieceAttackingKing(squareIndex, -17, 1, oppositeColor, color, 'knight', LUU);
+			savePieceAttackingKing(squareIndex, -17, 1, color, 'knight', LUU);
 			kingUnavailableaSquares[oppositeColor].push(LUU);
 		}
 		if ((squareIndex % 8) < (RU % 8) && 0 <= RU) {
-			savePieceAttackingKing(squareIndex, -6, 1, oppositeColor, color, 'knight', RU);
+			savePieceAttackingKing(squareIndex, -6, 1, color, 'knight', RU);
 			kingUnavailableaSquares[oppositeColor].push(RU);
 		}
 		if ((squareIndex % 8) < (RUU % 8) && 0 <= RUU) {
-			savePieceAttackingKing(squareIndex, -15, 1, oppositeColor, color, 'knight', RUU);
+			savePieceAttackingKing(squareIndex, -15, 1, color, 'knight', RUU);
 			kingUnavailableaSquares[oppositeColor].push(RUU)
 		} 
 		if ((squareIndex % 8) < (RD % 8) && RD < 64) {
-			savePieceAttackingKing(squareIndex, 10, 1, oppositeColor, color, 'knight', RD);
+			savePieceAttackingKing(squareIndex, 10, 1, color, 'knight', RD);
 			kingUnavailableaSquares[oppositeColor].push(RD);
 		}
 		if ((squareIndex % 8) < (RDD % 8) && RDD < 64) {
-			savePieceAttackingKing(squareIndex, 17, 1, oppositeColor, color, 'knight', RDD);
+			savePieceAttackingKing(squareIndex, 17, 1, color, 'knight', RDD);
 			kingUnavailableaSquares[oppositeColor].push(RDD);
 		}
 	},
