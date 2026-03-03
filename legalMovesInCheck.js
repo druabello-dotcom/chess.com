@@ -21,6 +21,7 @@ Where I need to update KAS:
 - if KAS.length = 0 —> checkmate
  */
 
+const winScreen = document.getElementById('winScreen');
 export const attackingPieceInfo = {
     black: {
         piece: [],
@@ -88,7 +89,7 @@ export function updateKAS(squareIndex, oppositeColor) {
         HOW?:
         
         */
-        document.body.style.backgroundColor = "blue";
+        winScreen.style.display = "flex";
         console.log("Checkmate");
     }
 }
