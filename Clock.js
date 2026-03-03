@@ -5,7 +5,7 @@ export let msTimeInterval = null;
 
 export let typeGame = "10:00"; //type of game in mins, ex. "3:00", "2:00"
 let addOn = 0; // The add on seconds
-export let timeReference = 0;
+export let timeReference = 600000;
 
 export let remainingSeconds = {
   white: 600000,
@@ -17,6 +17,8 @@ export let urgencyMode = {
   black: false,
 };
 
+ let changeVisualOpacity = document.getElementById("timeButtons");
+
 function clockTurn() {
   if (registerTurnVariables.turnCounter % 2 == 0) {
     return "white";
@@ -26,14 +28,20 @@ function clockTurn() {
 }
 function reduceOpacity() {
   if (registerTurnVariables.turnCounter > 1) {
-    console.log("true");
-    let removeVisualOpacity = document.getElementById("timeButtons");
-    removeVisualOpacity.style.animationName = "Opacity";
-    removeVisualOpacity.style.animationDuration = "400Ms";
-    removeVisualOpacity.style.animationIterationCount = "1";
-    removeVisualOpacity.style.animationFillMode = "forwards";
+    changeVisualOpacity.style.animationName = "Opacity";
+    changeVisualOpacity.style.animationDuration = "400ms";
+    changeVisualOpacity.style.animationIterationCount = "1";
+    changeVisualOpacity.style.animationFillMode = "forwards";
   }
-}
+
+  }
+  export function inceraseOpacity() {
+    changeVisualOpacity.style.animationName = "opacityIncrease";
+    changeVisualOpacity.style.animationDuration = "400ms";
+    changeVisualOpacity.style.animationIterationCount = "1";
+    changeVisualOpacity.style.animationFillMode = "forwards";
+  }
+
 
 export let blackClk = document.getElementById("blackClockVisual");
 export let whiteClk = document.getElementById("whiteClockVisual");
