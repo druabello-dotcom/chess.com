@@ -57,6 +57,12 @@ grid[7].style.borderTopRightRadius = "1.5mm"
 grid[56].style.borderBottomLeftRadius = "1.5mm";
 grid[63].style.borderBottomRightRadius = "1.5mm";
 
+export const winScreen = document.getElementById('winScreen');
+const closeWinScreen = document.getElementsByClassName('close');
+closeWinScreen[0].addEventListener('click', () => {
+	winScreen.style.display = "none";
+})
+
 resetChessboardButtonElements.resetChessboardButton[0].addEventListener('click', resetChessboard);
 resetChessboardButtonElements.resetChessboardButton[1].addEventListener('click', resetChessboard);
 resetChessboard();
@@ -81,12 +87,6 @@ select.addEventListener('click', () => {
 	caret.classList.toggle('caret-rotate');
 	select.classList.toggle('select-clicked');
 });
-
-export const winScreen = document.getElementById('winScreen');
-const closeWinScreen = document.getElementsByClassName('close');
-closeWinScreen[0].addEventListener('click', () => {
-	winScreen.style.display = "none";
-})
 
 // choose colorway
 const victoryAnnouncement = document.getElementById('victoryAnnouncement');

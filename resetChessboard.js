@@ -9,8 +9,7 @@ import { noPieceBetweenKingRook } from "./gameState.js";
 import { pieceSquarePositionArray } from "./gameState.js";
 import { pieceNumberIdentifier } from "./gameState.js";
 import { pieceElementsObject } from "./gameState.js";
-import { chessboardBoard } from "./main.js";
-import { subtractChessboardPixels } from "./main.js";
+import { chessboardBoard, subtractChessboardPixels, winScreen } from "./main.js";
 
  //—————————————————————————————————————————————————————————————————————————————————————
 
@@ -27,6 +26,7 @@ export let pawnSpanElementObject = {
 
 let classNamePieceArray = document.querySelectorAll('.piece');
 export function resetChessboard() {
+	winScreen.style.display = "none";
 	TurnRegister.registerTurnVariables.turnCounter = 0;
 	TurnRegister.registerTurnVariables.turnCounterElement.innerText = "Turn counter:  " + TurnRegister.registerTurnVariables.turnCounter;
 	TurnRegister.registerTurnVariables.turnDecider = 'white';
