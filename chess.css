@@ -548,15 +548,22 @@ button:active .topLayer {
 	.options span {
 		width: calc(100% - 0.2rem);
 	}
-	.bottomLayer {
+	#bottomLayer {
 		width: 210%;
 		padding-top: calc(var(--font-size) * 0.2);
 		padding-bottom: 1.75rem;
 		box-shadow: 0px 0.125em 0px 0.125em rgb(171, 171, 171);
 	}
-	button:active .topLayer {
+	button:active #topLayer {
 		transform: translateY(0.075em);
 	}
+
+	#bottomLayerWS {
+		width: calc(5.3 * var(--square-size));
+		padding-bottom: 0.1rem;
+		box-shadow: 0px 0.1em 0px 0.2em rgb(171, 171, 171);	
+	}
+
 	.turn-decider {
 		padding-left: calc(0.65 * 0.3rem);
 	}
