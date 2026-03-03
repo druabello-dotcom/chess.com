@@ -3,14 +3,13 @@ import { registerTurnVariables } from "./turnRegister.js";
 export let timeInterval = null;
 export let msTimeInterval = null;
 
-let timeMode = ""; // The add on seconds
-export let typeGame = ""; //type of game in mins, ex. "3:00", "2:00"
-
-let addOn = 0;
+export let typeGame = "10:00"; //type of game in mins, ex. "3:00", "2:00"
+let addOn = 0; // The add on seconds
+export let timeReference = 0;
 
 export let remainingSeconds = {
-  white: 6000,
-  black: 6000,
+  white: 600000,
+  black: 600000,
 };
 
 export let urgencyMode = {
@@ -23,6 +22,16 @@ function clockTurn() {
     return "white";
   } else {
     return "black";
+  }
+}
+function reduceOpacity() {
+  if (registerTurnVariables.turnCounter > 1) {
+    console.log("true");
+    let removeVisualOpacity = document.getElementById("timeButtons");
+    removeVisualOpacity.style.animationName = "Opacity";
+    removeVisualOpacity.style.animationDuration = "400Ms";
+    removeVisualOpacity.style.animationIterationCount = "1";
+    removeVisualOpacity.style.animationFillMode = "forwards";
   }
 }
 
@@ -50,6 +59,7 @@ OMOSAO.addEventListener("click", newTime);
 function newTime(event) {
   console.log(event.currentTarget.id);
   if (event.currentTarget.id === "fiveMinGame") {
+    timeReference = 300000;
     remainingSeconds.white = 300000;
     remainingSeconds.black = 300000;
     blackClk.innerHTML = "5:00";
@@ -66,15 +76,16 @@ function newTime(event) {
   }
 
   if (event.currentTarget.id === "threeMinTwoSecAddOn") {
+    timeReference = 180000;
     remainingSeconds.white = 180000;
     remainingSeconds.black = 180000;
     blackClk.innerHTML = "3:00";
     whiteClk.innerHTML = "3:00";
     typeGame = "3:00";
     addOn = 2000;
-    timeMode = "twoSeconds";
   }
   if (event.currentTarget.id === "oneMinGame") {
+    timeReference = 60000;
     remainingSeconds.white = 60000;
     remainingSeconds.black = 60000;
     blackClk.innerHTML = "1:00";
@@ -82,18 +93,22 @@ function newTime(event) {
     typeGame = "1:00";
   }
   if (event.currentTarget.id === "twoMinOneSecAddOn") {
+    timeReference = 120000;
     remainingSeconds.white = 120000;
     remainingSeconds.black = 120000;
     blackClk.innerHTML = "2:00";
     whiteClk.innerHTML = "2:00";
     addOn = 1000;
+    typeGame = "2:00";
   }
   if (event.currentTarget.id === "oneMinOneSecAddOn") {
+    timeReference = 60000;
     remainingSeconds.white = 60000;
     remainingSeconds.black = 60000;
     blackClk.innerHTML = "1:00";
     whiteClk.innerHTML = "1:00";
     addOn = 1000;
+    typeGame = "1:00";
   }
 }
 
@@ -123,7 +138,6 @@ document.addEventListener("keydown", function (event) {
 
         function removeAfterOneSec() {
           count++;
-          console.log(count);
           if (count == 1) {
             clearInterval(intervalForSec);
             shakedObject.style.animationName = "";
@@ -131,14 +145,13 @@ document.addEventListener("keydown", function (event) {
             shakedObject.style.animationIterationCount = "";
             shakedObject.style.animationDirection = "";
           }
-        
         }
         let intervalForSec = setInterval(removeAfterOneSec, 1000);
         return;
       }
-      console.log(timeRange);
+      typeGame = String(timeRange[0]+timeRange[1]+":"+timeRange[2]+timeRange[3]) 
       function timeConverter() {
-        const mergedMinutes = String(timeRange[0]) + String(timeRange[1]);
+        const mergedMinutes = String(timeRange[0]) + String(timeRange[1]); // make sure minutes are one singular string
         const parsedInt = Number(mergedMinutes);
 
         let Minutes = mergedMinutes * 60000;
@@ -146,6 +159,7 @@ document.addEventListener("keydown", function (event) {
         let secondSecondToMs = timeRange[3] * 1000;
 
         let RSC = Minutes + firstSecondToMs + secondSecondToMs;
+        timeReference = RSC
 
         let minutes = Math.floor(RSC / 60000);
         let seconds = Math.floor((RSC / 1000) % 60);
@@ -169,7 +183,6 @@ export function waitUntilFirstMove() {
     const interval = setInterval(() => {
       if (registerTurnVariables.turnCounter === 2) {
         clearInterval(interval);
-        console.log("it worked");
         resolve();
       }
     }, 10); // check every 10 ms untill the first move has been made
@@ -245,6 +258,7 @@ export function clockFunction() {
 export async function startClockAfterFirstMove() {
   await waitUntilFirstMove();
   clockFunction();
+  reduceOpacity();
 }
 
 export function resetIntervals() {

@@ -511,7 +511,6 @@ button:active .topLayer {
   justify-content: center;
 }
 
-
 /* #turnDecider {
 	padding-right: 0.5em;
 }
@@ -529,7 +528,6 @@ button:active .topLayer {
 	border: 2px solid white;
 	outline: 2px solid black;
 } */
-
 
 /* ─── Clocks ─────────────────────────────────────────────── */
 
@@ -597,12 +595,14 @@ button:active .topLayer {
 .timeOptionLabel.wide {
   padding-left: 20%;
   padding-right: 20%;
+  color: white;
 }
 
 /* narrower labels: "3|2", "2|1", "1|1" */
 .timeOptionLabel.narrow {
   padding-left: 40%;
   padding-right: 40%;
+  color: white;
 }
 
 .bottomLayerUnderSelection {
@@ -616,9 +616,13 @@ button:active .topLayer {
   transform: translateY(-0.25rem);
 }
 
-
-#bulletButton { margin-top: 10px; margin-left: 17px; }
-#customButton { margin-left: 70px; }
+#bulletButton {
+  margin-top: 10px;
+  margin-left: 17px;
+}
+#customButton {
+  margin-left: 70px;
+}
 
 img {
   width: 20px;
@@ -633,11 +637,58 @@ input {
 }
 
 @keyframes shaker {
-0% {transform: translateX(0px);}
-20% {transform: translateX(-10px);}
-40% {transform: translateX(10px);}
-60%  {transform: translateX(-6px);}
-80%  {transform: translateX(6px);}
-100%  {transform: translateX(0%);}
+  0% {
+    transform: translateX(0px);
+  }
+  20% {
+    transform: translateX(-10px);
+  }
+  40% {
+    transform: translateX(10px);
+  }
+  60% {
+    transform: translateX(-6px);
+  }
+  80% {
+    transform: translateX(6px);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
 
+@keyframes Opacity {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.9;
+  }
+  20% {
+     opacity: 0.8;
+  }
+  30% {
+  opacity: 0.7
+  }
+  40% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0.4;
+  }
+   70% {
+    opacity: 0.3;
+  }
+   80% {
+    opacity: 0.2;
+  }
+   90% {
+    opacity: 0.1;
+  }
+   100% {
+    opacity: 0.0;
+  }
+}

@@ -5,6 +5,7 @@ import { clockFunction } from "./Clock.js"
 import { startClockAfterFirstMove } from "./Clock.js"
 import  { registerTurn } from "./turnRegister.js";
 export const chessboard = document.getElementById('chessboard');
+
 let posIndx = 0;
 let square;
 for (let row = 0; row < 8; row++) {
