@@ -1,7 +1,6 @@
 import * as Main from "./main.js";
 import { selectPieceState, piecesHasNotMoved, noPieceBetweenKingRook } from "./gameState.js";
 import { moveToDestination  } from "./movePieceToDestination.js";
-import { enPassent } from "./gameState";
 /* import { piecesHasNotMoved } from "./gameState.js"; */
 
 function checkIfPieceOnSquare(i) {
