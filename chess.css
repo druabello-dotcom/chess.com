@@ -616,7 +616,7 @@ button:active .topLayer {
   transform: translateY(-0.25rem);
 }
 
-#blitzButton  { /* no extra offset needed */ }
+
 #bulletButton { margin-top: 10px; margin-left: 17px; }
 #customButton { margin-left: 70px; }
 
@@ -631,3 +631,13 @@ input {
   font-size: 12px;
   display: inline-block;
 }
+
+@keyframes shaker {
+0% {transform: translateX(0px);}
+20% {transform: translateX(-10px);}
+40% {transform: translateX(10px);}
+60%  {transform: translateX(-6px);}
+80%  {transform: translateX(6px);}
+100%  {transform: translateX(0%);}
+}
+

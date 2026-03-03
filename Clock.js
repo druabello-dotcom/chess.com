@@ -44,11 +44,11 @@ oneMinGame.addEventListener("click", newTime);
 const TMOSAO = document.getElementById("twoMinOneSecAddOn"); // TMOSA = Two Minutes One Second Add On
 TMOSAO.addEventListener("click", newTime);
 
-const OMOSAO = document.getElementById("oneMinOneSecAddOn")
-OMOSAO.addEventListener("click", newTime)
+const OMOSAO = document.getElementById("oneMinOneSecAddOn");
+OMOSAO.addEventListener("click", newTime);
 
 function newTime(event) {
-      console.log(event.currentTarget.id)
+  console.log(event.currentTarget.id);
   if (event.currentTarget.id === "fiveMinGame") {
     remainingSeconds.white = 300000;
     remainingSeconds.black = 300000;
@@ -75,26 +75,26 @@ function newTime(event) {
     timeMode = "twoSeconds";
   }
   if (event.currentTarget.id === "oneMinGame") {
-    remainingSeconds.white = 60000
-    remainingSeconds.black = 60000
-    blackClk.innerHTML = "1:00"
-    whiteClk.innerHTML = "1:00"
-    typeGame = "1:00"
- }
- if (event.currentTarget.id === "twoMinOneSecAddOn"){
-  remainingSeconds.white = 120000
-  remainingSeconds.black = 120000
-  blackClk.innerHTML = "2:00"
-  whiteClk.innerHTML = "2:00"
-  addOn = 1000
- }
- if (event.currentTarget.id === "oneMinOneSecAddOn"){
-  remainingSeconds.white = 60000
-  remainingSeconds.black = 60000
-  blackClk.innerHTML = "1:00"
-  whiteClk.innerHTML = "1:00"
-  addOn = 1000
- }
+    remainingSeconds.white = 60000;
+    remainingSeconds.black = 60000;
+    blackClk.innerHTML = "1:00";
+    whiteClk.innerHTML = "1:00";
+    typeGame = "1:00";
+  }
+  if (event.currentTarget.id === "twoMinOneSecAddOn") {
+    remainingSeconds.white = 120000;
+    remainingSeconds.black = 120000;
+    blackClk.innerHTML = "2:00";
+    whiteClk.innerHTML = "2:00";
+    addOn = 1000;
+  }
+  if (event.currentTarget.id === "oneMinOneSecAddOn") {
+    remainingSeconds.white = 60000;
+    remainingSeconds.black = 60000;
+    blackClk.innerHTML = "1:00";
+    whiteClk.innerHTML = "1:00";
+    addOn = 1000;
+  }
 }
 
 // custom time iteration
@@ -106,40 +106,64 @@ document.addEventListener("keydown", function (event) {
 
       let timeRange = [];
       for (let i = 0; i < 4; i++) {
-    
-
         timeRange.push(referenceDiv[i].value);
       }
+
+      const mergedSeconds = String(timeRange[2]) + String(timeRange[3]);
+      const parsedIntCheck = Number(mergedSeconds);
+
+      if (parsedIntCheck > 59) {
+        let count = 0;
+
+        let shakedObject = document.getElementById("customOptions");
+        shakedObject.style.animationName = "shaker";
+        shakedObject.style.animationDuration = "0.5s";
+        shakedObject.style.animationIterationCount = "1";
+        shakedObject.style.animationDirection = "alternate";
+
+        function removeAfterOneSec() {
+          count++;
+          console.log(count);
+          if (count == 1) {
+            clearInterval(intervalForSec);
+            shakedObject.style.animationName = "";
+            shakedObject.style.animationDuration = "";
+            shakedObject.style.animationIterationCount = "";
+            shakedObject.style.animationDirection = "";
+          }
+        
+        }
+        let intervalForSec = setInterval(removeAfterOneSec, 1000);
+        return;
+      }
       console.log(timeRange);
-      function timeConverter(){
-      const mergedMinutes = String(timeRange[0]) + String(timeRange[1])
-      const parsedInt = Number(mergedMinutes) 
+      function timeConverter() {
+        const mergedMinutes = String(timeRange[0]) + String(timeRange[1]);
+        const parsedInt = Number(mergedMinutes);
 
-       let Minutes = mergedMinutes*60000
-       let firstSecondToMs = timeRange[2]*10000
-       let secondSecondToMs = timeRange[3]*1000
+        let Minutes = mergedMinutes * 60000;
+        let firstSecondToMs = timeRange[2] * 10000;
+        let secondSecondToMs = timeRange[3] * 1000;
 
-      let RSC = Minutes+firstSecondToMs+secondSecondToMs 
+        let RSC = Minutes + firstSecondToMs + secondSecondToMs;
 
-      let minutes = Math.floor(RSC / 60000);
-      let seconds = Math.floor((RSC / 1000) % 60);
+        let minutes = Math.floor(RSC / 60000);
+        let seconds = Math.floor((RSC / 1000) % 60);
 
-       document.getElementById(
-       "blackClockVisual",
-       ).innerHTML = minutes + ":" + seconds.toString().padStart(2, "0");
+        document.getElementById("blackClockVisual").innerHTML =
+          minutes + ":" + seconds.toString().padStart(2, "0");
 
-         document.getElementById(
-       "whiteClockVisual",
-       ).innerHTML = minutes + ":" + seconds.toString().padStart(2, "0")
+        document.getElementById("whiteClockVisual").innerHTML =
+          minutes + ":" + seconds.toString().padStart(2, "0");
 
-       remainingSeconds.white = RSC
-       remainingSeconds.black = RSC
+        remainingSeconds.white = RSC;
+        remainingSeconds.black = RSC;
+      }
+      timeConverter();
     }
-        timeConverter()
   }
-}
 });
- // wait for first move to be made, returns a promise which activates the timer function
+// wait for first move to be made, returns a promise which activates the timer function
 export function waitUntilFirstMove() {
   return new Promise(function (resolve) {
     const interval = setInterval(() => {
