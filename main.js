@@ -82,9 +82,15 @@ select.addEventListener('click', () => {
 	select.classList.toggle('select-clicked');
 });
 
+export const winScreen = document.getElementById('winScreen');
+const closeWinScreen = document.getElementsByClassName('close');
+closeWinScreen[0].addEventListener('click', () => {
+	winScreen.style.display = "none";
+})
+
 // choose colorway
-const colorHeaderLogBook = document.getElementById('columnHeader');
 const victoryAnnouncement = document.getElementById('victoryAnnouncement');
+const colorHeaderLogBook = document.getElementById('columnHeader');
 let colorwayArray = [];
 const colorwayElements = Array.from(document.querySelectorAll('.options span'));
 let colorIndicator = document.querySelector('.selected');

@@ -1,3 +1,4 @@
+import { winScreen } from "./main.js";
 import { kingAvailableSquares, kingUnavailableaSquares  } from "./gameState.js"
 import { checkIfPieceOnSquare } from "./createAvailableMoves.js"
 
@@ -21,7 +22,6 @@ Where I need to update KAS:
 - if KAS.length = 0 —> checkmate
  */
 
-const winScreen = document.getElementById('winScreen');
 export const attackingPieceInfo = {
     black: {
         piece: [],
@@ -87,7 +87,6 @@ export function updateKAS(squareIndex, oppositeColor) {
         /* 
         check if there are any piecs that can defend king from check
         HOW?:
-        
         */
         winScreen.style.display = "flex";
         console.log("Checkmate");
