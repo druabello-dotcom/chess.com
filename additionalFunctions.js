@@ -39,7 +39,7 @@ export function resetOnSquareClickInfo() {
 	selectPieceState.x_squareCoordinate = null;
 	selectPieceState.y_squareCoordinate = null;
 }
-export function reviewIfKingIsChecked(oppositeColor) {
+export function reviewIfKingIsChecked(oppositeColor, color) {
 	for (let i = 0; i < kingUnavailableaSquares[oppositeColor].length; i++) {
 		if (pieceSquarePositionArray[oppositeColor].king[0] === kingUnavailableaSquares[oppositeColor][i]) {
 			giveCheckSound();
@@ -49,7 +49,7 @@ export function reviewIfKingIsChecked(oppositeColor) {
 				Main.grid[i].style.filter = "brightness(1)";
 				Main.grid[i].style.boxShadow = "";
 			}
-			updateKAS(pieceSquarePositionArray[oppositeColor].king[0], oppositeColor);
+			updateKAS(pieceSquarePositionArray[oppositeColor].king[0], oppositeColor, color);
 			Main.grid[pieceSquarePositionArray[oppositeColor].king[0]].style.boxShadow = "inset 0 0 0 4px #F01E2C";
 			Main.grid[pieceSquarePositionArray[oppositeColor].king[0]].addEventListener('click', onSquareClick);
 			resetOnSquareClickInfo();

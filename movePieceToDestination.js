@@ -75,9 +75,9 @@ export function moveToDestination(destination) {
 	}
 	
 	// reset after piece has been moved
+	additFunc.reviewIfKingIsChecked(oppositeColor, selectPieceState.pieceColor);
 	additFunc.resetOnSquareClick();
 	additFunc.resetOnSquareClickInfo();
-	additFunc.reviewIfKingIsChecked(oppositeColor);
 }
 
 //———————————————————————————————————————————————————————————————————————————————————

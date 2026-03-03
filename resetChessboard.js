@@ -12,16 +12,19 @@ import { pieceElementsObject } from "./gameState.js";
 import { chessboardBoard } from "./main.js";
 import { subtractChessboardPixels } from "./main.js";
 
+ //—————————————————————————————————————————————————————————————————————————————————————
+
 export const resetChessboardButtonElements = {
     resetChessboardButton: document.getElementsByClassName('resetChessboardButton'),
     topLayerButton: document.getElementById('topLayer')
 }
-
- //—————————————————————————————————————————————————————————————————————————————————————
 export let pawnSpanElementObject = {
 	black: [],
 	white: []
 }
+
+//—————————————————————————————————————————————————————————————————————————————————————
+
 let classNamePieceArray = document.querySelectorAll('.piece');
 export function resetChessboard() {
 	TurnRegister.registerTurnVariables.turnCounter = 0;

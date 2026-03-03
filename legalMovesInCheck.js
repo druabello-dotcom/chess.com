@@ -1,5 +1,5 @@
 import { winScreen } from "./main.js";
-import { kingAvailableSquares, kingUnavailableaSquares  } from "./gameState.js"
+import { kingAvailableSquares, kingUnavailableaSquares, selectPieceState  } from "./gameState.js"
 import { checkIfPieceOnSquare } from "./createAvailableMoves.js"
 
 //————————————————————————————————————————————————————————————————————————————————————
@@ -47,7 +47,7 @@ function isSquareValid(square, oppositeColor) {
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-export function updateKAS(squareIndex, oppositeColor) {
+export function updateKAS(squareIndex, oppositeColor, color) {
     kingAvailableSquares[oppositeColor].length = 0;
     let upToLeft = squareIndex - 9;
     let up = squareIndex - 8;
@@ -89,6 +89,9 @@ export function updateKAS(squareIndex, oppositeColor) {
         HOW?:
         */
         winScreen.style.display = "flex";
+        let victoryAnnouncer = document.querySelector('#victoryAnnouncement h1');
+        let victoryGoesTo = `${color} won!`;
+        victoryAnnouncer.innerText = `${victoryGoesTo.toUpperCase()}`
         console.log("Checkmate");
     }
 }
