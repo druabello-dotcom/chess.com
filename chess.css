@@ -18,6 +18,9 @@
 	border-radius: 2.5mm;
 	outline: 2px solid black;
 }
+.winScreen-show {
+	display: flex;
+}
 #victoryAnnouncement {
 	display: flex;
 	flex-direction: row;
