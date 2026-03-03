@@ -13,7 +13,7 @@
 	z-index: 20;
 	background-color: var(--white-square);
 	width: calc(6 * var(--square-size));
-	transform: translate(80%, 220%);
+	transform: translate(100%, 220%);
 
 	font-family: monospace;
 	border-radius: 2.5mm;
@@ -465,7 +465,7 @@ button:active .topLayer {
 	.resetChessboardButton {
 		transform: translateY(-0.25rem);
 	}
-	.topLayer {
+	#topLayer {
 		border-radius: 7mm;
 		height: 0%;
 		width: 212.5%;
@@ -476,20 +476,39 @@ button:active .topLayer {
 		padding-left: 10%;
 		padding-right: 0%;
 	}
-	.bottomLayer {
+	#bottomLayer {
 		border-radius: 7mm;
+		transform: translateY(0.15em);
 		height: 0%;
 		width: 212.5%;
 		justify-content: center;
 		align-items: center;
-		transform: translateY(0.15em);
 
 		padding: 0.75em 0.1em 2.25em;
 		box-shadow: 0px 0.2em 0 0.125em rgb(171, 171, 171);
 	}
-	button:active .topLayer {
+	button:active #topLayer {
 		transform: translateY(0.1em);
 	}
+
+	.winScreen {
+		transform: translate(60%, 220%);
+		gap: 0.25rem;
+	}
+	#victoryAnnouncement h1 {
+		font-size: 125%;
+	}
+	#victoryAnnouncement img {
+		padding-top: calc(0.1 * var(--square-size));
+	}
+	#topLayerWS {
+		width: calc(5.4 * var(--square-size));
+	}
+	#bottomLayerWS {
+		width: calc(5.325 * var(--square-size));
+		padding-bottom: 0.75rem;
+	}
+
 	.turn-decider {
 		padding: calc(0.75 * var(--top-bottom-padding));
 		padding-left: calc(0.75 * 0.3rem);
