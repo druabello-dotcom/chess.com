@@ -24,18 +24,6 @@ Where I need to update KAS:
 - if KAS.length = 0 —> checkmate
  */
 
-export const attackingPieceInfo = {
-    black: {
-        piece: [],
-        square: [],
-        incrementation: []
-    },
-    white: {
-        piece: [],
-        square: [],
-        incrementation: []
-    }
-}
 
 let piecesCanDefend = [];
 
