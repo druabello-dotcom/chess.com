@@ -25,18 +25,23 @@ function allowMove(desiredSquare) {
 }
 
 //————————————————————————————————————————————————————————————————————————————————————
+// For pawn: if the next sqaure is not occopied (both by same colour and opposite colour then add allow move for this piece)
+// If diagonal (+-7 and +-9) is occupied by enemy square then allow for that move to be made (move to desitnation function will 
+//Take care of visual capture via a exported function (captureFunction.js), and will also change colour for that availbe move through
+//The same function.
+//Rook, bishop and queen get their "available squares" if the game detects a piece in the way.
 
 export const availablePieceMovesObject = {
 	pawn: function(squareIndex, color) {
 		if (legalDirection[color].north_south !== true) return;
-		if (selectPieceState.pieceColor === 'black' && (squareIndex + 8) < 64) {
+		if (selectPieceState.pieceColor === 'black' && (squareIndex + 8) < 64) { 
+			if( Main.stateGrid[squareIndex + 8] ===0 )
 			allowMove(squareIndex + 8);
 			if (piecesHasNotMoved.black.pawn[selectPieceState.selectedPieceIndex] === true) {
 				if(Main.stateGrid[squareIndex+16]!=0)
 					return
 				allowMove(squareIndex + 16);
 			}
-			
 			if ( Main.stateGrid[squareIndex + 7]>0 && squareIndex + 7 < 64 && squareIndex % 8 !== 0) {
     		allowMove(squareIndex + 7);
 			}
@@ -44,6 +49,7 @@ export const availablePieceMovesObject = {
     		allowMove(squareIndex + 9);
 			}
 		} else if(selectPieceState.pieceColor === 'white' && 0 <= (squareIndex - 8)) {
+			if( Main.stateGrid[squareIndex - 8] ===0 )
 			allowMove(squareIndex - 8);
 			if (piecesHasNotMoved.white.pawn[selectPieceState.selectedPieceIndex] === true) {
 				if(Main.stateGrid[squareIndex-16]!=0)
@@ -56,8 +62,6 @@ export const availablePieceMovesObject = {
 			if ( Main.stateGrid[squareIndex-9]<0 && squareIndex - 9 < 64 && squareIndex % 8 !== 0) {
     		allowMove(squareIndex - 9);
 			}
-			console.log(event.target)
-			console.log()
 		}
 	},
 	bishop: function(squareIndex, color) {
