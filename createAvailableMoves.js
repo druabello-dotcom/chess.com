@@ -29,7 +29,7 @@ function allowMove(desiredSquare) {
 // If diagonal (+-7 and +-9) is occupied by enemy square then allow for that move to be made (move to desitnation function will 
 //Take care of visual capture via a exported function (captureFunction.js), and will also change colour for that availbe move through
 //The same function.
-//Rook, bishop and queen get their "available squares" if the game detects a piece in the way.
+//Rook, bishop and queen get their "available squares" if the game detects a piece in the way. 
 
 export const availablePieceMovesObject = {
 	pawn: function(squareIndex, color) {
