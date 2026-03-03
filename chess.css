@@ -23,10 +23,12 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
+	z-index: inherit;
 
 	color: white;
 	background-color: var(--black-square);
 	border-radius: 2.5mm;
+	outline: 2px solid black;
 }
 .winScreen img {
 	height: calc(0.75 * var(--square-size));
@@ -39,6 +41,18 @@
 	height: calc(0.25 * var(--square-size));
 	margin-right: calc(0.1 * var(--square-size));
 	margin-bottom: calc(0.5 * var(--square-size));
+}
+#resetGame {
+	background-color: var(--white-square);
+	border-bottom-left-radius: 2.5mm;
+	border-bottom-right-radius: 2.5mm;
+}
+#resetGame button {
+	margin: calc(0.2 * var(--square-size));
+	z-index: 20;
+}
+#topLayerWS {
+	width: calc(5.6 * var(--square-size));
 }
 
 .dropdown {
