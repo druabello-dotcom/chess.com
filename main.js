@@ -57,7 +57,14 @@ grid[7].style.borderTopRightRadius = "1.5mm"
 grid[56].style.borderBottomLeftRadius = "1.5mm";
 grid[63].style.borderBottomRightRadius = "1.5mm";
 
-resetChessboardButtonElements.resetChessboardButton.addEventListener('click', resetChessboard);
+export const winScreen = document.getElementById('winScreen');
+const closeWinScreen = document.getElementsByClassName('close');
+closeWinScreen[0].addEventListener('click', () => {
+	winScreen.style.display = "none";
+})
+
+resetChessboardButtonElements.resetChessboardButton[0].addEventListener('click', resetChessboard);
+resetChessboardButtonElements.resetChessboardButton[1].addEventListener('click', resetChessboard);
 resetChessboard();
 
 export const mapPieces = {
@@ -82,6 +89,7 @@ select.addEventListener('click', () => {
 });
 
 // choose colorway
+const victoryAnnouncement = document.getElementById('victoryAnnouncement');
 const colorHeaderLogBook = document.getElementById('columnHeader');
 let colorwayArray = [];
 const colorwayElements = Array.from(document.querySelectorAll('.options span'));
@@ -101,6 +109,7 @@ for (let i = 0;  i < colorwayArray.length; i++) {
 
 		resetChessboardButtonElements.topLayerButton.classList.remove(oldSelectedColorway);
 		resetChessboardButtonElements.topLayerButton.classList.add(selectedColorway);
+		victoryAnnouncement.className = selectedColorway;
 	})
 }
 

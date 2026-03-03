@@ -9,21 +9,24 @@ import { noPieceBetweenKingRook } from "./gameState.js";
 import { pieceSquarePositionArray } from "./gameState.js";
 import { pieceNumberIdentifier } from "./gameState.js";
 import { pieceElementsObject } from "./gameState.js";
-import { chessboardBoard } from "./main.js";
-import { subtractChessboardPixels } from "./main.js";
-
-export const resetChessboardButtonElements = {
-    resetChessboardButton: document.getElementById('resetChessboardButton'),
-    topLayerButton: document.getElementById('topLayer')
-}
+import { chessboardBoard, subtractChessboardPixels, winScreen } from "./main.js";
 
  //—————————————————————————————————————————————————————————————————————————————————————
+
+export const resetChessboardButtonElements = {
+    resetChessboardButton: document.getElementsByClassName('resetChessboardButton'),
+    topLayerButton: document.getElementById('topLayer')
+}
 export let pawnSpanElementObject = {
 	black: [],
 	white: []
 }
+
+//—————————————————————————————————————————————————————————————————————————————————————
+
 let classNamePieceArray = document.querySelectorAll('.piece');
 export function resetChessboard() {
+	winScreen.style.display = "none";
 	TurnRegister.registerTurnVariables.turnCounter = 0;
 	TurnRegister.registerTurnVariables.turnCounterElement.innerText = "Turn counter:  " + TurnRegister.registerTurnVariables.turnCounter;
 	TurnRegister.registerTurnVariables.turnDecider = 'white';

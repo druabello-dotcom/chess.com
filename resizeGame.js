@@ -20,12 +20,12 @@ function updateElementsResize() {
 		resetChessboardButtonElements.topLayerButton.style.fontSize = "100%";
 		resetChessboardButtonElements.topLayerButton.style.color = "black";
 	}
-	if (window.innerWidth < 720) {
+	if (window.innerWidth <= 720) {
 		resetChessboardButtonElements.topLayerButton.innerText = "⟳";
 		resetChessboardButtonElements.topLayerButton.style.fontSize = "200%"
 		resetChessboardButtonElements.topLayerButton.style.color = "white";
 	}
-	if (window.innerWidth < 550) {
+	if (window.innerWidth <= 550) {
 		resetChessboardButtonElements.topLayerButton.innerText = "⟳";
 		resetChessboardButtonElements.topLayerButton.style.fontSize = "150%";
 		resetChessboardButtonElements.topLayerButton.style.color = "white";

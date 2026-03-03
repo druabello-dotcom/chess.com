@@ -7,6 +7,20 @@
 	<link rel="stylesheet" href="chess.css">
 </head>
 <body>
+
+<div class="winScreen" id="winScreen">
+	<div id="victoryAnnouncement" class="default">
+		<span id="trophy"><img src="trophy.png" alt="trophy"></span>
+		<h1>Won!</h1>
+		<span class="close"><img src="close.png" alt="close"></span>
+	</div>
+	<div id="resetGame">
+		<button type="button" class="resetChessboardButton" id="rcbWS">
+			<div class="topLayer default" id="topLayerWS">Reset Chessboard</div>
+			<div class="bottomLayer" id="bottomLayerWS"></div>
+		</button>
+	</div>
+</div>
 	
 <div class="dropdown">
 	<h2>Color palattes</h2>
@@ -26,9 +40,9 @@
 <div class="chess">
 	<div class="game">
 		<div class="top-ui" id="topUi">
-			<button type="button" id="resetChessboardButton">
+			<button type="button" class="resetChessboardButton">
 				<div class="topLayer default" id="topLayer">Reset Chessboard</div>
-				<div class="bottomLayer"></div>
+				<div class="bottomLayer" id="bottomLayer"></div>
 			</button>
 			<div id="alternatingTurn">
 				<div class="white" id="turn-counter"></div>

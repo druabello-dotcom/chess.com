@@ -1,3 +1,64 @@
+:root {
+	--black-square-font-color: black;
+	--black-square: #95533b;
+	--white-square: antiquewhite;
+	--square-size: 4rem;
+	--font-size: 1em;
+}
+
+.winScreen {
+	display: none;
+	flex-direction: column;
+	position: absolute;
+	z-index: 20;
+	background-color: var(--white-square);
+	width: calc(6 * var(--square-size));
+	transform: translate(100%, 220%);
+
+	font-family: monospace;
+	border-radius: 2.5mm;
+	outline: 2px solid black;
+	box-shadow: 0px 1rem 2rem 0.25em;
+}
+#victoryAnnouncement {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	z-index: inherit;
+
+	color: white;
+	background-color: var(--black-square);
+	border-radius: 2.5mm;
+	outline: 2px solid black;
+}
+.winScreen img {
+	height: calc(0.75 * var(--square-size));
+}
+.close {
+	filter: invert(100%);
+	cursor: pointer;
+}
+.close img {
+	height: calc(0.25 * var(--square-size));
+	margin-right: calc(0.1 * var(--square-size));
+	margin-bottom: calc(0.5 * var(--square-size));
+}
+#resetGame {
+	border-bottom-left-radius: 2.5mm;
+	border-bottom-right-radius: 2.5mm;
+}
+#resetGame button {
+	margin: calc(0.2 * var(--square-size));
+	z-index: 20;
+}
+#topLayerWS {
+	width: calc(5.6 * var(--square-size));
+}
+#bottomLayerWS {
+	box-shadow: 0px 0.1em 0px 0.25em rgb(171, 171, 171);	
+}
+
 .dropdown {
 	font-family: monospace;
 	width: 100%;
@@ -116,14 +177,7 @@
 	--black-square-font-color: white;
 	--black-square: #95533b;
 	--white-square: antiquewhite; }
-:root {
-	--black-square-font-color: black;
-	--black-square: #95533b;
-	--white-square: antiquewhite;
-	--square-size: 4rem;
-	--font-size: 1em;
 
-}
 .movedPiece {
 	width: calc(0.175 * var(--square-size));
 	height: calc(0.175 * var(--square-size));
@@ -250,7 +304,7 @@ button {
 	position: relative;
 }
 
-#resetChessboardButton {
+.resetChessboardButton {
 	display: grid;
 	flex-direction: column;
 	align-items: center;
@@ -306,7 +360,7 @@ button:active .topLayer {
 	transform: translateY(0.3em);
 }
 .top-ui {
-	--top-bottom-padding: 0.4rem 0.4rem;
+	--top-bottom-padding: 0.2rem 0.4rem;
 	width: calc(8 * var(--square-size));
 	display: flex;
 	flex-direction: row;
@@ -408,10 +462,10 @@ button:active .topLayer {
 		justify-content: space-between;
 		margin-bottom: 0.3rem;
 	}
-	#resetChessboardButton {
+	.resetChessboardButton {
 		transform: translateY(-0.25rem);
 	}
-	.topLayer {
+	#topLayer {
 		border-radius: 7mm;
 		height: 0%;
 		width: 212.5%;
@@ -422,20 +476,39 @@ button:active .topLayer {
 		padding-left: 10%;
 		padding-right: 0%;
 	}
-	.bottomLayer {
+	#bottomLayer {
 		border-radius: 7mm;
+		transform: translateY(0.15em);
 		height: 0%;
 		width: 212.5%;
 		justify-content: center;
 		align-items: center;
-		transform: translateY(0.15em);
 
 		padding: 0.75em 0.1em 2.25em;
 		box-shadow: 0px 0.2em 0 0.125em rgb(171, 171, 171);
 	}
-	button:active .topLayer {
+	button:active #topLayer {
 		transform: translateY(0.1em);
 	}
+
+	.winScreen {
+		transform: translate(60%, 220%);
+		gap: 0.25rem;
+	}
+	#victoryAnnouncement h1 {
+		font-size: 125%;
+	}
+	#victoryAnnouncement img {
+		padding-top: calc(0.1 * var(--square-size));
+	}
+	#topLayerWS {
+		width: calc(5.4 * var(--square-size));
+	}
+	#bottomLayerWS {
+		width: calc(5.325 * var(--square-size));
+		padding-bottom: 0.75rem;
+	}
+
 	.turn-decider {
 		padding: calc(0.75 * var(--top-bottom-padding));
 		padding-left: calc(0.75 * 0.3rem);
@@ -475,15 +548,22 @@ button:active .topLayer {
 	.options span {
 		width: calc(100% - 0.2rem);
 	}
-	.bottomLayer {
+	#bottomLayer {
 		width: 210%;
 		padding-top: calc(var(--font-size) * 0.2);
 		padding-bottom: 1.75rem;
 		box-shadow: 0px 0.125em 0px 0.125em rgb(171, 171, 171);
 	}
-	button:active .topLayer {
+	button:active #topLayer {
 		transform: translateY(0.075em);
 	}
+
+	#bottomLayerWS {
+		width: calc(5.3 * var(--square-size));
+		padding-bottom: 0.1rem;
+		box-shadow: 0px 0.1em 0px 0.2em rgb(171, 171, 171);	
+	}
+
 	.turn-decider {
 		padding-left: calc(0.65 * 0.3rem);
 	}
