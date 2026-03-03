@@ -1,6 +1,7 @@
 import * as Main from "./main.js";
 import { selectPieceState, piecesHasNotMoved, noPieceBetweenKingRook } from "./gameState.js";
 import { moveToDestination  } from "./movePieceToDestination.js";
+import { enPassent } from "./gameState";
 /* import { piecesHasNotMoved } from "./gameState.js"; */
 
 function checkIfPieceOnSquare(i) {
@@ -25,6 +26,8 @@ export const availablePieceMovesObject = {
 				Main.grid[selectPieceState.selectedSquareId + 16].addEventListener('click', moveToDestination);
 				Main.grid[selectPieceState.selectedSquareId + 16].style.boxShadow = highlightDestinationSquares;
 			}
+			
+			
 		} else if(selectPieceState.pieceColor == 'white' && 0 <= (selectPieceState.selectedSquareId - 8)) {
 			Main.grid[selectPieceState.selectedSquareId - 8].addEventListener('click', moveToDestination);
 			Main.grid[selectPieceState.selectedSquareId - 8].style.boxShadow = highlightDestinationSquares;
@@ -33,6 +36,9 @@ export const availablePieceMovesObject = {
 				Main.grid[selectPieceState.selectedSquareId - 16].style.boxShadow = highlightDestinationSquares
 			}	
 		}
+
+		console.log(Main.grid[selectPieceState.selectedSquareId])
+		console.log(event)
 	},
 	bishop: function() {
 		for (let i = (selectPieceState.selectedSquareId + 9); (selectPieceState.selectedSquareId % 8) < (i % 8) && i < 64; i+=9) {
