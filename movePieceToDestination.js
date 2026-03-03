@@ -3,6 +3,7 @@ import * as additFunc from "./additionalFunctions.js"
 import * as TurnRegister from "./turnRegister.js"
 
 import { soundWhenMovingPiece } from "./sounds.js";
+import { capturePieceFunction } from "./captureFunction.js";
 import { attackingMovesObject } from "./attackingMovesKing.js"
 import { promotePawn } from "./pawnPromotion.js"
 import { chessboardBoard, subtractChessboardPixels } from "./main.js"
@@ -49,6 +50,7 @@ export function moveToDestination(destination) {
 		}
 		return;
 	}
+	capturePieceFunction(selectPieceState.destinationSquareId);
 
 	movePieceElementToDestination();
 	additFunc.updateStateGrid();
