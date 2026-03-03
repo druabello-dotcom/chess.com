@@ -72,7 +72,7 @@ export function moveToDestination(destination) {
 		for (let i = 0; i < pieceSquarePositionArray[selectPieceState.pieceColor][type].length; i++) {
 			let squareIndex = pieceSquarePositionArray[selectPieceState.pieceColor][type][i];
 			if (squareIndex === null) continue;
-			attackingMovesObject[type](squareIndex, oppositeColor);
+			attackingMovesObject[type](squareIndex, oppositeColor, selectPieceState.pieceColor);
 		}
 	}
 	

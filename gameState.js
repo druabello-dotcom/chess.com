@@ -140,3 +140,10 @@ export const kingState = {
 		checked: false
 	}
 }
+
+export const pieceAttackingKing = {
+	square: [],
+	direction: [],
+	iterations: [],
+	pieceType: []
+}
