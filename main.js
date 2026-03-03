@@ -2,6 +2,7 @@ import * as TurnRegister from "./turnRegister.js";
 import * as OnSquareClick from './onSquareClick.js';
 import { resetChessboard,resetChessboardButtonElements } from "./resetChessboard.js";
 import { resizeGame } from "./resizeGame.js";
+import { resetLegalDirections } from "./additionalFunctions.js";
 
 export const chessboard = document.getElementById('chessboard');
 let posIndx = 0;
@@ -57,7 +58,8 @@ grid[7].style.borderTopRightRadius = "1.5mm"
 grid[56].style.borderBottomLeftRadius = "1.5mm";
 grid[63].style.borderBottomRightRadius = "1.5mm";
 
-resetChessboardButtonElements.resetChessboardButton.addEventListener('click', resetChessboard);
+resetChessboardButtonElements.resetChessboardButton[0].addEventListener('click', resetChessboard);
+resetChessboardButtonElements.resetChessboardButton[1].addEventListener('click', resetChessboard);
 resetChessboard();
 
 export const mapPieces = {

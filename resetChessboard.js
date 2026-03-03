@@ -13,7 +13,7 @@ import { chessboardBoard } from "./main.js";
 import { subtractChessboardPixels } from "./main.js";
 
 export const resetChessboardButtonElements = {
-    resetChessboardButton: document.getElementById('resetChessboardButton'),
+    resetChessboardButton: document.getElementsByClassName('resetChessboardButton'),
     topLayerButton: document.getElementById('topLayer')
 }
 
