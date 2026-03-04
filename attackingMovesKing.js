@@ -1,5 +1,6 @@
 import * as Main from "./main.js"
 import { selectPieceState, kingUnavailableaSquares, pinnedPiecesObject, pieceAttackingKing } from "./gameState.js"
+import { pieceTypeArray } from "./createPieceElements.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 

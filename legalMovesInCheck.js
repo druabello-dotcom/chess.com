@@ -1,6 +1,7 @@
 import { winScreen, stateGrid, grid } from "./main.js";
 import { kingAvailableSquares, kingUnavailableaSquares, pieceAttackingKing } from "./gameState.js"
 import { checkIfPieceOnSquare } from "./createAvailableMoves.js"
+import { endGame } from "./sounds.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
@@ -30,34 +31,39 @@ export function updateKAS(squareIndex, oppositeColor, color) {
     let downToLeft = squareIndex + 7;
     let left = squareIndex - 1;
 
-    if ((upToLeft % 8) < (squareIndex % 8) && isSquareValid(upToLeft, oppositeColor) === true) {
+    if ((upToLeft % 8) < (squareIndex % 8) && isSquareValid(upToLeft, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(upToLeft);
     }
     if (0 <= up && isSquareValid(up, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(up);
     }
-    if ((squareIndex % 8) < (upToRight % 8) && isSquareValid(upToRight, oppositeColor) === true) {
+    if ((squareIndex % 8) < (upToRight % 8) && isSquareValid(upToRight, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(upToRight);
     }
-    if ((squareIndex % 8) < (right % 8) && isSquareValid(right, oppositeColor) === true) {
+    if ((squareIndex % 8) < (right % 8) && isSquareValid(right, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(right);
     }
-    if ((squareIndex % 8) < (downToRight % 8) && isSquareValid(downToRight, oppositeColor) === true) {
+    if ((squareIndex % 8) < (downToRight % 8) && isSquareValid(downToRight, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(downToRight);
     }
     if (down < 64 && isSquareValid(down, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(down);
     }
-    if ((downToLeft % 8) < (squareIndex % 8) && isSquareValid(downToLeft, oppositeColor) === true) {
+    if ((downToLeft % 8) < (squareIndex % 8) && isSquareValid(downToLeft, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(downToLeft);
     }
-    if ((left % 8) < (squareIndex % 8) && isSquareValid(left, oppositeColor) === true) {
+    if ((left % 8) < (squareIndex % 8) && isSquareValid(left, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(left);
     }
 
     if (kingAvailableSquares[oppositeColor].length === 0) {
         canDefendKing(squareIndex, oppositeColor)
+        console.log("square of attack:  " + pieceAttackingKing.square[0]);
+        console.log("Direction of attackt:  " + pieceAttackingKing.direction[0]);
+        console.log("iternations of attack:  " + pieceAttackingKing.iterations[0]);
+        console.log(piecesCanDefend);
         if (piecesCanDefend.length === 0) {
+            endGame();
             winScreen.style.display = "flex";
             let victoryAnnouncer = document.querySelector('#victoryAnnouncement h1');
             let victoryGoesTo = `${color} won!`;
@@ -72,6 +78,7 @@ function canDefendKing(kingSquare, color) {
     if (1 < pieceAttackingKing.square.length) return;
     for (let checkingSquare = kingSquare - pieceAttackingKing.direction[0], j = 0; j < pieceAttackingKing.iterations[0]; checkingSquare -= pieceAttackingKing.direction[0], j++) {
         //check for pawn
+        console.log("checking square:  " + checkingSquare);
         if (checkingSquare !== pieceAttackingKing.square[0]) canPawnDefend(checkingSquare, color);
 
         //Check for rook or queen

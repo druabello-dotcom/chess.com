@@ -3,7 +3,7 @@ import * as TurnRegister from "./turnRegister.js";
 import * as CreatePieceElements from "./createPieceElements.js";
 import * as additFunc from "./additionalFunctions.js";
 
-import { selectPieceState } from "./gameState.js";
+import { kingState, selectPieceState } from "./gameState.js";
 import { piecesHasNotMoved } from "./gameState.js";
 import { noPieceBetweenKingRook } from "./gameState.js";
 import { pieceSquarePositionArray } from "./gameState.js";
@@ -60,6 +60,9 @@ export function resetChessboard() {
     piecesHasNotMoved.white.rook.fill(true);
     piecesHasNotMoved.black.king = true;
     piecesHasNotMoved.white.king = true;
+
+	kingState.black.checked = false;
+	kingState.white.checked = false;
 
 	// remove all pieces with class name "piece"
 	for (let i = 0; i < classNamePieceArray.length; i++) classNamePieceArray[i].remove();
