@@ -67,87 +67,28 @@ export const availablePieceMovesObject = {
 		if (piecesHasNotMoved[color].pawn[selectPieceState.selectedPieceIndex] && Main.stateGrid[doubleStep] === 0 && 0 <= doubleStep && doubleStep < 64) {
 			allowMove(doubleStep);
 		}
-/* 		if (color === 'black') {
-			if (Main.stateGrid[squareIndex + 8] === 0 && (squareIndex + 8) < 64) {
-				allowMove(squareIndex + 8);
-			} 
-			if (piecesHasNotMoved[color].pawn[selectPieceState.selectedPieceIndex] && Main.stateGrid[squareIndex + 16] === 0 && (squareIndex + 16) < 64) {
-				allowMove(squareIndex + 16);
-			}
-			//capture moves
-			if (0 < Main.stateGrid[squareIndex + 7] && ((squareIndex + 7 % 8) < (squareIndex % 8) && (squareIndex + 7) < 64)) {
-				allowMove(squareIndex + 7);
-			}
-			if (0 < Main.stateGrid[squareIndex + 9] && ((squareIndex % 8) < (squareIndex + 9 % 8) && (squareIndex + 9) < 64)) {
-				allowMove(squareIndex + 9);
-			}
-		} else if (color === 'white') {
-			if (Main.stateGrid[squareIndex - 8] === 0 && (squareIndex - 8) < 64) {
-				allowMove(squareIndex - 8);
-			}
-			if (piecesHasNotMoved[color].pawn[selectPieceState.selectedPieceIndex] && Main.stateGrid[squareIndex - 16] === 0 && 0 <= (squareIndex - 16)) {
-				allowMove(squareIndex - 16);
-			}
-			//capture moves
-			if (Main.stateGrid[squareIndex - 7] < 0 && ((squareIndex % 8) < (squareIndex - 7 % 8) && 0 <= (squareIndex - 7))) {
-				allowMove(squareIndex - 7);
-			}
-			if (0 < Main.stateGrid[squareIndex - 9] && ((squareIndex - 9 % 8) < (squareIndex % 8) && (squareIndex - 9) < 64)) {
-				allowMove(squareIndex - 9);
-			}
-		} */
-
-/* 		if (selectPieceState.pieceColor === 'black' && (squareIndex + 8) < 64) { 
-			if( Main.stateGrid[squareIndex + 8] ===0 )
-			allowMove(squareIndex + 8);
-			if (piecesHasNotMoved.black.pawn[selectPieceState.selectedPieceIndex] === true) {
-				if(Main.stateGrid[squareIndex+16]!=0)
-					return
-				allowMove(squareIndex + 16);
-			}
-			if ( Main.stateGrid[squareIndex + 7]>0 && squareIndex + 7 < 64 && squareIndex % 8 !== 0) {
-    		allowMove(squareIndex + 7);
-			}
-			if ( Main.stateGrid[squareIndex+9]>0 && squareIndex + 9 < 64 && squareIndex % 8 !== 0) {
-    		allowMove(squareIndex + 9);
-			}
-		} else if(selectPieceState.pieceColor === 'white' && 0 <= (squareIndex - 8)) {
-			if( Main.stateGrid[squareIndex - 8] ===0 )
-			allowMove(squareIndex - 8);
-			if (piecesHasNotMoved.white.pawn[selectPieceState.selectedPieceIndex] === true) {
-				if(Main.stateGrid[squareIndex-16]!=0)
-					return
-				allowMove(squareIndex - 16);
-			}	
-			if (Main.stateGrid[squareIndex - 7]<0 && squareIndex - 7 < 64 && squareIndex % 8 !== 0) {
-    		allowMove(squareIndex - 7);
-			}
-			if ( Main.stateGrid[squareIndex-9]<0 && squareIndex - 9 < 64 && squareIndex % 8 !== 0) {
-    		allowMove(squareIndex - 9);
-			}
-		} */
 	},
 	bishop: function(squareIndex, color) {
 		if (legalDirection[color].NW_SE === true) {
 			for (let i = (squareIndex - 9); (i % 8) < (squareIndex % 8) && 0 <= i; i-=9) {
-				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
 				allowMove(i);
 				if (Main.stateGrid[i] !== 0) break;
 			}
 			for (let i = (squareIndex + 9); (squareIndex % 8) < (i % 8) && i < 64; i+=9) {
-				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
 				allowMove(i);
 				if (Main.stateGrid[i] !== 0) break;
 			}
 		}
 		if (legalDirection[color].NE_SW === true) {
 			for (let i = (squareIndex - 7); (squareIndex % 8) < (i % 8) && 0 < i; i-=7) {
-				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
 				allowMove(i);
 				if (Main.stateGrid[i] !== 0) break;
 			}
 			for (let i = (squareIndex + 7); (i % 8) < (squareIndex % 8) && i < 64; i+=7) {
-				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
 				allowMove(i);
 				if (Main.stateGrid[i] !== 0) break;
 			}
@@ -156,24 +97,24 @@ export const availablePieceMovesObject = {
 	rook: function(squareIndex, color) {
 		if (legalDirection[color].east_west === true) {
 			for (let i = (squareIndex - 1); (squareIndex) % 8 > (i % 8) && 0 <= i; i--) {
-				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
 				allowMove(i);
 				if (Main.stateGrid[i] !== 0) break;
 			}
 			for (let i = (squareIndex + 1); (squareIndex % 8) < (i % 8) && i < 64; i++) {
-				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
 				allowMove(i);
 				if (Main.stateGrid[i] !== 0) break;
 			}
 		}
 		if (legalDirection[color].north_south === true) {
 			for (let i = (squareIndex - 8); 0 <= i; i-=8) {
-				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
 				allowMove(i);
 				if (Main.stateGrid[i] !== 0) break;
 			}
 			for (let i = (squareIndex + 8); i < 64; i+=8) {
-				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor) === true) break;
+				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
 				allowMove(i);
 				if (Main.stateGrid[i] !== 0) break;
 			}
