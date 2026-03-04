@@ -1,6 +1,7 @@
 import { registerTurnVariables } from "./turnRegister.js";
 import { endGame } from "./sounds.js";
 import { winScreen } from "./main.js";
+import { lowTime } from "./sounds.js";
 
 export let timeInterval = null;
 export let msTimeInterval = null;
@@ -216,12 +217,8 @@ export function clockFunction() {
       document.getElementById(
         registerTurnVariables.turnDecider + "ClockVisual",
       ).innerHTML = "0:00";
-      if ((turnOfClock === "white"))
-        win = "black";
-      if ((turnOfClock === "black"))
-        win = "white";
-     
-
+      if (turnOfClock === "white") win = "black";
+      if (turnOfClock === "black") win = "white";
       function winnerOfTime() {
         if (win !== "") {
           endGame();
@@ -245,7 +242,8 @@ export function clockFunction() {
     ).innerHTML = minutes + ":" + seconds.toString().padStart(2, "0");
 
     if (RSC < 20000) {
-      // if we crossed into urgency, switch intervals to a samller 10ms 
+      // if we crossed into urgency, switch intervals to a samller 10ms
+      lowTime()
       urgencyMode[turnOfClock] = true;
       clearInterval(timeInterval);
       timeInterval = null;
@@ -269,6 +267,20 @@ export function clockFunction() {
       document.getElementById(
         registerTurnVariables.turnDecider + "ClockVisual",
       ).innerHTML = "0.00";
+      if (turnOfClock === "white") win = "black";
+      if (turnOfClock === "black") win = "white";
+      function winnerOfTime() {
+        if (win !== "") {
+          endGame();
+          winScreen.style.display = "flex";
+          let victoryAnnouncer = document.querySelector(
+            "#victoryAnnouncement h1",
+          );
+          let victoryGoesTo = `${win} won!`;
+          victoryAnnouncer.innerText = `${victoryGoesTo.toUpperCase()}`;
+        }
+      }
+      winnerOfTime();
       return;
     }
 
