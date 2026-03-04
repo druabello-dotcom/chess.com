@@ -1,4 +1,6 @@
 import { registerTurnVariables } from "./turnRegister.js";
+import { endGame } from "./sounds.js";
+import { winScreen } from "./main.js";
 
 export let timeInterval = null;
 export let msTimeInterval = null;
@@ -17,7 +19,8 @@ export let urgencyMode = {
   black: false,
 };
 
- let changeVisualOpacity = document.getElementById("timeButtons");
+let changeVisualOpacity = document.getElementById("timeButtons");
+let win = "";
 
 function clockTurn() {
   if (registerTurnVariables.turnCounter % 2 == 0) {
@@ -26,6 +29,7 @@ function clockTurn() {
     return "black";
   }
 }
+
 function reduceOpacity() {
   if (registerTurnVariables.turnCounter > 1) {
     changeVisualOpacity.style.animationName = "Opacity";
@@ -33,15 +37,13 @@ function reduceOpacity() {
     changeVisualOpacity.style.animationIterationCount = "1";
     changeVisualOpacity.style.animationFillMode = "forwards";
   }
-
-  }
-  export function inceraseOpacity() {
-    changeVisualOpacity.style.animationName = "opacityIncrease";
-    changeVisualOpacity.style.animationDuration = "400ms";
-    changeVisualOpacity.style.animationIterationCount = "1";
-    changeVisualOpacity.style.animationFillMode = "forwards";
-  }
-
+}
+export function inceraseOpacity() {
+  changeVisualOpacity.style.animationName = "opacityIncrease";
+  changeVisualOpacity.style.animationDuration = "400ms";
+  changeVisualOpacity.style.animationIterationCount = "1";
+  changeVisualOpacity.style.animationFillMode = "forwards";
+}
 
 export let blackClk = document.getElementById("blackClockVisual");
 export let whiteClk = document.getElementById("whiteClockVisual");
@@ -157,7 +159,9 @@ document.addEventListener("keydown", function (event) {
         let intervalForSec = setInterval(removeAfterOneSec, 1000);
         return;
       }
-      typeGame = String(timeRange[0]+timeRange[1]+":"+timeRange[2]+timeRange[3]) 
+      typeGame = String(
+        timeRange[0] + timeRange[1] + ":" + timeRange[2] + timeRange[3],
+      );
       function timeConverter() {
         const mergedMinutes = String(timeRange[0]) + String(timeRange[1]); // make sure minutes are one singular string
         const parsedInt = Number(mergedMinutes);
@@ -167,7 +171,7 @@ document.addEventListener("keydown", function (event) {
         let secondSecondToMs = timeRange[3] * 1000;
 
         let RSC = Minutes + firstSecondToMs + secondSecondToMs;
-        timeReference = RSC
+        timeReference = RSC;
 
         let minutes = Math.floor(RSC / 60000);
         let seconds = Math.floor((RSC / 1000) % 60);
@@ -212,6 +216,24 @@ export function clockFunction() {
       document.getElementById(
         registerTurnVariables.turnDecider + "ClockVisual",
       ).innerHTML = "0:00";
+      if ((turnOfClock === "white"))
+        win = "black";
+      if ((turnOfClock === "black"))
+        win = "white";
+     
+
+      function winnerOfTime() {
+        if (win !== "") {
+          endGame();
+          winScreen.style.display = "flex";
+          let victoryAnnouncer = document.querySelector(
+            "#victoryAnnouncement h1",
+          );
+          let victoryGoesTo = `${win} won!`;
+          victoryAnnouncer.innerText = `${victoryGoesTo.toUpperCase()}`;
+        }
+      }
+      winnerOfTime();
       return;
     }
 
