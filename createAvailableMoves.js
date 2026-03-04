@@ -25,11 +25,6 @@ function allowMove(desiredSquare) {
 }
 
 //————————————————————————————————————————————————————————————————————————————————————
-// For pawn: if the next sqaure is not occopied (both by same colour and opposite colour then add allow move for this piece)
-// If diagonal (+-7 and +-9) is occupied by enemy square then allow for that move to be made (move to desitnation function will 
-//Take care of visual capture via a exported function (captureFunction.js), and will also change colour for that availbe move through
-//The same function.
-//Rook, bishop and queen get their "available squares" if the game detects a piece in the way. 
 
 export const availablePieceMovesObject = {
 	pawn: function(squareIndex, color) {
@@ -69,7 +64,7 @@ export const availablePieceMovesObject = {
 		}
 	},
 	bishop: function(squareIndex, color) {
-		if (legalDirection[color].NW_SE === true) {
+		if (legalDirection[color].NW_SE) {
 			for (let i = (squareIndex - 9); (i % 8) < (squareIndex % 8) && 0 <= i; i-=9) {
 				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
 				allowMove(i);
@@ -81,7 +76,7 @@ export const availablePieceMovesObject = {
 				if (Main.stateGrid[i] !== 0) break;
 			}
 		}
-		if (legalDirection[color].NE_SW === true) {
+		if (legalDirection[color].NE_SW) {
 			for (let i = (squareIndex - 7); (squareIndex % 8) < (i % 8) && 0 < i; i-=7) {
 				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
 				allowMove(i);
@@ -95,7 +90,7 @@ export const availablePieceMovesObject = {
 		}
 	},
 	rook: function(squareIndex, color) {
-		if (legalDirection[color].east_west === true) {
+		if (legalDirection[color].east_west) {
 			for (let i = (squareIndex - 1); (squareIndex) % 8 > (i % 8) && 0 <= i; i--) {
 				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
 				allowMove(i);
@@ -107,7 +102,7 @@ export const availablePieceMovesObject = {
 				if (Main.stateGrid[i] !== 0) break;
 			}
 		}
-		if (legalDirection[color].north_south === true) {
+		if (legalDirection[color].north_south) {
 			for (let i = (squareIndex - 8); 0 <= i; i-=8) {
 				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
 				allowMove(i);
@@ -121,7 +116,7 @@ export const availablePieceMovesObject = {
 		}
 	},
 	knight: function(squareIndex, color){
-		if (selectPieceState.pieceIsPinned === true) return;
+		if (selectPieceState.pieceIsPinned) return;
 		let LU = squareIndex - 10 
 		let LUU = squareIndex - 17;
 		let LD = squareIndex + 6;
@@ -179,7 +174,7 @@ export const availablePieceMovesObject = {
 					break;
 				} 
 			}
-			if (!checkIfPieceOnSquare(desiredSquare, color) && letKingMovehere === true) {
+			if (!checkIfPieceOnSquare(desiredSquare, color) && letKingMovehere) {
 				allowMove(desiredSquare);
 			}
 		}
@@ -225,10 +220,10 @@ function reviewIfKingMayCastleLeft(squareIndex, color) {
 		else noPieceBetweenKingRook.left[i] = true;
 	}
 	for (let i = 1; i < noPieceBetweenKingRook.left.length; i++) {
-		if (noPieceBetweenKingRook.left[0] === true && noPieceBetweenKingRook.left[i] === true) selectPieceState.letKingCastleLeft = true;
+		if (noPieceBetweenKingRook.left[0] && noPieceBetweenKingRook.left[i]) selectPieceState.letKingCastleLeft = true;
 		else break;
 	}
-	if (selectPieceState.letKingCastleLeft === true) {
+	if (selectPieceState.letKingCastleLeft) {
 		Main.grid[squareIndex - 2].addEventListener('click', moveToDestination);
 		Main.grid[squareIndex - 2].style.boxShadow = highlightDestinationSquares;
 	}
@@ -245,10 +240,10 @@ function reviewIfKingMayCastleRight(squareIndex, color) {
 		else noPieceBetweenKingRook.right[i] = true;
 	}
 	for (let i = 1; i < noPieceBetweenKingRook.right.length; i++) {
-		if (noPieceBetweenKingRook.right[0] === true && noPieceBetweenKingRook.right[i] === true) selectPieceState.letKingCastleRight = true;
+		if (noPieceBetweenKingRook.right[0] && noPieceBetweenKingRook.right[i]) selectPieceState.letKingCastleRight = true;
 		else break;
 	}
-	if (selectPieceState.letKingCastleRight === true) {
+	if (selectPieceState.letKingCastleRight) {
 		Main.grid[squareIndex + 2].addEventListener('click', moveToDestination);
 		Main.grid[squareIndex + 2].style.boxShadow = highlightDestinationSquares;
 	}
