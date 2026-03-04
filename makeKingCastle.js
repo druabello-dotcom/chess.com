@@ -1,15 +1,17 @@
 import * as Main from "./main.js";
+import * as CreatePieceElements from "./createPieceElements.js"
 import { chessboardBoard, subtractChessboardPixels } from "./main.js";
 import * as additFunc from "./additionalFunctions.js"
 
 import { castleSound } from "./sounds.js";
 import { registerTurn } from "./turnRegister.js";
-import { selectPieceState, pieceSquarePositionArray, piecesHasNotMoved, pieceElementsObject, pieceNumberIdentifier } from "./gameState.js";
+import { selectPieceState, pieceSquarePositionArray, piecesHasNotMoved, pieceElementsObject, pieceNumberIdentifier, kingUnavailableaSquares, pieceAttackingKing } from "./gameState.js";
 import { movePieceElementToDestination } from "./movePieceToDestination.js";
+import { attackingMovesObject } from "./attackingMovesKing.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-export function makeKingCastle(rookIndex, rookMove, rookGridPlacement) {
+export function makeKingCastle(rookIndex, rookMove, rookGridPlacement, oppositeColor) {
 	let rookMoveTo = selectPieceState.selectedSquareId + (rookMove)
 	piecesHasNotMoved[selectPieceState.pieceColor].king = false;
 	piecesHasNotMoved[selectPieceState.pieceColor].rook[rookIndex] = false;
@@ -35,6 +37,17 @@ export function makeKingCastle(rookIndex, rookMove, rookGridPlacement) {
     selectPieceState.letKingCastleRight = false;
 	piecesHasNotMoved[selectPieceState.pieceColor].rook[rookIndex] = false;
 	piecesHasNotMoved[selectPieceState.pieceColor].king = false;
+	additFunc.resetPinnedPiecesList(oppositeColor);
+	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
+		let type = CreatePieceElements.pieceTypeArray[t];
+		for (let i = 0; i < pieceSquarePositionArray[selectPieceState.pieceColor][type].length; i++) {
+			let squareIndex = pieceSquarePositionArray[selectPieceState.pieceColor][type][i];
+			if (squareIndex === null) continue;
+			attackingMovesObject[type](squareIndex, oppositeColor, selectPieceState.pieceColor);
+		}
+	}
+	
+	additFunc.reviewIfKingIsChecked(oppositeColor, selectPieceState.pieceColor);
 	
 	// reset onSquareClick information
 	additFunc.resetOnSquareClick();
