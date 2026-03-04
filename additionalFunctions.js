@@ -1,6 +1,6 @@
 import * as Main from "./main.js";
 import { giveCheckSound } from "./sounds.js";
-import { kingUnavailableaSquares, selectPieceState, pieceSquarePositionArray, pinnedPiecesObject, legalDirection, kingState } from "./gameState.js";
+import { kingUnavailableaSquares, selectPieceState, pieceSquarePositionArray, pinnedPiecesObject, legalDirection, kingState, pieceAttackingKing } from "./gameState.js";
 import { onSquareClick } from "./onSquareClick.js";
 import { moveToDestination } from "./movePieceToDestination.js";
 import { updateKAS } from "./legalMovesInCheck.js";
@@ -13,6 +13,7 @@ export function resetOnSquareClick() {
 	for (let i = 0; i < 64; i++) {
 		Main.grid[i].removeEventListener('click', moveToDestination);
 		Main.grid[i].addEventListener('click', onSquareClick);
+		Main.grid[i].style.filter = "brightness(1)";
 		Main.grid[i].style.boxShadow = "";
 	}
 	if (selectPieceState.selectedSquare) selectPieceState.selectedSquare.style.filter = "brightness(1)";
@@ -45,7 +46,7 @@ export function reviewIfKingIsChecked(oppositeColor, color) {
 			giveCheckSound();
 			kingState[oppositeColor].checked = true;
 			for (i = 0; i < 64; i++) {
-				Main.grid[i].removeEventListener('click', onSquareClick);
+				Main.grid[i].addEventListener('click', onSquareClick);
 				Main.grid[i].style.filter = "brightness(1)";
 				Main.grid[i].style.boxShadow = "";
 			}
@@ -56,6 +57,7 @@ export function reviewIfKingIsChecked(oppositeColor, color) {
 			return;
 		}
 	}
+	kingState[oppositeColor].checked = false;
 }
 export function isPiecePinned(squarePosition, color) {
 	for (let i = 0; i < pinnedPiecesObject[color].square.length; i++) {

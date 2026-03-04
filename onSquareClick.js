@@ -1,9 +1,10 @@
 import * as Main from "./main.js";
 import * as additFunc from "./additionalFunctions.js"
 import * as TurnRegister from "./turnRegister.js";
-import { selectPieceState, pieceSquarePositionArray, pieceElementsObject } from "./gameState.js";
+import { selectPieceState, pieceSquarePositionArray, pieceElementsObject, kingState } from "./gameState.js";
 import { moveToDestination } from "./movePieceToDestination.js";
 import { availablePieceMovesObject } from "./createAvailableMoves.js";
+import { piecesCanDefend } from "./legalMovesInCheck.js";
 
 //———————————————————————————————————————————————————————————————————————————————————
 
@@ -13,14 +14,21 @@ export function onSquareClick(event) {
 	if (selectPieceState.isClicked === true) return;
 
 	// check if selected square has a piece or not
-	if (Main.stateGrid[selectPieceState.selectedSquareId] === 0) {
-		return;
-	}
+	if (Main.stateGrid[selectPieceState.selectedSquareId] === 0) return;
 	selectPieceState.valueInSquare = Main.stateGrid[selectPieceState.selectedSquareId];
 	if (selectPieceState.valueInSquare < 0) selectPieceState.pieceColor = 'black';
 	else if (0 < selectPieceState.valueInSquare) selectPieceState.pieceColor = 'white';
-	if (selectPieceState.pieceColor !== TurnRegister.registerTurnVariables.turnDecider) return; // same player can't move twice in a row
 
+	if (kingState[selectPieceState.pieceColor].checked === true) {
+		let counter = 0;
+		for (let i = 0; i < piecesCanDefend.length; i++, counter++) {
+			if (piecesCanDefend[i] === selectPieceState.selectedSquareId) break;
+		}
+		let kingSquare = pieceSquarePositionArray[selectPieceState.pieceColor].king[0];
+		if (counter === piecesCanDefend.length && selectPieceState.selectedSquareId !== kingSquare) return;
+	}
+
+	if (selectPieceState.pieceColor !== TurnRegister.registerTurnVariables.turnDecider) return; // same player can't move twice in a row
 	selectPieceState.isClicked = true;
 	selectPieceState.selectedSquare.style.filter = "brightness(0.4)";
 

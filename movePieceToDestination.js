@@ -8,7 +8,7 @@ import { attackingMovesObject } from "./attackingMovesKing.js"
 import { promotePawn } from "./pawnPromotion.js"
 import { chessboardBoard, subtractChessboardPixels } from "./main.js"
 import { makeKingCastle } from "./makeKingCastle.js"
-import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray, kingUnavailableaSquares } from "./gameState.js"
+import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray, kingUnavailableaSquares, pieceAttackingKing } from "./gameState.js"
 
 //———————————————————————————————————————————————————————————————————————————————————
 
@@ -18,6 +18,10 @@ export function moveToDestination(destination) {
 	if (selectPieceState.pieceColor === 'white') oppositeColor = 'black'
 	else oppositeColor = 'white';
 	kingUnavailableaSquares[oppositeColor].length = 0;
+	pieceAttackingKing.square.length = 0;
+	pieceAttackingKing.direction.length = 0;
+	pieceAttackingKing.iterations.length = 0;
+	pieceAttackingKing.pieceType.length = 0;
 	
     selectPieceState.destinationSquare = destination.target;
     selectPieceState.destinationSquareId = Number(destination.target.id);
@@ -72,7 +76,7 @@ export function moveToDestination(destination) {
 		for (let i = 0; i < pieceSquarePositionArray[selectPieceState.pieceColor][type].length; i++) {
 			let squareIndex = pieceSquarePositionArray[selectPieceState.pieceColor][type][i];
 			if (squareIndex === null) continue;
-			attackingMovesObject[type](squareIndex, oppositeColor);
+			attackingMovesObject[type](squareIndex, oppositeColor, selectPieceState.pieceColor);
 		}
 	}
 	
