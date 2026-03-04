@@ -45,7 +45,7 @@ export function reviewIfKingIsChecked(oppositeColor, color) {
 			giveCheckSound();
 			kingState[oppositeColor].checked = true;
 			for (i = 0; i < 64; i++) {
-				Main.grid[i].removeEventListener('click', onSquareClick);
+				Main.grid[i].addEventListener('click', onSquareClick);
 				Main.grid[i].style.filter = "brightness(1)";
 				Main.grid[i].style.boxShadow = "";
 			}
@@ -56,6 +56,7 @@ export function reviewIfKingIsChecked(oppositeColor, color) {
 			return;
 		}
 	}
+	kingState[oppositeColor].checked = false;
 }
 export function isPiecePinned(squarePosition, color) {
 	for (let i = 0; i < pinnedPiecesObject[color].square.length; i++) {

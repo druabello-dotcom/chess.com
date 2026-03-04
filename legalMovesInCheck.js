@@ -1,30 +1,10 @@
 import { winScreen, stateGrid, grid } from "./main.js";
 import { kingAvailableSquares, kingUnavailableaSquares, pieceAttackingKing } from "./gameState.js"
 import { checkIfPieceOnSquare } from "./createAvailableMoves.js"
-import { onSquareClick } from "./onSquareClick.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
-/* 
-NOTATER:
-- king gets checked
-- check if there are any available moves FOR KING
-- if not, check if there are any friendly pieces that can capture the piece that checked the king
-- if not, check if there are any pieces that can block the check (from the direction it came from)
 
-That means I need to store what piece, and what direction the attack came from
-- store piece
-- store square of the piece
-- eventually store the incrementation (direction from where the attacking piee came from)
-
-Where I need to update KAS:
-- if king is in check
-- in moveToDestination for opposite color 
-- check if there are any available moves around the king
-- if KAS.length = 0 —> checkmate
- */
-
-
-let piecesCanDefend = [];
+export const piecesCanDefend = [];
 
 function isSquareValid(square, oppositeColor) {
     if (square < 0 || 63 < square) return false;
@@ -77,18 +57,16 @@ export function updateKAS(squareIndex, oppositeColor, color) {
 
     if (kingAvailableSquares[oppositeColor].length === 0) {
         canDefendKing(squareIndex, oppositeColor)
-        console.log(piecesCanDefend)
         if (piecesCanDefend.length === 0) {
             winScreen.style.display = "flex";
             let victoryAnnouncer = document.querySelector('#victoryAnnouncement h1');
             let victoryGoesTo = `${color} won!`;
             victoryAnnouncer.innerText = `${victoryGoesTo.toUpperCase()}`
-            console.log("Checkmate");
         }
     }
 }
 
-
+// register pieces that defend the king from check (block the check)
 function canDefendKing(kingSquare, color) {
     piecesCanDefend.length = 0;
     if (1 < pieceAttackingKing.square.length) return;
@@ -206,7 +184,6 @@ function letPieceDefend(square, color) {
     if (color === 'black' && stateGrid[square] > 0) return;
     if (color === 'white' && stateGrid[square] < 0) return;
 
-    grid[square].addEventListener('click', onSquareClick);
     piecesCanDefend.push(square);
 }
 
