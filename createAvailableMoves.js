@@ -42,7 +42,7 @@ export const availablePieceMovesObject = {
 				allowMove(attackingLeft);
 			}
 			if (0 < Main.stateGrid[attackingRight] && ((squareIndex % 8) < (attackingRight % 8)) && attackingRight < 64) {
-				allowMove(attackingLeft);
+				allowMove(attackingRight);
 			}
 		} else if (color === 'white') {
 			oneStep = squareIndex - 8;
@@ -56,9 +56,8 @@ export const availablePieceMovesObject = {
 				allowMove(attackingRight);
 			}
 		}
-		if (Main.stateGrid[oneStep] === 0 && 0 <= oneStep && oneStep < 64) {
-			allowMove(oneStep);
-		}
+
+		if (Main.stateGrid[oneStep] === 0 && 0 <= oneStep && oneStep < 64) allowMove(oneStep);
 		if (piecesHasNotMoved[color].pawn[selectPieceState.selectedPieceIndex] && Main.stateGrid[doubleStep] === 0 && 0 <= doubleStep && doubleStep < 64) {
 			allowMove(doubleStep);
 		}
