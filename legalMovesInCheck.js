@@ -1,5 +1,5 @@
 import { winScreen, stateGrid, grid } from "./main.js";
-import { kingAvailableSquares, kingUnavailableaSquares, pieceAttackingKing } from "./gameState.js"
+import { kingAvailableSquares, kingState, kingUnavailableaSquares, pieceAttackingKing } from "./gameState.js"
 import { checkIfPieceOnSquare } from "./createAvailableMoves.js"
 import { endGame } from "./sounds.js";
 
@@ -56,13 +56,9 @@ export function updateKAS(squareIndex, oppositeColor, color) {
         kingAvailableSquares[oppositeColor].push(left);
     }
 
-    if (kingAvailableSquares[oppositeColor].length === 0) {
+    if (kingState[oppositeColor].checked === true) {
         canDefendKing(squareIndex, oppositeColor)
-        console.log("square of attack:  " + pieceAttackingKing.square[0]);
-        console.log("Direction of attackt:  " + pieceAttackingKing.direction[0]);
-        console.log("iternations of attack:  " + pieceAttackingKing.iterations[0]);
-        console.log(piecesCanDefend);
-        if (piecesCanDefend.length === 0) {
+        if (piecesCanDefend.length === 0 && kingAvailableSquares[oppositeColor].length === 0) {
             endGame();
             winScreen.style.display = "flex";
             let victoryAnnouncer = document.querySelector('#victoryAnnouncement h1');
@@ -78,7 +74,6 @@ function canDefendKing(kingSquare, color) {
     if (1 < pieceAttackingKing.square.length) return;
     for (let checkingSquare = kingSquare - pieceAttackingKing.direction[0], j = 0; j < pieceAttackingKing.iterations[0]; checkingSquare -= pieceAttackingKing.direction[0], j++) {
         //check for pawn
-        console.log("checking square:  " + checkingSquare);
         if (checkingSquare !== pieceAttackingKing.square[0]) canPawnDefend(checkingSquare, color);
 
         //Check for rook or queen
@@ -111,7 +106,7 @@ function canDefendKing(kingSquare, color) {
             break;
         }
 
-        //check for bishop
+        //check for bishop or queen
         for (let i = checkingSquare - 9; (i % 8) < (checkingSquare % 8) && 0 <= i; i-=9) {
             if (stateGrid[i] === 0) continue;
             if (Math.abs(stateGrid[i]) === 3 || Math.abs(stateGrid[i]) === 5) {

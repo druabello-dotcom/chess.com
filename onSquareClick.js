@@ -24,7 +24,8 @@ export function onSquareClick(event) {
 		for (let i = 0; i < piecesCanDefend.length; i++, counter++) {
 			if (piecesCanDefend[i] === selectPieceState.selectedSquareId) break;
 		}
-		if (counter === piecesCanDefend.length && selectPieceState.selectedSquareId !== pieceSquarePositionArray[selectPieceState.pieceColor].king[0]) return;
+		let kingSquare = pieceSquarePositionArray[selectPieceState.pieceColor].king[0];
+		if (counter === piecesCanDefend.length && selectPieceState.selectedSquareId !== kingSquare) return;
 	}
 
 	if (selectPieceState.pieceColor !== TurnRegister.registerTurnVariables.turnDecider) return; // same player can't move twice in a row

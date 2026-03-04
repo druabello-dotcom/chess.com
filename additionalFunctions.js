@@ -52,7 +52,6 @@ export function reviewIfKingIsChecked(oppositeColor, color) {
 			}
 			updateKAS(pieceSquarePositionArray[oppositeColor].king[0], oppositeColor, color);
 			Main.grid[pieceSquarePositionArray[oppositeColor].king[0]].style.boxShadow = "inset 0 0 0 4px #F01E2C";
-			console.log(pieceAttackingKing);
 			Main.grid[pieceSquarePositionArray[oppositeColor].king[0]].addEventListener('click', onSquareClick);
 			resetOnSquareClickInfo();
 			return;
