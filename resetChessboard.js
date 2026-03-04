@@ -3,17 +3,15 @@ import * as TurnRegister from "./turnRegister.js";
 import * as CreatePieceElements from "./createPieceElements.js";
 import * as additFunc from "./additionalFunctions.js";
 
-import { selectPieceState } from "./gameState.js";
+import { kingState, selectPieceState } from "./gameState.js";
 import { piecesHasNotMoved } from "./gameState.js";
 import { noPieceBetweenKingRook } from "./gameState.js";
 import { pieceSquarePositionArray } from "./gameState.js";
 import { pieceNumberIdentifier } from "./gameState.js";
 import { pieceElementsObject } from "./gameState.js";
-import { chessboardBoard } from "./main.js";
-import { subtractChessboardPixels } from "./main.js";
+import { chessboardBoard, subtractChessboardPixels, winScreen } from "./main.js";
 
-
-import { remainingSeconds, whiteClk } from "./Clock.js";
+import { remainingSeconds } from "./Clock.js";
 import { urgencyMode } from "./Clock.js";
 import { timeInterval  } from "./Clock.js";
 import { msTimeInterval  } from "./Clock.js";
@@ -24,14 +22,19 @@ import {timeReference} from "./Clock.js"
 import { inceraseOpacity } from "./Clock.js";
 
 export const resetChessboardButtonElements = {
-    resetChessboardButton: document.getElementById('resetChessboardButton'),
+    resetChessboardButton: document.getElementsByClassName('resetChessboardButton'),
     topLayerButton: document.getElementById('topLayer')
 }
+export let pawnSpanElementObject = {
+	black: [],
+	white: []
+}
 
- //—————————————————————————————————————————————————————————————————————————————————————
+//—————————————————————————————————————————————————————————————————————————————————————
 
 let classNamePieceArray = document.querySelectorAll('.piece');
 export function resetChessboard() {
+	winScreen.style.display = "none";
 	TurnRegister.registerTurnVariables.turnCounter = 0;
 	TurnRegister.registerTurnVariables.turnCounterElement.innerText = "Turn counter:  " + TurnRegister.registerTurnVariables.turnCounter;
 	TurnRegister.registerTurnVariables.turnDecider = 'white';
@@ -71,7 +74,7 @@ startClockAfterFirstMove()
 		whiteMoveColumnElements[i].remove();
 	}
 	for (let i = 0; i < blackMoveColumnElements.length; i++) blackMoveColumnElements[i].remove();
-	TurnRegister.registerTurnVariables.logBookRowCounter = 0;
+	TurnRegister.logBookVariables.logBookRowCounter = 0;
 
 	// reset castling information
 	noPieceBetweenKingRook.left.fill(false);
@@ -87,19 +90,26 @@ startClockAfterFirstMove()
     piecesHasNotMoved.black.king = true;
     piecesHasNotMoved.white.king = true;
 
+	kingState.black.checked = false;
+	kingState.white.checked = false;
+
 	// remove all pieces with class name "piece"
-	for (let i = 0; i < classNamePieceArray.length; i++) {
-		classNamePieceArray[i].remove();
-	}
+	for (let i = 0; i < classNamePieceArray.length; i++) classNamePieceArray[i].remove();
 
 	// create the piece elements. Append them as childs of the chessboard
 	const visualPieceElements = CreatePieceElements.createPieceElements();
-	for (let i = 0; i < visualPieceElements.length; i++) {
-		chessboard.appendChild(visualPieceElements[i]);
-	}
+	for (let i = 0; i < visualPieceElements.length; i++) chessboard.appendChild(visualPieceElements[i]);
+
 	classNamePieceArray = document.querySelectorAll('.piece');
-	for (let i = 0; i < classNamePieceArray.length; i++) {
-		classNamePieceArray[i].style.transition = "0.15s";
+	for (let i = 0; i < classNamePieceArray.length; i++) classNamePieceArray[i].style.transition = "0.15s";
+	
+	pawnSpanElementObject.black = [];
+	pawnSpanElementObject.white = [];
+	let blackPawns = document.querySelectorAll('.piece.black.pawn img');
+	let whitePawns = document.querySelectorAll('.piece.white.pawn img');
+	for (let i = 0; i < 8; i++) {
+		pawnSpanElementObject.black.push(blackPawns[i]);
+		pawnSpanElementObject.white.push(whitePawns[i]);
 	}
 
 	// fill pieceElementObject with array to corresponding color and piece
@@ -108,7 +118,6 @@ startClockAfterFirstMove()
 		pieceElementsObject.black[type] = Array.from(document.querySelectorAll(`.black.${type}`));
 		pieceElementsObject.white[type] = Array.from(document.querySelectorAll(`.white.${type}`));
 	}
-	console.log(pieceElementsObject);
 
 	let pieceSquareIncrementation = {
 		pawn: 1,
@@ -140,8 +149,6 @@ startClockAfterFirstMove()
 	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
 		let type = CreatePieceElements.pieceTypeArray[t];
 		for (let counts = 0, blackStartingSquare = pieceStartingSquare.black[type], whiteStartingSquare = pieceStartingSquare.white[type]; counts < CreatePieceElements.pieceCounts[type]; counts++) {
-			console.log("Piece type:  " + type + "     Count:  " + counts);
-
 			// reset background information
 			pieceSquarePositionArray.black[type][counts] = blackStartingSquare;
 			pieceSquarePositionArray.white[type][counts] = whiteStartingSquare;
@@ -162,7 +169,6 @@ startClockAfterFirstMove()
 			whiteStartingSquare += pieceSquareIncrementation[type];
 		}
 	}
+	additFunc.resetOnSquareClickInfo();
     additFunc.resetOnSquareClick();
-	console.log(Main.stateGrid);
-	
 }

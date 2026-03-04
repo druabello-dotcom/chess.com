@@ -1,21 +1,48 @@
-import * as Main from "./main.js"
+import * as CreatePieceElements from "./createPieceElements.js"
 import * as additFunc from "./additionalFunctions.js"
-import * as TurnRegister from "./turnRegister.js";
+import * as TurnRegister from "./turnRegister.js"
 
-
-import { chessboardBoard } from "./main.js";
-import { subtractChessboardPixels } from "./main.js";
-import { makeKingCastle } from "./makeKingCastle.js";
-import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray } from "./gameState.js";
+import { soundWhenMovingPiece } from "./sounds.js";
+import { capturePieceFunction } from "./captureFunction.js";
+import { attackingMovesObject } from "./attackingMovesKing.js"
+import { promotePawn } from "./pawnPromotion.js"
+import { chessboardBoard, subtractChessboardPixels } from "./main.js"
+import { makeKingCastle } from "./makeKingCastle.js"
+import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray, kingUnavailableaSquares, pieceAttackingKing } from "./gameState.js"
 import { afterMoveNewTime } from "./Clock.js";
 
-
+//———————————————————————————————————————————————————————————————————————————————————
 
 export async function moveToDestination(destination) {
 	// register destination square
-	/* selectPieceStateselectPieceState.destinationSquareIddestination.target; */
+	let oppositeColor = null;
+	if (selectPieceState.pieceColor === 'white') oppositeColor = 'black'
+	else oppositeColor = 'white';
+	kingUnavailableaSquares[oppositeColor].length = 0;
+	pieceAttackingKing.square.length = 0;
+	pieceAttackingKing.direction.length = 0;
+	pieceAttackingKing.iterations.length = 0;
+	pieceAttackingKing.pieceType.length = 0;
+	
     selectPieceState.destinationSquare = destination.target;
     selectPieceState.destinationSquareId = Number(destination.target.id);
+
+	// if user clicks on a piece with same color, activate resetOnSquareClick()
+	for (let i = 0; i < selectPieceState.clickOnPieceToReset.length; i++) {
+		if (selectPieceState.clickOnPieceToReset[i] === selectPieceState.destinationSquareId) {
+			additFunc.resetLegalDirections(selectPieceState.pieceColor);
+			additFunc.resetOnSquareClick();
+			additFunc.resetOnSquareClickInfo();
+			return;
+		}
+	}
+
+	// if pawn is on the other side —> promote
+	if (selectPieceState.pieceType === 'pawn') {
+		if ((0 <= selectPieceState.destinationSquareId && selectPieceState.destinationSquareId < 8) || (56 <= selectPieceState.destinationSquareId && selectPieceState.destinationSquareId < 64)) {
+			promotePawn(selectPieceState.destinationSquareId);
+		}
+	}
 
 	// if user wants to castle, here it is activated
 	if (selectPieceState.pieceType === 'king' && (selectPieceState.destinationSquareId === selectPieceState.selectedSquareId - 2 || selectPieceState.destinationSquareId === selectPieceState.selectedSquareId + 2)) {
@@ -28,23 +55,15 @@ export async function moveToDestination(destination) {
 		}
 		return;
 	}
+	capturePieceFunction(selectPieceState.destinationSquareId);
 
-	// if user clicks on a piece with same color, activate resetOnSquareClick()
-	for (let i = 0; i < selectPieceState.clickOnPieceToReset.length; i++) {
-		if (selectPieceState.destinationSquareId === selectPieceState.clickOnPieceToReset[i]) {
-			additFunc.resetOnSquareClick();
-			additFunc.resetOnSquareClickInfo();
-			return;
-		}
-	}
 	movePieceElementToDestination();
 
 	additFunc.updateStateGrid();
+	soundWhenMovingPiece();
 
 	// update Main.pieceSquarePositionArray
 	pieceSquarePositionArray[selectPieceState.pieceColor][selectPieceState.pieceType][selectPieceState.selectedPieceIndex] = selectPieceState.destinationSquareId;
-	/* console.log("Black " + selectPieceState.pieceType + ":  " +  Main.pieceSquarePositionArray.black[selectPieceState.pieceType]); */
-	/* console.log("White " + selectPieceState.pieceType + ":  " + Main.pieceSquarePositionArray.white[selectPieceState.pieceType]); */
 
 	// pawn's double step rule: (Article 3.7.b), a pawn may move two squares forward on its very first move
 	if (selectPieceState.pieceType === 'pawn') piecesHasNotMoved[selectPieceState.pieceColor].pawn[selectPieceState.selectedPieceIndex] = false;
@@ -53,17 +72,29 @@ export async function moveToDestination(destination) {
 
 
 	TurnRegister.registerTurn();
-	afterMoveNewTime(); 
-
+	afterMoveNewTime();
+	// update kingUnavailableSquares[oppositeColor]
+	additFunc.resetPinnedPiecesList(oppositeColor);
+	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
+		let type = CreatePieceElements.pieceTypeArray[t];
+		for (let i = 0; i < pieceSquarePositionArray[selectPieceState.pieceColor][type].length; i++) {
+			let squareIndex = pieceSquarePositionArray[selectPieceState.pieceColor][type][i];
+			if (squareIndex === null) continue;
+			attackingMovesObject[type](squareIndex, oppositeColor, selectPieceState.pieceColor);
+		}
+	}
+	
 	// reset after piece has been moved
+	additFunc.reviewIfKingIsChecked(oppositeColor, selectPieceState.pieceColor);
 	additFunc.resetOnSquareClick();
 	additFunc.resetOnSquareClickInfo();
 }
 
+//———————————————————————————————————————————————————————————————————————————————————
+
 export function movePieceElementToDestination() {
 	selectPieceState.x_squareCoordinate = parseInt(chessboardBoard.centerPositionSqaure[selectPieceState.destinationSquareId].x_coordinate);
 	selectPieceState.y_squareCoordinate = parseInt(chessboardBoard.centerPositionSqaure[selectPieceState.destinationSquareId].y_coordinate);
-	console.log(selectPieceState.x_squareCoordinate + ", " + selectPieceState.y_squareCoordinate);
 
 	// move piece to destination square
 	selectPieceState.selectedPiece.style.left = (selectPieceState.x_squareCoordinate - subtractChessboardPixels.width) + "px"; // FIND better way, than to subtract

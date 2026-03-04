@@ -17,7 +17,8 @@ export const selectPieceState = {
     y_squareCoordinate: null,
 
     letKingCastleLeft: false,
-    letKingCastleRight:false
+    letKingCastleRight:false,
+	pieceIsPinned: false
 }
 
 export let piecesHasNotMoved = {
@@ -93,4 +94,56 @@ export const pieceNumberIdentifier = {
 		queen: 5,
 		king: 6
 	} 
+}
+
+export const kingUnavailableaSquares = {
+	black: [],
+	white: []
+}
+
+export const pinnedPiecesObject = {
+	black: {
+		square: [],
+		incrementation: []
+	},
+	white: {
+		square: [],
+		incrementation: []
+	}
+}
+
+export const legalDirection = {
+	black: {
+		north_south: true,
+		east_west: true,
+		NE_SW: true,
+		NW_SE: true,
+	},
+	white: {
+		north_south: true,
+		east_west: true,
+		NE_SW: true,
+		NW_SE: true,
+	}
+}
+
+export const kingAvailableSquares = {
+	black: [],
+	white: []
+}
+
+export const kingState = {
+	black: {
+		checked: false
+	},
+	white: {
+		checked: false
+	}
+}
+
+export const pieceAttackingKing = {
+	square: [],
+	direction: [],
+	iterations: [],
+	pieceType: []
 }
