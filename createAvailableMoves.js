@@ -63,6 +63,9 @@ export const availablePieceMovesObject = {
     		allowMove(squareIndex - 9);
 			}
 		}
+
+		console.log(Main.grid[selectPieceState.selectedSquareId])
+		console.log(event)
 	},
 	bishop: function(squareIndex, color) {
 		if (legalDirection[color].NW_SE === true) {
