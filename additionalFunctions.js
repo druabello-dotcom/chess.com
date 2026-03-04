@@ -43,8 +43,6 @@ export function resetOnSquareClickInfo() {
 export function reviewIfKingIsChecked(oppositeColor, color) {
 	for (let i = 0; i < kingUnavailableaSquares[oppositeColor].length; i++) {
 		if (pieceSquarePositionArray[oppositeColor].king[0] === kingUnavailableaSquares[oppositeColor][i]) {
-			giveCheckSound();
-			kingState[oppositeColor].checked = true;
 			for (i = 0; i < 64; i++) {
 				Main.grid[i].addEventListener('click', onSquareClick);
 				Main.grid[i].style.filter = "brightness(1)";
@@ -57,7 +55,6 @@ export function reviewIfKingIsChecked(oppositeColor, color) {
 			return;
 		}
 	}
-	kingState[oppositeColor].checked = false;
 }
 export function isPiecePinned(squarePosition, color) {
 	for (let i = 0; i < pinnedPiecesObject[color].square.length; i++) {
@@ -107,5 +104,6 @@ export function resetLegalDirections(color) {
 }
 export function resetPinnedPiecesList(color) {
 	pinnedPiecesObject[color].square.length = 0;
+	pinnedPiecesObject[color].incrementation.length = 0;
 	resetLegalDirections(color);
 }
