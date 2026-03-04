@@ -34,7 +34,70 @@ function allowMove(desiredSquare) {
 export const availablePieceMovesObject = {
 	pawn: function(squareIndex, color) {
 		if (legalDirection[color].north_south !== true) return;
-		if (selectPieceState.pieceColor === 'black' && (squareIndex + 8) < 64) { 
+		let oneStep = null;
+		let doubleStep = null;
+		let attackingLeft = null;
+		let attackingRight = null;
+		if (color === 'black') {
+			oneStep = squareIndex + 8;
+			doubleStep = squareIndex + 16;
+			attackingLeft = squareIndex + 7;
+			attackingRight = squareIndex + 9
+			if (0 < Main.stateGrid[attackingLeft] && ((attackingLeft & 8) < (squareIndex % 8)) && attackingLeft < 64) {
+				allowMove(attackingLeft);
+			}
+			if (0 < Main.stateGrid[attackingRight] && ((squareIndex % 8) < (attackingRight % 8)) && attackingRight < 64) {
+				allowMove(attackingLeft);
+			}
+		} else if (color === 'white') {
+			oneStep = squareIndex - 8;
+			doubleStep = squareIndex - 16;
+			attackingLeft = squareIndex - 9;
+			attackingRight = squareIndex - 7;
+			if (Main.stateGrid[attackingLeft] < 0 && ((attackingLeft % 8) < (squareIndex % 8)) && 0 <= attackingLeft) {
+				allowMove(attackingLeft);
+			}
+			if (Main.stateGrid[attackingRight] < 0 && ((squareIndex % 8) < (attackingRight % 8)) && 0 <= attackingRight) {
+				allowMove(attackingRight);
+			}
+		}
+		if (Main.stateGrid[oneStep] === 0 && 0 <= oneStep && oneStep < 64) {
+			allowMove(oneStep);
+		}
+		if (piecesHasNotMoved[color].pawn[selectPieceState.selectedPieceIndex] && Main.stateGrid[doubleStep] === 0 && 0 <= doubleStep && doubleStep < 64) {
+			allowMove(doubleStep);
+		}
+/* 		if (color === 'black') {
+			if (Main.stateGrid[squareIndex + 8] === 0 && (squareIndex + 8) < 64) {
+				allowMove(squareIndex + 8);
+			} 
+			if (piecesHasNotMoved[color].pawn[selectPieceState.selectedPieceIndex] && Main.stateGrid[squareIndex + 16] === 0 && (squareIndex + 16) < 64) {
+				allowMove(squareIndex + 16);
+			}
+			//capture moves
+			if (0 < Main.stateGrid[squareIndex + 7] && ((squareIndex + 7 % 8) < (squareIndex % 8) && (squareIndex + 7) < 64)) {
+				allowMove(squareIndex + 7);
+			}
+			if (0 < Main.stateGrid[squareIndex + 9] && ((squareIndex % 8) < (squareIndex + 9 % 8) && (squareIndex + 9) < 64)) {
+				allowMove(squareIndex + 9);
+			}
+		} else if (color === 'white') {
+			if (Main.stateGrid[squareIndex - 8] === 0 && (squareIndex - 8) < 64) {
+				allowMove(squareIndex - 8);
+			}
+			if (piecesHasNotMoved[color].pawn[selectPieceState.selectedPieceIndex] && Main.stateGrid[squareIndex - 16] === 0 && 0 <= (squareIndex - 16)) {
+				allowMove(squareIndex - 16);
+			}
+			//capture moves
+			if (Main.stateGrid[squareIndex - 7] < 0 && ((squareIndex % 8) < (squareIndex - 7 % 8) && 0 <= (squareIndex - 7))) {
+				allowMove(squareIndex - 7);
+			}
+			if (0 < Main.stateGrid[squareIndex - 9] && ((squareIndex - 9 % 8) < (squareIndex % 8) && (squareIndex - 9) < 64)) {
+				allowMove(squareIndex - 9);
+			}
+		} */
+
+/* 		if (selectPieceState.pieceColor === 'black' && (squareIndex + 8) < 64) { 
 			if( Main.stateGrid[squareIndex + 8] ===0 )
 			allowMove(squareIndex + 8);
 			if (piecesHasNotMoved.black.pawn[selectPieceState.selectedPieceIndex] === true) {
@@ -62,7 +125,7 @@ export const availablePieceMovesObject = {
 			if ( Main.stateGrid[squareIndex-9]<0 && squareIndex - 9 < 64 && squareIndex % 8 !== 0) {
     		allowMove(squareIndex - 9);
 			}
-		}
+		} */
 	},
 	bishop: function(squareIndex, color) {
 		if (legalDirection[color].NW_SE === true) {
