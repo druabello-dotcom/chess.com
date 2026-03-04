@@ -244,8 +244,8 @@ export function clockFunction() {
       registerTurnVariables.turnDecider + "ClockVisual",
     ).innerHTML = minutes + ":" + seconds.toString().padStart(2, "0");
 
-    if (RSC < 5999) {
-      // if we crossed into urgency, switch intervals to a samller 10ms
+    if (RSC < 20000) {
+      // if we crossed into urgency, switch intervals to a samller 10ms 
       urgencyMode[turnOfClock] = true;
       clearInterval(timeInterval);
       timeInterval = null;
@@ -258,7 +258,7 @@ export function clockFunction() {
   function urgentTimer() {
     let turnOfClock = clockTurn();
     document.getElementById(turnOfClock + "ClockVisual").style.color = "red";
-    remainingSeconds[turnOfClock] -= 10; // urgent mode ticks in 10ms
+    remainingSeconds[turnOfClock] -= 10; // urgent mode ticks in 10ms/decrements in -10 and interval is 10ms
     let RSC = remainingSeconds[turnOfClock];
 
     if (RSC <= 0) {
