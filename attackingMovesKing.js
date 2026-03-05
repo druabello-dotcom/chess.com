@@ -38,7 +38,6 @@ function attackSquare(square, oppositeColor, incrementation) {
 function checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation) {
 	if (possiblyPinnedPiece.pieceCounter === 0) {
 		if (value === enemyKing) {
-			giveCheckSound();
 			pushToKUS(square, oppositeColor);
 			kingState[oppositeColor].checked = true;
 			return true;
