@@ -1,4 +1,4 @@
-import { winScreen, stateGrid, grid } from "./main.js";
+import { winScreen, stateGrid } from "./main.js";
 import { kingAvailableSquares, kingState, kingUnavailableaSquares, pieceAttackingKing } from "./gameState.js"
 import { checkIfPieceOnSquare } from "./createAvailableMoves.js"
 import { endGame } from "./sounds.js";
@@ -20,44 +20,44 @@ function isSquareValid(square, oppositeColor) {
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-export function updateKAS(squareIndex, oppositeColor, color) {
+export function checkIfCheckmate(kingSquare, oppositeColor, color) {
     kingAvailableSquares[oppositeColor].length = 0;
-    let upToLeft = squareIndex - 9;
-    let up = squareIndex - 8;
-    let upToRight = squareIndex - 7
-    let right = squareIndex + 1;
-    let downToRight = squareIndex + 9;
-    let down = squareIndex + 8;
-    let downToLeft = squareIndex + 7;
-    let left = squareIndex - 1;
+    let upToLeft = kingSquare - 9;
+    let up = kingSquare - 8;
+    let upToRight = kingSquare - 7
+    let right = kingSquare + 1;
+    let downToRight = kingSquare + 9;
+    let down = kingSquare + 8;
+    let downToLeft = kingSquare + 7;
+    let left = kingSquare - 1;
 
-    if ((upToLeft % 8) < (squareIndex % 8) && isSquareValid(upToLeft, oppositeColor)) {
+    if ((upToLeft % 8) < (kingSquare % 8) && isSquareValid(upToLeft, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(upToLeft);
     }
     if (0 <= up && isSquareValid(up, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(up);
     }
-    if ((squareIndex % 8) < (upToRight % 8) && isSquareValid(upToRight, oppositeColor)) {
+    if ((kingSquare % 8) < (upToRight % 8) && isSquareValid(upToRight, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(upToRight);
     }
-    if ((squareIndex % 8) < (right % 8) && isSquareValid(right, oppositeColor)) {
+    if ((kingSquare % 8) < (right % 8) && isSquareValid(right, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(right);
     }
-    if ((squareIndex % 8) < (downToRight % 8) && isSquareValid(downToRight, oppositeColor)) {
+    if ((kingSquare % 8) < (downToRight % 8) && isSquareValid(downToRight, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(downToRight);
     }
     if (down < 64 && isSquareValid(down, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(down);
     }
-    if ((downToLeft % 8) < (squareIndex % 8) && isSquareValid(downToLeft, oppositeColor)) {
+    if ((downToLeft % 8) < (kingSquare % 8) && isSquareValid(downToLeft, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(downToLeft);
     }
-    if ((left % 8) < (squareIndex % 8) && isSquareValid(left, oppositeColor)) {
+    if ((left % 8) < (kingSquare % 8) && isSquareValid(left, oppositeColor)) {
         kingAvailableSquares[oppositeColor].push(left);
     }
 
-    if (kingState[oppositeColor].checked === true) {
-        canDefendKing(squareIndex, oppositeColor)
+    if (kingState[oppositeColor].checked) {
+        canDefendKing(kingSquare, oppositeColor)
         if (piecesCanDefend.length === 0 && kingAvailableSquares[oppositeColor].length === 0) {
             endGame();
             winScreen.style.display = "flex";
@@ -74,13 +74,14 @@ function canDefendKing(kingSquare, color) {
     if (1 < pieceAttackingKing.square.length) return;
     for (let checkingSquare = kingSquare - pieceAttackingKing.direction[0], j = 0; j < pieceAttackingKing.iterations[0]; checkingSquare -= pieceAttackingKing.direction[0], j++) {
         //check for pawn
-        if (checkingSquare !== pieceAttackingKing.square[0]) canPawnDefend(checkingSquare, color);
+        if (pieceAttackingKing.pieceType[0] === 'knight') canPawnDefend(pieceAttackingKing.square[0], color)
+        else if (checkingSquare !== pieceAttackingKing.square[0]) canPawnDefend(checkingSquare, color);
 
         //Check for rook or queen
         for (let i = checkingSquare - 8; 0 <= i; i-=8) { //up
             if (stateGrid[i] === 0) continue;
             if (Math.abs(stateGrid[i]) === 4 || Math.abs(stateGrid[i]) === 5) {
-                letPieceDefend(i, color)
+                letPieceDefend(i, color);
             }
             break;
         }
@@ -182,27 +183,39 @@ function canDefendKing(kingSquare, color) {
 
 function letPieceDefend(square, color) {
     if (stateGrid[square] === 0) return;
-
     if (color === 'black' && stateGrid[square] > 0) return;
     if (color === 'white' && stateGrid[square] < 0) return;
-
     piecesCanDefend.push(square);
 }
 
 function canPawnDefend (square, color) {
     if (color === 'black') {
-        let move = square - 8; 
+        let oneStep = square - 8; 
         let doubleStep = square - 16;
-        if (stateGrid[move] === -1) letPieceDefend(move, color);
-        if (stateGrid[doubleStep] === -1 && (8 <= doubleStep && doubleStep < 16)) letPieceDefend(doubleStep, color);
+        let left = pieceAttackingKing.square[0] - 9;
+        let right = pieceAttackingKing.square[0] - 7;
+        let minValueRow = 8;
+        let maxValueRow = 16;
+        pawnDefence(pieceAttackingKing.square[0], left, right, oneStep, -1, color, minValueRow, maxValueRow, doubleStep)
         return;
     } else {
-        let move = square + 8;
+        let oneStep = square + 8;
         let doubleStep = square + 16;
-        if (stateGrid[move] === 1) letPieceDefend(move, color);
-        if (stateGrid[doubleStep] === 1 && (48 <= doubleStep && doubleStep < 56)) letPieceDefend(doubleStep, color);
+        let left = pieceAttackingKing.square[0] + 7;
+        let right = pieceAttackingKing.square[0] + 9;
+        let minValueRow = 48;
+        let maxValueRow = 56
+        pawnDefence(pieceAttackingKing.square[0], left, right, oneStep, 1, color, minValueRow, maxValueRow, doubleStep);
         return;
     }
+}
+function pawnDefence(square, left, right, oneStep, pawnValue, color, minRow, maxRow, doubleStep) {
+    if (pieceAttackingKing.pieceType[0] !== 'knight') {
+        if (stateGrid[oneStep] === pawnValue) letPieceDefend(oneStep, color);
+        if (stateGrid[doubleStep] === pawnValue && (minRow <= doubleStep && doubleStep < maxRow)) letPieceDefend(doubleStep, color)
+    }
+    if (stateGrid[left] === pawnValue && ((left % 8) < (square % 8))) letPieceDefend(left, color);
+    if (stateGrid[right] === pawnValue && ((square % 8) < (right % 8))) letPieceDefend(right, color);
 }
 
 function canKnightDefend(color, square) {

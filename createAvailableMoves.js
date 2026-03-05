@@ -38,7 +38,7 @@ export const availablePieceMovesObject = {
 			doubleStep = squareIndex + 16;
 			attackingLeft = squareIndex + 7;
 			attackingRight = squareIndex + 9
-			if (0 < Main.stateGrid[attackingLeft] && ((attackingLeft & 8) < (squareIndex % 8)) && attackingLeft < 64) {
+			if (0 < Main.stateGrid[attackingLeft] && ((attackingLeft % 8) < (squareIndex % 8)) && attackingLeft < 64) {
 				allowMove(attackingLeft);
 			}
 			if (0 < Main.stateGrid[attackingRight] && ((squareIndex % 8) < (attackingRight % 8)) && attackingRight < 64) {
