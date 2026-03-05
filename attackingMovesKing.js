@@ -90,6 +90,7 @@ function savePieceAttackingKing(square, incrementation, iterations, color, piece
 		pieceAttackingKing.direction.push(incrementation);
 		pieceAttackingKing.iterations.push(iterations);
 		pieceAttackingKing.pieceType.push(pieceType);
+		giveCheckSound();
 	}
 }
 
