@@ -32,7 +32,7 @@ export function moveToDestination(destination) {
 	pieceSquarePositionArray[selectPieceState.pieceColor][selectPieceState.pieceType][selectPieceState.selectedPieceIndex] = selectPieceState.destinationSquareId;
 	capturePieceFunction(selectPieceState.destinationSquareId);
 	additFunc.updateStateGrid();
-	movePieceElementToDestination();
+	movePieceElementToDestination(selectPieceState.destinationSquareId);
 	soundWhenMovingPiece();
 
 	// pawn's double step rule: (Article 3.7.b), a pawn may move two squares forward on its very first move
@@ -58,9 +58,9 @@ function validateOppositeColor(color) {
 	else return 'white';
 }
 
-export function movePieceElementToDestination() {
-	selectPieceState.x_squareCoordinate = parseInt(chessboardBoard.centerPositionSqaure[selectPieceState.destinationSquareId].x_coordinate);
-	selectPieceState.y_squareCoordinate = parseInt(chessboardBoard.centerPositionSqaure[selectPieceState.destinationSquareId].y_coordinate);
+export function movePieceElementToDestination(destination) {
+	selectPieceState.x_squareCoordinate = parseInt(chessboardBoard.centerPositionSqaure[destination].x_coordinate);
+	selectPieceState.y_squareCoordinate = parseInt(chessboardBoard.centerPositionSqaure[destination].y_coordinate);
 
 	// move piece to destination square
 	selectPieceState.selectedPiece.style.left = (selectPieceState.x_squareCoordinate - subtractChessboardPixels.width) + "px"; // FIND better way, than to subtract
