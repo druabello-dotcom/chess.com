@@ -17,18 +17,21 @@ export function moveToDestination(destination) {
 	let oppositeColor = null;
 	if (selectPieceState.pieceColor === 'white') oppositeColor = 'black'
 	else oppositeColor = 'white';
-	kingState[selectPieceState.pieceColor].checked = false;
-	kingUnavailableaSquares[oppositeColor].length = 0;
-	pieceAttackingKing.square.length = 0;
-	pieceAttackingKing.direction.length = 0;
-	pieceAttackingKing.iterations.length = 0;
-	pieceAttackingKing.pieceType.length = 0;
-	
+	additFunc.reviewIfKingIsChecked(selectPieceState.pieceColor, oppositeColor)
+	if (!kingState[selectPieceState.pieceColor].checked) {
+		kingUnavailableaSquares[oppositeColor].length = 0;
+		pieceAttackingKing.square.length = 0;
+		pieceAttackingKing.direction.length = 0;
+		pieceAttackingKing.iterations.length = 0;
+		pieceAttackingKing.pieceType.length = 0;
+	}
+
     selectPieceState.destinationSquare = destination.target;
     selectPieceState.destinationSquareId = Number(destination.target.id);
 
 	// if user clicks on a piece with same color, activate resetOnSquareClick()
-	if (checkIfROS(selectPieceState.clickOnPieceToReset, selectPieceState.pieceColor)) return;
+	if (checkIfROS(selectPieceState.clickOnPieceToReset, selectPieceState.pieceColor, oppositeColor)) return;
+	kingState[selectPieceState.pieceColor].checked = false;
 
 	// if pawn is on the other side —> promote
 	if (selectPieceState.pieceType === 'pawn') {
@@ -91,10 +94,11 @@ export function movePieceElementToDestination() {
 	selectPieceState.selectedPiece.style.top = (selectPieceState.y_squareCoordinate - subtractChessboardPixels.height) + "px"; 
 }
 
-function checkIfROS(array, color) {
+function checkIfROS(array, color, oppositeColor) {
 	for (let i = 0; i < array.length; i++) {
 		if (array[i] === selectPieceState.destinationSquareId) {
 			additFunc.resetLegalDirections(color);
+			additFunc.reviewIfKingIsChecked(color, oppositeColor);
 			additFunc.resetOnSquareClick();
 			additFunc.resetOnSquareClickInfo();
 			return true;

@@ -1,6 +1,5 @@
 import * as Main from "./main.js"
 import { selectPieceState, kingUnavailableaSquares, pinnedPiecesObject, pieceAttackingKing, kingState } from "./gameState.js"
-import { pieceTypeArray } from "./createPieceElements.js";
 import { giveCheckSound } from "./sounds.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
@@ -39,9 +38,9 @@ function attackSquare(square, oppositeColor, incrementation) {
 function checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation) {
 	if (possiblyPinnedPiece.pieceCounter === 0) {
 		if (value === enemyKing) {
+			giveCheckSound();
 			pushToKUS(square, oppositeColor);
 			kingState[oppositeColor].checked = true;
-			giveCheckSound();
 			return true;
 		} else if (value !== enemyKing) {
 			possiblyPinnedPiece.pieceCounter++;

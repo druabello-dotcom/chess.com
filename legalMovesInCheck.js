@@ -1,4 +1,4 @@
-import { winScreen, stateGrid, grid } from "./main.js";
+import { winScreen, stateGrid } from "./main.js";
 import { kingAvailableSquares, kingState, kingUnavailableaSquares, pieceAttackingKing } from "./gameState.js"
 import { checkIfPieceOnSquare } from "./createAvailableMoves.js"
 import { endGame } from "./sounds.js";
@@ -21,6 +21,8 @@ function isSquareValid(square, oppositeColor) {
 //————————————————————————————————————————————————————————————————————————————————————
 
 export function updateKAS(squareIndex, oppositeColor, color) {
+    console.log(kingUnavailableaSquares[oppositeColor]);
+    console.log(kingState[oppositeColor].checked);
     kingAvailableSquares[oppositeColor].length = 0;
     let upToLeft = squareIndex - 9;
     let up = squareIndex - 8;
@@ -58,6 +60,9 @@ export function updateKAS(squareIndex, oppositeColor, color) {
 
     if (kingState[oppositeColor].checked === true) {
         canDefendKing(squareIndex, oppositeColor)
+        console.log("checking if defenders");
+        console.log(pieceAttackingKing);
+        console.log(piecesCanDefend);
         if (piecesCanDefend.length === 0 && kingAvailableSquares[oppositeColor].length === 0) {
             endGame();
             winScreen.style.display = "flex";
@@ -80,7 +85,7 @@ function canDefendKing(kingSquare, color) {
         for (let i = checkingSquare - 8; 0 <= i; i-=8) { //up
             if (stateGrid[i] === 0) continue;
             if (Math.abs(stateGrid[i]) === 4 || Math.abs(stateGrid[i]) === 5) {
-                letPieceDefend(i, color)
+                letPieceDefend(i, color);
             }
             break;
         }
@@ -182,10 +187,8 @@ function canDefendKing(kingSquare, color) {
 
 function letPieceDefend(square, color) {
     if (stateGrid[square] === 0) return;
-
     if (color === 'black' && stateGrid[square] > 0) return;
     if (color === 'white' && stateGrid[square] < 0) return;
-
     piecesCanDefend.push(square);
 }
 
