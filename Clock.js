@@ -48,7 +48,17 @@ export function inceraseOpacity() {
 
 export let blackClk = document.getElementById("blackClockVisual");
 export let whiteClk = document.getElementById("whiteClockVisual");
+const timeDropdownToggle = document.getElementById('timeDropdownToggle');
+const timeButtons = document.getElementById('timeButtons');
+timeDropdownToggle.addEventListener('click', () => {
+    timeButtons.classList.toggle('open');
+});
 
+document.addEventListener('click', (event) => {
+    if (!timeDropdownToggle.contains(event.target) && !timeButtons.contains(event.target)) {
+        timeButtons.classList.remove('open');
+    }
+});
 const fiveMinGames = document.getElementById("fiveMinGame");
 fiveMinGames.addEventListener("click", newTime);
 

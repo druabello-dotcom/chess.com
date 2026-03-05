@@ -442,6 +442,13 @@ button:active .topLayer {
 	border-radius: 1.75mm;
 	filter: brightness(0.85);
 }
+.timeDropdownToggle {
+    display: none;
+}
+
+
+
+
 
 @media (max-width: 720px) {
 	:root {
@@ -450,6 +457,7 @@ button:active .topLayer {
 		--square-size: 3rem;
 		--font-size: calc(var(--size-multiplier) * 1em)
 	}
+  
 	.game {
 		--button-padding: calc(var(--size-multiplier) * var(--button-padding));
 		gap: calc(0.02 * var(--square-size));
@@ -538,6 +546,81 @@ button:active .topLayer {
 	.options span {
 		font-size: calc(var(--size-multiplier) * 1rem);
 	}
+   .timeDropdownToggle {
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        font-family: monospace;
+        font-size: 0.85em;
+        font-weight: bold;
+        background-color: var(--black-square);
+        color: white;
+        border: 2px solid black;
+        border-radius: 2.5mm;
+        padding: 0.45em 0.9em;
+        cursor: pointer;
+        transition: 0.2s;
+        box-shadow: 0px 3px 0px 1px rgba(0,0,0,0.3);
+    }
+    .timeDropdownToggle:active {
+        transform: translateY(2px);
+        box-shadow: none;
+    }
+    .timeDropdownToggle:hover {
+        filter: brightness(0.85);
+    }
+/*downscales*/
+    .clocks {
+        position: relative;
+        transform: translateY(0);
+        flex-direction: row;
+        height: auto;
+        width: calc(8 * var(--square-size));
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.5rem;
+    }
+/*never display the contents when it get the .open class => !important*/
+    .timeControls {
+        display: none !important;
+        /*absolute so that it stays*/
+        top: calc(100% + 6px);
+        left: 200px; /*push the dropdown to the right*/
+       transform: translateX(100px);
+        width:  calc(8 * 1.5rem);
+        background-color: var(--white-square);
+        border: 2px solid black;
+        border-radius: 2.5mm;
+        padding: 0.2rem;
+        z-index: 30; /*place on the upper most z index, above everything else*/
+        flex-direction: row;
+        gap: 0.4rem;
+        box-shadow: 0px 6px 16px rgba(0,0,0,0.25); /*creates a shadow*/
+    }
+    /*alwaays display the contents when it get the .open class => !important*/
+    .timeControls.open {
+        display: flex !important; 
+        position: absolute;
+       align-items: center;
+        position: absolute !important; /*absolute so that*/
+        justify-content: center; /* Centers button elememts horizontally */
+    }
+    .timeOptions {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.4rem;
+    }
+    .timeOptionBtn {
+        margin-right: 0;
+        transform: translateY(0);
+    }
+    .timeOptionLabel.wide,
+    .timeOptionLabel.narrow {
+        font-size: 0.8em;
+        padding-left: 0.7em;
+        padding-right: 0.7em;
+    }
+ 
 }
 
 @media (max-width: 550px) {
@@ -578,6 +661,92 @@ button:active .topLayer {
 	}
 	#logBook {
 		transform: translateY(calc(0.85 * var(--square-size)));
+	}
+  .clocks {
+		flex-direction: row;
+		height: auto;
+		width: calc(8 * var(--square-size));
+		gap: 0.25rem;
+		transform: translateY(0);
+	}
+	.clockVisual {
+		font-size: 0.75em;
+		padding: 3px;
+	}
+	.timeOptionBtn {
+		margin-right: 4px;
+	}
+	.timeOptionLabel.wide {
+		padding-left: 8%;
+		padding-right: 8%;
+		font-size: 0.65em;
+	}
+	.timeOptionLabel.narrow {
+		padding-left: 18%;
+		padding-right: 18%;
+		font-size: 0.65em;
+	}
+  .clocks {
+		transform: translateY(0);
+		flex-direction: row;
+		height: auto;
+		width: calc(8 * var(--square-size));
+		justify-content: space-between;
+		align-items: center;
+		position: relative;
+	}
+	.timeDropdownToggle {
+		display: block;
+	}
+	 .timeDropdownToggle {
+        font-size: 0.7em;
+        padding: 0.35em 0.6em;
+    }
+    .timeControls.open {
+		display: flex !important;
+     justify-content: center; /* Centers button elememts horizontally */
+        align-items: center;
+        position: absolute !important; /*absolute so that*/
+	}
+     .timeControls {
+        display: none !important;
+        position: absolute !important; /*absolute so that*/
+        top: calc(100% + 6px);
+        left: 0; /*push the dropdown to the right*/
+       transform: translateX(150px);
+        width:  calc(8 * 0.75rem);
+        background-color: var(--white-square);
+        border: 2px solid black;
+        border-radius: 2.5mm;
+        padding: 0.2rem;
+        z-index: 30; /*place on the upper most z index, above everything else*/
+        flex-direction: row;
+        gap: 0.2rem;
+        box-shadow: 0px 6px 16px rgba(0,0,0,0.25); /*creates a shadow*/
+    
+    }
+	
+	.timeOptions {
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.3rem;
+	}
+	.timeOptionBtn {
+		margin-right: 0;
+		transform: translateY(0);
+	}
+	.timeOptionLabel.wide,
+	.timeOptionLabel.narrow {
+		font-size: 0.8em;
+		padding-left: 0.6em;
+		padding-right: 0.6em;
+	}
+
+	.timeControls {
+		width: calc(8 * var(--square-size));
+	}
+	.clockVisual {
+		font-size: 0.75em;
 	}
 }
 
@@ -852,3 +1021,4 @@ input {
     opacity: 1;
   }
 }
+
