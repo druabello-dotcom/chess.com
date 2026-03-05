@@ -1,5 +1,4 @@
 import * as Main from "./main.js";
-import { giveCheckSound } from "./sounds.js";
 import { kingUnavailableaSquares, selectPieceState, pieceSquarePositionArray, pinnedPiecesObject, legalDirection, kingState, pieceAttackingKing } from "./gameState.js";
 import { onSquareClick } from "./onSquareClick.js";
 import { moveToDestination } from "./movePieceToDestination.js";

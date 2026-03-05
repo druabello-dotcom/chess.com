@@ -67,7 +67,6 @@ function pushToKUS(square, oppositeColor) {
 }
 function resetPossiblyPinnedPiece() {
 	possiblyPinnedPiece.pieceCounter = 0;
-	possiblyPinnedPiece.value = null;
 	possiblyPinnedPiece.square = null;
 }
 function otherColorValue(value) {
@@ -123,6 +122,7 @@ export const attackingMovesObject = {
 		}
     },
     bishop: function(squareIndex, oppositeColor, color) {
+		resetPossiblyPinnedPiece();
 		attackNextDirection = true;
 		let iterations = 1;
 		for (let i = squareIndex - 9; (i % 8) < (squareIndex % 8) && 0 <= i; i-=9, iterations++) {
@@ -152,6 +152,7 @@ export const attackingMovesObject = {
 		}
     },
     rook: function(squareIndex, oppositeColor, color) {
+		resetPossiblyPinnedPiece();
 		attackNextDirection = true;
 		let iterations = 1;
         for (let i = squareIndex + 8; i < 64; i+=8, iterations++) {
