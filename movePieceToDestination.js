@@ -37,7 +37,7 @@ export function moveToDestination(destination) {
 
 	// pawn's double step rule: (Article 3.7.b), a pawn may move two squares forward on its very first move
 	if (selectPieceState.pieceType === 'pawn') piecesHasNotMoved[selectPieceState.pieceColor].pawn[selectPieceState.selectedPieceIndex] = false;
-	if (selectPieceState.pieceType === 'king') piecesHasNotMoved[selectPieceState.pieceColor].king = false; // king can't castle if they have moved
+	if (selectPieceState.pieceType === 'king') piecesHasNotMoved[selectPieceState.pieceColor].king = false; // disable castling if king has moved
 	
 	registerTurn();
 
