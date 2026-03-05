@@ -2,7 +2,7 @@ import * as Main from "./main.js";
 import { kingUnavailableaSquares, selectPieceState, pieceSquarePositionArray, pinnedPiecesObject, legalDirection, kingState } from "./gameState.js";
 import { onSquareClick } from "./onSquareClick.js";
 import { moveToDestination } from "./movePieceToDestination.js";
-import { updateKAS } from "./legalMovesInCheck.js";
+import { checkIfCheckmate } from "./legalMovesInCheck.js";
 
 //—————————————————————————————————————————————————————————————————————————————————————
 
@@ -48,7 +48,7 @@ export function reviewIfKingIsChecked(oppositeColor, color) {
 				Main.grid[i].style.filter = "brightness(1)";
 				Main.grid[i].style.boxShadow = "";
 			}
-			updateKAS(pieceSquarePositionArray[oppositeColor].king[0], oppositeColor, color);
+			checkIfCheckmate(pieceSquarePositionArray[oppositeColor].king[0], oppositeColor, color);
 			Main.grid[pieceSquarePositionArray[oppositeColor].king[0]].addEventListener('click', onSquareClick);
 			return;
 		}

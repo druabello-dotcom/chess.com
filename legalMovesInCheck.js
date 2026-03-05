@@ -20,7 +20,7 @@ function isSquareValid(square, oppositeColor) {
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-export function updateKAS(kingSquare, oppositeColor, color) {
+export function checkIfCheckmate(kingSquare, oppositeColor, color) {
     kingAvailableSquares[oppositeColor].length = 0;
     let upToLeft = kingSquare - 9;
     let up = kingSquare - 8;
