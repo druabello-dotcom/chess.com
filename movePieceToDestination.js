@@ -1,9 +1,9 @@
 import * as CreatePieceElements from "./createPieceElements.js"
 import * as additFunc from "./additionalFunctions.js"
-import * as TurnRegister from "./turnRegister.js"
 
-import { soundWhenMovingPiece } from "./sounds.js";
-import { capturePieceFunction } from "./captureFunction.js";
+import { registerTurn } from "./turnRegister.js"
+import { soundWhenMovingPiece } from "./sounds.js"
+import { capturePieceFunction } from "./captureFunction.js"
 import { attackingMovesObject } from "./attackingMovesKing.js"
 import { promotePawn } from "./pawnPromotion.js"
 import { chessboardBoard, subtractChessboardPixels } from "./main.js"
@@ -13,77 +13,50 @@ import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray, kingUnav
 //———————————————————————————————————————————————————————————————————————————————————
 
 export function moveToDestination(destination) {
-	// register destination square
-	let oppositeColor = null;
-	if (selectPieceState.pieceColor === 'white') oppositeColor = 'black'
-	else oppositeColor = 'white';
+	let oppositeColor = validateOppositeColor(selectPieceState.pieceColor);
 	additFunc.reviewIfKingIsChecked(selectPieceState.pieceColor, oppositeColor)
-	if (!kingState[selectPieceState.pieceColor].checked) {
-		kingUnavailableaSquares[oppositeColor].length = 0;
-		pieceAttackingKing.square.length = 0;
-		pieceAttackingKing.direction.length = 0;
-		pieceAttackingKing.iterations.length = 0;
-		pieceAttackingKing.pieceType.length = 0;
-	}
+	isKingChecked(selectPieceState.pieceColor, oppositeColor);
 
+	//register destination square
     selectPieceState.destinationSquare = destination.target;
     selectPieceState.destinationSquareId = Number(destination.target.id);
 
-	// if user clicks on a piece with same color, activate resetOnSquareClick()
+	// if user clicks on a friendly piece, resetOnSquareClick()
 	if (checkIfROS(selectPieceState.clickOnPieceToReset, selectPieceState.pieceColor, oppositeColor)) return;
 	kingState[selectPieceState.pieceColor].checked = false;
 
-	// if pawn is on the other side —> promote
-	if (selectPieceState.pieceType === 'pawn') {
-		if ((0 <= selectPieceState.destinationSquareId && selectPieceState.destinationSquareId < 8) || (56 <= selectPieceState.destinationSquareId && selectPieceState.destinationSquareId < 64)) {
-			promotePawn(selectPieceState.destinationSquareId);
-		}
-	}
-
-	// if user wants to castle, here it is activated
-	if (selectPieceState.pieceType === 'king' && (selectPieceState.destinationSquareId === selectPieceState.selectedSquareId - 2 || selectPieceState.destinationSquareId === selectPieceState.selectedSquareId + 2)) {
-		if (selectPieceState.destinationSquareId === selectPieceState.selectedSquareId - 2 && selectPieceState.letKingCastleLeft) { // castle to left
-			if (selectPieceState.pieceColor === 'white') makeKingCastle(0, -1, 56, oppositeColor);
-			else if (selectPieceState.pieceColor === 'black') makeKingCastle(0, -1, 0, oppositeColor);
-		} else if (selectPieceState.destinationSquareId === selectPieceState.selectedSquareId + 2 && selectPieceState.letKingCastleRight) { // castle right
-			if (selectPieceState.pieceColor === 'white') makeKingCastle(1, 1, 63, oppositeColor);
-			else if (selectPieceState.pieceColor === 'black') makeKingCastle(1, 1, 7, oppositeColor);
-		}
-		return;
-	}
-	capturePieceFunction(selectPieceState.destinationSquareId);
-
-	movePieceElementToDestination();
-	additFunc.updateStateGrid();
-	soundWhenMovingPiece();
-
-	// update Main.pieceSquarePositionArray
+	checkIfCastle(selectPieceState.pieceType, selectPieceState.selectedSquareId, selectPieceState.destinationSquareId, selectPieceState.pieceColor, oppositeColor);
+	checkIfPromote(selectPieceState.pieceType, selectPieceState.destinationSquareId);
+	
+	// update board state
 	pieceSquarePositionArray[selectPieceState.pieceColor][selectPieceState.pieceType][selectPieceState.selectedPieceIndex] = selectPieceState.destinationSquareId;
+	capturePieceFunction(selectPieceState.destinationSquareId);
+	additFunc.updateStateGrid();
+	movePieceElementToDestination();
+	soundWhenMovingPiece();
 
 	// pawn's double step rule: (Article 3.7.b), a pawn may move two squares forward on its very first move
 	if (selectPieceState.pieceType === 'pawn') piecesHasNotMoved[selectPieceState.pieceColor].pawn[selectPieceState.selectedPieceIndex] = false;
 	if (selectPieceState.pieceType === 'king') piecesHasNotMoved[selectPieceState.pieceColor].king = false; // king can't castle if they have moved
 	
-	TurnRegister.registerTurn();
+	registerTurn();
 
 	// update kingUnavailableSquares[oppositeColor]
 	additFunc.resetPinnedPiecesList(oppositeColor);
-	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
-		let type = CreatePieceElements.pieceTypeArray[t];
-		for (let i = 0; i < pieceSquarePositionArray[selectPieceState.pieceColor][type].length; i++) {
-			let squareIndex = pieceSquarePositionArray[selectPieceState.pieceColor][type][i];
-			if (squareIndex === null) continue;
-			attackingMovesObject[type](squareIndex, oppositeColor, selectPieceState.pieceColor);
-		}
-	}
+	updateKAS(CreatePieceElements.pieceTypeArray, pieceSquarePositionArray, selectPieceState.pieceColor, oppositeColor)
+	additFunc.reviewIfKingIsChecked(oppositeColor, selectPieceState.pieceColor);
 	
 	// reset after piece has been moved
-	additFunc.reviewIfKingIsChecked(oppositeColor, selectPieceState.pieceColor);
 	additFunc.resetOnSquareClick();
 	additFunc.resetOnSquareClickInfo();
 }
 
 //———————————————————————————————————————————————————————————————————————————————————
+
+function validateOppositeColor(color) {
+	if (color === 'white') return 'black';
+	else return 'white';
+}
 
 export function movePieceElementToDestination() {
 	selectPieceState.x_squareCoordinate = parseInt(chessboardBoard.centerPositionSqaure[selectPieceState.destinationSquareId].x_coordinate);
@@ -105,4 +78,46 @@ function checkIfROS(array, color, oppositeColor) {
 		}
 	}
 	return false;
+}
+
+function checkIfPromote(pieceType, destination) {
+	if (pieceType === 'pawn') {
+		if ((0 <= destination && destination < 8) || (56 <= destination && destination < 64)) {
+			promotePawn(destination);
+		}
+	}
+}
+
+function checkIfCastle(pieceType, selectedSquare, destination, color, oppositeColor) {
+	if (pieceType === 'king' && (destination === selectedSquare - 2 || destination === selectedSquare + 2)) {
+		if (destination === selectedSquare - 2 && selectPieceState.letKingCastleLeft) { // castle to left
+			if (color === 'white') makeKingCastle(0, -1, 56, oppositeColor);
+			else if (color === 'black') makeKingCastle(0, -1, 0, oppositeColor);
+		} else if (destination === selectedSquare + 2 && selectPieceState.letKingCastleRight) { // castle right
+			if (color === 'white') makeKingCastle(1, 1, 63, oppositeColor);
+			else if (color === 'black') makeKingCastle(1, 1, 7, oppositeColor);
+		}
+		return;
+	}
+}
+
+function updateKAS(pieceTypeArr, positionArr, color, oppositeColor) {
+	for (let t = 0; t < pieceTypeArr.length; t++) {
+		let type = pieceTypeArr[t];
+		for (let i = 0; i < positionArr[color][type].length; i++) {
+			let squareIndex = positionArr[color][type][i];
+			if (squareIndex === null) continue;
+			attackingMovesObject[type](squareIndex, oppositeColor, color);
+		}
+	}
+}
+
+function isKingChecked(color, oppositeColor) {
+	if (!kingState[color].checked) {
+		kingUnavailableaSquares[oppositeColor].length = 0;
+		pieceAttackingKing.square.length = 0;
+		pieceAttackingKing.direction.length = 0;
+		pieceAttackingKing.iterations.length = 0;
+		pieceAttackingKing.pieceType.length = 0;
+	}
 }
