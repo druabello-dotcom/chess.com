@@ -28,14 +28,7 @@ export function moveToDestination(destination) {
     selectPieceState.destinationSquareId = Number(destination.target.id);
 
 	// if user clicks on a piece with same color, activate resetOnSquareClick()
-	for (let i = 0; i < selectPieceState.clickOnPieceToReset.length; i++) {
-		if (selectPieceState.clickOnPieceToReset[i] === selectPieceState.destinationSquareId) {
-			additFunc.resetLegalDirections(selectPieceState.pieceColor);
-			additFunc.resetOnSquareClick();
-			additFunc.resetOnSquareClickInfo();
-			return;
-		}
-	}
+	if (checkIfROS(selectPieceState.clickOnPieceToReset, selectPieceState.pieceColor)) return;
 
 	// if pawn is on the other side —> promote
 	if (selectPieceState.pieceType === 'pawn') {
@@ -96,4 +89,16 @@ export function movePieceElementToDestination() {
 	// move piece to destination square
 	selectPieceState.selectedPiece.style.left = (selectPieceState.x_squareCoordinate - subtractChessboardPixels.width) + "px"; // FIND better way, than to subtract
 	selectPieceState.selectedPiece.style.top = (selectPieceState.y_squareCoordinate - subtractChessboardPixels.height) + "px"; 
+}
+
+function checkIfROS(array, color) {
+	for (let i = 0; i < array.length; i++) {
+		if (array[i] === selectPieceState.destinationSquareId) {
+			additFunc.resetLegalDirections(color);
+			additFunc.resetOnSquareClick();
+			additFunc.resetOnSquareClickInfo();
+			return true;
+		}
+	}
+	return false;
 }
