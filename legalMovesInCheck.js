@@ -56,7 +56,7 @@ export function updateKAS(kingSquare, oppositeColor, color) {
         kingAvailableSquares[oppositeColor].push(left);
     }
 
-    if (kingState[oppositeColor].checked === true) {
+    if (kingState[oppositeColor].checked) {
         canDefendKing(kingSquare, oppositeColor)
         if (piecesCanDefend.length === 0 && kingAvailableSquares[oppositeColor].length === 0) {
             endGame();

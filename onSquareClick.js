@@ -11,7 +11,7 @@ import { piecesCanDefend } from "./legalMovesInCheck.js";
 export function onSquareClick(event) {
 	selectPieceState.selectedSquare = event.target;
 	selectPieceState.selectedSquareId = Number(event.target.id);
-	if (selectPieceState.isClicked === true) return;
+	if (selectPieceState.isClicked) return;
 
 	// check if selected square has a piece or not
 	if (Main.stateGrid[selectPieceState.selectedSquareId] === 0) return;
@@ -19,7 +19,7 @@ export function onSquareClick(event) {
 	if (selectPieceState.valueInSquare < 0) selectPieceState.pieceColor = 'black';
 	else if (0 < selectPieceState.valueInSquare) selectPieceState.pieceColor = 'white';
 
-	if (kingState[selectPieceState.pieceColor].checked === true) {
+	if (kingState[selectPieceState.pieceColor].checked) {
 		let counter = 0;
 		for (let i = 0; i < piecesCanDefend.length; i++, counter++) {
 			if (piecesCanDefend[i] === selectPieceState.selectedSquareId) break;

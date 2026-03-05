@@ -11,7 +11,7 @@ let possiblyPinnedPiece = {
 }
 function attackSquare(square, oppositeColor, incrementation) {
 	let value = Main.stateGrid[square];
-	if (attackNextDirection === true) {
+	if (attackNextDirection) {
 		resetPossiblyPinnedPiece();
 		pushToKUS(square, oppositeColor);
 		attackNextDirection = false;
@@ -127,28 +127,28 @@ export const attackingMovesObject = {
 		let iterations = 1;
 		for (let i = squareIndex - 9; (i % 8) < (squareIndex % 8) && 0 <= i; i-=9, iterations++) {
 			savePieceAttackingKing(squareIndex, -9, iterations, color, 'bishop', i);
-			if (attackSquare(i, oppositeColor, 9) === false) break;
+			if (!attackSquare(i, oppositeColor, 9)) break;
 		}
 
 		attackNextDirection = true;
 		iterations = 1;
 		for (let i = squareIndex - 7; (squareIndex % 8) < (i % 8) && 0 <= i; i-=7, iterations++) {
 			savePieceAttackingKing(squareIndex, -7, iterations, color, 'bishop', i);
-			if (attackSquare(i, oppositeColor, 7) === false) break;
+			if (!attackSquare(i, oppositeColor, 7)) break;
 		}
 
 		attackNextDirection = true;
 		iterations = 1;
 		for (let i = squareIndex + 7; (i % 8) < (squareIndex % 8) && i < 64; i+=7, iterations++) {
 			savePieceAttackingKing(squareIndex, 7, iterations, color, 'bishop', i);
-			if (attackSquare(i, oppositeColor, 7) === false) break;
+			if (!attackSquare(i, oppositeColor, 7)) break;
 		}
 
 		attackNextDirection = true;
 		iterations = 1;
 		for (let i = squareIndex + 9; (squareIndex % 8) < (i % 8) && i < 64; i+=9, iterations++) {
 			savePieceAttackingKing(squareIndex, 9, iterations, color, 'bishop', i);
-			if (attackSquare(i, oppositeColor, 9) === false) break;
+			if (!attackSquare(i, oppositeColor, 9)) break;
 		}
     },
     rook: function(squareIndex, oppositeColor, color) {
@@ -157,28 +157,28 @@ export const attackingMovesObject = {
 		let iterations = 1;
         for (let i = squareIndex + 8; i < 64; i+=8, iterations++) {
 			savePieceAttackingKing(squareIndex, 8, iterations, color, 'rook', i);
-			if (attackSquare(i, oppositeColor, 8) === false) break;
+			if (!attackSquare(i, oppositeColor, 8)) break;
         }
 
 		attackNextDirection = true;
 		iterations = 1;
         for (let i = squareIndex - 8; 0 <= i; i-=8, iterations++) {
 			savePieceAttackingKing(squareIndex, -8, iterations, color, 'rook', i);
-			if (attackSquare(i, oppositeColor, 8) === false) break;
+			if (!attackSquare(i, oppositeColor, 8)) break;
         }
 
 		attackNextDirection = true;
 		iterations = 1;
         for (let i = squareIndex + 1; (squareIndex % 8) < (i % 8) && i < 64; i++, iterations++) {
 			savePieceAttackingKing(squareIndex, 1, iterations, color, 'rook', i);
-			if (attackSquare(i, oppositeColor, 1) === false) break;
+			if (!attackSquare(i, oppositeColor, 1)) break;
         }
 
 		attackNextDirection = true;
 		iterations = 1;
         for (let i = squareIndex - 1; (i % 8) < (squareIndex % 8) && 0 <= i; i--, iterations++) {
 			savePieceAttackingKing(squareIndex, -1, iterations, color, 'rook', i);
-			if (attackSquare(i, oppositeColor, 1) === false) break;
+			if (!attackSquare(i, oppositeColor, 1)) break;
         }
     },
     knight: function(squareIndex, oppositeColor, color) {

@@ -42,10 +42,10 @@ export function moveToDestination(destination) {
 
 	// if user wants to castle, here it is activated
 	if (selectPieceState.pieceType === 'king' && (selectPieceState.destinationSquareId === selectPieceState.selectedSquareId - 2 || selectPieceState.destinationSquareId === selectPieceState.selectedSquareId + 2)) {
-		if (selectPieceState.destinationSquareId === selectPieceState.selectedSquareId - 2 && selectPieceState.letKingCastleLeft === true) { // castle to left
+		if (selectPieceState.destinationSquareId === selectPieceState.selectedSquareId - 2 && selectPieceState.letKingCastleLeft) { // castle to left
 			if (selectPieceState.pieceColor === 'white') makeKingCastle(0, -1, 56, oppositeColor);
 			else if (selectPieceState.pieceColor === 'black') makeKingCastle(0, -1, 0, oppositeColor);
-		} else if (selectPieceState.destinationSquareId === selectPieceState.selectedSquareId + 2 && selectPieceState.letKingCastleRight === true) { // castle right
+		} else if (selectPieceState.destinationSquareId === selectPieceState.selectedSquareId + 2 && selectPieceState.letKingCastleRight) { // castle right
 			if (selectPieceState.pieceColor === 'white') makeKingCastle(1, 1, 63, oppositeColor);
 			else if (selectPieceState.pieceColor === 'black') makeKingCastle(1, 1, 7, oppositeColor);
 		}
