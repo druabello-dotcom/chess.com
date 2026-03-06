@@ -1,6 +1,6 @@
 import * as Main from "./main.js";
 import { captureSound } from "./sounds.js";
-import { selectPieceState, pieceSquarePositionArray, pieceElementsObject } from "./gameState.js";
+import { selectPieceState, pieceSquarePositionArray, pieceElementsObject, piecesHasNotMoved } from "./gameState.js";
 
 //———————————————————————————————————————————————————————————————————————————————————
 
@@ -27,9 +27,11 @@ export function capturePieceFunction(enemyPieceSquarePlacement) {
     // remove piece visually + from arrays
     let enemyPieceIndex = pieceSquarePositionArray[enemyPieceColor][enemyPieceType].indexOf(enemyPieceSquarePlacement);
     if (enemyPieceIndex === -1) return;
-
-    pieceElementsObject[enemyPieceColor][enemyPieceType][enemyPieceIndex].remove();
-    pieceSquarePositionArray[enemyPieceColor][enemyPieceType][enemyPieceIndex] = null;
+    pieceElementsObject[enemyPieceColor][enemyPieceType].splice(enemyPieceIndex, 1);
+    pieceSquarePositionArray[enemyPieceColor][enemyPieceType].splice(enemyPieceIndex, 1);
+    if (enemyPieceType === 'pawn' || enemyPieceType === 'rook') {
+        piecesHasNotMoved[enemyPieceColor][enemyPieceType].splice(enemyPieceIndex, 1);
+    }
 
     captureSound();
 }
