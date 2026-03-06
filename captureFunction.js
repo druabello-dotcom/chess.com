@@ -26,13 +26,9 @@ export function capturePieceFunction(enemyPieceSquarePlacement) {
 
     // remove piece visually + from arrays
     let enemyPieceIndex = pieceSquarePositionArray[enemyPieceColor][enemyPieceType].indexOf(enemyPieceSquarePlacement);
-    if (enemyPieceIndex === -1) {
-        console.log(enemyPieceIndex);
-        return;
-    }
+    if (enemyPieceIndex === -1) return;
     pieceElementsObject[enemyPieceColor][enemyPieceType][enemyPieceIndex].remove();
     pieceElementsObject[enemyPieceColor][enemyPieceType].splice(enemyPieceIndex, 1);
-    console.log(pieceElementsObject[enemyPieceColor][enemyPieceType]);
     pieceSquarePositionArray[enemyPieceColor][enemyPieceType].splice(enemyPieceIndex, 1);
     if (enemyPieceType === 'pawn' || enemyPieceType === 'rook') {
         piecesHasNotMoved[enemyPieceColor][enemyPieceType].splice(enemyPieceIndex, 1);
