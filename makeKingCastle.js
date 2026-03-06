@@ -11,12 +11,12 @@ import { attackingMovesObject } from "./attackingMovesKing.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-export function makeKingCastle(rookIndex, rookMove, rookGridPlacement, oppositeColor) {
+export function makeKingCastle(rookIndex, rookMove, rookGridPlacement, oppositeColor, destination) {
 	let rookMoveTo = selectPieceState.selectedSquareId + (rookMove)
 	piecesHasNotMoved[selectPieceState.pieceColor].king = false;
 	piecesHasNotMoved[selectPieceState.pieceColor].rook[rookIndex] = false;
 
-	movePieceElementToDestination();
+	movePieceElementToDestination(destination);
 	let x_squareCoordinateRook = parseInt(chessboardBoard.centerPositionSqaure[rookMoveTo].x_coordinate);
 	let y_squareCoordinateRook = parseInt(chessboardBoard.centerPositionSqaure[rookMoveTo].y_coordinate);
 	let selectedCastlingRook = pieceElementsObject[selectPieceState.pieceColor].rook[rookIndex];

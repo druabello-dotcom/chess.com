@@ -1,8 +1,9 @@
 import { chessboard, stateGrid, mapPieces } from "./main.js";
 import * as CreatePieceElements from "./createPieceElements.js";
-import { pieceElementsObject, pieceNumberIdentifier, pieceSquarePositionArray, selectPieceState } from "./gameState.js";
+import { kingUnavailableaSquares, pieceElementsObject, pieceNumberIdentifier, pieceSquarePositionArray, selectPieceState } from "./gameState.js";
 import { pawnSpanElementObject } from "./resetChessboard.js";
 import { promotionSound } from "./sounds.js";
+import { updateKAS } from "./movePieceToDestination.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
@@ -13,7 +14,7 @@ let selectedPieceSpan = null;
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-export function promotePawn(destinationSquare) {
+export function promotePawn(destinationSquare, oppositeColor) {
     pawnIndex = selectPieceState.selectedPieceIndex;
     destinationSquareIndex = destinationSquare;
     let squareDivision = [];
@@ -38,14 +39,14 @@ export function promotePawn(destinationSquare) {
     promotionOptions.style.left = parseInt(squareDivision[destinationSquare - optionsIndex].x_coordinate) + "px";
     if (selectPieceState.pieceColor === 'white') promotionOptions.style.top = parseInt(squareDivision[destinationSquare - optionsIndex].y_coordinate) + "px";
     else promotionOptions.style.bottom = parseInt((squareDivision[destinationSquare - optionsIndex].y_coordinate) - (pixelCoordinatesSquares * 7)) + "px"
-    showPromotionOptions(selectPieceState.pieceColor);
+    showPromotionOptions(selectPieceState.pieceColor, oppositeColor);
     
     chessboard.appendChild(promotionOptions);
 }
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-function showPromotionOptions(color) {
+function showPromotionOptions(color, oppositeColor) {
     for (let t = (CreatePieceElements.pieceTypeArray.length - 2); 0 < t; t--) {
         let type = CreatePieceElements.pieceTypeArray[t];
         let optionSpan = document.createElement('span');
@@ -55,7 +56,7 @@ function showPromotionOptions(color) {
         optionImg.alt = CreatePieceElements.pieceIconAlt[color][type];
         
         optionSpan.addEventListener('click', () => {
-            switchToPieceType(color, type);
+            switchToPieceType(color, type, oppositeColor);
         });
         optionSpan.appendChild(optionImg);
         promotionOptions.appendChild(optionSpan);
@@ -64,7 +65,7 @@ function showPromotionOptions(color) {
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-function switchToPieceType(color, promotionPieceType) {
+function switchToPieceType(color, promotionPieceType, oppositeColor) {
     // get selected piece span and img
     let promotingPawnImg = pawnSpanElementObject[color][pawnIndex];
     promotingPawnImg.src = CreatePieceElements.pieceIcons[color][promotionPieceType];
@@ -76,13 +77,12 @@ function switchToPieceType(color, promotionPieceType) {
     stateGrid[destinationSquareIndex] = pieceNumberIdentifier[color][promotionPieceType];
 
     // update pieceSquarePositionArray
-    pieceSquarePositionArray[color].pawn[pawnIndex] = null;
+    pieceSquarePositionArray[color].pawn.splice(pawnIndex, 1);
     pieceSquarePositionArray[color][promotionPieceType].push(destinationSquareIndex);
 
     // update pieceElementsObject
-    // set pieceElementsObject.pawn[index] as null
     selectedPieceSpan = pieceElementsObject[color].pawn[pawnIndex];
-    pieceElementsObject[color].pawn[pawnIndex] = null;
+    pieceElementsObject[color].pawn.splice(pawnIndex, 1);
 
     // update class of promoted pawn
     selectedPieceSpan.className = `piece ${color} ${promotionPieceType}`;
@@ -90,6 +90,8 @@ function switchToPieceType(color, promotionPieceType) {
     // push selected piece span into pieceElementsObject
     pieceElementsObject[color][promotionPieceType].push(selectedPieceSpan);
     promotionSound();
+    kingUnavailableaSquares[oppositeColor].length = 0;
+    updateKAS(CreatePieceElements.pieceTypeArray, pieceSquarePositionArray, color, oppositeColor);
 
     promotionOptions = null;
     destinationSquareIndex = null;

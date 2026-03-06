@@ -25,8 +25,8 @@ export function moveToDestination(destination) {
 	if (checkIfROS(selectPieceState.clickOnPieceToReset, selectPieceState.pieceColor, oppositeColor)) return;
 	kingState[selectPieceState.pieceColor].checked = false;
 
-	checkIfCastle(selectPieceState.pieceType, selectPieceState.selectedSquareId, selectPieceState.destinationSquareId, selectPieceState.pieceColor, oppositeColor);
-	checkIfPromote(selectPieceState.pieceType, selectPieceState.destinationSquareId);
+	if (checkIfCastle(selectPieceState.pieceType, selectPieceState.selectedSquareId, selectPieceState.destinationSquareId, selectPieceState.pieceColor, oppositeColor)) return;
+	checkIfPromote(selectPieceState.pieceType, selectPieceState.destinationSquareId, oppositeColor);
 	
 	// update board state
 	pieceSquarePositionArray[selectPieceState.pieceColor][selectPieceState.pieceType][selectPieceState.selectedPieceIndex] = selectPieceState.destinationSquareId;
@@ -80,10 +80,10 @@ function checkIfROS(array, color, oppositeColor) {
 	return false;
 }
 
-function checkIfPromote(pieceType, destination) {
+function checkIfPromote(pieceType, destination, oppositeColor) {
 	if (pieceType === 'pawn') {
 		if ((0 <= destination && destination < 8) || (56 <= destination && destination < 64)) {
-			promotePawn(destination);
+			promotePawn(destination, oppositeColor);
 		}
 	}
 }
@@ -91,17 +91,28 @@ function checkIfPromote(pieceType, destination) {
 function checkIfCastle(pieceType, selectedSquare, destination, color, oppositeColor) {
 	if (pieceType === 'king' && (destination === selectedSquare - 2 || destination === selectedSquare + 2)) {
 		if (destination === selectedSquare - 2 && selectPieceState.letKingCastleLeft) { // castle to left
-			if (color === 'white') makeKingCastle(0, -1, 56, oppositeColor);
-			else if (color === 'black') makeKingCastle(0, -1, 0, oppositeColor);
+			if (color === 'white') {
+				makeKingCastle(0, -1, 56, oppositeColor, destination);
+				return true;
+			}
+			else if (color === 'black') {
+				makeKingCastle(0, -1, 0, oppositeColor, destination);
+				return true;
+			}
 		} else if (destination === selectedSquare + 2 && selectPieceState.letKingCastleRight) { // castle right
-			if (color === 'white') makeKingCastle(1, 1, 63, oppositeColor);
-			else if (color === 'black') makeKingCastle(1, 1, 7, oppositeColor);
+			if (color === 'white') {
+				makeKingCastle(1, 1, 63, oppositeColor, destination);
+				return true;
+			}
+			else if (color === 'black') {
+				makeKingCastle(1, 1, 7, oppositeColor, destination);
+				return true;
+			}
 		}
-		return;
 	}
 }
 
-function updateKAS(pieceTypeArr, positionArr, color, oppositeColor) {
+export function updateKAS(pieceTypeArr, positionArr, color, oppositeColor) {
 	for (let t = 0; t < pieceTypeArr.length; t++) {
 		let type = pieceTypeArr[t];
 		for (let i = 0; i < positionArr[color][type].length; i++) {
