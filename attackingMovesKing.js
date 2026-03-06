@@ -28,7 +28,7 @@ function attackSquare(square, oppositeColor, incrementation, color) {
 		return true;
 	}
 	let otherColor = otherColorValue(value);
-	if (otherColor === color&& possiblyPinnedPiece.pieceCounter === 0) {
+	if (otherColor === color && possiblyPinnedPiece.pieceCounter === 0) {
 		pushToKUS(square, oppositeColor, color);
 		return false;
 	}
