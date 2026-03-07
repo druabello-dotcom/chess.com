@@ -8,6 +8,7 @@ import { piecesCanDefend } from "./legalMovesInCheck.js";
 
 //———————————————————————————————————————————————————————————————————————————————————
 
+
 export function onSquareClick(event) {
 	selectPieceState.selectedSquare = event.target;
 	selectPieceState.selectedSquareId = Number(event.target.id);

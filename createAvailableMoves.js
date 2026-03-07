@@ -1,6 +1,7 @@
 import * as Main from "./main.js";
-import { selectPieceState, piecesHasNotMoved, noPieceBetweenKingRook, kingUnavailableaSquares, legalDirection } from "./gameState.js";
+import { selectPieceState, piecesHasNotMoved, noPieceBetweenKingRook, kingUnavailableaSquares, legalDirection, kingState } from "./gameState.js";
 import { moveToDestination  } from "./movePieceToDestination.js";
+import { defendableSquares } from "./legalMovesInCheck.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
@@ -14,14 +15,25 @@ export function checkIfPieceOnSquare(square, color) {
 }
 const highlightDestinationSquares = "inset 0 0 0 0.25em #80EF80";
 const highlightCaptureDestinationSquares = "inset 0px 0px 0px 0.25em #fc2c03";
-function allowMove(desiredSquare) {
-	Main.grid[desiredSquare].addEventListener('click', moveToDestination);
 
+export function allowMove(desiredSquare, color, pieceType) {
+	if (kingState[color].checked && pieceType !== 'king') {
+		isDefendableSquare(desiredSquare);
+		return;
+	} else addAvailableMove(desiredSquare)
+}
+
+function isDefendableSquare(desiredSquare) {
+	for (let i = 0; i < defendableSquares.length; i++) {
+		if (defendableSquares[i] === desiredSquare) addAvailableMove(desiredSquare);
+	}
+	return;
+}
+function addAvailableMove(desiredSquare) {
+	Main.grid[desiredSquare].addEventListener('click', moveToDestination);
 	if (Main.stateGrid[desiredSquare] === 0) {
 		Main.grid[desiredSquare].style.boxShadow = highlightDestinationSquares;
-	} else {
-		Main.grid[desiredSquare].style.boxShadow = highlightCaptureDestinationSquares;
-	}
+	} else Main.grid[desiredSquare].style.boxShadow = highlightCaptureDestinationSquares;
 }
 
 //————————————————————————————————————————————————————————————————————————————————————
@@ -39,10 +51,10 @@ export const availablePieceMovesObject = {
 			attackingLeft = squareIndex + 7;
 			attackingRight = squareIndex + 9
 			if (0 < Main.stateGrid[attackingLeft] && ((attackingLeft % 8) < (squareIndex % 8)) && attackingLeft < 64) {
-				allowMove(attackingLeft);
+				allowMove(attackingLeft, color, "pawn");
 			}
 			if (0 < Main.stateGrid[attackingRight] && ((squareIndex % 8) < (attackingRight % 8)) && attackingRight < 64) {
-				allowMove(attackingRight);
+				allowMove(attackingRight, color, "pawn");
 			}
 		} else if (color === 'white') {
 			oneStep = squareIndex - 8;
@@ -50,40 +62,40 @@ export const availablePieceMovesObject = {
 			attackingLeft = squareIndex - 9;
 			attackingRight = squareIndex - 7;
 			if (Main.stateGrid[attackingLeft] < 0 && ((attackingLeft % 8) < (squareIndex % 8)) && 0 <= attackingLeft) {
-				allowMove(attackingLeft);
+				allowMove(attackingLeft, color, "pawn");
 			}
 			if (Main.stateGrid[attackingRight] < 0 && ((squareIndex % 8) < (attackingRight % 8)) && 0 <= attackingRight) {
-				allowMove(attackingRight);
+				allowMove(attackingRight, color, "pawn");
 			}
 		}
 
-		if (Main.stateGrid[oneStep] === 0 && 0 <= oneStep && oneStep < 64) allowMove(oneStep);
+		if (Main.stateGrid[oneStep] === 0 && 0 <= oneStep && oneStep < 64) allowMove(oneStep, color, "pawn");
 		if (piecesHasNotMoved[color].pawn[selectPieceState.selectedPieceIndex] && Main.stateGrid[doubleStep] === 0 && 0 <= doubleStep && doubleStep < 64) {
-			allowMove(doubleStep);
+			allowMove(doubleStep, color, "pawn");
 		}
 	},
 	bishop: function(squareIndex, color) {
 		if (legalDirection[color].NW_SE) {
 			for (let i = (squareIndex - 9); (i % 8) < (squareIndex % 8) && 0 <= i; i-=9) {
 				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
-				allowMove(i);
+				allowMove(i, color, "bishop");
 				if (Main.stateGrid[i] !== 0) break;
 			}
 			for (let i = (squareIndex + 9); (squareIndex % 8) < (i % 8) && i < 64; i+=9) {
 				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
-				allowMove(i);
+				allowMove(i, color, "bishop");
 				if (Main.stateGrid[i] !== 0) break;
 			}
 		}
 		if (legalDirection[color].NE_SW) {
 			for (let i = (squareIndex - 7); (squareIndex % 8) < (i % 8) && 0 < i; i-=7) {
 				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
-				allowMove(i);
+				allowMove(i, color, "bishop");
 				if (Main.stateGrid[i] !== 0) break;
 			}
 			for (let i = (squareIndex + 7); (i % 8) < (squareIndex % 8) && i < 64; i+=7) {
 				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
-				allowMove(i);
+				allowMove(i, color, "bishop");
 				if (Main.stateGrid[i] !== 0) break;
 			}
 		}
@@ -92,24 +104,24 @@ export const availablePieceMovesObject = {
 		if (legalDirection[color].east_west) {
 			for (let i = (squareIndex - 1); (squareIndex) % 8 > (i % 8) && 0 <= i; i--) {
 				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
-				allowMove(i);
+				allowMove(i, color, "rook");
 				if (Main.stateGrid[i] !== 0) break;
 			}
 			for (let i = (squareIndex + 1); (squareIndex % 8) < (i % 8) && i < 64; i++) {
 				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
-				allowMove(i);
+				allowMove(i, color, "rook");
 				if (Main.stateGrid[i] !== 0) break;
 			}
 		}
 		if (legalDirection[color].north_south) {
 			for (let i = (squareIndex - 8); 0 <= i; i-=8) {
 				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
-				allowMove(i);
+				allowMove(i, color, "rook");
 				if (Main.stateGrid[i] !== 0) break;
 			}
 			for (let i = (squareIndex + 8); i < 64; i+=8) {
 				if (checkIfPieceOnSquare(i, selectPieceState.pieceColor)) break;
-				allowMove(i);
+				allowMove(i, color, "rook");
 				if (Main.stateGrid[i] !== 0) break;
 			}
 		}
@@ -127,28 +139,28 @@ export const availablePieceMovesObject = {
 		let RDD = squareIndex + 17;
 
 		if ((LD % 8) < (squareIndex % 8) && LD < 64 && !checkIfPieceOnSquare(LD, color)) {
-			allowMove(LD);
+			allowMove(LD, color, "knight");
 		}
 		if ((LDD % 8) < (squareIndex % 8) && LDD < 64 && !checkIfPieceOnSquare(LDD, color)) {
-			allowMove(LDD);
+			allowMove(LDD, color, "knight");
 		}
 		if ((LU % 8) < (squareIndex % 8) && 0 <= LU && !checkIfPieceOnSquare(LU, color)) {
-			allowMove(LU);
+			allowMove(LU, color, "knight");
 		}
 		if ((LUU % 8) < (squareIndex % 8) && 0 <= LUU && !checkIfPieceOnSquare(LUU, color)) {
-			allowMove(LUU);
+			allowMove(LUU, color, "knight");
 		}
 		if ((squareIndex % 8) < (RU % 8) && 0 <= RU && !checkIfPieceOnSquare(RU, color)) {
-			allowMove(RU);
+			allowMove(RU, color, "knight");
 		}
 		if ((squareIndex % 8) < (RUU % 8) && 0 <= RUU && !checkIfPieceOnSquare(RUU, color)) {
-			allowMove(RUU);
+			allowMove(RUU, color, "knight");
 		} 
 		if ((squareIndex % 8) < (RD % 8) && RD < 64 && !checkIfPieceOnSquare(RD, color)) {
-			allowMove(RD);
+			allowMove(RD, color, "knight");
 		}
 		if ((squareIndex % 8) < (RDD % 8) && RDD < 64 && !checkIfPieceOnSquare(RDD, color)) {
-			allowMove(RDD);
+			allowMove(RDD, color, "knight");
 		}
 	},
 	queen: function(squareIndex, color) {
@@ -167,14 +179,14 @@ export const availablePieceMovesObject = {
 
 		function checkIfSquareIsAvailable(desiredSquare, color) {
 			let letKingMovehere = true;
-			for (let i = 0; i < kingUnavailableaSquares[selectPieceState.pieceColor].length; i++) {
-				if (desiredSquare === kingUnavailableaSquares[selectPieceState.pieceColor][i]) {
+			for (let i = 0; i < kingUnavailableaSquares[color].length; i++) {
+				if (desiredSquare === kingUnavailableaSquares[color][i]) {
 					letKingMovehere = false;
 					break;
 				} 
 			}
 			if (!checkIfPieceOnSquare(desiredSquare, color) && letKingMovehere) {
-				allowMove(desiredSquare);
+				allowMove(desiredSquare, color, "king");
 			}
 		}
 		if ((upToLeft % 8) < (squareIndex % 8) && 0 <= upToLeft) {
