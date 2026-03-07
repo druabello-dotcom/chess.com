@@ -1,9 +1,11 @@
 import * as TurnRegister from "./turnRegister.js";
 import * as OnSquareClick from './onSquareClick.js';
 import { resetChessboard,resetChessboardButtonElements } from "./resetChessboard.js";
-import { resizeGame } from "./resizeGame.js";
+import { startClockAfterFirstMove } from "./Clock.js"
+import { resizeGame } from "./resizeGame.js"
 
 export const chessboard = document.getElementById('chessboard');
+
 let posIndx = 0;
 let square;
 for (let row = 0; row < 8; row++) {
@@ -119,4 +121,10 @@ for (let i = 0; i < 64; i++) {
 	grid[i].addEventListener('click', OnSquareClick.onSquareClick);
 };
 
-window.addEventListener('resize', resizeGame);
+
+
+startClockAfterFirstMove()
+
+
+
+

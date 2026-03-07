@@ -11,7 +11,17 @@ import { pieceNumberIdentifier } from "./gameState.js";
 import { pieceElementsObject } from "./gameState.js";
 import { chessboardBoard, subtractChessboardPixels, winScreen } from "./main.js";
 
- //—————————————————————————————————————————————————————————————————————————————————————
+
+
+import { remainingSeconds, whiteClk } from "./Clock.js";
+import { urgencyMode } from "./Clock.js";
+import { timeInterval  } from "./Clock.js";
+import { msTimeInterval  } from "./Clock.js";
+import { startClockAfterFirstMove } from "./Clock.js"
+import { resetIntervals } from "./Clock.js"
+import { typeGame } from "./Clock.js";
+import {timeReference} from "./Clock.js"
+import { inceraseOpacity } from "./Clock.js";
 
 export const resetChessboardButtonElements = {
     resetChessboardButton: document.getElementsByClassName('resetChessboardButton'),
@@ -33,6 +43,27 @@ export function resetChessboard() {
 	TurnRegister.registerTurnVariables.turnDeciderText.innerText = "White to move";
 	TurnRegister.registerTurnVariables.turnDeciderColorIndicator.className = "turn-white";
     Main.stateGrid.fill(0);
+
+
+remainingSeconds.black = timeReference; // reset clock state ms 
+remainingSeconds.white = timeReference;
+urgencyMode.white = false;
+urgencyMode.black = false;
+
+
+document.getElementById("whiteClockVisual").style.color = ""; // reset visuals
+document.getElementById("blackClockVisual").style.color = "";
+document.getElementById("whiteClockVisual").innerHTML = typeGame
+document.getElementById("blackClockVisual").innerHTML = typeGame
+
+
+resetIntervals(); // stop any running timer loops (IMPORTANT: dont delete)
+
+startClockAfterFirstMove()
+
+	clearInterval(timeInterval);
+	clearInterval(msTimeInterval);
+	inceraseOpacity()
 
 	// log book elements
 	let moveCountColumnElements = document.querySelectorAll('#moveCountColumn span');
@@ -142,4 +173,6 @@ export function resetChessboard() {
 	}
 	additFunc.resetOnSquareClickInfo();
     additFunc.resetOnSquareClick();
+	console.log(Main.stateGrid);
+	
 }

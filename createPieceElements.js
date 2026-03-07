@@ -1,3 +1,5 @@
+
+
 export const pieceIcons = {
 	black: {
 		pawn: "pieces-basic-png/black-pawn.png",

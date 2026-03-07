@@ -1,6 +1,8 @@
 import * as CreatePieceElements from "./createPieceElements.js"
 import * as additFunc from "./additionalFunctions.js"
 
+
+
 import { registerTurn } from "./turnRegister.js"
 import { soundWhenMovingPiece } from "./sounds.js"
 import { capturePieceFunction } from "./captureFunction.js"
@@ -8,11 +10,14 @@ import { attackingMovesObject } from "./attackingMovesKing.js"
 import { promotePawn } from "./pawnPromotion.js"
 import { chessboardBoard, subtractChessboardPixels } from "./main.js"
 import { makeKingCastle } from "./makeKingCastle.js"
-import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray, kingUnavailableaSquares, pieceAttackingKing, kingState } from "./gameState.js"
+import { selectPieceState, piecesHasNotMoved, pieceSquarePositionArray, kingUnavailableaSquares, pieceAttackingKing,  kingState } from "./gameState.js"
+import { afterMoveNewTime } from "./Clock.js";
+
+
 
 //———————————————————————————————————————————————————————————————————————————————————
 
-export function moveToDestination(destination) {
+export async function moveToDestination(destination) {
 	let oppositeColor = validateOppositeColor(selectPieceState.pieceColor);
 	additFunc.reviewIfKingIsChecked(selectPieceState.pieceColor, oppositeColor)
 	isKingChecked(selectPieceState.pieceColor, oppositeColor);
@@ -41,6 +46,7 @@ export function moveToDestination(destination) {
 	
 	registerTurn();
 
+	afterMoveNewTime();
 	// update kingUnavailableSquares[oppositeColor]
 	additFunc.resetPinnedPiecesList(oppositeColor);
 	updateKAS(CreatePieceElements.pieceTypeArray, pieceSquarePositionArray, selectPieceState.pieceColor, oppositeColor)
