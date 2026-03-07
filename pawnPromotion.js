@@ -1,9 +1,10 @@
-import { chessboard, stateGrid, mapPieces } from "./main.js";
+import { chessboard, stateGrid } from "./main.js";
 import * as CreatePieceElements from "./createPieceElements.js";
 import { kingUnavailableaSquares, pieceElementsObject, pieceNumberIdentifier, pieceSquarePositionArray, selectPieceState } from "./gameState.js";
 import { pawnSpanElementObject } from "./resetChessboard.js";
 import { promotionSound } from "./sounds.js";
 import { updateKAS } from "./movePieceToDestination.js";
+import { reviewIfKingIsChecked } from "./additionalFunctions.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
@@ -92,6 +93,7 @@ function switchToPieceType(color, promotionPieceType, oppositeColor) {
     promotionSound();
     kingUnavailableaSquares[oppositeColor].length = 0;
     updateKAS(CreatePieceElements.pieceTypeArray, pieceSquarePositionArray, color, oppositeColor);
+    reviewIfKingIsChecked(oppositeColor, color)
 
     promotionOptions = null;
     destinationSquareIndex = null;
