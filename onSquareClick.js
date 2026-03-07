@@ -3,10 +3,11 @@ import * as additFunc from "./additionalFunctions.js"
 import * as TurnRegister from "./turnRegister.js";
 import { selectPieceState, pieceSquarePositionArray, pieceElementsObject, kingState } from "./gameState.js";
 import { moveToDestination } from "./movePieceToDestination.js";
-import { availablePieceMovesObject } from "./createAvailableMoves.js";
-import { piecesCanDefend } from "./legalMovesInCheck.js";
+import { allowMove, availablePieceMovesObject } from "./createAvailableMoves.js";
+import { forcedDestination, piecesCanDefend } from "./legalMovesInCheck.js";
 
 //———————————————————————————————————————————————————————————————————————————————————
+
 
 export function onSquareClick(event) {
 	selectPieceState.selectedSquare = event.target;
@@ -19,10 +20,14 @@ export function onSquareClick(event) {
 	if (selectPieceState.valueInSquare < 0) selectPieceState.pieceColor = 'black';
 	else if (0 < selectPieceState.valueInSquare) selectPieceState.pieceColor = 'white';
 
+	let forcedDes = null;
 	if (kingState[selectPieceState.pieceColor].checked) {
 		let counter = 0;
 		for (let i = 0; i < piecesCanDefend.length; i++, counter++) {
-			if (piecesCanDefend[i] === selectPieceState.selectedSquareId) break;
+			if (piecesCanDefend[i] === selectPieceState.selectedSquareId) {
+				forcedDes = forcedDestination[i];
+				break;
+			}
 		}
 		let kingSquare = pieceSquarePositionArray[selectPieceState.pieceColor].king[0];
 		if (counter === piecesCanDefend.length && selectPieceState.selectedSquareId !== kingSquare) return;
@@ -53,5 +58,8 @@ export function onSquareClick(event) {
 		} 
 	}
 	additFunc.checkIfPieceIsPinned(selectPieceState.selectedSquareId, selectPieceState.pieceColor);
-	availablePieceMovesObject[selectPieceState.pieceType](selectPieceState.selectedSquareId, selectPieceState.pieceColor);
+	if (forcedDes) allowMove(forcedDes);
+	else {
+		availablePieceMovesObject[selectPieceState.pieceType](selectPieceState.selectedSquareId, selectPieceState.pieceColor);
+	}
 }

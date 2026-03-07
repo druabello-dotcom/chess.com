@@ -14,7 +14,7 @@ export function checkIfPieceOnSquare(square, color) {
 }
 const highlightDestinationSquares = "inset 0 0 0 0.25em #80EF80";
 const highlightCaptureDestinationSquares = "inset 0px 0px 0px 0.25em #fc2c03";
-function allowMove(desiredSquare) {
+export function allowMove(desiredSquare) {
 	Main.grid[desiredSquare].addEventListener('click', moveToDestination);
 
 	if (Main.stateGrid[desiredSquare] === 0) {

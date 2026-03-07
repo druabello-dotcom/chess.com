@@ -23,6 +23,7 @@ function isSquareValid(square, oppositeColor) {
 
 export function checkIfCheckmate(kingSquare, oppositeColor, color) {
     kingAvailableSquares[oppositeColor].length = 0;
+    forcedDestination.length = null;
     let upToLeft = kingSquare - 9;
     let up = kingSquare - 8;
     let upToRight = kingSquare - 7
