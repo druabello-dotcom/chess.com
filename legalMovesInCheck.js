@@ -5,6 +5,7 @@ import { endGame } from "./sounds.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
+export const defendableSquares = [];
 export const piecesCanDefend = [];
 export const forcedDestination = [];
 
@@ -75,6 +76,7 @@ function canDefendKing(kingSquare, color) {
     piecesCanDefend.length = 0;
     if (1 < pieceAttackingKing.square.length) return;
     for (let checkingSquare = kingSquare - pieceAttackingKing.direction[0], j = 0; j < pieceAttackingKing.iterations[0]; checkingSquare -= pieceAttackingKing.direction[0], j++) {
+        defendableSquares.push(checkingSquare);
         //check for pawn
         if (pieceAttackingKing.pieceType[0] === 'knight') canPawnDefend(pieceAttackingKing.square[0], color, checkingSquare)
         else if (checkingSquare !== pieceAttackingKing.square[0]) canPawnDefend(checkingSquare, color, checkingSquare);
