@@ -7,7 +7,6 @@ import { endGame } from "./sounds.js";
 
 export const defendableSquares = [];
 export const piecesCanDefend = [];
-export const forcedDestination = [];
 
 function isSquareValid(square, oppositeColor) {
     if (square < 0 || 63 < square) return false;
@@ -24,7 +23,6 @@ function isSquareValid(square, oppositeColor) {
 
 export function checkIfCheckmate(kingSquare, oppositeColor, color) {
     kingAvailableSquares[oppositeColor].length = 0;
-    forcedDestination.length = null;
     let upToLeft = kingSquare - 9;
     let up = kingSquare - 8;
     let upToRight = kingSquare - 7
@@ -74,39 +72,40 @@ export function checkIfCheckmate(kingSquare, oppositeColor, color) {
 // register pieces that defend the king from check (block the check)
 function canDefendKing(kingSquare, color) {
     piecesCanDefend.length = 0;
+    defendableSquares.length = 0;
     if (1 < pieceAttackingKing.square.length) return;
     for (let checkingSquare = kingSquare - pieceAttackingKing.direction[0], j = 0; j < pieceAttackingKing.iterations[0]; checkingSquare -= pieceAttackingKing.direction[0], j++) {
         defendableSquares.push(checkingSquare);
         //check for pawn
-        if (pieceAttackingKing.pieceType[0] === 'knight') canPawnDefend(pieceAttackingKing.square[0], color, checkingSquare)
-        else if (checkingSquare !== pieceAttackingKing.square[0]) canPawnDefend(checkingSquare, color, checkingSquare);
+        if (pieceAttackingKing.pieceType[0] === 'knight') canPawnDefend(pieceAttackingKing.square[0], color)
+        else if (checkingSquare !== pieceAttackingKing.square[0]) canPawnDefend(checkingSquare, color);
 
         //Check for rook or queen
         for (let i = checkingSquare - 8; 0 <= i; i-=8) { //up
             if (stateGrid[i] === 0) continue;
             if (Math.abs(stateGrid[i]) === 4 || Math.abs(stateGrid[i]) === 5) {
-                letPieceDefend(i, color, checkingSquare);
+                letPieceDefend(i, color);
             }
             break;
         }
         for (let i = checkingSquare + 8; i < 64; i+=8) { //down
             if (stateGrid[i] === 0) continue;
             if (Math.abs(stateGrid[i]) === 4 || Math.abs(stateGrid[i]) === 5) {
-                letPieceDefend(i, color, checkingSquare);
+                letPieceDefend(i, color);
             }
             break;
         }
         for (let i = checkingSquare + 1; (checkingSquare % 8) < (i % 8) && i < 64; i++) { //right
             if (stateGrid[i] === 0) continue;
             if (Math.abs(stateGrid[i]) === 4 || Math.abs(stateGrid[i]) === 5) {
-                letPieceDefend(i, color, checkingSquare);
+                letPieceDefend(i, color);
             }
             break;
         }
         for (let i = checkingSquare - 1; (i % 8) < (checkingSquare % 8) && 0 <= i; i--)  { //left
             if (stateGrid[i] === 0) continue;
             if (Math.abs(stateGrid[i]) === 4 || Math.abs(stateGrid[i]) === 5) {
-                letPieceDefend(i, color, checkingSquare);
+                letPieceDefend(i, color);
             }
             break;
         }
@@ -115,7 +114,7 @@ function canDefendKing(kingSquare, color) {
         for (let i = checkingSquare - 9; (i % 8) < (checkingSquare % 8) && 0 <= i; i-=9) {
             if (stateGrid[i] === 0) continue;
             if (Math.abs(stateGrid[i]) === 3 || Math.abs(stateGrid[i]) === 5) {
-                letPieceDefend(i, color, checkingSquare)
+                letPieceDefend(i, color)
                 break;
             }
             break;
@@ -123,7 +122,7 @@ function canDefendKing(kingSquare, color) {
         for (let i = checkingSquare - 7; (checkingSquare % 8) < (i % 8) && 0 <= i; i-=7) {
             if (stateGrid[i] === 0) continue;
             if (Math.abs(stateGrid[i]) === 3 || Math.abs(stateGrid[i]) === 5) {
-                letPieceDefend(i, color, checkingSquare)
+                letPieceDefend(i, color)
                 break;
             }
             break;
@@ -131,7 +130,7 @@ function canDefendKing(kingSquare, color) {
         for (let i = checkingSquare + 7; (i % 8) < (checkingSquare % 8) && i < 64; i+=7) {
             if (stateGrid[i] === 0) continue;
             if (Math.abs(stateGrid[i]) === 3 || Math.abs(stateGrid[i]) === 5) {
-                letPieceDefend(i, color, checkingSquare)
+                letPieceDefend(i, color)
                 break;
             }
             break;
@@ -139,7 +138,7 @@ function canDefendKing(kingSquare, color) {
         for (let i = checkingSquare + 9; (checkingSquare % 8) < (i % 8) && i < 64; i+=9) {
             if (stateGrid[i] === 0) continue;
             if (Math.abs(stateGrid[i]) === 3 || Math.abs(stateGrid[i]) === 5) {
-                letPieceDefend(i, color, checkingSquare)
+                letPieceDefend(i, color)
                 break;
             }
             break;
@@ -157,40 +156,39 @@ function canDefendKing(kingSquare, color) {
         let RDD = checkingSquare + 17;
 
         if ((LD % 8) < (checkingSquare % 8) && LD < 64) {
-            if (canKnightDefend(color, LD)) letPieceDefend(LD, color, checkingSquare);
+            if (canKnightDefend(color, LD)) letPieceDefend(LD, color);
         }
         if ((LDD % 8) < (checkingSquare % 8) && LDD < 64) {
-            if (canKnightDefend(color, LDD)) letPieceDefend(LDD, color, checkingSquare);
+            if (canKnightDefend(color, LDD)) letPieceDefend(LDD, color);
         }
         if ((LU % 8) < (checkingSquare % 8) && 0 <= LU) {
-            if (canKnightDefend(color, LU)) letPieceDefend(LU, color, checkingSquare);
+            if (canKnightDefend(color, LU)) letPieceDefend(LU, color);
         }
         if ((LUU % 8) < (checkingSquare % 8) && 0 <= LUU) {
-            if (canKnightDefend(color, LUU)) letPieceDefend(LUU, color, checkingSquare);
+            if (canKnightDefend(color, LUU)) letPieceDefend(LUU, color);
         }
         if ((checkingSquare % 8) < (RU % 8) && 0 <= RU) {
-            if (canKnightDefend(color, RU)) letPieceDefend(RU, color, checkingSquare);
+            if (canKnightDefend(color, RU)) letPieceDefend(RU, color);
         }
         if ((checkingSquare % 8) < (RUU % 8) && 0 <= RUU) {
-            if (canKnightDefend(color, RUU)) letPieceDefend(RUU, color, checkingSquare);
+            if (canKnightDefend(color, RUU)) letPieceDefend(RUU, color);
         }
         if ((checkingSquare % 8) < (RD % 8) && RD < 64) {
-            if (canKnightDefend(color, RD)) letPieceDefend(RD, color, checkingSquare);
+            if (canKnightDefend(color, RD)) letPieceDefend(RD, color);
         }
         if ((checkingSquare % 8) < (RDD % 8) && RDD < 64) {
-            if (canKnightDefend(color, RDD)) letPieceDefend(RDD, color, checkingSquare);
+            if (canKnightDefend(color, RDD)) letPieceDefend(RDD, color);
         }
     }
 }
 
 //————————————————————————————————————————————————————————————————————————————————————
 
-function letPieceDefend(square, color, checkingSquare) {
+function letPieceDefend(square, color) {
     if (stateGrid[square] === 0) return;
     if (color === 'black' && stateGrid[square] > 0) return;
     if (color === 'white' && stateGrid[square] < 0) return;
     piecesCanDefend.push(square);
-    forcedDestination.push(checkingSquare)
 }
 
 function canPawnDefend (square, color) {
@@ -214,13 +212,13 @@ function canPawnDefend (square, color) {
         return;
     }
 }
-function pawnDefence(square, left, right, oneStep, pawnValue, color, minRow, maxRow, doubleStep, checkingSquare) {
+function pawnDefence(square, left, right, oneStep, pawnValue, color, minRow, maxRow, doubleStep) {
     if (pieceAttackingKing.pieceType[0] !== 'knight') {
         if (stateGrid[oneStep] === pawnValue) letPieceDefend(oneStep, color);
         if (stateGrid[doubleStep] === pawnValue && (minRow <= doubleStep && doubleStep < maxRow)) letPieceDefend(doubleStep, color)
     }
-    if (stateGrid[left] === pawnValue && ((left % 8) < (square % 8))) letPieceDefend(left, color, checkingSquare);
-    if (stateGrid[right] === pawnValue && ((square % 8) < (right % 8))) letPieceDefend(right, color, checkingSquare);
+    if (stateGrid[left] === pawnValue && ((left % 8) < (square % 8))) letPieceDefend(left, color);
+    if (stateGrid[right] === pawnValue && ((square % 8) < (right % 8))) letPieceDefend(right, color);
 }
 
 function canKnightDefend(color, square) {
