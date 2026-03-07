@@ -26,7 +26,6 @@ export function capturePieceFunction(enemyPieceSquarePlacement) {
 
     // remove piece visually + from arrays
     let enemyPieceIndex = pieceSquarePositionArray[enemyPieceColor][enemyPieceType].indexOf(enemyPieceSquarePlacement);
-    if (enemyPieceIndex === -1) return;
     pieceElementsObject[enemyPieceColor][enemyPieceType][enemyPieceIndex].remove();
     pieceElementsObject[enemyPieceColor][enemyPieceType].splice(enemyPieceIndex, 1);
     pieceSquarePositionArray[enemyPieceColor][enemyPieceType].splice(enemyPieceIndex, 1);

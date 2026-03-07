@@ -218,6 +218,8 @@ export const availablePieceMovesObject = {
 	}
 }
 
+//————————————————————————————————————————————————————————————————————————————————————
+
 function reviewIfKingMayCastleLeft(squareIndex, color) {
 	if (!piecesHasNotMoved[color].king || !piecesHasNotMoved[color].rook[0]) return;
 	for (let i = 0; i < kingUnavailableaSquares[color].length; i++) {
