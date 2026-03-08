@@ -1,10 +1,11 @@
 import * as Main from "./main.js"
-import { selectPieceState, kingUnavailableaSquares, pinnedPiecesObject, pieceAttackingKing, kingState } from "./gameState.js"
+import { kingUnavailableaSquares, pinnedPiecesObject, pieceAttackingKing, kingState } from "./gameState.js"
 import { giveCheckSound } from "./sounds.js";
 
 //————————————————————————————————————————————————————————————————————————————————————
 
 let attackNextDirection = null;
+let countBehindKing = 0;
 let possiblyPinnedPiece = {
 	pieceCounter: 0,
 	square: null
@@ -19,7 +20,8 @@ function attackSquare(square, oppositeColor, incrementation, color) {
 			return true;
 		}
 	}
-	if (kingState[oppositeColor].checked) {
+	if (0 < countBehindKing) {
+		resetPossiblyPinnedPiece();
 		pushToKUS(square, oppositeColor, color);
 		return false;
 	}
@@ -40,6 +42,7 @@ function checkPinnedRay(square, oppositeColor, enemyKing, value, incrementation,
 		if (value === enemyKing) {
 			pushToKUS(square, oppositeColor, color);
 			kingState[oppositeColor].checked = true;
+			countBehindKing++;
 			return true;
 		} else if (value !== enemyKing) {
 			possiblyPinnedPiece.pieceCounter++;
@@ -68,6 +71,7 @@ function pushToKUS(square, oppositeColor, color) {
 function resetPossiblyPinnedPiece() {
 	possiblyPinnedPiece.pieceCounter = 0;
 	possiblyPinnedPiece.square = null;
+	countBehindKing = 0;
 }
 function otherColorValue(value) {
 	if (value < 0) return 'black';

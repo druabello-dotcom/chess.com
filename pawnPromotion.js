@@ -94,7 +94,7 @@ function switchToPieceType(color, promotionPieceType, oppositeColor) {
     pieceElementsObject[color][promotionPieceType].push(selectedPieceSpan);
     promotionSound();
     kingUnavailableaSquares[oppositeColor].length = 0;
-    updateKAS(CreatePieceElements.pieceTypeArray, pieceSquarePositionArray, color, oppositeColor);
+    updateKAS(color, oppositeColor);
     reviewIfKingIsChecked(oppositeColor, color)
 
     promotionOptions = null;

@@ -1,6 +1,7 @@
 import * as Main from "./main.js";
 import { captureSound } from "./sounds.js";
 import { selectPieceState, pieceSquarePositionArray, pieceElementsObject, piecesHasNotMoved } from "./gameState.js";
+import { pawnSpanElementObject } from "./resetChessboard.js";
 
 //———————————————————————————————————————————————————————————————————————————————————
 
@@ -26,6 +27,9 @@ export function capturePieceFunction(enemyPieceSquarePlacement) {
 
     // remove piece visually + from arrays
     let enemyPieceIndex = pieceSquarePositionArray[enemyPieceColor][enemyPieceType].indexOf(enemyPieceSquarePlacement);
+    if (Math.abs(Main.stateGrid[enemyPieceSquarePlacement]) === 1) {
+        pawnSpanElementObject[enemyPieceColor].splice(enemyPieceIndex, 1);
+    }
     pieceElementsObject[enemyPieceColor][enemyPieceType][enemyPieceIndex].remove();
     pieceElementsObject[enemyPieceColor][enemyPieceType].splice(enemyPieceIndex, 1);
     pieceSquarePositionArray[enemyPieceColor][enemyPieceType].splice(enemyPieceIndex, 1);

@@ -43,7 +43,7 @@ export function moveToDestination(destination) {
 
 	// update kingUnavailableSquares[oppositeColor]
 	additFunc.resetPinnedPiecesList(oppositeColor);
-	updateKAS(CreatePieceElements.pieceTypeArray, pieceSquarePositionArray, selectPieceState.pieceColor, oppositeColor)
+	updateKAS(selectPieceState.pieceColor, oppositeColor)
 	additFunc.reviewIfKingIsChecked(oppositeColor, selectPieceState.pieceColor);
 	
 	// reset after piece has been moved
