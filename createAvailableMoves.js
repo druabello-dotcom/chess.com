@@ -70,7 +70,7 @@ export const availablePieceMovesObject = {
 		}
 
 		if (Main.stateGrid[oneStep] === 0 && 0 <= oneStep && oneStep < 64) allowMove(oneStep, color, "pawn");
-		if (piecesHasNotMoved[color].pawn[selectPieceState.selectedPieceIndex] && Main.stateGrid[doubleStep] === 0 && 0 <= doubleStep && doubleStep < 64) {
+		if (piecesHasNotMoved[color].pawn[selectPieceState.selectedPieceIndex] && (Main.stateGrid[doubleStep] === 0 && Main.stateGrid[oneStep] === 0) && 0 <= doubleStep && doubleStep < 64) {
 			allowMove(doubleStep, color, "pawn");
 		}
 	},
@@ -217,6 +217,8 @@ export const availablePieceMovesObject = {
 		reviewIfKingMayCastleRight(squareIndex, selectPieceState.pieceColor);
 	}
 }
+
+//————————————————————————————————————————————————————————————————————————————————————
 
 function reviewIfKingMayCastleLeft(squareIndex, color) {
 	if (!piecesHasNotMoved[color].king || !piecesHasNotMoved[color].rook[0]) return;
