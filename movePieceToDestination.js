@@ -112,12 +112,11 @@ function checkIfCastle(pieceType, selectedSquare, destination, color, oppositeCo
 	}
 }
 
-export function updateKAS(pieceTypeArr, positionArr, color, oppositeColor) {
-	for (let t = 0; t < pieceTypeArr.length; t++) {
-		let type = pieceTypeArr[t];
-		for (let i = 0; i < positionArr[color][type].length; i++) {
-			let squareIndex = positionArr[color][type][i];
-			if (squareIndex === null) continue;
+export function updateKAS(color, oppositeColor) {
+	for (let t = 0; t < CreatePieceElements.pieceTypeArray.length; t++) {
+		let type = CreatePieceElements.pieceTypeArray[t];
+		for (let i = 0; i < pieceSquarePositionArray[color][type].length; i++) {
+			let squareIndex = pieceSquarePositionArray[color][type][i];
 			attackingMovesObject[type](squareIndex, oppositeColor, color);
 		}
 	}
