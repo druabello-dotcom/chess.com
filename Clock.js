@@ -265,6 +265,15 @@ export function clockFunction() {
 
   function urgentTimer() {
     let turnOfClock = clockTurn();
+    
+     if (!urgencyMode[turnOfClock]) {
+      clearInterval(msTimeInterval);
+      msTimeInterval = null;
+      document.getElementById(turnOfClock + "ClockVisual").style.color = "";
+      timeInterval = setInterval(normalTimer, 1000);
+      return;
+    }
+
     document.getElementById(turnOfClock + "ClockVisual").style.color = "red";
     remainingSeconds[turnOfClock] -= 10; // urgent mode ticks in 10ms/decrements in -10 and interval is 10ms
     let RSC = remainingSeconds[turnOfClock];
