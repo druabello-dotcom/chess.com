@@ -1,6 +1,6 @@
 import { chessboard, stateGrid } from "./main.js";
 import * as CreatePieceElements from "./createPieceElements.js";
-import { kingUnavailableaSquares, pieceElementsObject, pieceNumberIdentifier, pieceSquarePositionArray, selectPieceState } from "./gameState.js";
+import { kingUnavailableaSquares, pieceElementsObject, pieceNumberIdentifier, pieceSquarePositionArray, selectPieceState, piecesHasNotMoved } from "./gameState.js";
 import { pawnSpanElementObject } from "./resetChessboard.js";
 import { promotionSound } from "./sounds.js";
 import { updateKAS } from "./movePieceToDestination.js";
@@ -78,13 +78,15 @@ function switchToPieceType(color, promotionPieceType, oppositeColor) {
     stateGrid[destinationSquareIndex] = pieceNumberIdentifier[color][promotionPieceType];
 
     // update pieceSquarePositionArray
+    piecesHasNotMoved[color].pawn.splice(pawnIndex, 1);
     pieceSquarePositionArray[color].pawn.splice(pawnIndex, 1);
     pieceSquarePositionArray[color][promotionPieceType].push(destinationSquareIndex);
-
+    
     // update pieceElementsObject
     selectedPieceSpan = pieceElementsObject[color].pawn[pawnIndex];
     pieceElementsObject[color].pawn.splice(pawnIndex, 1);
-
+    pawnSpanElementObject[color].splice(pawnIndex, 1);
+    
     // update class of promoted pawn
     selectedPieceSpan.className = `piece ${color} ${promotionPieceType}`;
 
@@ -92,7 +94,7 @@ function switchToPieceType(color, promotionPieceType, oppositeColor) {
     pieceElementsObject[color][promotionPieceType].push(selectedPieceSpan);
     promotionSound();
     kingUnavailableaSquares[oppositeColor].length = 0;
-    updateKAS(CreatePieceElements.pieceTypeArray, pieceSquarePositionArray, color, oppositeColor);
+    updateKAS(color, oppositeColor);
     reviewIfKingIsChecked(oppositeColor, color)
 
     promotionOptions = null;

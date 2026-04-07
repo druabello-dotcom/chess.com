@@ -5,7 +5,7 @@ import * as additFunc from "./additionalFunctions.js"
 
 import { castleSound } from "./sounds.js";
 import { registerTurn } from "./turnRegister.js";
-import { selectPieceState, pieceSquarePositionArray, piecesHasNotMoved, pieceElementsObject, pieceNumberIdentifier, kingUnavailableaSquares, pieceAttackingKing } from "./gameState.js";
+import { selectPieceState, pieceSquarePositionArray, piecesHasNotMoved, pieceElementsObject, pieceNumberIdentifier } from "./gameState.js";
 import { movePieceElementToDestination } from "./movePieceToDestination.js";
 import { attackingMovesObject } from "./attackingMovesKing.js";
 

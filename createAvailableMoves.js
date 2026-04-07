@@ -63,6 +63,11 @@ export const availablePieceMovesObject = {
     		allowMove(squareIndex - 9);
 			}
 		}
+
+		if (Main.stateGrid[oneStep] === 0 && 0 <= oneStep && oneStep < 64) allowMove(oneStep, color, "pawn");
+		if (piecesHasNotMoved[color].pawn[selectPieceState.selectedPieceIndex] && (Main.stateGrid[doubleStep] === 0 && Main.stateGrid[oneStep] === 0) && 0 <= doubleStep && doubleStep < 64) {
+			allowMove(doubleStep, color, "pawn");
+		}
 	},
 	bishop: function(squareIndex, color) {
 		if (legalDirection[color].NW_SE === true) {
@@ -207,6 +212,8 @@ export const availablePieceMovesObject = {
 		reviewIfKingMayCastleRight(squareIndex, selectPieceState.pieceColor);
 	}
 }
+
+//————————————————————————————————————————————————————————————————————————————————————
 
 function reviewIfKingMayCastleLeft(squareIndex, color) {
 	for (let i = 0; i < kingUnavailableaSquares[color].length; i++) {
